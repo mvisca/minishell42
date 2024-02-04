@@ -1,1 +1,0 @@
-.build/ft_lstiter.o: src/ft_lstiter.c src/../include/libft.h
