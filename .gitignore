@@ -1,2 +1,3 @@
-lib/
 minishell
+lib/
+.build/
