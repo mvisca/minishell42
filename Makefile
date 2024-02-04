@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/27 05:06:49 by mvisca            #+#    #+#              #
-#    Updated: 2024/02/04 15:03:41 by mvisca           ###   ########.fr        #
+#    Updated: 2024/02/04 17:39:55 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,24 +47,19 @@ SRCS_DIR		:=	src/
 
 OBJS_DIR		:=	.build/
 
-FILES			:=	src/minishell.c 					\
-					$(wildcard src/builtins/*.c)	\
-					$(wildcard src/debug/*.c)		\
-					$(wildcard src/environment/*.c)	\
-					$(wildcard src/errors/*.c)		\
-					$(wildcard src/executor/*.c)	\
-					$(wildcard src/expansor/*.c)	\
-					$(wildcard src/initializer/*.c)	\
-					$(wildcard src/interfacce/*.c)	\
-					$(wildcard src/lexer/*.c)		\
-					$(wildcard src/parser/*.c)		\
-					$(wildcard src/utils/*.c)
+FILES			:=	minishell.c 				\
+					environment_getters.c		\
+					environment_init.c			\
+					environment_tools.c			\
+					errors_syntax.c				\
+					errors.c					\
+					initialize.c				\
+					interface.c					\
+					utils.c
 
-#SRCS			:=	$(FILES:%=$(SRCS_DIR)%)
-SRCS			:=	$(notdir $(FILES))
+SRCS			:=	$(FILES:%.c=$(SRCS_DIR)%.c)
 
-#OBJS			:=	$(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
-OBJS			:=	$(SRCS:%.c=$(OBJS_DIR)%.o)
+OBJS			:=	$(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
 DEPS			:=	$(OBJS:.o=.d)
 
@@ -128,5 +123,8 @@ test1:
 
 test2:
 	@echo "$(BLUE)$(OBJS)$(NC)"
+
+test3:
+	@echo "$(BLUE)$(FILES)$(NC)"
 
 .PHONY: clean fclean re callforlib
