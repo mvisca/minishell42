@@ -1,1 +1,0 @@
-.build/ft_lstclear.o: src/ft_lstclear.c src/../include/libft.h
