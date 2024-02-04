@@ -1,0 +1,10 @@
+CLONE REPO
+source => https://savannah.gnu.org/git/?group=readline
+
+-->> git clone https://git.savannah.gnu.org/git/readline.git
+
+in the directory readline:
+1. ./configure
+2. make
+3. rm -rf ..../lib/readline/.git
+
