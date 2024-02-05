@@ -4,7 +4,7 @@ int	main(int ac, char **av, char **envp)
 {
 	t_minishell	ms;
 
-	initialize(&ms, ac, av, envp);
+	initialize(&ms, ac, av, envp);	
 /*	manejador de señales para evitar salir con 
 		ctrl + c
 		ctrol + \
@@ -15,6 +15,7 @@ int	main(int ac, char **av, char **envp)
 		interface_get_line(&ms);
 		printf("Ha ingresado: %s\n", ms.line);
 
+		// SYNTAX ERROR
 		// LEXER
 		// PARSER
 			// recibe t_lex y crea t_cmd
