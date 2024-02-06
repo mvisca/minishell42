@@ -13,7 +13,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		interface_get_line(&ms);
-		printf("Ha ingresado: %s\n", ms.line);
+		errors_syntax(&ms);
 
 		// SYNTAX ERROR
 		// LEXER
@@ -35,12 +35,15 @@ int	main(int ac, char **av, char **envp)
 					// antesde enviar a ejecutar 
 				// envía a ejecutar
 
-		if (ft_strnstr(ft_strtrim(ms.line, " \t"), "exit", 4))
+		// exit temporal para probar leaks
+		if (ft_strnstr(ms.line, "exit", 4))	
 			break ;
+		free(ms.line);
 	}
 	// clean all memory; 
 		// linked list env
 		// linked list tokens ??
-		// esta de limpiar se llama también dentro de la ejecución de un 
+		// esta de limpiar se llama también dentro de la ejecución de un
+	utils_free_ms(&ms);
 	return (0);
 }

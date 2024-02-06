@@ -8,9 +8,9 @@ t_envlst	*environment_init(t_minishell *ms)
 	t_envlst	*new;
 
 	i = 0;
-	while (ms->envp && ms->envp[i])
+	while (ms->envarr && ms->envarr[i])
 	{
-		pair = ft_split(ms->envp[i], '=');
+		pair = ft_split(ms->envarr[i], '=');
 		if (!pair)
 			error_free_exit("malloc error", ms);
 		new = environment_new_node(ms, pair[0], pair[1]);

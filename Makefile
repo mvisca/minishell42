@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/27 05:06:49 by mvisca            #+#    #+#              #
-#    Updated: 2024/02/04 17:39:55 by mvisca           ###   ########.fr        #
+#    Updated: 2024/02/06 11:07:33 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ SRCS_DIR		:=	src/
 
 OBJS_DIR		:=	.build/
 
-FILES			:=	minishell.c 				\
+FILES			:=	_minishell.c 				\
 					environment_getters.c		\
 					environment_init.c			\
 					environment_tools.c			\
@@ -55,7 +55,8 @@ FILES			:=	minishell.c 				\
 					errors.c					\
 					initialize.c				\
 					interface.c					\
-					utils.c
+					utils_free.c				\
+					utils_str.c
 
 SRCS			:=	$(FILES:%.c=$(SRCS_DIR)%.c)
 
@@ -91,7 +92,7 @@ $(NAME): $(OBJS)
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c Makefile $(LIB_TGT)
 	@$(DIR_DUP)
 	@$(CC) $(CFLAGS) -c $< -I./$(RDLN_INC_DIR) -I./$(LIB_INC_DIR) -I./$(MS_INC_DIR) -o $@
-	@echo "$(GREEN)Creating... $(NC) $(notdir $@)"
+	@echo "$(GREEN)Compiling... $(NC)$(notdir $<) $(RED)-> $(NC)$(notdir $@)"
 -include $(DEPS)
 
 $(LIB_TGT): $(LIB_DIR)Makefile $(LIB_HEAD)
@@ -109,7 +110,7 @@ clean:
 	@$(RM) $(OBJS_DIR)
 	@$(MAKE) -C $(LIB_DIR) clean
 	@echo "$(RED)Deleting builds for... $(NC)Readline Library $(RED)>> 🗑️$(NC)"
-	@$(MAKE) -C $(RDLN_DIR) clean --silent
+#	@$(MAKE) -C $(RDLN_DIR) clean --silent
 
 fclean: clean
 	@$(RM) $(NAME)

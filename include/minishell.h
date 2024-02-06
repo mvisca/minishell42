@@ -28,13 +28,12 @@ t_envlst	*environment_new_node(t_minishell *ms, char *key, char *value);
 t_envlst	*environment_add_node(t_minishell *ms, t_envlst *envnode);
 t_envlst	*environment_get_node(t_minishell *ms, char *key);
 char		*environment_get_value(t_minishell *ms, char *key);
-void	    environment_del_node(t_minishell *ms, char *key);
+void		environment_del_node(t_minishell *ms, char *key);
 
 /*##################	ERRORS		#####################*/
 void		error_exit(char *msj, t_minishell *ms);
 void		error_free_exit(char *msj, t_minishell *ms);
-void        errors_syntax(void);
-
+int			errors_syntax(t_minishell *ms);
 /*##################	EXECUTOR	#####################*/
 
 /*##################	EXPANSOR	#####################*/
@@ -52,7 +51,9 @@ void		interface_get_line(t_minishell *ms);
 /*##################	UTILS		#####################*/
 void		utils_free_str(char *str);
 void		utils_free_tab(char **tab);
-void		utils_free_envlst(t_envlst *env);
+void		utils_free_env_list(t_envlst *env);
+void		utils_free_token_list(t_tokenlst *env);
+void		utils_free_comnd_list(t_comndlst *env);
 void		utils_free_ms(t_minishell *ms);
 
 #endif

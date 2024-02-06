@@ -1,28 +1,39 @@
 #include "../include/minishell.h"
 
-// Generates a prompt displying curret working directory
-// Refactorizar usando una función custom que saque el último valor de un tab...
-// usa ft_tablen(tab) para obtener el largo y devuelve:
-// tab[tablen(tab) - 1]
+static char	*split_working_dir(t_minishell *ms)
+{
+	char	*full_path;
+	char	**split_path;
+	char	*last_path;
+
+	full_path = environment_get_value(ms, "PWD");
+	// testear el retorno de enviroment get value cuando estoy en root, en base a la respuesta hacer la protección del split... ahora está redundante
+	if (!full_path || full_path[0] == '\0')
+		return(ft_strdup("/"));
+	split_path = ft_split(full_path, '/');
+	if (!full_path || full_path[0] == '\0')
+		return(ft_strdup("/"));
+	last_path = split_path[ft_tablen(split_path) - 1];
+	last_path = ft_strdup(last_path);
+	free(full_path);
+	utils_free_tab(split_path);
+	return (last_path);
+}
+
 static char	*build_prompt(t_minishell *ms)
 {
-	char	*aux_str1;
-	char	*aux_str2;
-	char	**aux_tab;
+	char	*title;
+	char	*workindg_dir;
+	char	*aux;
 	char	*prompt;
 
-	aux_str1 = ft_strdup("💻 \x1b[33mMiniShell \x1b[1;35m@ \x1b[0m");
-	aux_str2 = environment_get_value(ms, "PWD");
-	aux_tab = ft_split(aux_str2, '/');
-	free(aux_str2);
-	aux_str2 = aux_tab[ft_tablen(aux_tab) - 1];
-	prompt = ft_strjoin(aux_str1, aux_str2);
-	free(aux_tab); // esto estaría dejando leaks porque es un tab y nno se libera lo demás...
-	free(aux_str1);
-	free(aux_str2);
-	aux_str1 = prompt;
-	prompt = ft_strjoin(aux_str1, " > ");
-	free(aux_str1);
+	title = ft_strdup(TITLE);
+	workindg_dir = split_working_dir(ms);
+	aux = ft_strjoin(title, workindg_dir);
+	prompt = ft_strjoin(aux, " > ");
+	free(title);
+	free(workindg_dir);
+	free(aux);
 	return (prompt);
 }
 

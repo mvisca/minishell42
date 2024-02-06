@@ -1,6 +1,8 @@
 #include "../include/minishell.h"
 
-void    errors_syntax(void)
+int    errors_syntax(t_minishell *ms)
 {
-    ft_printf("Error syntax");
+    ft_printf("Received (delimited with '<' and '>'): <\x1b[31m%s\x1b[0m>\n", ms->line);
+    ft_printf("Executing: syntax errors control\n");
+    return (0);
 }
