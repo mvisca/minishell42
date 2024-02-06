@@ -15,7 +15,6 @@ int	main(int ac, char **av, char **envp)
 		interface_get_line(&ms);
 		errors_syntax(&ms);
 
-		// SYNTAX ERROR
 		// LEXER
 		// PARSER
 			// recibe t_lex y crea t_cmd
@@ -37,7 +36,10 @@ int	main(int ac, char **av, char **envp)
 
 		// exit temporal para probar leaks
 		if (ft_strnstr(ms.line, "exit", 4))	
+		{
+			ft_printf("exit\n");
 			break ;
+		}	
 		free(ms.line);
 	}
 	// clean all memory; 

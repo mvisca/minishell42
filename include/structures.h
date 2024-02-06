@@ -32,7 +32,7 @@ typedef struct s_minishell
 	int					init_fd[2];
 	int					curr_fd[2];
 	int					prev_fd[2];
-	int					status;
+	int					exit_code; // los forks haran exit con codigo de salida, con waitpid los recogeremos y actualizaremos la variable del struct t_minishel "exit_code" que estará disponible para la posible ejecución de comando "echo $?"
 }	t_minishell;
 
 #endif
