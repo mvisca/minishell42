@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/27 05:06:49 by mvisca            #+#    #+#              #
-#    Updated: 2024/02/06 11:07:33 by mvisca           ###   ########.fr        #
+#    Updated: 2024/02/06 23:36:28 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ FILES			:=	_minishell.c 				\
 					environment_getters.c		\
 					environment_init.c			\
 					environment_tools.c			\
+					errors_syntax_cases.c		\
 					errors_syntax.c				\
 					errors.c					\
 					initialize.c				\

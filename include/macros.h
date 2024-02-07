@@ -41,10 +41,14 @@
 # define BOLD_CYAN   "\x1b[1;36m"
 # define BOLD_WHITE  "\x1b[1;37m"
 
-# define SYNTAX_PIPE_AT_0		0
-# define SYNTAX_PIPE_X3			1
-# define SYNTAX_BACK_RD_X3		2
-# define SYNTAX_FOWARD_RD_X3	3
-# define SYNTAX_FAKE_ARROBA_X3	4
+# define SYNTAX_PIPE_AT_0		1
+# define SYNTAX_PIPE_X3			2
+# define SYNTAX_BACK_RD_X3		3
+# define SYNTAX_FOWARD_RD_X3	4
+# define SYNTAX_FAKE_ARROBA_X3	5
+# define SYNTAX_CURLY_START     6
+# define SYNTAX_CURLY_END   	7
+
+# define SYNTAX_MSSG "minishell: syntax error near unexpected token `"
 
 #endif
