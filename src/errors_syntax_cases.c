@@ -2,10 +2,11 @@
 
 static int	curly_error_message(void)
 {
-	ft_printf("Unhandled '{ }' sequence.\n");
-	ft_printf("Bash runs HEREDOC or has other behaviours.\n");
-	ft_printf("This edge case not handled by minishell.\n");
+	ft_printf("Unhandled use of '{' and/or '}'.\n");
+	ft_printf("Bash runs HEREDOC or passes '}' as a command option.\n");
+	ft_printf("This edge cases are not handled by minishell.\n");
 	return (SYNTAX_CURLY_START);
+	
 }
 
 int errors_syntax_curly_brackets(char *line)
