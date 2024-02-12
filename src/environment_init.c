@@ -27,10 +27,6 @@ static int	check_oversplit(t_envlst *new, char **pair)
 		ft_printf("Value =\t'%s'\n", pair[1]);
 		ft_printf("Join del value...%s\n", new->key);
 		ft_printf("Value =\n%s\n", new->value);
-		
-		// int i = 1;
-		// while (pair[i])
-		// 	ft_printf("Value=\t'%s'\n", pair[i++]);
 	}
 	return (0);
 }
