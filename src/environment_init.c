@@ -13,7 +13,6 @@ static int	check_oversplit(t_envlst *new, char **pair)
 		i = 2;
 		while (pair && pair[i])
 		{
-			ft_printf("\x1b[1;35mValue in new =\x1b[0m %s\n", new->value);
 			aux = new->value;
 			new->value = ft_strjoin(aux, "=");
 			free(aux);
@@ -22,11 +21,6 @@ static int	check_oversplit(t_envlst *new, char **pair)
 			free(aux);
 			i++;
 		}
-		
-		ft_printf("Key =\t'%s'\n", pair[0]);
-		ft_printf("Value =\t'%s'\n", pair[1]);
-		ft_printf("Join del value...%s\n", new->key);
-		ft_printf("Value =\n%s\n", new->value);
 	}
 	return (0);
 }

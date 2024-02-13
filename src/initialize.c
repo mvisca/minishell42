@@ -11,9 +11,10 @@ void	initialize(t_minishell *ms, int ac, char **av, char **envp)
 	ms->comnd_list = NULL;
 	if (!envp)
 		error_exit("variable no encontrada: no se recibió evnp\n", ms);
-	ms->envarr = envp;
 	ms->envlst = NULL;
+	ms->envarr = envp;
 	ms->envlst = environment_init(ms);
+	ms->envarr = NULL;
 	ms->init_fd[FD_IN] = dup(STDIN_FILENO);
 	ms->init_fd[FD_OUT] = dup(STDOUT_FILENO);
 	rl_initialize();

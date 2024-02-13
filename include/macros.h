@@ -41,6 +41,7 @@
 # define BOLD_CYAN   "\x1b[1;36m"
 # define BOLD_WHITE  "\x1b[1;37m"
 
+// Para errores de sintaxis
 # define SYNTAX_PIPE_AT_0		1
 # define SYNTAX_PIPE_X3			2
 # define SYNTAX_BACK_RD_X3		3
