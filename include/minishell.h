@@ -49,6 +49,7 @@ void		initialize(t_minishell *ms, int ac, char **av, char **envp);
 void		interface_get_line(t_minishell *ms);
 
 /*##################	LEXER		#####################*/
+int			lexer(t_minishell *ms, char *line);
 
 /*##################	PARSER		#####################*/
 

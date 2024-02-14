@@ -14,8 +14,9 @@ int	main(int ac, char **av, char **envp)
 	{
 		interface_get_line(&ms);
 		errors_syntax(&ms);
+		lexer(&ms, ms.line);
 
-		// LEXER
+		// LEXER lexer(ms, ms->line);
 		// PARSER
 			// recibe t_lex y crea t_cmd
 			// deja t_lex limpio y vacío
