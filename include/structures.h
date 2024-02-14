@@ -15,10 +15,17 @@ typedef struct s_tokenlst
 	struct s_tokenlst	*next;
 }	t_tokenlst;
 
+typedef struct s_redirlst
+{
+	int					type;
+	char				**command;
+	struct s_redirlst	*next;
+} t_redirlst;
+
 typedef struct s_comndlst
 {
-	char				*command;
-	char				*redirect;
+	char				**command; // command[0] = comando; command[1] = opciones... command[n] = NULL;
+	t_redirlst			*redirect; // NULL o VALIDO
 	struct s_comndlst	*next;
 }	t_comndlst;
 
