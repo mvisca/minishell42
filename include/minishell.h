@@ -50,6 +50,8 @@ void		interface_get_line(t_minishell *ms);
 
 /*##################	LEXER		#####################*/
 int			lexer(t_minishell *ms, char *line);
+void	    debug_lexerlst(t_minishell *ms);
+void        lexer_clean(t_minishell *ms);
 
 /*##################	PARSER		#####################*/
 

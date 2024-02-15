@@ -79,7 +79,9 @@ int	errors_syntax(t_minishell *ms)
 
 	error_code = 0;
 	i = 0;
-	ft_printf("Received (delimited with '<' and '>'): <\x1b[31m%s\x1b[0m>\n", ms->line); // linea para debug; quitar
+	ft_printf(GREEN"EN SYNTAX ERRORS "RESET);
+	ft_printf("Received ");
+	ft_printf(YELLOW"%s\n"RESET, ms->line); // linea para debug; quitar
 	while (ms->line[i])
 	{
 		error_code = errors_syntax_found(ms, i);

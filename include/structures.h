@@ -18,7 +18,7 @@ typedef struct s_tokenlst
 typedef struct s_redirlst
 {
 	int					type;
-	char				**command;
+	char				**path;
 	struct s_redirlst	*next;
 } t_redirlst;
 
