@@ -1,11 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
+/*   Updated: 2024/02/16 04:49:56 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static t_tokenlst	*add_token(t_minishell *ms, t_tokenlst *token)
 {
 	t_tokenlst	*aux;
-
-	ft_printf(BLUE"add_token"RED" AÑADIR "YELLOW"TOKEN\n"RESET);
-	ft_printf("token_lst head address = %p\n", ms->token_list);
 
 	aux = ms->token_list;
 	if (!aux)
@@ -15,9 +24,6 @@ static t_tokenlst	*add_token(t_minishell *ms, t_tokenlst *token)
 		while (aux->next)
 			aux = aux->next;
 		aux->next = token;
-
-		ft_printf("in add_token, token->str "RED"%s"RESET" token->type "RED"%d\n", token->str, token->type);
-
 	}
 	return (aux);
 }
@@ -53,18 +59,16 @@ static int	make_token(t_minishell *ms, char *line, int type)
 		token->str = ft_strdup(">>");
 	else if (type == WORD || type == END)
 		token->str = make_token_word(line);
-	else
-		ft_printf("Impossible outcome\n");
 	token->type = type;
 	token->next = NULL;
 	add_token(ms, token);
 	return ((int)ft_strlen(token->str));
 }
 
-int lexer(t_minishell *ms, char *l)
+int	lexer(t_minishell *ms, char *l)
 {
 	int		i;
-	
+
 	i = 0;
 	while (l && i <= (int)ft_strlen(l) && l[i])
 	{
@@ -82,12 +86,8 @@ int lexer(t_minishell *ms, char *l)
 			i += make_token(ms, &l[i], WORD);
 	}
 	if (i > (int)ft_strlen(l))
-	{
-		ft_printf("Exit\n");
-		return (lexer_clean(ms));	
-	}
+		return (lexer_clean(ms));
 	free(ms->line);
 	make_token(ms, "", END);
-	debug_lexerlst(ms);
-	return (0);		
+	return (0);
 }

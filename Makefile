@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/02/16 04:03:09 by mvisca           ###   ########.fr        #
+#    Updated: 2024/02/16 05:23:17 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ DEPS			+=	$(DEPS_LIB)
 
 CC				:=	gcc
 
-CFLAGS			:=	-Wall -Wextra -MMD -MP -fsanitize=address -g
+CFLAGS			:=	-Wall -Wextra -MMD -MP -g -fsanitize=address
 
 DIR_DUP			:=	mkdir -p $(OBJS_DIR)
 

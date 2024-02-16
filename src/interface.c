@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   interface.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
+/*   Updated: 2024/02/16 05:10:13 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static char	*split_working_dir(t_minishell *ms)
@@ -7,12 +19,11 @@ static char	*split_working_dir(t_minishell *ms)
 	char	*last_path;
 
 	full_path = environment_get_value(ms, "PWD");
-	// testear el retorno de enviroment get value cuando estoy en root, en base a la respuesta hacer la protección del split... ahora está redundante
 	if (!full_path || full_path[0] == '\0')
-		return(ft_strdup("/"));
+		return (ft_strdup("/"));
 	split_path = ft_split(full_path, '/');
 	if (!full_path || full_path[0] == '\0')
-		return(ft_strdup("/"));
+		return (ft_strdup("/"));
 	last_path = split_path[ft_tablen(split_path) - 1];
 	last_path = ft_strdup(last_path);
 	free(full_path);
@@ -37,7 +48,8 @@ static char	*build_prompt(t_minishell *ms)
 	return (prompt);
 }
 
-// Muestra un prompt customizado con nombre del proyecto y el directorio actual, que obtiene de enviroments
+// Muestra un prompt customizado con nombre del proyecto
+// y el directorio actual, que obtiene de enviroments
 void	interface_get_line(t_minishell *ms)
 {
 	char	*prompt;

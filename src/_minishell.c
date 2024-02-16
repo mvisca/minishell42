@@ -1,24 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   _minishell.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
+/*   Updated: 2024/02/16 04:44:23 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	main(int ac, char **av, char **envp)
 {
 	t_minishell	ms;
 
-	initialize(&ms, ac, av, envp);	
-/*	manejador de señales para evitar salir con 
-		ctrl + c
-		ctrol + \
-		ctrol + D
-		revisar	*/
+	initialize(&ms, ac, av, envp);
 	while (1)
 	{
 		interface_get_line(&ms);
 		errors_syntax(&ms);
 		if (lexer(&ms, ms.line))
 			return (1);
-		// PARSER
-			// recibe t_lex y crea t_cmd
-			// deja t_lex limpio y vacío
+		if (ft_strnstr(ms.token_list->str, "exit", 4))
+		{
+			ft_printf("exit\n");
+			break ;
+		}
+		parser(&ms);
+	}
+	utils_free_ms(&ms);
+	return (0);
+}
+
+/*	manejador de señales para evitar salir con 
+		ctrl + c
+		ctrol + \
+		ctrol + D
+		revisar	*/
+
 		// EXECUTOR
 			// la siguiente líneas es temporar
 			// terminal minishell
@@ -34,13 +55,3 @@ int	main(int ac, char **av, char **envp)
 				// envía a ejecutar
 
 		// exit temporal para probar leaks
-		if (ft_strnstr(ms.token_list->str, "exit", 4))	
-		{
-			ft_printf("exit\n");
-			break ;
-		}	
-		parser(&ms); // en paserser ser libera el input ( ms->token_list).
-	}
-	utils_free_ms(&ms);
-	return (0);
-}

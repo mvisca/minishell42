@@ -1,13 +1,16 @@
-#include "../../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_free.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
+/*   Updated: 2024/02/16 04:45:28 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// One-liner free and null 
-void	utils_free_str(char *str)
-{
-	if (!str)
-		return ;
-	free(str);
-	str = NULL;
-}
+#include "../../include/minishell.h"
 
 // One-linier fee and null chars matrix
 void	utils_free_tab(char **tab)

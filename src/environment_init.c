@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environment_init.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/16 05:10:25 by mvisca            #+#    #+#             */
+/*   Updated: 2024/02/16 05:14:50 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 // Fix information lose when env var value includes the char '='
 static int	check_oversplit(t_envlst *new, char **pair)
 {
+	char	*aux;
+	int		i;
+
+	if (ft_tablen(pair) <= 2)
+		return (1);
 	if (pair && ft_tablen(pair) > 2)
 	{
-		char	*aux;
-		int		i;
-
-		if (ft_tablen(pair) < 2)
-			return (1);
 		i = 2;
 		while (pair && pair[i])
 		{

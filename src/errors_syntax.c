@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors_syntax.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/16 04:52:06 by mvisca            #+#    #+#             */
+/*   Updated: 2024/02/16 05:34:58 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static char	errors_get_string(int error_code)
@@ -24,13 +36,11 @@ static char	errors_get_string(int error_code)
 static int	errors_syntax_display(t_minishell *ms, int error_code)
 {
 	char	c;
-	
+
 	c = errors_get_string(error_code);
 	ft_printf("%s%c'\n", SYNTAX_MSSG, c);
 	ms->exit_code = 2;
 	return (0);
-	// compacta para Xavi!!!
-	// return (ms->exit_code = ft_printf("%s%s'\n"SYNTAX_MSSG, errors_get_string(error_code)));
 }
 
 static int	errors_syntax_found2(char *line)
@@ -40,12 +50,12 @@ static int	errors_syntax_found2(char *line)
 	error_code = 0;
 	if (!ft_strncmp(line, "@@@", 3))
 		error_code = SYNTAX_FAKE_ARROBA_X3;
+	return (error_code);
+}
 //	else if (....)
 //		error_code = ....;
 //	else
 //		errors_syntax_found3(.....);
-	return (error_code);
-}
 
 static int	errors_syntax_found(t_minishell *ms, int i)
 {
@@ -72,16 +82,13 @@ static int	errors_syntax_found(t_minishell *ms, int i)
 }
 
 // estudiar cómo realizar esto con errno
-int	errors_syntax(t_minishell *ms) 
+int	errors_syntax(t_minishell *ms)
 {
 	int	error_code;
-	int i;
+	int	i;
 
 	error_code = 0;
 	i = 0;
-	ft_printf(GREEN"EN SYNTAX ERRORS "RESET);
-	ft_printf("Received ");
-	ft_printf(YELLOW"%s\n"RESET, ms->line); // linea para debug; quitar
 	while (ms->line[i])
 	{
 		error_code = errors_syntax_found(ms, i);
@@ -91,7 +98,5 @@ int	errors_syntax(t_minishell *ms)
 	}
 	if (error_code)
 		errors_syntax_display(ms, error_code);
-	else // esle apra debug; quitar
-		ft_printf("No syntax error found, add new cases\n");
 	return (error_code);
 }
