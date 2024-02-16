@@ -71,9 +71,12 @@ void	utils_free_comnd_list(t_comndlst *comnd)
 
 void	utils_free_ms(t_minishell *ms)
 {
-	free(ms->line);
-	utils_free_env_list(ms->envlst);
-//	utils_free_tab(ms->envarr);
-	utils_free_token_list(ms->token_list);
-	utils_free_comnd_list(ms->comnd_list);
+	if (ms->envlst)
+		utils_free_env_list(ms->envlst);
+	if (ms->envarr)
+		utils_free_tab(ms->envarr);
+	if (ms->token_list)
+		utils_free_token_list(ms->token_list);
+	if (ms->comnd_list)
+		utils_free_comnd_list(ms->comnd_list);
 }

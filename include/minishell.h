@@ -50,10 +50,11 @@ void		interface_get_line(t_minishell *ms);
 
 /*##################	LEXER		#####################*/
 int			lexer(t_minishell *ms, char *line);
-void	    debug_lexerlst(t_minishell *ms);
-void        lexer_clean(t_minishell *ms);
+void		debug_lexerlst(t_minishell *ms);
+int			lexer_clean(t_minishell *ms);
 
 /*##################	PARSER		#####################*/
+void        parser(t_minishell *ms);
 
 /*##################	UTILS		#####################*/
 void		utils_free_str(char *str);
@@ -62,6 +63,6 @@ void		utils_free_env_list(t_envlst *env);
 void		utils_free_token_list(t_tokenlst *env);
 void		utils_free_comnd_list(t_comndlst *env);
 void		utils_free_ms(t_minishell *ms);
-int         utils_skip_spaces(char *str, int i);
+int			utils_skip_spaces(char *str, int i);
 
 #endif

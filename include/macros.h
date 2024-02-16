@@ -11,7 +11,7 @@
 # define FD_OUT    1
 
 // Macro con el título que despliega el prompt
-# define TITLE "💻 \x1b[33mMiniShell \x1b[1;35m@ \x1b[0m"
+# define TITLE "\n💻 \x1b[33mMiniShell \x1b[1;35m@ \x1b[0m"
 
 // Macros para manipular funciones de LEXER
 # define END    	    0

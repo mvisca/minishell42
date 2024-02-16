@@ -9,19 +9,18 @@ void	debug_lexerlst(t_minishell *ms)
 	aux = ms->token_list;
 	while (aux)
 	{
-		ft_printf(YELLOW"token %d\n"RESET, i++);
+		ft_printf(YELLOW"token %s\n"RESET, i < (int)ft_strlen(ms->line) ? ft_itoa(i) : "LIST END");
 		ft_printf("\ttoken -> str = '%s'\n", aux->str);
 		ft_printf("\ttoken -> type = %d\n", aux->type);
 		ft_printf("----------------\n");
 		aux = aux->next;
+		i++;
 	}
-	ft_printf(YELLOW"LAST"RED" token %d\n"RESET, i++);
-	ft_printf("\ttoken -> str = '%s'\n", aux->str);
-	ft_printf("\ttoken -> type = %d\n", aux->type);
-	ft_printf("----------------\n");
+	ft_printf(BLUE"END OF token_lst	\n"RESET);
+	ft_printf(RED"----------------\n"RESET);
 }
 
-void    lexer_clean(t_minishell *ms)
+int    lexer_clean(t_minishell *ms)
 {
     t_tokenlst  *aux;
     t_tokenlst  *next;
@@ -46,5 +45,5 @@ void    lexer_clean(t_minishell *ms)
 		free(aux);
 		aux = next;
     }
-	ft_printf("Se limpió ms->token_list\n");
+	return (ft_printf("Se limpió ms->token_list\n"));
 }
