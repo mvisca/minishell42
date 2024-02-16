@@ -6,13 +6,13 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 04:49:56 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/16 06:12:31 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static t_tokenlst	*add_token(t_minishell *ms, t_tokenlst *token)
+t_tokenlst	*add_token(t_minishell *ms, t_tokenlst *token)
 {
 	t_tokenlst	*aux;
 
@@ -28,7 +28,7 @@ static t_tokenlst	*add_token(t_minishell *ms, t_tokenlst *token)
 	return (aux);
 }
 
-static char	*make_token_word(char *line)
+char	*make_token_word(char *line)
 {
 	int		i;
 	char	*word;
@@ -40,7 +40,7 @@ static char	*make_token_word(char *line)
 	return (word);
 }
 
-static int	make_token(t_minishell *ms, char *line, int type)
+int	make_token(t_minishell *ms, char *line, int type)
 {
 	t_tokenlst	*token;
 

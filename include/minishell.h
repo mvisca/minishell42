@@ -36,7 +36,7 @@ void		error_exit(char *msj, t_minishell *ms);
 void		error_free_exit(char *msj, t_minishell *ms);
 // User errors
 int			errors_syntax(t_minishell *ms);
-int         errors_syntax_curly_brackets(char *line);
+int			errors_syntax_curly_brackets(char *line);
 
 /*##################	EXECUTOR	#####################*/
 
@@ -50,17 +50,20 @@ void		interface_get_line(t_minishell *ms);
 
 /*##################	LEXER		#####################*/
 int			lexer(t_minishell *ms, char *line);
+t_tokenlst	*add_token(t_minishell *ms, t_tokenlst *token);
+char		*make_token_word(char *line);
+int			make_token(t_minishell *ms, char *line, int type);
 int			lexer_clean(t_minishell *ms);
 
 /*##################	PARSER		#####################*/
-void        parser(t_minishell *ms);
+int			parser(t_minishell *ms);
 
 /*##################	UTILS		#####################*/
 void		utils_free_tab(char **tab);
 void		utils_free_env_list(t_envlst *env);
 void		utils_free_token_list(t_tokenlst *env);
 void		utils_free_comnd_list(t_comndlst *env);
-void		utils_free_ms(t_minishell *ms);
-int			utils_skip_spaces(char *str, int i);
+int 		utils_free_ms(t_minishell *ms);
+char        *utils_clean_spaces(char *str);
 
 #endif

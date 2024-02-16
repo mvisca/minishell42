@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:40:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 05:36:38 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/16 05:53:19 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int	lexer_clean(t_minishell *ms)
 		free(aux);
 		aux = next;
 	}
-	ft_printf("Se limpió ms->token_list\n");
+	ft_printf("Desde lexer_tolls.c\nSe limpió ms->token_list\n");
 	return (ft_printf("linea estará parseada en ms->comnd_list\n"));
 }

@@ -6,11 +6,21 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 04:44:23 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/16 09:20:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static int	jump_line(t_minishell *ms)
+{
+	if (!ft_strtrim(ms->line, SPACES)[0])
+	{
+		free(ms->line);
+		return (1);
+	}
+	return (0);
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -20,12 +30,14 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		interface_get_line(&ms);
+		if (jump_line(ms.line))
+			continue ;
 		errors_syntax(&ms);
-		if (lexer(&ms, ms.line))
-			return (1);
+		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
+			return (utils_free_ms(&ms));
 		if (ft_strnstr(ms.token_list->str, "exit", 4))
 		{
-			ft_printf("exit\n");
+			ft_printf(RED"Input:"BLUE" exit\n"RESET);
 			break ;
 		}
 		parser(&ms);
