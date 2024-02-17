@@ -23,19 +23,19 @@
 /*##################	DEBUG		#####################*/
 
 /*##################	ENVIRONMENT	#####################*/
-t_envlst	*environment_init(t_minishell *ms);
-t_envlst	*environment_new_node(t_minishell *ms, char *key, char *value);
-t_envlst	*environment_add_node(t_minishell *ms, t_envlst *envnode);
-t_envlst	*environment_get_node(t_minishell *ms, char *key);
-char		*environment_get_value(t_minishell *ms, char *key);
-void		environment_del_node(t_minishell *ms, char *key);
+t_envl	*environment_init(t_ms *ms);
+t_envl	*environment_new_node(t_ms *ms, char *key, char *value);
+t_envl	*environment_add_node(t_ms *ms, t_envl *envnode);
+t_envl	*environment_get_node(t_ms *ms, char *key);
+char		*environment_get_value(t_ms *ms, char *key);
+void		environment_del_node(t_ms *ms, char *key);
 
 /*##################	ERRORS		#####################*/
 // System errors
-void		error_exit(char *msj, t_minishell *ms);
-void		error_free_exit(char *msj, t_minishell *ms);
+void		error_exit(char *msj, t_ms *ms);
+void		error_free_exit(char *msj, t_ms *ms);
 // User errors
-int			errors_syntax(t_minishell *ms);
+int			errors_syntax(t_ms *ms);
 int			errors_syntax_curly_brackets(char *line);
 
 /*##################	EXECUTOR	#####################*/
@@ -43,27 +43,35 @@ int			errors_syntax_curly_brackets(char *line);
 /*##################	EXPANSOR	#####################*/
 
 /*##################	INITIALIZER	#####################*/
-void		initialize(t_minishell *ms, int ac, char **av, char **envp);
+void		initialize(t_ms *ms, int ac, char **av, char **envp);
 
 /*##################	INTERFACE	#####################*/
-void		interface_get_line(t_minishell *ms);
+void		interface_get_line(t_ms *ms);
 
 /*##################	LEXER		#####################*/
-int			lexer(t_minishell *ms, char *line);
-t_tokenlst	*add_token(t_minishell *ms, t_tokenlst *token);
+int			lexer(t_ms *ms, char *line);
+t_tokl	    *add_token(t_ms *ms, t_tokl *token);
 char		*make_token_word(char *line);
-int			make_token(t_minishell *ms, char *line, int type);
-int			lexer_clean(t_minishell *ms);
+int			make_token(t_ms *ms, char *line, int type);
+int			lexer_clean(t_ms *ms);
 
 /*##################	PARSER		#####################*/
-int			parser(t_minishell *ms);
+int			parser(t_ms *ms);
+int			make_comnd_node(t_ms *ms, t_tokl *s, t_tokl *e);
+t_tokl		*find_end(t_tokl *start);
+
 
 /*##################	UTILS		#####################*/
-void		utils_free_tab(char **tab);
-void		utils_free_env_list(t_envlst *env);
-void		utils_free_token_list(t_tokenlst *env);
-void		utils_free_comnd_list(t_comndlst *env);
-int 		utils_free_ms(t_minishell *ms);
-char        *utils_clean_spaces(char *str);
+void		free_tab(char **tab);
+void		free_env_list(t_envl *env);
+void		free_token_list(t_tokl *env);
+void		free_comnd_list(t_coml *env);
+int 		free_ms(t_ms *ms);
+
+char        *str_clean_spaces(char *str);
+
+int			array_alloc(t_coml *c, t_tokl *s, t_tokl *e);
+int			array_append(t_coml *comnd, t_tokl *s, t_tokl *e);
+
 
 #endif

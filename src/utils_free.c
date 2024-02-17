@@ -6,14 +6,14 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 07:11:37 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 20:57:08 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 // One-linier fee and null chars matrix
-void	utils_free_tab(char **tab)
+void	free_tab(char **tab)
 {
 	int	i;
 
@@ -28,9 +28,9 @@ void	utils_free_tab(char **tab)
 }
 
 // One-liner free and null t_envlis lists (not just nodes)
-void	utils_free_env_list(t_envlst *env)
+void	free_env_list(t_envl *env)
 {
-	t_envlst	*next;
+	t_envl	*next;
 
 	while (env)
 	{
@@ -43,44 +43,62 @@ void	utils_free_env_list(t_envlst *env)
 	env = NULL;
 }
 
-void	utils_free_token_list(t_tokenlst *token)
+void	free_token_list(t_tokl *token)
 {
-	t_tokenlst	*next;
+	t_tokl	*next;
 
 	while (token)
 	{
 		next = token->next;
 		free(token->str);
+		token->str = NULL;
 		free(token);
+		token = NULL;
 		token = next;
 	}
 	token = NULL;
 }
 
-void	utils_free_comnd_list(t_comndlst *comnd)
+static void	free_redir(t_redl *redir)
 {
-	t_comndlst	*next;
+	t_redl	*aux;
+	
+	while (redir)
+	{
+		aux = redir;
+		free(aux->path);
+		free(redir);
+		redir = aux->next;
+	}
+}
+
+void	free_comnd_list(t_coml *comnd)
+{
+	t_coml	*next;
 
 	while (comnd)
 	{
 		next = comnd->next;
-		free(comnd->command);
+		free_redir(comnd->redirect);
 		free(comnd->redirect);
+		free(comnd->command);
+		comnd->command = NULL;
+		comnd->redirect = NULL;
 		free(comnd);
 		comnd = next;
 	}
 	comnd = NULL;
 }
 
-int	utils_free_ms(t_minishell *ms)
+int	free_ms(t_ms *ms)
 {
 	if (ms->envlst)
-		utils_free_env_list(ms->envlst);
+		free_env_list(ms->envlst);
 	if (ms->envarr)
-		utils_free_tab(ms->envarr);
+		free_tab(ms->envarr);
 	if (ms->token_list)
-		utils_free_token_list(ms->token_list);
+		free_token_list(ms->token_list);
 	if (ms->comnd_list)
-		utils_free_comnd_list(ms->comnd_list);
+		free_comnd_list(ms->comnd_list);
 	return (1);
 }

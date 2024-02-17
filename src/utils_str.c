@@ -6,13 +6,13 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 08:16:53 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 18:47:59 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*utils_clean_spaces(char *str)
+char	*str_clean_spaces(char *str)
 {
 	char	*newstr;
 	int		sq;

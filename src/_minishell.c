@@ -6,15 +6,15 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 09:20:25 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 20:26:44 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	jump_line(t_minishell *ms)
+static int	jump_line(t_ms *ms)
 {
-	if (!ft_strtrim(ms->line, SPACES)[0])
+	if (ft_strtrim(ms->line, SPACES)[0] == 0)
 	{
 		free(ms->line);
 		return (1);
@@ -24,25 +24,24 @@ static int	jump_line(t_minishell *ms)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_minishell	ms;
+	t_ms	ms;
 
 	initialize(&ms, ac, av, envp);
 	while (1)
 	{
 		interface_get_line(&ms);
-		if (jump_line(ms.line))
+		if (jump_line(&ms))
 			continue ;
 		errors_syntax(&ms);
 		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
-			return (utils_free_ms(&ms));
-		if (ft_strnstr(ms.token_list->str, "exit", 4))
+			return (free_ms(&ms));
+		if (ft_strnstr(ms.comnd_list->command[0], "exit", 4))
 		{
 			ft_printf(RED"Input:"BLUE" exit\n"RESET);
 			break ;
 		}
-		parser(&ms);
 	}
-	utils_free_ms(&ms);
+	free_ms(&ms);
 	return (0);
 }
 
