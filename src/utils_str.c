@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 18:47:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 21:46:55 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*str_clean_spaces(char *str)
 			sq *= -1;
 		while (!sq && !dq && newstr[i] && newstr[i + 1] && \
 			ft_isspace(newstr[i]) && ft_isspace(newstr[i + 1]))
-			ft_memmove(newstr[i + 1], newstr[i + 2], ft_strlen(&newstr[i + 2]));
+			ft_memmove(&newstr[i + 1], &newstr[i + 2], ft_strlen(&newstr[i + 2]));
 		i++;
 	}
 	return (newstr);

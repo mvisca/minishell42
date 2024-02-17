@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 13:41:47 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 20:20:57 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 22:22:17 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static int	add_comnd_node(t_ms *ms, t_coml *comnd)
 	if (!aux)
 	{
 		ms->comnd_list = comnd;
+		ft_printf("ms->comnd_list->commnad= '%s'", ms->comnd_list->command[0]);
 		return (0);
 	}
 	while (aux->next)
