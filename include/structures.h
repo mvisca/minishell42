@@ -18,7 +18,7 @@ typedef struct s_tokenlst
 typedef struct s_redirlst
 {
 	int					type;
-	char				**path;
+	char				*path;
 	struct s_redirlst	*next;
 } t_redirlst;
 
@@ -34,6 +34,7 @@ typedef struct s_minishell
 	char				*line;
 	t_tokenlst			*token_list;
 	t_comndlst			*comnd_list;
+	t_comndlst			*comnd_list_fake;
 	char				**envarr;
 	t_envlst			*envlst;
 	int					init_fd[2];
