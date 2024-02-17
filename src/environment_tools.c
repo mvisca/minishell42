@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 18:59:05 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 22:55:14 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_envl	*environment_new_node(t_ms *ms, char *key, char *value)
 	if (!new->key || !new->value)
 	{
 		free(new->key);
-		free(new->value);
+		if (new->value)
+			free(new->value);
 		free(new);
 		error_free_exit("malloc error", ms);
 	}

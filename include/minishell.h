@@ -23,7 +23,7 @@
 /*##################	DEBUG		#####################*/
 
 /*##################	ENVIRONMENT	#####################*/
-t_envl	*environment_init(t_ms *ms);
+t_envl	*environment_init(t_ms *ms, char **envp);
 t_envl	*environment_new_node(t_ms *ms, char *key, char *value);
 t_envl	*environment_add_node(t_ms *ms, t_envl *envnode);
 t_envl	*environment_get_node(t_ms *ms, char *key);
