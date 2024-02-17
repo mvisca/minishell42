@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 13:41:47 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 22:22:17 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/18 00:11:26 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	add_comnd_node(t_ms *ms, t_coml *comnd)
 	if (!aux)
 	{
 		ms->comnd_list = comnd;
-		ft_printf("ms->comnd_list->commnad= '%s'", ms->comnd_list->command[0]);
+//		ft_printf("ms->comnd_list->commnad= '%s'", ms->comnd_list->command[0]);
 		return (0);
 	}
 	while (aux->next)
@@ -79,12 +79,12 @@ int	make_comnd_node(t_ms *ms, t_tokl *start, t_tokl *end)
 	{
 		if (start->type == WORD)
 		{
-			if (array_append(command, start, end) != 0)
+			if (array_append(command, start, end) != 0) // ???
 				return (1);
 			start = start->next;
-		}  // ok
+		} 
 		else
-		{ // redirlist gestiona la iteración de start TODO
+		{
 			if (make_redir_node(command, &start) != 0)
 				return (1);
 		}
@@ -99,6 +99,9 @@ t_tokl	*find_end(t_tokl *start)
 
 	end = start;
 	while (end->type != END && end->type != PIPE)
+	{
+		ft_printf("token content %s\n", end->str);
 		end = end->next;
+	}
 	return (end);
 }

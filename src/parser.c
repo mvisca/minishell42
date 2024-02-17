@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 22:10:07 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/18 00:13:51 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,25 @@ static void	debug_parser(t_ms *ms)
 {
 	t_coml	*com;
 	t_redl	*red;
-	int		i;
+	int		nodei;
 	int		j;
 	int		k;
 
-	i = 1;
-	k = 0;
-	com = ms->comnd_list;
+	nodei = 1;
 	ft_printf(RED"\nDebug Command\n\n"RESET);
+	com = ms->comnd_list;
 	while (com)
 	{
-		ft_printf(BLUE"Node Command %d\n"RESET, i++);
-		while (com->command[k])
+		ft_printf(BLUE"Node Command %d\n"RESET, nodei++);
+		k = 0;
+		while (com->command && k < ft_tablen(com->command))
 		{
-			ft_printf(BLUE"Command[%d]= '"YELLOW" %s"BLUE"'\n"RESET, k++, com->command[0]);
+			ft_printf(BLUE"Command[%d]= '"YELLOW" %s"BLUE"'\n"RESET, k, com->command[k]);
+
 			red = com->redirect;
 			j = 1;
-			ft_printf(RED"red %p", com->redirect);
+			
+			ft_printf(RED"red %p\n", red);
 			while (red)
 			{	
 				ft_printf(BLUE"Node Command->Redirect %d"RESET, j++);
@@ -41,10 +43,11 @@ static void	debug_parser(t_ms *ms)
 				ft_printf(MAGENTA"\t------------------\n"RESET);
 				red = red->next;
 			}
+			k++;
 		}
 		ft_printf(CYAN"------------------\n"RESET);
+		ft_printf("com address %p\n", com);
 		com = com->next;
-		ft_printf("com->next address %p\n", com);
 	}	
 }
 
@@ -57,8 +60,7 @@ int	parser(t_ms *ms)
 	while (start->type != END)
 	{
 		end = find_end(start); 
-		ft_printf("start = %s\n", start->str[0] == '\0' ? "NULLx" : start->str);
-		ft_printf("end = %s\n", end->str[0] == '\0' ? "NULLx" : end->str);
+		ft_printf("encontró end\n");
 		// Ok
 		if (make_comnd_node(ms, start, end) != 0)
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 20:26:44 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 23:52:19 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int ac, char **av, char **envp)
 			return (free_ms(&ms));
 		if (ft_strnstr(ms.comnd_list->command[0], "exit", 4))
 		{
-			ft_printf(RED"Input:"BLUE" exit\n"RESET);
+			ft_printf(BLUE"Input:"RED" exit\n"RESET);
 			break ;
 		}
 	}

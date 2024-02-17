@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 20:57:08 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 23:51:15 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,18 @@ void	free_token_list(t_tokl *token)
 
 static void	free_redir(t_redl *redir)
 {
-	t_redl	*aux;
+	t_redl	*next;
 	
 	while (redir)
 	{
-		aux = redir;
-		free(aux->path);
+		next = redir->next;
+		if (redir->path)
+		{
+			free(redir->path);
+			redir->path = NULL;
+		}
 		free(redir);
-		redir = aux->next;
+		redir = next;
 	}
 }
 
@@ -79,10 +83,10 @@ void	free_comnd_list(t_coml *comnd)
 	while (comnd)
 	{
 		next = comnd->next;
-		free_redir(comnd->redirect);
-		free(comnd->redirect);
 		free(comnd->command);
 		comnd->command = NULL;
+		free_redir(comnd->redirect);
+		free(comnd->redirect);
 		comnd->redirect = NULL;
 		free(comnd);
 		comnd = next;

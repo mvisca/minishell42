@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:40:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 23:08:50 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 23:10:59 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	lexer_clean(t_ms *ms)
 {
 	free_token_list(ms->token_list);
 	ms->token_list = NULL;
-	ft_printf("Desde lexer_tools.c\nSe limpió ms->token_list\n");
 	return (ft_printf("linea está parseada en ms->comnd_list\n"));
 }
 

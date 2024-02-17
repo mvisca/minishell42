@@ -64,8 +64,8 @@ t_tokl		*find_end(t_tokl *start);
 /*##################	UTILS		#####################*/
 void		free_tab(char **tab);
 void		free_env_list(t_envl *env);
-void		free_token_list(t_tokl *env);
-void		free_comnd_list(t_coml *env);
+void		free_token_list(t_tokl *token);
+void		free_comnd_list(t_coml *comnd);
 int 		free_ms(t_ms *ms);
 
 char        *str_clean_spaces(char *str);
