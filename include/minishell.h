@@ -50,23 +50,23 @@ void		interface_get_line(t_ms *ms);
 
 /*##################	LEXER		#####################*/
 int			lexer(t_ms *ms, char *line);
-t_tokl	    *add_token(t_ms *ms, t_tokl *token);
-char		*make_token_word(char *line);
 int			make_token(t_ms *ms, char *line, int type);
+char		*make_token_word(char *line);
+t_tokl	    *add_token(t_ms *ms, t_tokl *token);
 int			lexer_clean(t_ms *ms);
 
 /*##################	PARSER		#####################*/
 int			parser(t_ms *ms);
-int			make_comnd_node(t_ms *ms, t_tokl *s, t_tokl *e);
-t_tokl		*find_end(t_tokl *start);
+int			make_comnd_node(t_ms *ms, t_tokl *start);
+int	    	*find_end(t_tokl *start, t_tokl **end);
 
 
 /*##################	UTILS		#####################*/
-void		free_tab(char **tab);
+int 		free_ms(t_ms *ms);
 void		free_env_list(t_envl *env);
 void		free_token_list(t_tokl *token);
 void		free_comnd_list(t_coml *comnd);
-int 		free_ms(t_ms *ms);
+void		free_tab(char **tab);
 
 char        *str_clean_spaces(char *str);
 

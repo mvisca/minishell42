@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/18 00:13:51 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/18 21:40:29 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,10 @@ int	parser(t_ms *ms)
 	start = ms->token_list;
 	while (start->type != END)
 	{
-		end = find_end(start); 
-		ft_printf("encontró end\n");
-		// Ok
-		if (make_comnd_node(ms, start, end) != 0)
+		if (make_comnd_node(ms, start) != 0)
+			return (1);	
+		if (populate_comnd_node(ms, &start) != 0)
 			return (1);
-		start = end;
-		if (start->type == PIPE)
-			start = start->next;
 	}
 	// clean spaces
 	debug_parser(ms);

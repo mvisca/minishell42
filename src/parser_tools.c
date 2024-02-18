@@ -6,11 +6,25 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 13:41:47 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/18 00:11:26 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/18 21:38:47 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	*find_end(t_tokl *start, t_tokl **end)
+{
+	int		len;
+
+	len = 0;
+	*end = start;
+	while ((*end)->type != END && (*end)->type != PIPE)
+	{
+		len++;
+		*end = (*end)->next;
+	}
+	return (len);
+}
 
 static t_redl	*add_redirlst_node(t_coml *comnd, t_redl *redir)
 {
@@ -28,24 +42,18 @@ static t_redl	*add_redirlst_node(t_coml *comnd, t_redl *redir)
 	return (redir);
 }
 
-static int	make_redir_node(t_coml *comnd, t_tokl **start)
+static t_redl	*make_redir_node(t_coml *comnd)
 {
 	t_redl *redir;
 
 	redir = (t_redl *)malloc(sizeof(t_redl));
 	if (!redir)
-		return (1);
+		return (NULL);
+	redir->type = END;
+	redir->path = NULL;
 	redir->next = NULL;
-	redir->type = (*start)->type;
-	(*start) = (*start)->next;
-	if ((*start)->type == WORD)
-		redir->path = (*start)->str;
-	else
-		redir->path = NULL;
-	if ((*start)->type != END)
-		(*start) = (*start)->next;
 	add_redirlst_node(comnd, redir);
-	return (0);
+	return (redir);
 }
 
 static int	add_comnd_node(t_ms *ms, t_coml *comnd)
@@ -56,7 +64,6 @@ static int	add_comnd_node(t_ms *ms, t_coml *comnd)
 	if (!aux)
 	{
 		ms->comnd_list = comnd;
-//		ft_printf("ms->comnd_list->commnad= '%s'", ms->comnd_list->command[0]);
 		return (0);
 	}
 	while (aux->next)
@@ -65,43 +72,26 @@ static int	add_comnd_node(t_ms *ms, t_coml *comnd)
 	return (0);
 }
 
-int	make_comnd_node(t_ms *ms, t_tokl *start, t_tokl *end)
+
+int	make_comnd_node(t_ms *ms, t_tokl *start)
 {
 	t_coml	*command;
-
+	t_tokl	*end;
+	int		len;
+	
+	len = find_end(start, &end);
 	command = (t_coml *)malloc(sizeof(t_coml));
 	if (!command)
 		return (1);
-	command->command = NULL;
-	command->redirect = NULL;
 	command->next = NULL;
-	while (start != end)
-	{
-		if (start->type == WORD)
-		{
-			if (array_append(command, start, end) != 0) // ???
-				return (1);
-			start = start->next;
-		} 
-		else
-		{
-			if (make_redir_node(command, &start) != 0)
-				return (1);
-		}
-	}
+	command->command = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!command->command)
+		return (1);
+	command->command[0] = NULL;
+	command->redirect = NULL;
+	command->redirect = make_redir_node(command);
+	if (!command->redirect)
+		return (1);
 	add_comnd_node(ms, command);
 	return (0);
-}
-
-t_tokl	*find_end(t_tokl *start)
-{
-	t_tokl	*end;
-
-	end = start;
-	while (end->type != END && end->type != PIPE)
-	{
-		ft_printf("token content %s\n", end->str);
-		end = end->next;
-	}
-	return (end);
 }
