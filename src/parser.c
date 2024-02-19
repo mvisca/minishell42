@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/18 21:40:29 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/19 21:00:29 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static void	debug_parser(t_ms *ms)
 int	parser(t_ms *ms)
 {
 	t_tokl	*start;
-	t_tokl	*end;
 
 	start = ms->token_list;
 	while (start->type != END)
@@ -62,7 +61,7 @@ int	parser(t_ms *ms)
 		if (make_comnd_node(ms, start) != 0)
 			return (1);	
 		if (populate_comnd_node(ms, &start) != 0)
-			return (1);
+		return (1);
 	}
 	// clean spaces
 	debug_parser(ms);

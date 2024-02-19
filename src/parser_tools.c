@@ -6,17 +6,17 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 13:41:47 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/18 21:38:47 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/19 20:45:08 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	*find_end(t_tokl *start, t_tokl **end)
+int	find_end(t_tokl *start, t_tokl **end)
 {
 	int		len;
 
-	len = 0;
+	len = 1;
 	*end = start;
 	while ((*end)->type != END && (*end)->type != PIPE)
 	{
@@ -26,11 +26,11 @@ int	*find_end(t_tokl *start, t_tokl **end)
 	return (len);
 }
 
-static t_redl	*add_redirlst_node(t_coml *comnd, t_redl *redir)
+static t_redl	*add_redir_node(t_coml **comnd, t_redl *redir)
 {
 	t_redl *aux;
 
-	aux = comnd->redirect;
+	aux = (*comnd)->redirect;
 	if (!aux)
 	{
 		aux = redir;
@@ -42,7 +42,7 @@ static t_redl	*add_redirlst_node(t_coml *comnd, t_redl *redir)
 	return (redir);
 }
 
-static t_redl	*make_redir_node(t_coml *comnd)
+t_redl	*make_redir_node(t_coml *comnd)
 {
 	t_redl *redir;
 
@@ -52,7 +52,7 @@ static t_redl	*make_redir_node(t_coml *comnd)
 	redir->type = END;
 	redir->path = NULL;
 	redir->next = NULL;
-	add_redirlst_node(comnd, redir);
+	add_redir_node(&comnd, redir);
 	return (redir);
 }
 
@@ -70,8 +70,7 @@ static int	add_comnd_node(t_ms *ms, t_coml *comnd)
 		aux = aux->next;
 	aux->next = comnd;
 	return (0);
-}
-
+}	
 
 int	make_comnd_node(t_ms *ms, t_tokl *start)
 {
@@ -83,15 +82,12 @@ int	make_comnd_node(t_ms *ms, t_tokl *start)
 	command = (t_coml *)malloc(sizeof(t_coml));
 	if (!command)
 		return (1);
-	command->next = NULL;
 	command->command = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!command->command)
 		return (1);
 	command->command[0] = NULL;
 	command->redirect = NULL;
-	command->redirect = make_redir_node(command);
-	if (!command->redirect)
-		return (1);
+	command->next = NULL;
 	add_comnd_node(ms, command);
 	return (0);
 }

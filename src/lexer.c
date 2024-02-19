@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 23:07:26 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/19 21:59:05 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	lexer(t_ms *ms, char *l)
 	if (i > (int)ft_strlen(l))
 		return (lexer_clean(ms));
 	make_token(ms, "", END);
+	skip_empty_token(ms);
 	free(ms->line);
 	return (0);
 }

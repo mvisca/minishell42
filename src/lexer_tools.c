@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:40:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 23:10:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/19 22:29:38 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	lexer_clean(t_ms *ms)
 {
 	free_token_list(ms->token_list);
 	ms->token_list = NULL;
-	return (ft_printf("linea está parseada en ms->comnd_list\n"));
+	return (0);
 }
 
 t_tokl	*add_token(t_ms *ms, t_tokl *token)
@@ -70,4 +70,24 @@ int	make_token(t_ms *ms, char *line, int type)
 	token->next = NULL;
 	add_token(ms, token);
 	return ((int)ft_strlen(token->str));
+}
+
+void	skip_empty_token(t_ms *ms)
+{
+	t_tokl	*token;
+	t_tokl	*next;
+	
+	token = ms->token_list;
+	while (token->next)
+	{
+		if (token->next->type == 9 && !str_only_spaces(token->next->str))
+		{
+			next = token->next;
+			token->next = token->next->next;
+			free(next->str);
+			free(next);
+		}
+		else
+			token = token->next;
+	}
 }
