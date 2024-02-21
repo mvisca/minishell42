@@ -21,20 +21,27 @@
 /*##################	BUILTINS	#####################*/
 
 /*##################	DEBUG		#####################*/
+
 void        debug_token(t_ms *ms);
+void        debug_command(t_ms *ms);
 
 /*##################	ENVIRONMENT	#####################*/
+
 t_envl	    *environment_init(t_ms *ms, char **envp);
+
 t_envl  	*environment_new_node(t_ms *ms, char *key, char *value);
 t_envl  	*environment_add_node(t_ms *ms, t_envl *envnode);
-t_envl  	*environment_get_node(t_ms *ms, char *key);
-char		*environment_get_value(t_ms *ms, char *key);
 void		environment_del_node(t_ms *ms, char *key);
 
+t_envl  	*environment_get_node(t_ms *ms, char *key);
+char		*environment_get_value(t_ms *ms, char *key);
+
 /*##################	ERRORS		#####################*/
+
 // System errors
 void		error_exit(char *msj, t_ms *ms);
 void		error_free_exit(char *msj, t_ms *ms);
+
 // User errors
 int			errors_syntax(t_ms *ms);
 int			errors_syntax_curly_brackets(char *line);
@@ -44,27 +51,40 @@ int			errors_syntax_curly_brackets(char *line);
 /*##################	EXPANSOR	#####################*/
 
 /*##################	INITIALIZER	#####################*/
+
 void		initialize(t_ms *ms, int ac, char **av, char **envp);
 
 /*##################	INTERFACE	#####################*/
+
 int	    	interface_get_line(t_ms *ms);
 
 /*##################	LEXER		#####################*/
+
 int			lexer(t_ms *ms, char *line);
+
 int			make_token(t_ms *ms, char *line, int type);
 char		*make_token_word(char *line);
 t_tokl	    *add_token(t_ms *ms, t_tokl *token);
+
 void    	skip_empty_token(t_ms *ms); 
 int			lexer_clean(t_ms *ms);
 
 /*##################	PARSER		#####################*/
+
 int			parser(t_ms *ms);
-int			make_comnd_node(t_ms *ms, t_tokl *start);
-int         populate_comnd_node(t_ms *ms, t_tokl **start);
-t_redl	    *make_redir_node(t_coml *comnd);
-int	    	find_end(t_tokl *start, t_tokl **end);
+
+t_coml		*parser_alloc_command(int len);
+int			parser_add_command(t_ms *ms, t_coml *command);
+int			parser_init_command(t_coml *command, t_tokl *start);
+
+int			parser_alloc_add_redir(t_coml *command);
+int			parser_init_redir(t_coml *command, t_tokl *token);
+
+int         parser_count_nodes(t_tokl *token);
+
 
 /*##################	UTILS		#####################*/
+
 int 		free_ms(t_ms *ms);
 void		free_env_list(t_envl *env);
 void		free_token_list(t_tokl *token);

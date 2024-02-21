@@ -6,65 +6,50 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/19 21:00:29 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/21 00:06:09 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	debug_parser(t_ms *ms)
+int	parser_count_nodes(t_tokl *token)
 {
-	t_coml	*com;
-	t_redl	*red;
-	int		nodei;
-	int		j;
-	int		k;
+	int	len;
 
-	nodei = 1;
-	ft_printf(RED"\nDebug Command\n\n"RESET);
-	com = ms->comnd_list;
-	while (com)
+	len = 0;
+	while (token)
 	{
-		ft_printf(BLUE"Node Command %d\n"RESET, nodei++);
-		k = 0;
-		while (com->command && k < ft_tablen(com->command))
-		{
-			ft_printf(BLUE"Command[%d]= '"YELLOW" %s"BLUE"'\n"RESET, k, com->command[k]);
-
-			red = com->redirect;
-			j = 1;
-			
-			ft_printf(RED"red %p\n", red);
-			while (red)
-			{	
-				ft_printf(BLUE"Node Command->Redirect %d"RESET, j++);
-				ft_printf(BLUE"\tCommand->Redirect->Path = '"YELLOW"%s"BLUE"'\n"RESET, com->redirect->path);
-				ft_printf(BLUE"\tCommand->Redirect->Path = '"YELLOW" %d"BLUE"'\n"RESET, com->redirect->type);
-				ft_printf(MAGENTA"\t------------------\n"RESET);
-				red = red->next;
-			}
-			k++;
-		}
-		ft_printf(CYAN"------------------\n"RESET);
-		ft_printf("com address %p\n", com);
-		com = com->next;
-	}	
+		len++;
+		token = token->next;
+	}
+	return (len);
 }
 
 int	parser(t_ms *ms)
 {
+	int		len;
 	t_tokl	*start;
+	t_coml	*command;
 
 	start = ms->token_list;
+	len = parser_count_nodes(start);
 	while (start->type != END)
 	{
-		if (make_comnd_node(ms, start) != 0)
-			return (1);	
-		if (populate_comnd_node(ms, &start) != 0)
-		return (1);
+		command = parser_alloc_command(len);
+		if (!command)
+			return (1);
+		if (parser_init_command(command, start) != 0)
+			return (1);
+		parser_add_command(ms, command);
+		ft_printf("EEYTT Command %p\n", command);
+		ft_printf("parser alloc %p\n", ms->comnd_list);
+		ft_printf("Ms->commd_list %p\n", ms->comnd_list);
+		while(start->type != PIPE && start->type != END)
+			start = start->next;
+		if (start->type == PIPE)
+			start = start->next;
 	}
-	// clean spaces
-	debug_parser(ms);
+	debug_command(ms);
 	lexer_clean(ms);
 	return (0);
 }
