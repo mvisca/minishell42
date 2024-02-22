@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 13:41:47 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/21 09:37:24 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/21 09:57:54 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ t_coml	*parser_alloc_command(int len)
 		command->command[i++] = NULL;
 		ft_printf("nulled command->command[%d]\n", i);
 	}
-	usleep(1000000);
 	command->redirect = NULL;
 	command->next = NULL;
 	return (command);

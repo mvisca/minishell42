@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:56:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/20 22:02:38 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/22 08:51:27 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	parser_alloc_add_redir(t_coml *command)
 	aux = command->redirect;
 	if (!aux)
 	{
-		aux = redir;
+		command->redirect = redir;
 		return (0);
 	}
 	while (aux->next)

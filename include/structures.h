@@ -29,8 +29,14 @@ typedef struct s_coml
 	struct s_coml		*next;
 }	t_coml;
 
+typedef struct debug
+{
+	int	command_count;
+} t_deb;
+
 typedef struct s_ms
 {
+	t_deb				debu;
 	char				*line;
 	t_tokl				*token_list;
 	t_coml				*comnd_list;

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/21 00:06:09 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/22 09:09:37 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ int	parser_count_nodes(t_tokl *token)
 {
 	int	len;
 
-	len = 0;
-	while (token)
+	len = 1;
+	while (token->type != PIPE && token->type != END)
 	{
 		len++;
 		token = token->next;
 	}
+	ft_printf("LEN = %d\n", len);
 	return (len);
 }
 
@@ -32,18 +33,15 @@ int	parser(t_ms *ms)
 	t_coml	*command;
 
 	start = ms->token_list;
-	len = parser_count_nodes(start);
 	while (start->type != END)
 	{
+		len = parser_count_nodes(start);
 		command = parser_alloc_command(len);
 		if (!command)
 			return (1);
 		if (parser_init_command(command, start) != 0)
 			return (1);
 		parser_add_command(ms, command);
-		ft_printf("EEYTT Command %p\n", command);
-		ft_printf("parser alloc %p\n", ms->comnd_list);
-		ft_printf("Ms->commd_list %p\n", ms->comnd_list);
 		while(start->type != PIPE && start->type != END)
 			start = start->next;
 		if (start->type == PIPE)

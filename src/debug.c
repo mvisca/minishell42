@@ -10,10 +10,8 @@ void    debug_token(t_ms *ms)
     i = 1;
     while (token)
     {
-        ft_printf("token %d\n", i);
-        ft_printf("token -> str -> '%s'\n", token->str);
-        ft_printf("token -> type -> %d\n", token->type);
-        ft_printf(RED"--------------\n"RESET);
+        ft_printf("token %d \t| str -> '%s'\t\t| type -> %d\n", i, token->str, token->type);
+        ft_printf(RED"----------------------------------------------------\n"RESET);
         token = token->next;
         i++;
     }
@@ -40,9 +38,11 @@ void	debug_command(t_ms *ms)
 	{
 		ft_printf(RED"nodo com number %d\n"RESET, nodo);
 		i = 0;
+		ms->debu.command_count = 1;
 		while (com->command[i])
 		{
 			ft_printf(BLUE"AQUI\n");
+			ft_printf(RED"com count -> %d\n"RESET, ms->debu.command_count++);
 			ft_printf(RED"com -> %d\n"RESET, com->command[i++]);
 		}
 		red = com->redirect;
