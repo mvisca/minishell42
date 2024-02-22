@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 04:45:28 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/22 18:31:20 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	utils_free_comnd_list(t_comndlst *comnd)
 {
 	t_comndlst	*next;
 
+	ft_printf("en free command list %p\n", comnd->next);
 	while (comnd)
 	{
 		next = comnd->next;
@@ -74,12 +75,17 @@ void	utils_free_comnd_list(t_comndlst *comnd)
 
 void	utils_free_ms(t_minishell *ms)
 {
-	if (ms->envlst)
-		utils_free_env_list(ms->envlst);
 	if (ms->envarr)
 		utils_free_tab(ms->envarr);
+	if (ms->envlst)
+		utils_free_env_list(ms->envlst);
 	if (ms->token_list)
 		utils_free_token_list(ms->token_list);
 	if (ms->comnd_list)
 		utils_free_comnd_list(ms->comnd_list);
+	if (ms->comnd_list_fake)
+	{
+		ft_printf("Linea mágica %s\n", ms->comnd_list_fake->command[0]);
+		utils_free_comnd_list(ms->comnd_list_fake);
+	}
 }

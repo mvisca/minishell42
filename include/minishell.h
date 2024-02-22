@@ -23,7 +23,7 @@
 /*##################	DEBUG		#####################*/
 
 /*##################	ENVIRONMENT	#####################*/
-t_envlst	*environment_init(t_minishell *ms);
+t_envlst	*environment_init(t_minishell *ms, char **envp);
 t_envlst	*environment_new_node(t_minishell *ms, char *key, char *value);
 t_envlst	*environment_add_node(t_minishell *ms, t_envlst *envnode);
 t_envlst	*environment_get_node(t_minishell *ms, char *key);

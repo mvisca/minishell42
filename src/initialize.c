@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/18 00:48:55 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/22 18:17:12 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ void	initialize(t_minishell *ms, int ac, char **av, char **envp)
 	ms->comnd_list_fake = make_command(ms); // para desarrollar executor
 	if (!envp)
 		error_exit("variable no encontrada: no se recibió evnp\n", ms);
-	ms->envlst = NULL;
-	ms->envarr = envp;
-	ms->envlst = environment_init(ms);
-	ms->envarr = envp;
+	ms->envlst = environment_init(ms, envp);
+	ms->envarr = NULL;
 	ms->init_fd[FD_IN] = dup(STDIN_FILENO);
 	ms->init_fd[FD_OUT] = dup(STDOUT_FILENO);
 	rl_initialize();

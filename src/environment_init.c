@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:10:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 05:14:50 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/22 18:18:33 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,16 @@ static int	check_oversplit(t_envlst *new, char **pair)
 }
 
 // Tested Ok
-t_envlst	*environment_init(t_minishell *ms)
+t_envlst	*environment_init(t_minishell *ms, char **envp)
 {
 	int			i;
 	char		**pair;
 	t_envlst	*new;
 
 	i = 0;
-	while (ms->envarr && ms->envarr[i])
+	while (envp && envp[i])
 	{
-		pair = ft_split(ms->envarr[i], '=');
+		pair = ft_split(envp[i], '=');
 		if (!pair)
 			error_free_exit("malloc error", ms);
 		new = environment_new_node(ms, pair[0], pair[1]);
