@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/22 18:52:53 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/22 19:00:41 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	utils_free_comnd_list(t_comndlst *comnd)
 
 	ft_printf("en free command list %s\n", comnd->command[0]);
 	ft_printf("en free command next %p\n", comnd->next);
-	while (comnd)
+	while (comnd->next)
 	{
 		next = comnd->next;
 		free(comnd->command);

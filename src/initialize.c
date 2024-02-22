@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/22 18:17:12 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/22 19:02:00 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static t_comndlst	*make_command(t_minishell *ms)
 	ms->comnd_list_fake->next->redirect->type = R_REDIRECT;
 	ms->comnd_list_fake->next->redirect->path = ft_strdup("filex.txt");
 	ms->comnd_list_fake->next->redirect->next = NULL;
+	ms->comnd_list_fake->next->next = NULL;
 	return (ms->comnd_list_fake);
 }
 
