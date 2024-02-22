@@ -60,14 +60,21 @@ void	utils_free_token_list(t_tokenlst *token)
 void	utils_free_comnd_list(t_comndlst *comnd)
 {
 	t_comndlst	*next;
+	int i;
 
+	i = -1;
 	ft_printf("en free command list %s\n", comnd->command[0]);
 	ft_printf("en free command next %p\n", comnd->next);
-	while (comnd->next)
+	while (comnd)
 	{
 		next = comnd->next;
+		while (comnd->command[++i])
+			free(comnd->command[i]);
 		free(comnd->command);
-		free(comnd->redirect);
+		if (comnd->redirect->path)
+			free(comnd->redirect->path);
+		if (comnd->redirect)
+			free(comnd->redirect);
 		free(comnd);
 		comnd = next;
 	}
