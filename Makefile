@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/02/16 05:23:17 by mvisca           ###   ########.fr        #
+#    Updated: 2024/02/20 21:54:03 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRCS_DIR		:=	src/
 OBJS_DIR		:=	.build/
 
 FILES			:=	_minishell.c 				\
+					debug.c						\
 					environment_getters.c		\
 					environment_init.c			\
 					environment_tools.c			\
@@ -59,6 +60,8 @@ FILES			:=	_minishell.c 				\
 					lexer.c						\
 					lexer_tools.c				\
 					parser.c					\
+					parser_command_tools.c		\
+					parser_redirect_tools.c		\
 					utils_free.c				\
 					utils_str.c
 

@@ -1,46 +1,51 @@
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
-typedef struct s_envlst
+typedef struct s_envl
 {
 	char				*key;
 	char				*value;
-	struct s_envlst		*next;
-}	t_envlst;
+	struct s_envl		*next;
+}	t_envl;
 
-typedef struct s_tokenlst
+typedef struct s_tokl
 {
 	char				*str;
 	int					type;
-	struct s_tokenlst	*next;
-}	t_tokenlst;
+	struct s_tokl		*next;
+}	t_tokl;
 
-typedef struct s_redirlst
+typedef struct s_redl
 {
 	int					type;
 	char				*path;
-	struct s_redirlst	*next;
-} t_redirlst;
+	struct s_redl		*next;
+} t_redl;
 
-typedef struct s_comndlst
+typedef struct s_coml
 {
 	char				**command; // command[0] = comando; command[1] = opciones... command[n] = NULL;
-	t_redirlst			*redirect; // NULL o VALIDO
-	struct s_comndlst	*next;
-}	t_comndlst;
+	t_redl				*redirect; // NULL o VALIDO
+	struct s_coml		*next;
+}	t_coml;
 
-typedef struct s_minishell
+typedef struct debug
 {
+	int	command_count;
+} t_deb;
+
+typedef struct s_ms
+{
+	t_deb				debu;
 	char				*line;
-	t_tokenlst			*token_list;
-	t_comndlst			*comnd_list;
-	t_comndlst			*comnd_list_fake;
+	t_tokl				*token_list;
+	t_coml				*comnd_list;
 	char				**envarr;
-	t_envlst			*envlst;
+	t_envl				*envlst;
 	int					init_fd[2];
 	int					curr_fd[2];
 	int					prev_fd[2];
-	int					exit_code; // los forks haran exit con codigo de salida, con waitpid los recogeremos y actualizaremos la variable del struct t_minishel "exit_code" que estará disponible para la posible ejecución de comando "echo $?"
-}	t_minishell;
+	int					exit_code;
+}	t_ms;
 
 #endif

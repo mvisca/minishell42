@@ -6,14 +6,15 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/23 08:15:04 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/23 08:22:56 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../include/minishell.h"
 
 // One-linier fee and null chars matrix
-void	utils_free_tab(char **tab)
+void	free_tab(char **tab)
 {
 	int	i;
 
@@ -28,9 +29,9 @@ void	utils_free_tab(char **tab)
 }
 
 // One-liner free and null t_envlis lists (not just nodes)
-void	utils_free_env_list(t_envlst *env)
+void	free_env_list(t_envl *env)
 {
-	t_envlst	*next;
+	t_envl	*next;
 
 	while (env)
 	{
@@ -43,24 +44,42 @@ void	utils_free_env_list(t_envlst *env)
 	env = NULL;
 }
 
-void	utils_free_token_list(t_tokenlst *token)
+void	free_token_list(t_tokl *token)
 {
-	t_tokenlst	*next;
+	t_tokl	*next;
 
 	while (token)
 	{
 		next = token->next;
 		free(token->str);
+		token->str = NULL;
 		free(token);
+		token = NULL;
 		token = next;
 	}
 	token = NULL;
 }
 
-void	utils_free_comnd_list(t_comndlst *comnd)
+static void	free_redir(t_redl *redir)
 {
-	t_comndlst	*next;
-	int i;
+	t_redl	*next;
+	
+	while (redir)
+	{
+		next = redir->next;
+		if (redir->path)
+		{
+			free(redir->path);
+			redir->path = NULL;
+		}
+		free(redir);
+		redir = next;
+	}
+}
+
+void	free_comnd_list(t_coml *comnd)
+{
+	t_coml	*next;
 
 	while (comnd)
 	{
@@ -79,14 +98,14 @@ void	utils_free_comnd_list(t_comndlst *comnd)
 	comnd = NULL;
 }
 
-void	utils_free_ms(t_minishell *ms)
+int	free_ms(t_ms *ms)
 {
 	if (ms->envarr)
 		utils_free_tab(ms->envarr);
 	if (ms->envlst)
 		utils_free_env_list(ms->envlst);
 	if (ms->token_list)
-		utils_free_token_list(ms->token_list);
+		free_token_list(ms->token_list);
 	if (ms->comnd_list)
 		utils_free_comnd_list(ms->comnd_list);
 	if (ms->comnd_list_fake)

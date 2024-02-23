@@ -6,13 +6,13 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 05:10:13 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/20 02:38:53 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static char	*split_working_dir(t_minishell *ms)
+static char	*split_working_dir(t_ms *ms)
 {
 	char	*full_path;
 	char	**split_path;
@@ -27,11 +27,11 @@ static char	*split_working_dir(t_minishell *ms)
 	last_path = split_path[ft_tablen(split_path) - 1];
 	last_path = ft_strdup(last_path);
 	free(full_path);
-	utils_free_tab(split_path);
+	free_tab(split_path);
 	return (last_path);
 }
 
-static char	*build_prompt(t_minishell *ms)
+static char	*build_prompt(t_ms *ms)
 {
 	char	*title;
 	char	*workindg_dir;
@@ -50,12 +50,22 @@ static char	*build_prompt(t_minishell *ms)
 
 // Muestra un prompt customizado con nombre del proyecto
 // y el directorio actual, que obtiene de enviroments
-void	interface_get_line(t_minishell *ms)
+int	interface_get_line(t_ms *ms)
 {
 	char	*prompt;
+	char 	*trim;
 
 	prompt = build_prompt(ms);
 	ms->line = readline(prompt);
-	add_history(ms->line);
 	free(prompt);
+	trim = ft_strtrim(ms->line, SPACES); 
+	if (trim[0] == 0)
+	{
+		free(ms->line);
+		free(trim);
+		return (1);
+	}
+	free(trim);
+	add_history(ms->line);
+	return (0);
 }

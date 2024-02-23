@@ -6,16 +6,16 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:18 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 05:07:30 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 23:00:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // Tested OK
-t_envlst	*environment_get_node(t_minishell *ms, char *key)
+t_envl	*environment_get_node(t_ms *ms, char *key)
 {
-	t_envlst	*aux_node;
+	t_envl	*aux_node;
 
 	aux_node = ms->envlst;
 	while (aux_node)
@@ -29,9 +29,9 @@ t_envlst	*environment_get_node(t_minishell *ms, char *key)
 
 // Revisar si queremos que devuelva un string alocado o la dirección del value
 // Tested Ok
-char	*environment_get_value(t_minishell *ms, char *key)
+char	*environment_get_value(t_ms *ms, char *key)
 {
-	t_envlst	*aux_node;
+	t_envl	*aux_node;
 
 	aux_node = environment_get_node(ms, key);
 	if (aux_node)

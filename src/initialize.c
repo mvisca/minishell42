@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/23 08:14:32 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/23 08:27:47 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static t_comndlst	*make_command(t_minishell *ms)
 	return (ms->comnd_list_fake);
 }
 
-// Sets t_minishell initial values and calls enviroment initializer
+// Sets t_ms initial values and calls enviroment initializer
 // Tested Ok - Validar con las nuevas estructuras (ver con Marta)
-void	initialize(t_minishell *ms, int ac, char **av, char **envp)
+void	initialize(t_ms *ms, int ac, char **av, char **envp)
 {
 	if (ac > 1 || av[1])
 		error_exit("este programa no admite argumentos\n", ms);

@@ -6,14 +6,14 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:10:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/22 18:18:33 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/23 08:24:57 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // Fix information lose when env var value includes the char '='
-static int	check_oversplit(t_envlst *new, char **pair)
+static int	check_oversplit(t_envl *new, char **pair)
 {
 	char	*aux;
 	int		i;
@@ -38,11 +38,11 @@ static int	check_oversplit(t_envlst *new, char **pair)
 }
 
 // Tested Ok
-t_envlst	*environment_init(t_minishell *ms, char **envp)
+t_envl	*environment_init(t_ms *ms, char **envp)
 {
-	int			i;
-	char		**pair;
-	t_envlst	*new;
+	int		i;
+	char	**pair;
+	t_envl	*new;
 
 	i = 0;
 	while (envp && envp[i])
@@ -55,7 +55,7 @@ t_envlst	*environment_init(t_minishell *ms, char **envp)
 			error_free_exit("malloc error", ms);
 		check_oversplit(new, pair);
 		environment_add_node(ms, new);
-		utils_free_tab(pair);
+		free_tab(pair);
 		i++;
 	}
 	return (ms->envlst);

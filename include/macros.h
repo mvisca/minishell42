@@ -11,19 +11,20 @@
 # define FD_OUT    1
 
 // Macro con el título que despliega el prompt
-# define TITLE "\n💻 \x1b[33mMiniShell \x1b[1;35m@ \x1b[0m"
+# define TITLE "💻 \x1b[33mMiniShell \x1b[1;35m@ \x1b[0m"
 
 // Macros para manipular funciones de LEXER
 # define END    	    0
 # define DOLLAR			1
-# define DQUOTE			2
-# define SQUOTE			3
+# define D_QUOTE		34
+# define S_QUOTE		39
 # define PIPE			4
 # define L_REDIRECT		5
 # define R_REDIRECT		6
 # define DL_REDIRECT	7
 # define DR_REDIRECT	8
 # define WORD			9
+# define SPACES         " \t\v\n\r"
 
 // Para customizar UI con colores ANSI
 # define RESET       "\x1b[0m"

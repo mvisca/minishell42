@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:52:06 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 05:34:58 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 18:59:29 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	errors_get_string(int error_code)
 	return (c);
 }
 
-static int	errors_syntax_display(t_minishell *ms, int error_code)
+static int	errors_syntax_display(t_ms *ms, int error_code)
 {
 	char	c;
 
@@ -57,7 +57,7 @@ static int	errors_syntax_found2(char *line)
 //	else
 //		errors_syntax_found3(.....);
 
-static int	errors_syntax_found(t_minishell *ms, int i)
+static int	errors_syntax_found(t_ms *ms, int i)
 {
 	int		error_code;
 	char	*line;
@@ -82,7 +82,7 @@ static int	errors_syntax_found(t_minishell *ms, int i)
 }
 
 // estudiar cómo realizar esto con errno
-int	errors_syntax(t_minishell *ms)
+int	errors_syntax(t_ms *ms)
 {
 	int	error_code;
 	int	i;

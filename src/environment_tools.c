@@ -6,19 +6,19 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 04:50:21 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/17 22:55:14 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// Creates new t_envlst node
+// Creates new t_envl node
 // Tested Ok
-t_envlst	*environment_new_node(t_minishell *ms, char *key, char *value)
+t_envl	*environment_new_node(t_ms *ms, char *key, char *value)
 {
-	t_envlst	*new;
+	t_envl	*new;
 
-	new = (t_envlst *)malloc(sizeof(t_envlst));
+	new = (t_envl *)malloc(sizeof(t_envl));
 	if (!new)
 		error_free_exit("malloc error", ms);
 	new->key = ft_strdup(key);
@@ -26,7 +26,8 @@ t_envlst	*environment_new_node(t_minishell *ms, char *key, char *value)
 	if (!new->key || !new->value)
 	{
 		free(new->key);
-		free(new->value);
+		if (new->value)
+			free(new->value);
 		free(new);
 		error_free_exit("malloc error", ms);
 	}
@@ -36,9 +37,9 @@ t_envlst	*environment_new_node(t_minishell *ms, char *key, char *value)
 
 // Adds node at the end of the list
 // Tested Ok
-t_envlst	*environment_add_node(t_minishell *ms, t_envlst *envnode)
+t_envl	*environment_add_node(t_ms *ms, t_envl *envnode)
 {
-	t_envlst	*aux;
+	t_envl	*aux;
 
 	aux = ms->envlst;
 	if (aux == NULL)
@@ -54,10 +55,10 @@ t_envlst	*environment_add_node(t_minishell *ms, t_envlst *envnode)
 
 // Deletes the node with the given key
 // To be tested
-void	environment_del_node(t_minishell *ms, char *key)
+void	environment_del_node(t_ms *ms, char *key)
 {
-	t_envlst	*prev;
-	t_envlst	*aux;
+	t_envl	*prev;
+	t_envl	*aux;
 
 	prev = NULL;
 	aux = ms->envlst;
@@ -79,9 +80,9 @@ void	environment_del_node(t_minishell *ms, char *key)
 
 // Finds the node with the key and updates its value
 // To be tested
-void	ms_updateenv(t_minishell *ms, char *key, char *value)
+void	ms_updateenv(t_ms *ms, char *key, char *value)
 {
-	t_envlst	*aux_node;
+	t_envl	*aux_node;
 
 	aux_node = environment_get_node(ms, key);
 	if (aux_node)
