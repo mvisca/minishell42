@@ -40,6 +40,7 @@ typedef struct s_ms
 	char				*line;
 	t_tokl				*token_list;
 	t_coml				*comnd_list;
+	t_coml				*comnd_list_fake;
 	char				**envarr;
 	t_envl				*envlst;
 	int					init_fd[2];

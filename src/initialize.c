@@ -6,26 +6,26 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/23 08:27:47 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/23 08:30:47 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // init temporal para deasrrollar executor mientras completo el parser
-static t_comndlst	*make_command(t_minishell *ms)
+static t_coml	*make_command(t_ms *ms)
 {
-	ms->comnd_list_fake = (t_comndlst *) malloc (sizeof(t_comndlst));
+	ms->comnd_list_fake = (t_coml *) malloc (sizeof(t_coml));
 	ms->comnd_list_fake->command = (char **) malloc (sizeof(char *) * 2);
 	ms->comnd_list_fake->command[0] = ft_strdup("ls");
 	ms->comnd_list_fake->command[1] = NULL;
 	ms->comnd_list_fake->redirect = NULL;
-	ms->comnd_list_fake->next = (t_comndlst *) malloc (sizeof(t_comndlst));
+	ms->comnd_list_fake->next = (t_coml *) malloc (sizeof(t_coml));
 	ms->comnd_list_fake->next->command = (char **) malloc (sizeof(char *) * 3);
 	ms->comnd_list_fake->next->command[0] = ft_strdup("grep");
 	ms->comnd_list_fake->next->command[1] = ft_strdup("file");
 	ms->comnd_list_fake->next->command[2] = NULL;
-	ms->comnd_list_fake->next->redirect = (t_redirlst *) malloc (sizeof(t_redirlst));
+	ms->comnd_list_fake->next->redirect = (t_redl *) malloc (sizeof(t_redl));
 	ms->comnd_list_fake->next->redirect->type = R_REDIRECT;
 	ms->comnd_list_fake->next->redirect->path = ft_strdup("filex.txt");
 	ms->comnd_list_fake->next->redirect->next = NULL;

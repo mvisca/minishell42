@@ -85,11 +85,11 @@ int         parser_count_nodes(t_tokl *token);
 
 /*##################	UTILS		#####################*/
 
-int 		free_ms(t_ms *ms);
-void		free_env_list(t_envl *env);
-void		free_token_list(t_tokl *token);
-void		free_comnd_list(t_coml *comnd);
-void		free_tab(char **tab);
+int 		utils_free_ms(t_ms *ms);
+void		utils_free_tab(char **tab);
+void		utils_free_env_list(t_envl *env);
+void		utils_free_token_list(t_tokl *token);
+void		utils_free_comnd_list(t_coml *comnd);
 
 char        *str_clean_spaces(char *str);
 int         str_only_spaces(char *str);

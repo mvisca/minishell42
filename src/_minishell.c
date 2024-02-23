@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/22 17:47:40 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/23 08:38:32 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ int	main(int ac, char **av, char **envp)
 		if (interface_get_line(&ms))
 			continue ;
 		if (errors_syntax(&ms))
-			return (free_ms(&ms));
+			return (utils_free_ms(&ms));
 		if (lexer(&ms, ms.line) != 0)
-			return (free_ms(&ms));
+			return (utils_free_ms(&ms));
 
 		debug_token(&ms);
 		ft_printf(YELLOW"DEBUG LEXER DONE\n"RESET);
 
 		if (parser(&ms) != 0)
-			return (free_ms(&ms));
+			return (utils_free_ms(&ms));
 //		debug_command(&ms);
 //		free_comnd_list(&ms.comnd_list);
 
@@ -48,6 +48,6 @@ int	main(int ac, char **av, char **envp)
 		}
 		ft_printf("BUCLE MAIN DONE\n");
 	}
-	free_ms(&ms);
+	utils_free_ms(&ms);
 	return (0);
 }

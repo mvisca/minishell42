@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:10:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/23 08:24:57 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/23 08:39:08 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_envl	*environment_init(t_ms *ms, char **envp)
 			error_free_exit("malloc error", ms);
 		check_oversplit(new, pair);
 		environment_add_node(ms, new);
-		free_tab(pair);
+		utils_free_tab(pair);
 		i++;
 	}
 	return (ms->envlst);

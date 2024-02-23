@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:40:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/19 22:29:38 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/23 08:39:38 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	lexer_clean(t_ms *ms)
 {
-	free_token_list(ms->token_list);
+	utils_free_token_list(ms->token_list);
 	ms->token_list = NULL;
 	return (0);
 }

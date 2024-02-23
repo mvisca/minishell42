@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/20 02:38:53 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/23 08:39:29 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*split_working_dir(t_ms *ms)
 	last_path = split_path[ft_tablen(split_path) - 1];
 	last_path = ft_strdup(last_path);
 	free(full_path);
-	free_tab(split_path);
+	utils_free_tab(split_path);
 	return (last_path);
 }
 
