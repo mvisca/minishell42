@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/25 11:46:50 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/25 13:01:46 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		}
 		ft_printf("BUCLE MAIN DONE\n");
-		lexer_clean(&ms);
+		lexer_clean(&ms); // deberá in en parser
 	}
 	ft_printf("AGAIN: Debug token\n");
 	debug_token(&ms);
