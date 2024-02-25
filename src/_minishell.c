@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/23 08:38:32 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/25 11:46:50 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,17 @@ int	main(int ac, char **av, char **envp)
 
 		if (parser(&ms) != 0)
 			return (utils_free_ms(&ms));
-//		debug_command(&ms);
-//		free_comnd_list(&ms.comnd_list);
 
-//		executor();
-	// 	case
-		// built in 
-		// función nativa
-	//	lee del ms.comnd_list->command[0] -> builtin -> else = nativa
-			
-
-		if (ft_strnstr(ms.comnd_list->command[0], "exit", 4))
+		if (ft_strnstr(ms.token_list->str, "exit", 4))
 		{
 			ft_printf(BLUE"Input:"RED" exit\n"RESET);
 			break ;
 		}
 		ft_printf("BUCLE MAIN DONE\n");
+		lexer_clean(&ms);
 	}
+	ft_printf("AGAIN: Debug token\n");
+	debug_token(&ms);
 	utils_free_ms(&ms);
 	return (0);
 }

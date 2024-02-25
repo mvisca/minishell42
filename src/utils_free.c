@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/23 08:39:55 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/25 12:59:10 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	utils_free_token_list(t_tokl *token)
 void	utils_free_comnd_list(t_coml *comnd)
 {
 	t_coml	*next;
+	t_redl	*redir;
 	int		i;
 
 	while (comnd)
@@ -72,10 +73,15 @@ void	utils_free_comnd_list(t_coml *comnd)
 		while (comnd->command[i])
 			free(comnd->command[i++]);
 		free(comnd->command);
-		if (comnd->redirect && comnd->redirect->path)
-			free(comnd->redirect->path);
-		if (comnd->redirect)
+		
+		while (comnd->redirect)
+		{
+			redir = comnd->redirect->next;
+			if (comnd->redirect->path)
+				free(comnd->redirect->path);
 			free(comnd->redirect);
+			comnd->redirect = redir;
+		}	
 		free(comnd);
 		comnd = next;
 	}
@@ -93,9 +99,6 @@ int	utils_free_ms(t_ms *ms)
 	if (ms->comnd_list)
 		utils_free_comnd_list(ms->comnd_list);
 	if (ms->comnd_list_fake)
-	{
-		ft_printf("Linea mágica %s\n", ms->comnd_list_fake->command[0]);
 		utils_free_comnd_list(ms->comnd_list_fake);
-	}
 	return (0);
 }

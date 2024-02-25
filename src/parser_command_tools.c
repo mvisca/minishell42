@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 13:41:47 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/21 09:57:54 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/25 12:44:28 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ t_coml	*parser_alloc_command(int len)
 	}
 	command->redirect = NULL;
 	command->next = NULL;
+	ft_printf("end alloc\n");
 	return (command);
 }
