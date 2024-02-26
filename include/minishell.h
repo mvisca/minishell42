@@ -89,12 +89,11 @@ int 		utils_free_ms(t_ms *ms);
 void		utils_free_tab(char **tab);
 void		utils_free_env_list(t_envl *env);
 void		utils_free_token_list(t_ms *ms);
-void		utils_free_comnd_list(t_coml *comnd);
+void		utils_free_comnd_list(t_ms *ms);
+void		utils_free_comnd_list_fake(t_ms *ms);
 
 size_t      str_line_len(char *line);
 char        *str_clean_spaces(char *str);
 int         str_only_spaces(char *str);
-
-int			array_append(t_coml *comnd, t_tokl *start);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/27 00:07:51 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/27 00:20:47 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,54 @@ void	utils_free_env_list(t_envl *env)
 	env = NULL;
 }
 
+void	utils_free_comnd_list_fake(t_ms *ms)
+{
+	t_coml	*next;
+	t_coml	*node;
+	int		i;
+
+	node = ms->comnd_list_fake;
+	while (node)
+	{
+		next = node->next;
+		i = 0;
+		while (node->command[i])
+			free(node->command[i++]);
+		free(node->command);
+		if (node->redirect && node->redirect->path)
+			free(node->redirect->path);
+		if (node->redirect)
+			free(node->redirect);
+		free(node);
+		node = next;
+	}
+	ms->comnd_list_fake = NULL;
+}
+
+void	utils_free_comnd_list(t_ms *ms)
+{
+	t_coml	*next;
+	t_coml	*node;
+	int		i;
+
+	node = ms->comnd_list;
+	while (node)
+	{
+		next = node->next;
+		i = 0;
+		while (node->command[i])
+			free(node->command[i++]);
+		free(node->command);
+		if (node->redirect && node->redirect->path)
+			free(node->redirect->path);
+		if (node->redirect)
+			free(node->redirect);
+		free(node);
+		node = next;
+	}
+	ms->comnd_list = NULL;
+}
+
 void	utils_free_token_list(t_ms *ms)
 {
 	t_tokl	*next;
@@ -55,50 +103,25 @@ void	utils_free_token_list(t_ms *ms)
 		next = token->next;
 		if (token->str)
 			free(token->str);
-		if (token)
-			free(token);
+		free(token);
 		token = NULL;
 		token = next;
 	}
 	ms->token_list = NULL;
 }
 
-void	utils_free_comnd_list(t_coml *comnd)
-{
-	t_coml	*next;
-	int		i;
-
-	while (comnd)
-	{
-		next = comnd->next;
-		i = 0;
-		while (comnd->command[i])
-			free(comnd->command[i++]);
-		free(comnd->command);
-		if (comnd->redirect && comnd->redirect->path)
-			free(comnd->redirect->path);
-		if (comnd->redirect)
-			free(comnd->redirect);
-		free(comnd);
-		comnd = next;
-	}
-	comnd = NULL;
-}
-
 int	utils_free_ms(t_ms *ms)
 {
-	if (ms->envarr)
-		utils_free_tab(ms->envarr);
 	if (ms->envlst)
 		utils_free_env_list(ms->envlst);
 	if (ms->token_list)
 		utils_free_token_list(ms);
 	if (ms->comnd_list)
-		utils_free_comnd_list(ms->comnd_list);
+		utils_free_comnd_list(ms);
 	if (ms->comnd_list_fake)
 	{
 		ft_printf("Linea mágica %s\n", ms->comnd_list_fake->command[0]);
-		utils_free_comnd_list(ms->comnd_list_fake);
+		utils_free_comnd_list_fake(ms);
 	}
 	return (0);
 }
