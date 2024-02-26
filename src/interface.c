@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/23 08:39:29 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 21:35:15 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	interface_get_line(t_ms *ms)
 	ms->line = readline(prompt);
 	free(prompt);
 	trim = ft_strtrim(ms->line, SPACES); 
-	if (trim[0] == 0)
+	if (trim[0] == '\0')
 	{
 		free(ms->line);
 		free(trim);

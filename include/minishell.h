@@ -62,7 +62,7 @@ int	    	interface_get_line(t_ms *ms);
 
 int			lexer(t_ms *ms, char *line);
 
-int			make_token(t_ms *ms, char *line, int type);
+int			lexer_make_token(t_ms *ms, char *line, int type, int *i);
 char		*make_token_word(char *line);
 t_tokl	    *add_token(t_ms *ms, t_tokl *token);
 
@@ -88,9 +88,10 @@ int         parser_count_nodes(t_tokl *token);
 int 		utils_free_ms(t_ms *ms);
 void		utils_free_tab(char **tab);
 void		utils_free_env_list(t_envl *env);
-void		utils_free_token_list(t_tokl *token);
+void		utils_free_token_list(t_ms *ms);
 void		utils_free_comnd_list(t_coml *comnd);
 
+size_t      str_line_len(char *line);
 char        *str_clean_spaces(char *str);
 int         str_only_spaces(char *str);
 

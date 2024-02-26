@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/23 08:39:55 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/27 00:07:51 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,23 @@ void	utils_free_env_list(t_envl *env)
 	env = NULL;
 }
 
-void	utils_free_token_list(t_tokl *token)
+void	utils_free_token_list(t_ms *ms)
 {
 	t_tokl	*next;
+	t_tokl	*token;
 
+	token = ms->token_list;
 	while (token)
 	{
 		next = token->next;
-		free(token->str);
-		token->str = NULL;
-		free(token);
+		if (token->str)
+			free(token->str);
+		if (token)
+			free(token);
 		token = NULL;
 		token = next;
 	}
-	token = NULL;
+	ms->token_list = NULL;
 }
 
 void	utils_free_comnd_list(t_coml *comnd)
@@ -89,7 +92,7 @@ int	utils_free_ms(t_ms *ms)
 	if (ms->envlst)
 		utils_free_env_list(ms->envlst);
 	if (ms->token_list)
-		utils_free_token_list(ms->token_list);
+		utils_free_token_list(ms);
 	if (ms->comnd_list)
 		utils_free_comnd_list(ms->comnd_list);
 	if (ms->comnd_list_fake)
