@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/26 19:38:44 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 19:53:36 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	lexer(t_ms *ms, char *l)
 			i += lexer_make_token(ms, &l[i], L_REDIRECT);
 		else
 			i += lexer_make_token(ms, &l[i], WORD);
+		ft_printf("bucle");
 	}
 	if (i > (int)ft_strlen(l) || lexer_end_token(ms))
 		return (1);

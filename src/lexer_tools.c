@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:40:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/26 19:39:50 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 19:52:52 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ int	lexer_make_token(t_ms *ms, char *line, int type)
 		token->str = ft_strdup("<<");
 	else if (type == DR_REDIRECT)
 		token->str = ft_strdup(">>");
-	else if (type == WORD || type == END)
+	else
 		token->str = lexer_make_token_word(line);
 	token->type = type;
 	token->next = NULL;
 	lexer_add_token(ms, token);
-	return ((int)ft_strlen(token->str));
+	return ((int)ft_strlen(token->str) || 1);
 }
 
 void	lexer_skip_empty_token(t_ms *ms)
