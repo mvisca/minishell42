@@ -1,5 +1,10 @@
 #include "../include/minishell.h"
 
+void	debug_print_token(t_tokl *token, int i)
+{
+        ft_printf("token %d \t| type -> %d\t| str -> '%s'\n", i, token->type,  token->str);
+}
+
 void    debug_token(t_ms *ms)
 {
     t_tokl  *token;
@@ -10,7 +15,7 @@ void    debug_token(t_ms *ms)
     i = 1;
     while (token)
     {
-        ft_printf("token %d \t| type -> %d\t| str -> '%s'\n", i, token->type,  token->str);
+		debug_print_token(token, i);
         ft_printf(RED"----------------------------------------------------\n"RESET);
         token = token->next;
         i++;

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 22:42:32 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/26 16:40:07 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 19:39:55 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int str_add_precmnd(t_coml *cmnd, t_tokl *pre_cmnd)
 	return (0);
 }
 
-t_tokl	*str_ext_cmnd(t_coml *cmnd, char *str)
+t_tokl	*str_ext_cmnd(t_coml **cmnd, char *str)
 {
 	t_ints	i;
 
@@ -72,12 +72,9 @@ t_tokl	*str_ext_cmnd(t_coml *cmnd, char *str)
 			i.pre_cmnd->str = ft_substr(str, i.ini, i.len);
 			if (!i.pre_cmnd->str)
 				return (NULL);
-			str_add_precmnd(cmnd, i.pre_cmnd);		
+			str_add_precmnd(*cmnd, i.pre_cmnd);		
 		}
 		i.i++;		
 	}
-	return (cmnd->pre_cmnd);
+	return ((*cmnd)->pre_cmnd);
 }
-
-
-

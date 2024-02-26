@@ -6,18 +6,11 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:40:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/26 15:56:51 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 19:39:50 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	lexer_clean(t_ms *ms)
-{
-	utils_free_token_list(ms->token_list);
-	ms->token_list = NULL;
-	return (0);
-}
 
 t_tokl	*lexer_add_token(t_ms *ms, t_tokl *token)
 {
@@ -39,12 +32,29 @@ char	*lexer_make_token_word(char *line)
 {
 	int		i;
 	char	*word;
+	char	*trim_word;
 
 	i = 0;
 	while (line[i] && line[i] != '|' && line[i] != '>' && line[i] != '<')
 		i++;
 	word = ft_substr(line, 0, i);
-	return (word);
+	trim_word = ft_strtrim(word, SPACES);
+	free(word);
+	return (trim_word);
+}
+
+int	lexer_end_token(t_ms *ms)
+{
+	t_tokl	*token;
+
+	token = (t_tokl *)malloc(sizeof(t_tokl));
+	if (!token)
+		return (1);
+	token->next = NULL;
+	token->str = NULL;
+	token->type = END;
+	lexer_add_token(ms, token);
+	return (0);
 }
 
 int	lexer_make_token(t_ms *ms, char *line, int type)

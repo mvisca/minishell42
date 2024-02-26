@@ -22,6 +22,7 @@
 
 /*##################	DEBUG		#####################*/
 
+void    	debug_print_token(t_tokl *token, int i);
 void        debug_token(t_ms *ms);
 void        debug_command(t_ms *ms);
 
@@ -65,15 +66,15 @@ int			lexer(t_ms *ms, char *line);
 int			lexer_make_token(t_ms *ms, char *line, int type);
 char		*lexer_make_token_word(char *line);
 t_tokl	    *lexer_add_token(t_ms *ms, t_tokl *token);
+int 	    lexer_end_token(t_ms *ms);
 
 void    	lexer_skip_empty_token(t_ms *ms); 
-int			lexer_clean(t_ms *ms);
 
 /*##################	PARSER		#####################*/
 
 int			parser(t_ms *ms);
 
-t_coml		*parser_alloc_command(t_coml *command);
+t_coml		*parser_alloc_command(void);
 int			parser_add_command(t_ms *ms, t_coml *command);
 
 int         parser_pre(t_coml **cmnd, t_tokl *start);
@@ -95,8 +96,7 @@ void		utils_free_comnd_list(t_coml *comnd);
 char        *str_clean_spaces(char *str);
 int         str_only_spaces(char *str);
 
-int         str_extract_init(t_ints *ext);
-t_tokl      *str_ext_cmnd(t_coml *cmnd, char *str);
+t_tokl      *str_ext_cmnd(t_coml **cmnd, char *str);
 
 // int			array_append(t_coml *comnd, t_tokl *start);
 

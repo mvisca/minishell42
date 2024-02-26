@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/26 16:26:43 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 17:57:33 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	utils_free_token_list(t_tokl *token)
 	while (token)
 	{
 		next = token->next;
-		free(token->str);
-		token->str = NULL;
+		if(token->str)
+			free(token->str);
 		free(token);
 		token = NULL;
 		token = next;
@@ -70,7 +70,7 @@ void	utils_free_comnd_list(t_coml *cmnd)
 	{
 		next = cmnd->next;
 		i = 0;
-		while (cmnd->command[i])
+		while (cmnd->command && cmnd->command[i])
 			free(cmnd->command[i++]);
 		free(cmnd->command);
 		while (cmnd->redirect)

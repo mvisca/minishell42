@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:23:46 by mvisca-g          #+#    #+#             */
-/*   Updated: 2023/06/30 18:22:18 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:18:56 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,44 +23,22 @@ static int	isset(char c, const char *set)
 	return (0);
 }
 
-static char	*trim_ini(char *dup, const char *set)
-{
-	while (isset(*(dup), set))
-	{
-		ft_memmove(dup, (dup + 1), ft_strlen(dup + 1) + 1);
-	}
-	return (dup);
-}
-
-static char	*trim_end(char *dup, const char *set)
-{
-	while (ft_strlen(dup) && isset(*(dup + ft_strlen(dup) - 1), set))
-	{
-		*(dup + ft_strlen(dup) - 1) = '\0';
-	}
-	return (dup);
-}
-
 char	*ft_strtrim(const char *s1, const char *set)
 {
-	char	*dup;
-	char	*res;
-	size_t	len;
+	unsigned int	ini;
+	size_t			end;
+	char			*aux;
 
-	if (s1 == NULL || set == NULL)
-		return ((char *)s1);
-	dup = ft_strdup(s1);
-	if (!dup)
+ 	if (s1 == NULL || set == NULL)
+ 		return ((char *)s1);
+	ini = 0;
+	while (s1[ini] && isset(s1[ini], set))
+		ini++;
+	end = ft_strlen(s1);
+	while (end > (size_t)ini && isset(s1[end - 1], set))
+		end--;
+	aux = ft_substr(s1, ini, (end - (size_t)ini));
+	if (!aux)
 		return (NULL);
-	dup = trim_end(trim_ini(dup, set), set);
-	len = ft_strlen(dup);
-	res = (char *) malloc (sizeof(char) * len + 1);
-	if (res == NULL)
-	{
-		free(dup);
-		return (NULL);
-	}
-	res = ft_memmove(res, dup, ft_strlen(dup) + 1);
-	free(dup);
-	return (res);
+	return (aux);
 }
