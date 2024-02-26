@@ -62,26 +62,27 @@ int	    	interface_get_line(t_ms *ms);
 
 int			lexer(t_ms *ms, char *line);
 
-int			make_token(t_ms *ms, char *line, int type);
-char		*make_token_word(char *line);
-t_tokl	    *add_token(t_ms *ms, t_tokl *token);
+int			lexer_make_token(t_ms *ms, char *line, int type);
+char		*lexer_make_token_word(char *line);
+t_tokl	    *lexer_add_token(t_ms *ms, t_tokl *token);
 
-void    	skip_empty_token(t_ms *ms); 
+void    	lexer_skip_empty_token(t_ms *ms); 
 int			lexer_clean(t_ms *ms);
 
 /*##################	PARSER		#####################*/
 
 int			parser(t_ms *ms);
 
-t_coml		*parser_alloc_command(int len);
+t_coml		*parser_alloc_command(t_coml *command);
 int			parser_add_command(t_ms *ms, t_coml *command);
-int			parser_init_command(t_coml *command, t_tokl *start);
+
+int         parser_pre(t_coml **cmnd, t_tokl *start);
 
 int			parser_alloc_add_redir(t_coml *command);
 int			parser_init_redir(t_coml *command, t_tokl *token);
 
-int         parser_count_nodes(t_tokl *token);
-
+// int         parser_count_words(char *str);
+// int         parser_count_commands(t_tokl *token);
 
 /*##################	UTILS		#####################*/
 
@@ -94,6 +95,9 @@ void		utils_free_comnd_list(t_coml *comnd);
 char        *str_clean_spaces(char *str);
 int         str_only_spaces(char *str);
 
-int			array_append(t_coml *comnd, t_tokl *start);
+int         str_extract_init(t_ints *ext);
+t_tokl      *str_ext_cmnd(t_coml *cmnd, char *str);
+
+// int			array_append(t_coml *comnd, t_tokl *start);
 
 #endif

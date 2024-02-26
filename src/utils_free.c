@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/25 13:01:48 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 16:26:43 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,32 +60,35 @@ void	utils_free_token_list(t_tokl *token)
 	token = NULL;
 }
 
-void	utils_free_comnd_list(t_coml *comnd)
+void	utils_free_comnd_list(t_coml *cmnd)
 {
 	t_coml	*next;
 	t_redl	*redir;
 	int		i;
 
-	while (comnd)
+	while (cmnd)
 	{
-		next = comnd->next;
+		next = cmnd->next;
 		i = 0;
-		while (comnd->command[i])
-			free(comnd->command[i++]);
-		free(comnd->command);
-		
-		while (comnd->redirect)
+		while (cmnd->command[i])
+			free(cmnd->command[i++]);
+		free(cmnd->command);
+		while (cmnd->redirect)
 		{
-			redir = comnd->redirect->next;
-			if (comnd->redirect->path)
-				free(comnd->redirect->path);
-			free(comnd->redirect);
-			comnd->redirect = redir;
-		}	
-		free(comnd);
-		comnd = next;
+			redir = cmnd->redirect->next;
+			if (cmnd->redirect->path)
+				free(cmnd->redirect->path);
+			free(cmnd->redirect);
+			cmnd->redirect = redir;
+		}
+		if (cmnd->pre_cmnd)
+			utils_free_token_list(cmnd->pre_cmnd);
+		if (cmnd->pre_cmnd)
+			utils_free_token_list(cmnd->pre_redir);
+		free(cmnd);
+		cmnd = next;
 	}
-	comnd = NULL;
+	cmnd = NULL;
 }
 
 int	utils_free_ms(t_ms *ms)
@@ -96,8 +99,8 @@ int	utils_free_ms(t_ms *ms)
 		utils_free_env_list(ms->envlst);
 	if (ms->token_list)
 		utils_free_token_list(ms->token_list);
-	if (ms->comnd_list)
-		utils_free_comnd_list(ms->comnd_list);
+	if (ms->cmnd_list)
+		utils_free_comnd_list(ms->cmnd_list);
 	if (ms->comnd_list_fake)
 		utils_free_comnd_list(ms->comnd_list_fake);
 	return (0);

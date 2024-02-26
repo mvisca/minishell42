@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:52:06 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 18:59:29 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/25 13:27:44 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ static char	errors_get_string(int error_code)
 {
 	char	c;
 
-	if (error_code == SYNTAX_PIPE_AT_0 || error_code == SYNTAX_PIPE_X3)
+	if (error_code == STX_PIPE_AT_0 || error_code == STX_PIPE_X3)
 		c = '|';
-	else if (error_code == SYNTAX_BACK_RD_X3)
+	else if (error_code == STX_BACK_RD_X3)
 		c = '<';
-	else if (error_code == SYNTAX_FOWARD_RD_X3)
+	else if (error_code == STX_FOWARD_RD_X3)
 		c = '>';
-	else if (error_code == SYNTAX_FAKE_ARROBA_X3)
+	else if (error_code == STX_FAKE_ARROBA_X3)
 		c = '@';
-	else if (error_code == SYNTAX_CURLY_START)
+	else if (error_code == STX_CURLY_START)
 		c = '{';
-	else if (error_code == SYNTAX_CURLY_END)
+	else if (error_code == STX_CURLY_END)
 		c = '}';
 	else
 		c = '?';
@@ -38,7 +38,7 @@ static int	errors_syntax_display(t_ms *ms, int error_code)
 	char	c;
 
 	c = errors_get_string(error_code);
-	ft_printf("%s%c'\n", SYNTAX_MSSG, c);
+	ft_printf("%s%c'\n", STX_MSSG, c);
 	ms->exit_code = 2;
 	return (0);
 }
@@ -49,7 +49,7 @@ static int	errors_syntax_found2(char *line)
 
 	error_code = 0;
 	if (!ft_strncmp(line, "@@@", 3))
-		error_code = SYNTAX_FAKE_ARROBA_X3;
+		error_code = STX_FAKE_ARROBA_X3;
 	return (error_code);
 }
 //	else if (....)
@@ -65,17 +65,17 @@ static int	errors_syntax_found(t_ms *ms, int i)
 	error_code = 0;
 	line = &ms->line[i];
 	if (i == 0 && !ft_strncmp(&ms->line[i], "|", 1))
-		error_code = SYNTAX_PIPE_AT_0;
+		error_code = STX_PIPE_AT_0;
 	else if (!ft_strncmp(line, "|||", 3))
-		error_code = SYNTAX_PIPE_X3;
+		error_code = STX_PIPE_X3;
 	else if (!ft_strncmp(line, "<<<", 3))
-		error_code = SYNTAX_BACK_RD_X3;
+		error_code = STX_BACK_RD_X3;
 	else if (!ft_strncmp(line, ">>>", 3))
-		error_code = SYNTAX_FOWARD_RD_X3;
+		error_code = STX_FOWARD_RD_X3;
 	else if (!ft_strncmp(line, "{", 1))
 		error_code = errors_syntax_curly_brackets(line);
 	else if (!ft_strncmp(line, "}", 1))
-		error_code = SYNTAX_CURLY_END;
+		error_code = STX_CURLY_END;
 	else
 		error_code = errors_syntax_found2(&ms->line[i]);
 	return (error_code);

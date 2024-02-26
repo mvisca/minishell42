@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/16 04:51:55 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/25 13:26:11 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	curly_error_message(void)
 	ft_printf("Unhandled use of '{' and/or '}'.\n");
 	ft_printf("Bash runs HEREDOC or passes '}' as a command option.\n");
 	ft_printf("This edge cases are not handled by minishell.\n");
-	return (SYNTAX_CURLY_START);
+	return (STX_CURLY_START);
 }
 
 int	errors_syntax_curly_brackets(char *line)

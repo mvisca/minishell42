@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/25 13:01:46 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 16:25:45 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	main(int ac, char **av, char **envp)
 	initialize(&ms, ac, av, envp);
 	while (1)
 	{
-		if (interface_get_line(&ms))
+		if (interface_get_line(&ms) != 0)
 			continue ;
-		if (errors_syntax(&ms))
+		if (errors_syntax(&ms) != 0)
 			return (utils_free_ms(&ms));
 		if (lexer(&ms, ms.line) != 0)
 			return (utils_free_ms(&ms));
@@ -30,7 +30,12 @@ int	main(int ac, char **av, char **envp)
 		ft_printf(YELLOW"DEBUG LEXER DONE\n"RESET);
 
 		if (parser(&ms) != 0)
+		{
+			ft_printf("Killing it at parser end\n");
 			return (utils_free_ms(&ms));
+		}
+		ft_printf("Overcoming parser end\n");
+
 
 		if (ft_strnstr(ms.token_list->str, "exit", 4))
 		{

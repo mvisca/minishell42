@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:40:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/23 08:39:38 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 15:56:51 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	lexer_clean(t_ms *ms)
 	return (0);
 }
 
-t_tokl	*add_token(t_ms *ms, t_tokl *token)
+t_tokl	*lexer_add_token(t_ms *ms, t_tokl *token)
 {
 	t_tokl	*aux;
 
@@ -35,7 +35,7 @@ t_tokl	*add_token(t_ms *ms, t_tokl *token)
 	return (aux);
 }
 
-char	*make_token_word(char *line)
+char	*lexer_make_token_word(char *line)
 {
 	int		i;
 	char	*word;
@@ -47,7 +47,7 @@ char	*make_token_word(char *line)
 	return (word);
 }
 
-int	make_token(t_ms *ms, char *line, int type)
+int	lexer_make_token(t_ms *ms, char *line, int type)
 {
 	t_tokl	*token;
 
@@ -65,14 +65,14 @@ int	make_token(t_ms *ms, char *line, int type)
 	else if (type == DR_REDIRECT)
 		token->str = ft_strdup(">>");
 	else if (type == WORD || type == END)
-		token->str = make_token_word(line);
+		token->str = lexer_make_token_word(line);
 	token->type = type;
 	token->next = NULL;
-	add_token(ms, token);
+	lexer_add_token(ms, token);
 	return ((int)ft_strlen(token->str));
 }
 
-void	skip_empty_token(t_ms *ms)
+void	lexer_skip_empty_token(t_ms *ms)
 {
 	t_tokl	*token;
 	t_tokl	*next;

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/25 12:09:13 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 16:22:58 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static t_coml	*make_command(t_ms *ms)
 	ms->comnd_list_fake->command[0] = ft_strdup("ls");
 	ms->comnd_list_fake->command[1] = NULL;
 	ms->comnd_list_fake->redirect = NULL;
+	ms->comnd_list_fake->pre_cmnd = NULL;
+	ms->comnd_list_fake->pre_redir = NULL;
 	ms->comnd_list_fake->next = (t_coml *) malloc (sizeof(t_coml));
 	ms->comnd_list_fake->next->command = (char **) malloc (sizeof(char *) * 3);
 	ms->comnd_list_fake->next->command[0] = ft_strdup("grep");
@@ -30,6 +32,8 @@ static t_coml	*make_command(t_ms *ms)
 	ms->comnd_list_fake->next->redirect->path = ft_strdup("filex.txt");
 	ms->comnd_list_fake->next->redirect->next = NULL;
 	ms->comnd_list_fake->next->next = NULL;
+	ms->comnd_list_fake->next->pre_cmnd = NULL;
+	ms->comnd_list_fake->next->pre_redir = NULL;
 	return (ms->comnd_list_fake);
 }
 
@@ -41,7 +45,7 @@ void	initialize(t_ms *ms, int ac, char **av, char **envp)
 		error_exit("este programa no admite argumentos\n", ms);
 	ms->line = NULL;
 	ms->token_list = NULL;
-	ms->comnd_list = NULL;
+	ms->cmnd_list = NULL;
 	ms->comnd_list_fake = make_command(ms); // para desarrollar executor
 	if (!envp)
 		error_exit("variable no encontrada: no se recibió evnp\n", ms);

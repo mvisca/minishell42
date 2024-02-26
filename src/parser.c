@@ -6,48 +6,63 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/25 11:43:25 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 16:34:43 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	parser_count_nodes(t_tokl *token)
+int	parser_pre(t_coml **cmnd, t_tokl *start)
 {
-	int	len;
-
-	len = 1;
-	while (token->type != PIPE && token->type != END)
+	while (start->type != PIPE && start->type != END)
 	{
-		len++;
-		token = token->next;
+		if (start->type == WORD)
+		{
+			(*cmnd)->pre_cmnd = str_ext_cmnd(*cmnd, start->str);
+			if (!(*cmnd)->pre_cmnd)
+				return (1);
+		}
+		else
+		{
+		//	pre_redirect = str_extract_redirect(pre_redirect, start);
+			start = start->next;
+		}
+		if (start->next)
+			start = start->next;
 	}
-	ft_printf("LEN = %d\n", len);
-	return (len);
+	return (0);
 }
 
 int	parser(t_ms *ms)
 {
-	int		len;
 	t_tokl	*start;
 	t_coml	*command;
+	int		res;
 
 	start = ms->token_list;
 	while (start->type != END)
 	{
-		len = parser_count_nodes(start);
-		command = parser_alloc_command(len);
-		if (!command)
-			return (1);
-		if (parser_init_command(command, start) != 0)
-			return (1);
-		parser_add_command(ms, command);
-		while(start->type != PIPE && start->type != END)
-			start = start->next;
 		if (start->type == PIPE)
 			start = start->next;
+		parser_alloc_command(command);
+		ft_printf("parser dirmem command %p\n", command);
+		if (!command)
+			return (1);
+		res = parser_pre(&command, start);
+		ft_printf("parser command dirmem despues parser_pre %p\n", command);
+		ft_printf("parser command precmnd dirmem despues parser_pre %p\n", command->pre_cmnd);
+		ft_printf("parser command precmnd str %s\n", command->pre_cmnd->str);
+		ft_printf("parser res parser pre %d\n", res);
+		if (res)
+			return (1);
+		// parse_pos
+		parser_add_command(ms, command);
+		while (start->type != PIPE || start->type != END)
+			start = start->next;
 	}
-	debug_command(ms);
+	usleep(111);
+// parser_pretofinal
+//	debug_command(ms);
 //	lexer_clean(ms);
 	return (0);
 }
