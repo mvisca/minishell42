@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/27 20:16:18 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/27 21:40:12 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,6 @@ t_coml	*parser_tab_to_array(char **tab, t_coml *cmnd)
 	return (cmnd);
 }
 
-char	**parser_split(char *str)
-{
-	char **tab;
-
-	tab = ft_split(str, 32);
-	if (!tab)
-		return (NULL);
-	return (tab);
-} // OK verified
-
 int	parser(t_ms *ms)
 {
 	int		cmnd_new;
@@ -75,7 +65,7 @@ int	parser(t_ms *ms)
 			tab = parser_split(start->str);
 			if (!tab)
 				return (1);	// OK split return in tab verified 
-			parser_tab_to_array(tab, command); // WIP
+			parser_tab_to_array(tab, command); // OK Verified	
 			ft_printf(RED"Parser"RESET" -> command addres "BLUE" %p\n", command->command);
 			int i = -1;
 			while (command->command && command->command[++i])
@@ -98,7 +88,10 @@ int	parser(t_ms *ms)
 		}
 		start = start->next;
 		if (cmnd_new == TRUE) // de momento para dev (se queda?)
+		{
 			utils_free_comnd_list(ms);
+			ms->comnd_list = NULL;
+		}	
 	}
 //	debug_command(ms);
 	return (0);

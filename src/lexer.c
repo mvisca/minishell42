@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/27 17:19:11 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/27 21:22:01 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	lexer_make_token(t_ms *ms, char *line, int type, int *i)
 	{
 		if (line)
 			new->str = ft_strdup(line);
-		ft_printf(BLUE "New line" RED " %s\n" RESET, new->str);
 		(*i) += ft_strlen(new->str);
 	}
 	lexer_add_token(ms, new);
