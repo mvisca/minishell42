@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/02/20 21:54:03 by mvisca           ###   ########.fr        #
+#    Updated: 2024/02/27 16:05:38 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,6 @@ FILES			:=	_minishell.c 				\
 					initialize.c				\
 					interface.c					\
 					lexer.c						\
-					lexer_tools.c				\
 					parser.c					\
 					parser_command_tools.c		\
 					parser_redirect_tools.c		\

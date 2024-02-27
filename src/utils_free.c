@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/27 00:20:47 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/27 19:31:43 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	utils_free_comnd_list(t_ms *ms)
 	{
 		next = node->next;
 		i = 0;
-		while (node->command[i])
+		while (node->command && node->command[i])
 			free(node->command[i++]);
 		free(node->command);
 		if (node->redirect && node->redirect->path)

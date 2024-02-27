@@ -6,11 +6,23 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/27 15:46:54 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/27 17:19:11 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+char	*lexer_make_token_str(char *line)
+{
+	int		i;
+	char	*word;
+
+	i = 0;
+	while (line[i] && line[i] != '|' && line[i] != '>' && line[i] != '<')
+		i++;
+	word = ft_substr(line, 0, i);
+	return (word);
+}
 
 t_tokl	*lexer_add_token(t_ms *ms, t_tokl *token)
 {
@@ -42,12 +54,8 @@ int	lexer_make_token(t_ms *ms, char *line, int type, int *i)
 	if (type == WORD)
 	{
 		len = str_line_len(line);
-		ft_printf("LEN = %d\n", len);
 		new->str = ft_substr(line, 0, len);
-		ft_printf(GREEN"str %s\n"RESET, new->str);
-		ft_printf(RED"i antes + len %d\n"RESET, *i);
 		(*i) += len;
-		ft_printf(RED"i despues + LEN %d\n"RESET, *i);
 	}
 	else
 	{
@@ -56,7 +64,7 @@ int	lexer_make_token(t_ms *ms, char *line, int type, int *i)
 		ft_printf(BLUE "New line" RED " %s\n" RESET, new->str);
 		(*i) += ft_strlen(new->str);
 	}
-	lexer_add_token(ms,new);
+	lexer_add_token(ms, new);
 	return (0);
 }
 

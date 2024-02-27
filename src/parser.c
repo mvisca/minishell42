@@ -6,47 +6,100 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/26 23:06:22 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/27 20:16:18 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	parser_count_nodes(t_tokl *token)
+t_coml	*parser_tab_to_array(char **tab, t_coml *cmnd)
 {
-	int	len;
+	int		i;
+	int		len_old;
+	int		len_new;
+	char	**new;
 
-	len = 1;
-	while (token->type != PIPE && token->type != END)
+	i = 0;
+	len_old = ft_tablen(cmnd->command);
+	len_new = ft_tablen(tab);
+	new = (char **)malloc(sizeof(char *) * (len_old + len_new + 1));
+	if (!new)
+		return (NULL);
+	while (cmnd->command && cmnd->command[i])
 	{
-		len++;
-		token = token->next;
+		new[i] = cmnd->command[i];
+		i++;
 	}
-	ft_printf("LEN = %d\n", len);
-	return (len);
+	while (tab && tab[i - len_old])
+	{
+		new[i] = tab[i - len_old];
+		i++;
+	}
+	new[i] = NULL;
+	free(cmnd->command);
+	cmnd->command = new;
+	return (cmnd);
 }
+
+char	**parser_split(char *str)
+{
+	char **tab;
+
+	tab = ft_split(str, 32);
+	if (!tab)
+		return (NULL);
+	return (tab);
+} // OK verified
 
 int	parser(t_ms *ms)
 {
-	int		len;
+	int		cmnd_new;
 	t_tokl	*start;
 	t_coml	*command;
+	char	**tab;
 
+	cmnd_new = TRUE;
 	start = ms->token_list;
+	command = NULL;
 	while (start->type != END)
 	{
-		len = parser_count_nodes(start);
-		command = parser_alloc_command(len);
-		if (!command)
-			return (1);
-		if (parser_init_command(command, start) != 0)
-			return (1);
-		parser_add_command(ms, command);
-		while(start->type != PIPE && start->type != END)
-			start = start->next;
-		if (start->type == PIPE)
-			start = start->next;
+		if (cmnd_new == TRUE)
+		{
+			command = parser_new_command(command);
+			if (!command)
+				return (1);	
+			cmnd_new = FALSE;
+		} // OK verified
+		if (start->type == WORD)
+		{
+			tab = parser_split(start->str);
+			if (!tab)
+				return (1);	// OK split return in tab verified 
+			parser_tab_to_array(tab, command); // WIP
+			ft_printf(RED"Parser"RESET" -> command addres "BLUE" %p\n", command->command);
+			int i = -1;
+			while (command->command && command->command[++i])
+				ft_printf(RED"Parser"RESET" -> command->command[%d] = "BLUE"%s\n", i, command->command[i]);
+			parser_add_command(ms, command); // OK adding node
+		}
+		else if (start->type == PIPE)
+			cmnd_new = TRUE;
+		else // caso de los redirects
+		{
+			ft_printf("ELSE\n");
+			// extraer el redir
+			// ir al siguiente nodo
+				// si es word
+					// split de words
+						// primer elemento a redir path
+						// resto del tab al array
+				// si es otra cosa path == NULL 
+					// ESTO DARA ERROR
+		}
+		start = start->next;
+		if (cmnd_new == TRUE) // de momento para dev (se queda?)
+			utils_free_comnd_list(ms);
 	}
-	debug_command(ms);
+//	debug_command(ms);
 	return (0);
 }
