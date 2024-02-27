@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:52:06 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 18:59:29 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 23:50:46 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	errors_get_string(int error_code)
 {
 	char	c;
 
-	if (error_code == SYNTAX_PIPE_AT_0 || error_code == SYNTAX_PIPE_X3)
+	if (error_code == SYNTAX_PIPE_AT_0 || error_code == SYNTAX_PIPE_X2)
 		c = '|';
 	else if (error_code == SYNTAX_BACK_RD_X3)
 		c = '<';
@@ -66,8 +66,8 @@ static int	errors_syntax_found(t_ms *ms, int i)
 	line = &ms->line[i];
 	if (i == 0 && !ft_strncmp(&ms->line[i], "|", 1))
 		error_code = SYNTAX_PIPE_AT_0;
-	else if (!ft_strncmp(line, "|||", 3))
-		error_code = SYNTAX_PIPE_X3;
+	else if (!ft_strncmp(line, "||", 2))
+		error_code = SYNTAX_PIPE_X2;
 	else if (!ft_strncmp(line, "<<<", 3))
 		error_code = SYNTAX_BACK_RD_X3;
 	else if (!ft_strncmp(line, ">>>", 3))

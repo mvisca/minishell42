@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/22 09:09:37 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/26 23:06:22 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,5 @@ int	parser(t_ms *ms)
 			start = start->next;
 	}
 	debug_command(ms);
-	lexer_clean(ms);
 	return (0);
 }

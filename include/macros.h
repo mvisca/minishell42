@@ -47,7 +47,7 @@
 
 // Para errores de sintaxis
 # define SYNTAX_PIPE_AT_0		1
-# define SYNTAX_PIPE_X3			2
+# define SYNTAX_PIPE_X2			2
 # define SYNTAX_BACK_RD_X3		3
 # define SYNTAX_FOWARD_RD_X3	4
 # define SYNTAX_FAKE_ARROBA_X3	5

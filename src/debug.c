@@ -15,6 +15,7 @@ void    debug_token(t_ms *ms)
         token = token->next;
         i++;
     }
+	ft_printf(YELLOW"DEBUG LEXER DONE\n"RESET);
 }
 
 void	debug_command(t_ms *ms)
