@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/27 00:06:17 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/27 15:20:02 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ int	main(int ac, char **av, char **envp)
 		if (lexer(&ms, ms.line) != 0)
 			return (utils_free_ms(&ms));
 		debug_token(&ms);
+		if (parser(&ms) != 0)
+			return (utils_free_ms(&ms));
+		
 		utils_free_token_list(&ms);
 	}
 	utils_free_ms(&ms);
