@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/26 23:39:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/27 01:08:10 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,12 @@ int	lexer_make_token(t_ms *ms, char *line, int type, int *i)
 	if (type == WORD)
 	{
 		len = str_line_len(line);
+		ft_printf("LEN = %d\n", len);
 		new->str = ft_substr(line, 0, len);
-		if (line[*i])
-			len++;
+		ft_printf(GREEN"str %s\n"RESET, new->str);
+		ft_printf(RED"i antes + len %d\n"RESET, *i);
 		(*i) += len;
+		ft_printf(RED"i despues + LEN %d\n"RESET, *i);
 	}
 	else
 	{
