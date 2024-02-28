@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:59:09 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/27 21:34:54 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/28 09:36:38 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static int	parser_count(const char *s, char c)
 	{
 		if (s[i] == S_QUOTE || s[i] == D_QUOTE)
 		{
+			if (i == 0 || s[i -1] == c)
+				count++;
 			str_close_quote((char *)s, &i);
 			i++;
 		}
@@ -57,13 +59,12 @@ static char	**parser_do_split(char **spliter, const char *s, char c)
 	k = 0;
 	while (s[i])
 	{
-		if (s[i] == S_QUOTE || s[i] == D_QUOTE)
-		{
-			str_close_quote((char *)s, &i);
-			i++;
-		}   
 		if (s[i] && s[i] != c && (i == 0 || s[i - 1] == c))
+		{
 			start = i;
+			if (s[i] == S_QUOTE || s[i] == D_QUOTE)
+				str_close_quote((char *)s, &i);
+		}
 		if (s[i] && s[i] != c && (s[i + 1] == c || !s[i + 1]))
 		{
 			spliter[k] = ft_substr(s, start, i + 1 - start);
@@ -82,17 +83,20 @@ static char	**parser_do_split(char **spliter, const char *s, char c)
 
 char	**parser_split(char *str)
 {
-	char **tab;
+	char	**tab;
+	int		count;
 
 	if (!str)
 		return (NULL);
+	count = parser_count(str, 32);
+	ft_printf(RED"Parser"RESET" -> count %d\n", count);
 	tab = malloc (sizeof(char *) * (parser_count(str, 32) + 1));
 	if (!tab)
 		return (NULL);
-
 	tab = parser_do_split(tab, str, 32);
 	if (!tab)
 		return (NULL);
-
 	return (tab);
-} // OK verified
+} 
+
+// hola "hola hola" -> hola

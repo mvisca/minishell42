@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/26 21:35:15 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/28 07:46:17 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	interface_get_line(t_ms *ms)
 	char	*prompt;
 	char 	*trim;
 
+	ft_printf(GREEN"- - - - - - - - - - - - - - - - -\n"RESET);
 	prompt = build_prompt(ms);
 	ms->line = readline(prompt);
 	free(prompt);

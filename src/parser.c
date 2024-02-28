@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/27 21:40:12 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/28 09:23:45 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	parser(t_ms *ms)
 		{
 			tab = parser_split(start->str);
 			if (!tab)
-				return (1);	// OK split return in tab verified 
+				return (1);	// FIX split return in tab verified 
 			parser_tab_to_array(tab, command); // OK Verified	
 			ft_printf(RED"Parser"RESET" -> command addres "BLUE" %p\n", command->command);
 			int i = -1;
