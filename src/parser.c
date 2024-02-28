@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/28 09:23:45 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/02/28 09:44:14 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ int	parser(t_ms *ms)
 		} // OK verified
 		if (start->type == WORD)
 		{
-			tab = parser_split(start->str);
+			tab = parser_split(start->str); // <<< FIX >>>
 			if (!tab)
-				return (1);	// FIX split return in tab verified 
+				return (1);
 			parser_tab_to_array(tab, command); // OK Verified	
 			ft_printf(RED"Parser"RESET" -> command addres "BLUE" %p\n", command->command);
 			int i = -1;
 			while (command->command && command->command[++i])
 				ft_printf(RED"Parser"RESET" -> command->command[%d] = "BLUE"%s\n", i, command->command[i]);
-			parser_add_command(ms, command); // OK adding node
+			parser_add_command(ms, command); // OK
 		}
 		else if (start->type == PIPE)
 			cmnd_new = TRUE;
