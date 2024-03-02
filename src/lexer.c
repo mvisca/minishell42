@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/02 10:28:37 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/02 11:18:09 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	lexer(t_ms *ms, char *line)
 	int		i;
 
 	i = 0;
-	while (line && line[i] && line[i + 1])
+	while (line && line[i]) // && line[i + 1])
 	{
 		if (ft_isspace(line[i]))
 			i++;
@@ -81,7 +81,7 @@ int	lexer(t_ms *ms, char *line)
 		else if (ft_strnstr(&line[i], ">>", 2))
 			lexer_make_token(ms, ">>", DR_REDIRECT, &i);
 		else if (ft_strnstr(&line[i], "<<", 2))
-			lexer_make_token(ms, "<<", DL_REDIRECT, &i);
+			lexer_make_token(ms, "<<", DL_REDIRECT, &i);	
 		else if (line[i] == '>')
 			lexer_make_token(ms, ">", R_REDIRECT, &i);
 		else if (line[i] == '<')
