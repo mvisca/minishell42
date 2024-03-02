@@ -6,11 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/03/02 09:54:02 by fcatala-         ###   ########.fr       */
-=======
-/*   Updated: 2024/02/27 21:22:01 by mvisca           ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2024/03/02 10:28:37 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +55,7 @@ int	lexer_make_token(t_ms *ms, char *line, int type, int *i)
 	{
 		len = str_line_len(line);
 		new->str = ft_substr(line, 0, len);
-<<<<<<< HEAD
-		if (line[*i])
-			len++;
-		(*i) += len -1;//el -1 es necesario para evitar salir del puntero
-		ft_printf("\nvoy hasta %d\n", (int)(*i));
-=======
 		(*i) += len;
->>>>>>> main
 	}
 	else
 	{
@@ -85,11 +74,6 @@ int	lexer(t_ms *ms, char *line)
 	i = 0;
 	while (line && line[i] && line[i + 1])
 	{
-<<<<<<< HEAD
-//		ft_printf("inicio bucle, line[i] %c  -- i %d\n", line[i], i);//original
-		ft_printf("inicio bucle, line[%d] = %c \n", i, line[i], i);
-=======
->>>>>>> main
 		if (ft_isspace(line[i]))
 			i++;
 		else if (line[i] == '|')
