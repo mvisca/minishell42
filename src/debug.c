@@ -10,7 +10,7 @@ void    debug_token(t_ms *ms)
     i = 1;
     while (token)
     {
-        ft_printf("token %d \t| str -> '%s'\t\t| type -> %d\n", i, token->str, token->type);
+        ft_printf("token %d \t| str -> "BLUE"%s"RESET"\t\t| type -> %d\n", i, token->str, token->type);
         ft_printf(RED"----------------------------------------------------\n"RESET);
         token = token->next;
         i++;

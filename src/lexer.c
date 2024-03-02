@@ -6,11 +6,27 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/03/02 09:54:02 by fcatala-         ###   ########.fr       */
+=======
+/*   Updated: 2024/02/27 21:22:01 by mvisca           ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+char	*lexer_make_token_str(char *line)
+{
+	int		i;
+	char	*word;
+
+	i = 0;
+	while (line[i] && line[i] != '|' && line[i] != '>' && line[i] != '<')
+		i++;
+	word = ft_substr(line, 0, i);
+	return (word);
+}
 
 t_tokl	*lexer_add_token(t_ms *ms, t_tokl *token)
 {
@@ -43,19 +59,22 @@ int	lexer_make_token(t_ms *ms, char *line, int type, int *i)
 	{
 		len = str_line_len(line);
 		new->str = ft_substr(line, 0, len);
+<<<<<<< HEAD
 		if (line[*i])
 			len++;
 		(*i) += len -1;//el -1 es necesario para evitar salir del puntero
 		ft_printf("\nvoy hasta %d\n", (int)(*i));
+=======
+		(*i) += len;
+>>>>>>> main
 	}
 	else
 	{
 		if (line)
 			new->str = ft_strdup(line);
-		ft_printf(BLUE "New line" RED " %s\n" RESET, new->str);
 		(*i) += ft_strlen(new->str);
 	}
-	lexer_add_token(ms,new);
+	lexer_add_token(ms, new);
 	return (0);
 }
 
@@ -66,43 +85,27 @@ int	lexer(t_ms *ms, char *line)
 	i = 0;
 	while (line && line[i] && line[i + 1])
 	{
+<<<<<<< HEAD
 //		ft_printf("inicio bucle, line[i] %c  -- i %d\n", line[i], i);//original
 		ft_printf("inicio bucle, line[%d] = %c \n", i, line[i], i);
+=======
+>>>>>>> main
 		if (ft_isspace(line[i]))
 			i++;
 		else if (line[i] == '|')
-		{
 			lexer_make_token(ms, "|", PIPE, &i);
-			ft_printf("i %d\n", i);
-		}
 		else if (ft_strnstr(&line[i], ">>", 2))
-		{
 			lexer_make_token(ms, ">>", DR_REDIRECT, &i);
-			ft_printf("i %d\n", i);
-		}
 		else if (ft_strnstr(&line[i], "<<", 2))
-		{
 			lexer_make_token(ms, "<<", DL_REDIRECT, &i);
-			ft_printf("i %d\n", i);
-		}
 		else if (line[i] == '>')
-		{
 			lexer_make_token(ms, ">", R_REDIRECT, &i);
-			ft_printf("i %d\n", i);
-		}
 		else if (line[i] == '<')
-		{
 			lexer_make_token(ms, "<", L_REDIRECT, &i);
-			ft_printf("i %d\n", i);
-		}
 		else
-		{
 			lexer_make_token(ms, &line[i], WORD, &i);
-			ft_printf("i %d\n", i);
-		}
 	}
 	lexer_make_token(ms, NULL, END, &i);
-	ft_printf("i %d\n", i);
 	return (0);
 }
 
