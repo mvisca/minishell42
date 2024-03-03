@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/03 13:08:00 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/03 14:57:45 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,21 +124,27 @@ void	utils_free_cmnd_list_fake(t_ms *ms)
 
 int	utils_free_ms(t_ms *ms, int clean_env)
 {
+	if (ms->line)
+	{
+		free(ms->line);
+		ms->line = NULL;
+	}
 	if (clean_env && ms->envlst)
+	{
 		utils_free_env_list(&ms->envlst);
-	
+		ms->envlst = NULL;
+	}
 	if (ms->token_list)
+	{
 		utils_free_token_list(&ms->token_list);
-	ft_printf("pre utils_free_ms ; ms->cmnd_list\n");
+		ms->token_list = NULL;
+	}
 	if (ms->cmnd_list)
 	{
-		ft_printf("in utils_free_ms ; ms->cmnd_list\n");
 		utils_free_cmnd_list(&ms->cmnd_list);
+		ms->cmnd_list = NULL;
 	}
 	if (ms->cmnd_list_fake)
-	{
-		ft_printf(RED"Free línea mágica %s\n"RESET, ms->cmnd_list_fake->command[0]);
 		utils_free_cmnd_list_fake(ms);
-	}
 	return (0);
 }
