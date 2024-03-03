@@ -5,7 +5,10 @@ void    debug_token(t_ms *ms)
     t_tokl  *token;
     int     i;
 
-    ft_printf(RED"Debug Token\n"RESET);
+	ft_printf(YELLOW"- - - - - - - - - - -\n"RESET);
+	ft_printf(RED"LEXER"RESET""BLUE" -> "RESET"debug start\n");
+	ft_printf(BLUE"- - - - - - - - - - -\n"RESET);
+
     token = ms->token_list;
     i = 1;
     while (token)
@@ -15,7 +18,9 @@ void    debug_token(t_ms *ms)
         token = token->next;
         i++;
     }
-	ft_printf(YELLOW"DEBUG LEXER DONE\n"RESET);
+	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
+	ft_printf(RED"LEXER"RESET""BLUE" -> "RESET"debug done\n");
+	ft_printf(BLUE"- - - - - - - - - -\n"RESET);
 }
 
 void	debug_command(t_ms *ms)
@@ -28,7 +33,7 @@ void	debug_command(t_ms *ms)
 	ft_printf(RED"\nDebug Command\n\n"RESET);
 
 	nodo = 1;
-	com = ms->comnd_list;
+	com = ms->cmnd_list;
 	ft_printf("nodo inicial com address '%p' status = ", com);
 	if (com)
 		ft_printf(GREEN"OK\n"RESET);

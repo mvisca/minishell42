@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/02 11:18:09 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/03 13:18:12 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	lexer_make_token(t_ms *ms, char *line, int type, int *i)
 	t_tokl	*new;
 	size_t	len;
 
-	new = (t_tokl *)malloc(sizeof(t_tokl));
+	new = (t_tokl *)ft_calloc(1, sizeof(t_tokl));
+	// new = (t_tokl *)supresedmalloc(sizeof(t_tokl));
 	if (!new)
 		return (1);
 	new->type = type;

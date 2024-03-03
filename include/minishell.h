@@ -67,7 +67,7 @@ t_tokl	    *lexer_add_token(t_ms *ms, t_tokl *token);
 /*##################	PARSER		#####################*/
 
 int			parser(t_ms *ms);
-t_coml		*parser_new_command(t_coml *commnad);
+t_coml		*parser_new_command(t_coml **commnad);
 char        **parser_split(char *str);
 
 int			parser_alloc_add_redir(t_coml *command);
@@ -77,12 +77,12 @@ int			parser_add_command(t_ms *ms, t_coml *command);
 
 /*##################	UTILS		#####################*/
 // Memory
-int 		utils_free_ms(t_ms *ms);
-void		utils_free_tab(char **tab);
-void		utils_free_env_list(t_envl *env);
-void		utils_free_token_list(t_ms *ms);
-void		utils_free_comnd_list(t_ms *ms);
-void		utils_free_comnd_list_fake(t_ms *ms);
+int 		utils_free_ms(t_ms *ms, int clean_env);
+void		utils_free_tab(char ***tab);
+void		utils_free_env_list(t_envl **env);
+void		utils_free_token_list(t_tokl **token);
+void		utils_free_cmnd_list(t_coml **cmnd);
+void		utils_free_cmnd_list_fake(t_ms *ms);
 // String
 size_t      str_line_len(char *line);
 void        str_close_quote(char *line, size_t *i);

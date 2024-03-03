@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:56:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/22 08:51:27 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/03 13:19:38 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	parser_alloc_add_redir(t_coml *command)
 	t_redl	*redir;
 	t_redl	*aux;
 
-	redir = (t_redl *)malloc(sizeof(t_redl));
+	redir = (t_redl *)ft_calloc(1, sizeof(t_redl));
+	// redir = (t_redl *)supresedmalloc(sizeof(t_redl));
 	if (!redir)
 		return (1);
 	redir->type = 0;

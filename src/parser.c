@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/02 11:11:34 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/03 14:28:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_coml	*parser_tab_to_array(char **tab, t_coml *cmnd)
 	i = 0;
 	len_old = ft_tablen(cmnd->command);
 	len_new = ft_tablen(tab);
-	new = (char **)malloc(sizeof(char *) * (len_old + len_new + 1));
+	new = (char **)ft_calloc(len_old + len_new + 1, sizeof(char *)); 
+	// new = (char **)supresedmalloc(sizeof(char *) * (len_old + len_new + 1));
 	if (!new)
 		return (NULL);
 	while (cmnd->command && cmnd->command[i])
@@ -36,6 +37,7 @@ t_coml	*parser_tab_to_array(char **tab, t_coml *cmnd)
 		i++;
 	}
 	new[i] = NULL;
+	free(tab);	
 	free(cmnd->command);
 	cmnd->command = new;
 	return (cmnd);
@@ -43,37 +45,37 @@ t_coml	*parser_tab_to_array(char **tab, t_coml *cmnd)
 
 int	parser(t_ms *ms)
 {
-	int		cmnd_new;
-	t_tokl	*start;
+//	int		alloc_cmnd;
+	t_tokl	*token;
 	t_coml	*command;
 	char	**tab;
 
-	cmnd_new = TRUE;
-	start = ms->token_list;
+//	alloc_cmnd = TRUE;
+	token = ms->token_list;
 	command = NULL;
-	while (start->type != END)
+	while (token->type != END)
 	{
-		if (cmnd_new == TRUE)
+		if ( !command) // alloc_cmnd == TRUE)
 		{
-			command = parser_new_command(command);
+			parser_new_command(&command);
 			if (!command)
 				return (1);	
-			cmnd_new = FALSE;
+//			alloc_cmnd = FALSE;
 		} // OK verified
-		if (start->type == WORD)
+		if (token->type == WORD)
 		{
-			tab = parser_split(start->str); // <<< FIX >>>
+			tab = parser_split(token->str); // <<< FIX >>>
 			if (!tab)
 				return (1);
-			parser_tab_to_array(tab, command); // OK Verified	
-			ft_printf(RED"Parser"RESET" -> command addres "BLUE" %p\n", command->command);
-			int i = -1;
-			while (command->command && command->command[++i])
-				ft_printf(RED"Parser"RESET" -> command->command[%d] = "BLUE"%s\n", i, command->command[i]);
-			parser_add_command(ms, command); // OK
+			parser_tab_to_array(tab, command); // OK Verified
+			ft_printf(RED"Parser"RESET" -> command address "BLUE" %p\n", command->command);
+			int i = 0;
+			while (command->command && command->command[i])
+			{
+				ft_printf(RED"Parser"RESET" -> command->command[%d] = "BLUE"%s\n"RESET, i, command->command[i]);
+				i++;
+			}
 		}
-		else if (start->type == PIPE)
-			cmnd_new = TRUE;
 		else // caso de los redirects
 		{
 			ft_printf("ELSE\n");
@@ -86,12 +88,18 @@ int	parser(t_ms *ms)
 				// si es otra cosa path == NULL 
 					// ESTO DARA ERROR
 		}
-		start = start->next;
-		if (cmnd_new == TRUE) // de momento para dev (se queda?)
+		token = token->next;
+		// if (alloc_cmnd == TRUE) // de momento para dev (se queda?)
+		// {
+		// 	utils_free_cmnd_list(&ms->cmnd_list);
+		// 	ms->cmnd_list = NULL;
+		// }
+		if (token->type == PIPE || token->type == END)
 		{
-			utils_free_comnd_list(ms);
-			ms->comnd_list = NULL;
-		}	
+			parser_add_command(ms, command); // OK
+			command = NULL;
+			// alloc_cmnd = TRUE;
+		}
 	}
 //	debug_command(ms);
 	return (0);
