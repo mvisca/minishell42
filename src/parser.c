@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/03 22:55:33 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/03 23:21:44 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	parser(t_ms *ms)
 			parser_tab_to_array(tab, cmnd);
 			free(tab);
 		} // OK verified
-		else if (token->type != PIPE) // caso de los redirects
+		else if (token->type >= 5 && token->type <= 8)
 		{
 			redir = (t_redl *)ft_calloc(1, sizeof(t_redl));
 			if (!redir)
@@ -87,12 +87,12 @@ int	parser(t_ms *ms)
 				if (!tab)
 					return (1);
 				redir->path = tab[0];
-				ft_printf(BLUE"redir"YELLOW"  --->>>  "RED"path"RESET" %s\n", redir->path);
 				parser_add_redirect(cmnd, redir);
 				if (tab[1])
 					parser_tab_to_array(&tab[1], cmnd);
 				free(tab);
 			}
+
 		}
 		token = token->next;
 		if (token->type == PIPE || token->type == END)
