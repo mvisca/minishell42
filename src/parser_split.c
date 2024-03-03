@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:59:09 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/28 09:54:21 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/03 19:10:08 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	**parser_do_split(char **spliter, const char *s, char c)
 			str_close_quote((char *)s, &i);
 		if (s[i] && s[i] != c && (s[i + 1] == c || !s[i + 1]))
 		{
-			ft_printf(GREEN"Parse Slpit"RESET" s[%d] = "YELLOW"%c\n", i, s[i]);
+			ft_printf(GREEN"Parse split"RESET" s[%d] = "YELLOW"%c\n", i, s[i]);
 			spliter[k] = ft_substr(s, start, i + 1 - start);
 			if (!spliter[k++])
 			{
