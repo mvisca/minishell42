@@ -47,6 +47,8 @@ void	debug_command(t_ms *ms)
 			ft_printf("\tcmnd->redir->type = %d\n", redir_aux->type);
 			if (redir_aux->path)
 				ft_printf("\tcmnd->redir->path = %s\n", redir_aux->path);
+			else
+				ft_printf("\tcmnd->redir->path = (null)\n");
 			redir_aux = redir_aux->next;
 		}
 		count++;
