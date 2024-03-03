@@ -25,41 +25,34 @@ void    debug_token(t_ms *ms)
 
 void	debug_command(t_ms *ms)
 {
-	int		nodo; // contar nodo
-	t_coml	*com; // ms struct member command
-	int		i; // iterar en command array
-	t_redl	*red; // command struct member redirect
+	t_coml	*cmnd_aux;
+	t_redl	*redir_aux;
+	int		i;
+	int		count;
 
-	ft_printf(RED"\nDebug Command\n\n"RESET);
-
-	nodo = 1;
-	com = ms->cmnd_list;
-	ft_printf("nodo inicial com address '%p' status = ", com);
-	if (com)
-		ft_printf(GREEN"OK\n"RESET);
-	else
-		ft_printf(RED"K0\n"RESET);
-	
-	while (com)
+	ft_printf(YELLOW"- - - - - - - - - - -\n"RESET);
+	ft_printf(RED"LEXER"RESET""BLUE" -> "RESET"debug start\n");
+	ft_printf(BLUE"- - - - - - - - - - -\n"RESET);
+	cmnd_aux = ms->cmnd_list;
+	count = 1;
+	while (cmnd_aux)
 	{
-		ft_printf(RED"nodo com number %d\n"RESET, nodo);
-		i = 0;
-		ms->debu.command_count = 1;
-		while (com->command[i])
+		ft_printf(BLUE"Nodo cmnd %d\n"RESET, count);
+		i = -1;
+		while (cmnd_aux->command && cmnd_aux->command[++i])
+			ft_printf("\tcmnd->command[%d] = %s\n", i, cmnd_aux->command[i]);
+		redir_aux = cmnd_aux->redirect;
+		while (redir_aux)
 		{
-			ft_printf(BLUE"AQUI\n");
-			ft_printf(RED"com count -> %d\n"RESET, ms->debu.command_count++);
-			ft_printf(RED"com -> %d\n"RESET, com->command[i++]);
+			ft_printf("\tcmnd->redir->type = %d\n", redir_aux->type);
+			if (redir_aux->path)
+				ft_printf("\tcmnd->redir->path = %s\n", redir_aux->path);
+			redir_aux = redir_aux->next;
 		}
-		red = com->redirect;
-		while (red)
-		{
-			ft_printf(BLUE"com->command->redirect->path %s\n"RESET, red->path);
-			ft_printf(BLUE"com->command->redirect->type %d\n"RESET, red->type);
-			red = red->next;
-		}
-		nodo++;
-		com = com->next;
+		count++;
+		cmnd_aux = cmnd_aux->next;
 	}
-	ft_printf("Fin del command\n");
+	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
+	ft_printf(RED"LEXER"RESET""BLUE" -> "RESET"debug done\n");
+	ft_printf(BLUE"- - - - - - - - - -\n"RESET);
 }

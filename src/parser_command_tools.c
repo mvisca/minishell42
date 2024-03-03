@@ -6,25 +6,41 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 13:41:47 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/03 13:19:01 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/03 22:45:27 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+int	parser_add_redirect(t_coml *cmnd, t_redl *redir)
+{
+	t_redl	*aux;
+
+	if (!cmnd->redirect)
+		cmnd->redirect = redir;
+	else
+	{
+		aux = cmnd->redirect;
+		while (aux)
+			aux = aux->next;
+		aux->next = redir;
+	}
+	return (0);
+}
+
 int	parser_add_command(t_ms *ms, t_coml *command)
 {
 	t_coml *aux;
 
-	aux = ms->cmnd_list;
-	if (aux)
+	if (!ms->cmnd_list)
+		ms->cmnd_list = command;
+	else
 	{
+		aux = ms->cmnd_list;
 		while (aux->next)
 			aux = aux->next;
 		aux->next = command;
 	}
-	else 
-		ms->cmnd_list = command;
 	return (0);
 }
 
