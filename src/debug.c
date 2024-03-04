@@ -31,7 +31,7 @@ void	debug_command(t_ms *ms)
 	int		count;
 
 	ft_printf(YELLOW"- - - - - - - - - - -\n"RESET);
-	ft_printf(RED"LEXER"RESET""BLUE" -> "RESET"debug start\n");
+	ft_printf(RED"PARSER"RESET""BLUE" -> "RESET"debug start\n");
 	ft_printf(BLUE"- - - - - - - - - - -\n"RESET);
 	cmnd_aux = ms->cmnd_list;
 	count = 1;
@@ -55,6 +55,6 @@ void	debug_command(t_ms *ms)
 		cmnd_aux = cmnd_aux->next;
 	}
 	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
-	ft_printf(RED"LEXER"RESET""BLUE" -> "RESET"debug done\n");
+	ft_printf(RED"PARSER"RESET""BLUE" -> "RESET"debug done\n");
 	ft_printf(BLUE"- - - - - - - - - -\n"RESET);
 }
