@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/03 13:17:32 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/04 16:59:46 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_envl	*environment_add_node(t_ms *ms, t_envl *envnode)
 {
 	t_envl	*aux;
 
+	if (ms->envlst == NULL)
+		return (NULL);
 	aux = ms->envlst;
 	if (aux == NULL)
 		ms->envlst = envnode;
