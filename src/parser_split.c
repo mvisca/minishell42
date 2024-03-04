@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:59:09 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/04 22:56:07 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/04 22:57:59 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	**parser_split(char *str)
 	if (!str)
 		return (NULL);
 	count = parser_count(str, 32);
-	tab = malloc (sizeof(char *) * (parser_count(str, 32) + 1));
+	tab = malloc (sizeof(char *) * (count + 1));
 	if (!tab)
 		return (NULL);
 	tab = parser_do_split(tab, str, 32);
