@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/04 17:28:56 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/04 17:41:39 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_envl	*environment_new_node(t_ms *ms, char *key, char *value)
 	// new = (t_envl *)supresed_malloc(sizeof(t_envl));
 	if (!new)
 		error_free_exit("malloc error", ms);
+	new->next = NULL;
 	new->key = ft_strdup(key);
 	new->value = ft_strdup(value);
 	if (!new->key || !new->value)
@@ -32,7 +33,6 @@ t_envl	*environment_new_node(t_ms *ms, char *key, char *value)
 		free(new);
 		error_free_exit("malloc error", ms);
 	}
-	new->next = NULL;
 	return (new);
 }
 
@@ -42,21 +42,15 @@ t_envl	*environment_add_node(t_ms *ms, t_envl *envnode)
 {
 	t_envl	*aux;
 
-	ft_printf(RED"\nIN\n"RESET);	
-	ft_printf(RED"\nPOST PROTECT\n"RESET);
 	if (ms->envlst == NULL)
 		ms->envlst = envnode;
 	else
 	{
 		aux = ms->envlst;
 		while (aux->next)
-		{
-			ft_printf("\nADDRESS %p\n", aux->next); // 0x0
 			aux = aux->next;
-		}
 		aux->next = envnode;
 	}
-	ft_printf(RED"\nOUT\n"RESET);
 	return (ms->envlst);
 }
 
