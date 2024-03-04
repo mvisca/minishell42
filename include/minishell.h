@@ -71,7 +71,7 @@ t_coml		*parser_new_command(t_coml **commnad);
 char        **parser_split(char *str);
 
 int			parser_add_redirect(t_coml *cmnd, t_redl *redir);
-int			parser_init_redir(t_coml *command, t_tokl *token);
+// int			parser_init_redir(t_coml *command, t_tokl *token);
 
 int			parser_add_command(t_ms *ms, t_coml *command);
 
