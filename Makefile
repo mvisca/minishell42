@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/02/27 21:20:01 by mvisca           ###   ########.fr        #
+#    Updated: 2024/03/04 22:17:15 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ FILES			:=	_minishell.c 				\
 					parser.c					\
 					parser_split.c				\
 					parser_command_tools.c		\
-					parser_redirect_tools.c		\
+					parser_update_envarr.c		\
 					utils_free.c				\
 					utils_str.c
 

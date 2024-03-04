@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/04 20:31:40 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/04 22:36:12 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,7 @@ int	parser(t_ms *ms)
 		if (parser_populate_command(&ms, &cmnd, &token, &redir))
 			return (1);
 	}
+	if (parser_update_envarr(ms) != 0)
+		return (1);
 	return (0);
 }
