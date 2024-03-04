@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:10:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/04 17:46:17 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/04 17:50:52 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_envl	*environment_init(t_ms *ms, char **envp)
 		new = environment_new_node(ms, pair[0], pair[1]);
 		if (!new)
 			error_free_exit("malloc error", ms);
-		check_oversplit(new, pair);
+		//check_oversplit(new, pair);
 		ft_printf(RED"antes de petar"BLUE" %p %s %s"RESET"\n", new, new->key, new->value);
 		environment_add_node(ms, new);
 		utils_free_tab(&pair);
