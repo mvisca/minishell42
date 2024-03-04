@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/03 14:57:45 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/04 22:35:35 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ int	utils_free_ms(t_ms *ms, int clean_env)
 		utils_free_env_list(&ms->envlst);
 		ms->envlst = NULL;
 	}
+	if (ms->envarr)
+		utils_free_tab(&ms->envarr);
 	if (ms->token_list)
 	{
 		utils_free_token_list(&ms->token_list);

@@ -58,3 +58,21 @@ void	debug_command(t_ms *ms)
 	ft_printf(RED"PARSER"RESET""BLUE" -> "RESET"debug done\n");
 	ft_printf(BLUE"- - - - - - - - - -\n"RESET);
 }
+
+void	debug_envarr(t_ms *ms)
+{
+	int i;
+
+	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
+	ft_printf(RED"PARSER"RESET" <envarr> "BLUE" -> "RESET"debug start\n");
+	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
+	i = 0;
+	while (ms->envarr && ms->envarr[i])
+	{
+		ft_printf(RED"envarr[%d] >"RESET" %s\n", i, ms->envarr[i]);
+		i++;
+	}
+	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
+	ft_printf(RED"PARSER"RESET" <envarr> "BLUE" -> "RESET"debug done\n");
+	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
+}
