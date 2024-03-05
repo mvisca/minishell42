@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/03 14:57:45 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/05 23:40:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,8 @@ void	utils_free_cmnd_list(t_coml **cmnd)
 	t_coml	*next_cmnd;
 	int		i;
 
-	ft_printf(YELLOW"utils_free_cmnd_list "RESET"out\n");
 	while (*cmnd)
 	{
-		ft_printf(YELLOW"utils_free_cmnd_list "RESET"in\n");
 		next_cmnd = (*cmnd)->next;
 		while ((*cmnd)->redirect)
 		{

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/27 21:17:50 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/05 23:28:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,11 @@ size_t	str_line_len(char *line)
 	{
 		if (line[i] == S_QUOTE || line[i] == D_QUOTE)
 			str_close_quote(line, &i);
-		i++;
+		if (line[i])
+			i++;
 	}
 	return (i);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 char	*str_clean_spaces(char *str)
 {
