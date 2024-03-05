@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:59:09 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/04 22:57:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/05 23:43:12 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static int	parser_count(const char *s, char c)
 			if (i == 0 || s[i -1] == c)
 				count++;
 			str_close_quote((char *)s, &i);
-			i++;
+			if (s[i])
+				i++;
 		}
 		if (s[i] && s[i] != c && (i == 0 || s[i - 1] == c))
 			count++;
