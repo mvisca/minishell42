@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/04 20:27:58 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/05 23:56:38 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int ac, char **av, char **envp)
 		if (parser(&ms) != 0)
 			return (utils_free_ms(&ms, TRUE));
 		debug_command(&ms);
-		if (ms.cmnd_list->command && ft_strnstr(ms.cmnd_list->command[0], "exit", 4))
+		if (ms.cmnd_list->command && ms.cmnd_list->command[0] && ft_strnstr(ms.cmnd_list->command[0], "exit", 4))
 			break ;
 		utils_free_ms(&ms, FALSE);
 	}
