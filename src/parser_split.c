@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:59:09 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/05 23:43:12 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/06 01:09:51 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	**parser_do_split(char **spliter, const char *s, char c)
 	{
 		if (s[i] && s[i] != c && (i == 0 || s[i - 1] == c))
 			start = i;
-		if (s[i] == S_QUOTE || s[i] == D_QUOTE)
+		if ((s[i] == S_QUOTE || s[i] == D_QUOTE) && s[i + 1])
 			str_close_quote((char *)s, &i);
 		if (s[i] && s[i] != c && (s[i + 1] == c || !s[i + 1]))
 		{
@@ -72,6 +72,7 @@ static char	**parser_do_split(char **spliter, const char *s, char c)
 				parser_free_all(spliter);
 				return (NULL);
 			}
+			ft_printf(GREEN"split k-1\n"RESET, spliter[k-1]);
 		}
 		if (s[i])
 			i++;
