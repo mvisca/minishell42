@@ -1,0 +1,17 @@
+No interpretar
+    Quotes no cerrados
+    \
+    ;
+Manejar
+    ' -> no expandir metacaracteres
+    " -> expandir metacaracteres
+Implementar
+    <
+    >
+    <<
+    >>
+    |
+Manejar variables de entorno
+    expandir $ seguido de caracteres
+    $? -> exit code más reciente
+    
