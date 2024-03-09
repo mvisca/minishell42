@@ -6,12 +6,17 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/09 00:44:45 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/09 19:01:13 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MACROS_H
 # define MACROS_H
+
+// Debuger switch
+# ifndef DEBUG_ON
+#  define DEBUG_ON 1
+# endif
 
 // Para funciones de validación y otros
 # define FALSE  0
@@ -21,9 +26,6 @@
 // XAVI:: Está ok que in sea 0 y out sea 1 ?? O es al revés ??
 # define FD_IN     0
 # define FD_OUT    1
-
-// Macro con el título que despliega el prompt
-# define TITLE "💻 \x1b[33mMiniShell \x1b[1;35m@ \x1b[0m"
 
 // Macros para manipular funciones de LEXER
 # define END    	    0
@@ -56,6 +58,9 @@
 # define BOLD_MAGENTA "\x1b[1;35m"
 # define BOLD_CYAN   "\x1b[1;36m"
 # define BOLD_WHITE  "\x1b[1;37m"
+
+// Macro con el título que despliega el prompt
+# define TITLE "💻\001"YELLOW"\002 MiniShell\001"GREEN"\002 "
 
 // Para errores de sintaxis
 # define SYNTAX_PIPE_AT_0		1

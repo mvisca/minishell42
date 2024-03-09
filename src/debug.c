@@ -69,10 +69,26 @@ void	debug_envarr(t_ms *ms)
 	i = 0;
 	while (ms->envarr && ms->envarr[i])
 	{
-		ft_printf(RED"envarr[%d] >"RESET" %s\n", i, ms->envarr[i]);
+		if (ft_strnstr(ms->envarr[i], "PATH", 4))
+			ft_printf(RED"envarr[%d] >"BLUE" %s\n"RESET, i, ms->envarr[i]);
+		else if (ft_strnstr(ms->envarr[i], "SHLVL", 5))
+			ft_printf(RED"envarr[%d] >"YELLOW" %s\n"RESET, i, ms->envarr[i]);
+		else 
+			ft_printf(RED"envarr[%d] >"RESET" %s\n", i, ms->envarr[i]);
 		i++;
 	}
 	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
 	ft_printf(RED"PARSER"RESET" <envarr> "BLUE" -> "RESET"debug done\n");
 	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
+}
+
+int	debug_all(t_ms *ms, int env, int tok, int com)
+{
+	if (env)
+		debug_envarr(ms);
+	if (tok)
+		debug_token(ms);
+	if (com)
+		debug_command(ms);
+	return (1);
 }

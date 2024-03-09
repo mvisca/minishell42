@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/09 09:31:33 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/09 12:58:17 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 
 /*##################	DEBUG		#####################*/
 
+int        debug_all(t_ms *ms, int env, int tok, int com);
 void        debug_token(t_ms *ms);
 void        debug_command(t_ms *ms);
 void    	debug_envarr(t_ms *ms);

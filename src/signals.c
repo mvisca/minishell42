@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/06 18:08:47 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/09 13:40:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int signals_init(int i)
 		s_sa.sa_sigaction = &father_signal_handler;
 	else 
 		s_sa.sa_sigaction = &child_signal_handler;
-	s_sa.sa_flags = SA_RESTART;
+//	s_sa.sa_flags = SA_RESTART;
 	if (sigaction(SIGINT, &s_sa, NULL) == -1 \
 	|| sigaction(SIGQUIT,  &s_sa, NULL) == -1 \
 	|| sigaction(SIGTERM, &s_sa, NULL) == -1)
