@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/04 17:41:39 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/09 09:54:11 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,15 @@ void	environment_del_node(t_ms *ms, char *key)
 
 // Finds the node with the key and updates its value
 // To be tested
-void	ms_updateenv(t_ms *ms, char *key, char *value)
+void	environment_update_node(t_ms *ms, char *key, char *value)
 {
 	t_envl	*aux_node;
 
 	aux_node = environment_get_node(ms, key);
 	if (aux_node)
-		aux_node->value = ft_strdup(value);
+	{
+		if (aux_node->value)
+			free(aux_node->value);
+		aux_node->value = value;
+	}
 }

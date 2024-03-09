@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:18 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/17 23:00:25 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/09 09:53:34 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ char	*environment_get_value(t_ms *ms, char *key)
 
 	aux_node = environment_get_node(ms, key);
 	if (aux_node)
-		return (ft_strdup(aux_node->value));
+		return (aux_node->value);
 	return (NULL);
 }

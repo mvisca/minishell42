@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/03 10:50:48 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/09 09:59:31 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static char	*split_working_dir(t_ms *ms)
 	char	*last_path;
 
 	full_path = environment_get_value(ms, "PWD");
+	full_path = ft_strdup(full_path);
 	if (!full_path || full_path[0] == '\0')
 		return (ft_strdup("/"));
 	split_path = ft_split(full_path, '/');
@@ -58,6 +59,8 @@ int	interface_get_line(t_ms *ms)
 	ft_printf(GREEN"- - - - - - - - - - - - - - - - -\n"RESET);
 	prompt = build_prompt(ms);
 	ms->line = readline(prompt);
+	rl_on_new_line();
+	rl_redisplay();
 	free(prompt);
 	trim = ft_strtrim(ms->line, SPACES); 
 	if (trim[0] == '\0')

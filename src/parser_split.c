@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:59:09 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/06 01:09:51 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/09 00:45:51 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static char	**parser_do_split(char **spliter, const char *s, char c)
 				parser_free_all(spliter);
 				return (NULL);
 			}
-			ft_printf(GREEN"split k-1\n"RESET, spliter[k-1]);
 		}
 		if (s[i])
 			i++;

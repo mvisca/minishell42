@@ -14,4 +14,3 @@ Implementar
 Manejar variables de entorno
     expandir $ seguido de caracteres
     $? -> exit code más reciente
-    

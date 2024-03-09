@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:10:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/04 18:44:10 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/03/09 09:37:27 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_envl	*environment_init(t_ms *ms, char **envp)
 	t_envl	*new;
 
 	i = 0;
+	ms->envlst = NULL;
 	while (envp && envp[i])
 	{
 		pair = ft_split(envp[i], '=');

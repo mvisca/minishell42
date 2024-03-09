@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/05 23:43:04 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/09 09:56:46 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ void	utils_free_env_list(t_envl **env)
 	while (*env)
 	{
 		next = (*env)->next;
-		free((*env)->key);
-		free((*env)->value);
+		if ((*env)->key)
+			free((*env)->key);
+		if ((*env)->value)
+			free((*env)->value);
 		free(*env);
 		*env = next;
 	}

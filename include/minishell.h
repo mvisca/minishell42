@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
+/*   Updated: 2024/03/09 09:31:33 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -11,9 +23,12 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <stdio.h>
 # include <stdlib.h>
+# include <sys/types.h>
 # include <unistd.h>
 
+// # include "global.h"
 # include "macros.h"
 # include "structures.h"
 # include "../lib/libft/include/libft.h"
@@ -32,6 +47,8 @@ t_envl	    *environment_init(t_ms *ms, char **envp);
 t_envl  	*environment_new_node(t_ms *ms, char *key, char *value);
 t_envl  	*environment_add_node(t_ms *ms, t_envl *envnode);
 void		environment_del_node(t_ms *ms, char *key);
+void	    environment_update_node(t_ms *ms, char *key, char *value);
+
 // Getters
 t_envl  	*environment_get_node(t_ms *ms, char *key);
 char		*environment_get_value(t_ms *ms, char *key);
@@ -75,6 +92,10 @@ char        **parser_split(char *str);
 int			parser_add_redirect(t_coml *cmnd, t_redl *redir);
 // int			parser_init_redir(t_coml *command, t_tokl *token);
 int         parser_update_envarr(t_ms *ms);
+
+/*##################	SIGNAL		#####################*/
+
+int         signals_init(int i);
 
 /*##################	UTILS		#####################*/
 // Memory

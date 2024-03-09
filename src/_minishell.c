@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/06 01:09:40 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/09 09:04:22 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ int	main(int ac, char **av, char **envp)
 {
 	t_ms	ms;
 
+	signals_init(1);
 	initialize(&ms, ac, av, envp);
+	ft_printf("SHLVL="RED"%s"RESET, environment_get_value(&ms, "SHLVL"));
 	while (1)
 	{
 		if (interface_get_line(&ms) != 0)

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/04 18:43:01 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/03/09 09:38:07 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static t_coml	*make_command(t_ms *ms)
 // Tested Ok - Validar con las nuevas estructuras (ver con Marta)
 void	initialize(t_ms *ms, int ac, char **av, char **envp)
 {
+	int	lvl;
+	
 	if (ac > 1 || av[1])
 		error_exit("este programa no admite argumentos\n", ms);
 	ms->line = NULL;
@@ -45,10 +47,12 @@ void	initialize(t_ms *ms, int ac, char **av, char **envp)
 	ms->cmnd_list_fake = make_command(ms); // para desarrollar executor
 	if (!envp)
 		error_exit("variable no encontrada: no se recibió evnp\n", ms);
-	ms->envlst = NULL;
+	// ms->envlst = NULL; // movido al environment_init
 	ms->envlst = environment_init(ms, envp);
 	ms->envarr = NULL;
 	ms->init_fd[FD_IN] = dup(STDIN_FILENO);
 	ms->init_fd[FD_OUT] = dup(STDOUT_FILENO);
+	lvl = ft_atoi(environment_get_value(ms, "SHLVL")) + 1;
+	environment_update_node(ms, "SHLVL", ft_itoa(lvl));
 	rl_initialize();
 }

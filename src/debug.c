@@ -30,9 +30,9 @@ void	debug_command(t_ms *ms)
 	int		i;
 	int		count;
 
-	ft_printf(YELLOW"- - - - - - - - - - -\n"RESET);
-	ft_printf(RED"PARSER"RESET""BLUE" -> "RESET"debug start\n");
-	ft_printf(BLUE"- - - - - - - - - - -\n"RESET);
+	ft_printf(GREEN"- - - - - - - - - - -\n"RESET);
+	ft_printf(GREEN"PARSER"RESET""BLUE" -> "RESET"debug start\n");
+	ft_printf(RED"- - - - - - - - - - -\n"RESET);
 	cmnd_aux = ms->cmnd_list;
 	count = 1;
 	while (cmnd_aux)
@@ -54,9 +54,9 @@ void	debug_command(t_ms *ms)
 		count++;
 		cmnd_aux = cmnd_aux->next;
 	}
-	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
-	ft_printf(RED"PARSER"RESET""BLUE" -> "RESET"debug done\n");
-	ft_printf(BLUE"- - - - - - - - - -\n"RESET);
+	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
+	ft_printf(GREEN"PARSER"RESET""BLUE" -> "RESET"debug done\n");
+	ft_printf(RED"- - - - - - - - - -\n"RESET);
 }
 
 void	debug_envarr(t_ms *ms)
