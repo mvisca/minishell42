@@ -3,51 +3,27 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
+#    By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/03/06 17:13:13 by mvisca           ###   ########.fr        #
+#    Updated: 2024/03/11 20:30:40 by mvisca-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#-------------------#
-#	FORMAT			#
-#-------------------#
 
-RED				:= \033[0;31m
-GREEN			:= \033[0;32m
-YELLOW			:= \033[0;33m
-BLUE			:= \033[0;34m
-NC				:= \033[0m
 
-#-------------------#
-#	TARGET			#
-#-------------------#
 
-NAME			:=	minishell
+DEF_COLOR	:=	\033[1;97m
+PINK		:=	\033[1;95m
+GREEN		:=	\033[1;92m
+CIAN		:=	\033[1;96m
 
-#-------------------#
-#	INGREDIENTS		#
-#-------------------#
+NAME        = minishell
 
-MS_INC_DIR		:=	include/
-MS_INCLUDE		:=	minishell.h
+HEADER      = ./include/minishell.h
 
-LIB_DIR			:=	lib/libft/
-LIB_INC_DIR		:=	$(LIB_DIR)include/
-LIB_TGT			:=	$(LIB_DIR)libft.a
-LIB_HEAD		:=	$(LIB_INC_DIR)libft.h
-
-RDLN_DIR		:=	lib/readline/
-RDLN_INC_DIR	:=	lib/readline/
-RDLN_TGT		:=	$(RDLN_DIR)readline.a
-RDLN_HEAD		:=	$(RDLN_DIR)readline.h
-
-SRCS_DIR		:=	src/
-
-OBJS_DIR		:=	.build/
-
-FILES			:=	_minishell.c 				\
+SRC_PATH    = src/
+SRC         = 		_minishell.c 				\
 					debug.c						\
 					environment_getters.c		\
 					environment_init.c			\
@@ -66,74 +42,68 @@ FILES			:=	_minishell.c 				\
 					utils_free.c				\
 					utils_str.c
 
-SRCS			:=	$(FILES:%.c=$(SRCS_DIR)%.c)
+SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 
-OBJS			:=	$(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
+LIBFT_PATH	= lib/libft/
+LIBFT		= $(LIBFT_PATH)/libft.a
 
-DEPS			:=	$(OBJS:.o=.d)
+RLINE_PATH	= lib/readline/
+RLINE		= $(RLINE_PATH)/libreadline.a
+RLINE_H		= $(RLINE_PATH)/libhistory.a
 
-DEPS			+=	$(DEPS_LIB)
+LIB_PATH	= -L$(LIBFT_PATH) -L$(RLINE_PATH) 
+LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap 
 
-#-------------------#
-#	UTILS			#
-#-------------------#
+OBJ_PATH	= ./OBJ/
+OBJ			= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
+DEP			= $(addprefix $(OBJ_PATH), $(OBJ:.o=.d))
 
-CC				:=	gcc
+INC_PATH	= ./includes/ ./lib/ $(LIBFT_PATH) $(RLINE_PATH)
+INC			= $(addprefix -I, $(INC_PATH))
 
-CFLAGS			:=	-Wall -Wextra -MMD -MP -g -fsanitize=address
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror -MMD 
+RM			= rm -f
 
-DIR_DUP			:=	mkdir -p $(OBJS_DIR)
 
-MAKEFLAGS		+=	--no-print-directory
-RM				:=	rm -r -f
-
-#-------------------#
-#	RECIPES			#
-#-------------------#
-
-all: callforlib $(NAME)
-
-$(NAME): $(OBJS)
-	@echo "$(YELLOW)Compiling $(RED)$@ $(YELLOW)ready! $(NC)"
-	@$(CC) $(CFLAGS) $(OBJS) -L./$(RDLN_DIR) -lreadline -lhistory -ltermcap -L./$(LIB_DIR) -lft -I./$(RDLN_INC_DIR) -I./$(LIB_INC_DIR) -I./$(MS_INC_DIR) -o $(NAME)
-
-$(OBJS_DIR)%.o: $(SRCS_DIR)%.c Makefile $(LIB_TGT)
-	@$(DIR_DUP)
-	@$(CC) $(CFLAGS) -c $< -I./$(RDLN_INC_DIR) -I./$(LIB_INC_DIR) -I./$(MS_INC_DIR) -o $@
-	@echo "$(GREEN)Compiling... $(NC)$(notdir $<) $(RED)-> $(NC)$(notdir $@)"
--include $(DEPS)
-
-$(LIB_TGT): $(LIB_DIR)Makefile $(LIB_HEAD)
-	@$(MAKE) -C $(LIB_DIR)
-
-$(RDLN_TGT):
-	@$(MAKE) -C $(RDLN_DIR)
-
-callforlib:
-	@$(MAKE) -C $(RDLN_DIR)
-	@$(MAKE) -C $(LIB_DIR)
-
+all: $(RLINE) $(OBJ_PATH) subsystems $(NAME)
+	
 clean:
-	@echo "$(RED)Deleting objects for... $(NC)$(NAME) *.o *.d $(RED)>> 🗑️$(NC)"
-	@$(RM) $(OBJS_DIR)
-	@$(MAKE) -C $(LIB_DIR) clean
-	@echo "$(RED)Deleting builds for... $(NC)Readline Library $(RED)>> 🗑️$(NC)"
-#	@$(MAKE) -C $(RDLN_DIR) clean --silent
+	@$(RM) $(OBJS) $(DEPS)
+	@$(RM) -rf $(OBJ_PATH)
+	@make -s -C $(LIBFT_PATH) clean
+	@echo "$(PINK)Objects removed$(DEF_COLOR)"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo "$(RED)Deleting... $(NC)$(NAME) $(RED)>> 🗑️$(NC)"
-	@$(MAKE) -C $(LIB_DIR) fclean
+	@make -s -C $(LIBFT_PATH) fclean
+	@echo "$(PINK)Minishell removed$(DEF_COLOR)"
 
 re: fclean all
 
-test1:
-	@echo "$(BLUE)$(SRCS)$(NC)"
+cleanrl:
+	@make -s -C $(RLINE_PATH) mostlyclean
+	@echo "$(PINK)READLINE removed$(DEF_COLOR)"
 
-test2:
-	@echo "$(BLUE)$(OBJS)$(NC)"
+$(NAME)::  $(OBJ) ./$(LIBFT) ./$(RLINE) ./$(RLINE_H)
+	@$(CC) $(CFLAGS) $(^) -ltermcap -lreadline -o $(NAME)
+	@echo "$(GREEN)MINISHELL compiled :D$(DEF_COLOR)"
 
-test3:
-	@echo "$(BLUE)$(FILES)$(NC)"
+subsystems:
+	@make -s -C $(LIBFT_PATH)
 
-.PHONY: clean fclean re callforlib
+$(OBJ_PATH):
+	@mkdir -p $(OBJ_PATH)
+
+$(RLINE):
+	@cd libs/readline && ./configure &>/dev/null
+	@$(MAKE) -C $(RLINE_PATH) --no-print-directory
+	@echo "$(CIAN)READLINE compiled$(DEF_COLOR)"
+
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c Makefile $(HEADER)
+	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
+-include ${DEP}
+
+# Phony
+.PHONY: all clean fclean re cleanrl
