@@ -6,11 +6,23 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/09 12:52:33 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/11 09:07:54 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+// actualiza el nivel de shell
+static void	init_shell_level(t_ms *ms)
+{
+	int		i_lvl;
+	char	*a_lvl;
+
+	a_lvl = environment_get_value(ms, "SHLVL");
+	i_lvl = ft_atoi(a_lvl) + 1;
+	a_lvl = ft_itoa(i_lvl);
+	environment_update_node(ms, "SHLVL", a_lvl);
+}
 
 // init temporal para deasrrollar executor mientras completo el parser
 static t_coml	*make_command(t_ms *ms)
@@ -37,8 +49,6 @@ static t_coml	*make_command(t_ms *ms)
 // Tested Ok - Validar con las nuevas estructuras (ver con Marta)
 void	initialize(t_ms *ms, int ac, char **av, char **envp)
 {
-	int	lvl;
-	
 	if (ac > 1 || av[1])
 		error_exit("este programa no admite argumentos\n", ms);
 	ms->line = NULL;
@@ -52,7 +62,6 @@ void	initialize(t_ms *ms, int ac, char **av, char **envp)
 	ms->envarr = NULL;
 	ms->init_fd[FD_IN] = dup(STDIN_FILENO);
 	ms->init_fd[FD_OUT] = dup(STDOUT_FILENO);
-	lvl = ft_atoi(environment_get_value(ms, "SHLVL")) + 1;
-	environment_update_node(ms, "SHLVL", ft_itoa(lvl));
+	init_shell_level(ms);
 	rl_initialize();
 }

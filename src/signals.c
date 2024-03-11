@@ -6,16 +6,14 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/09 13:40:25 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/11 09:01:52 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void father_signal_handler(int signum, siginfo_t *info, void *ctx)
+static void father_sig_handler(int signum)
 {
-	(void)ctx;
-	(void)info;
 	if (signum == SIGINT ) // macros de signals
 	{
 		rl_replace_line("", 0);
@@ -32,10 +30,8 @@ static void father_signal_handler(int signum, siginfo_t *info, void *ctx)
 		ft_printf("CTRL+\\\n");
 }
 
-static void child_signal_handler(int signum, siginfo_t *info, void *ctx)
+static void child_sig_handler(int signum)
 {
-	(void)ctx;
-	(void)info;
 	if (signum == SIGINT ) // macros de signals
 	{
 		rl_replace_line("", 0);
@@ -52,18 +48,28 @@ static void child_signal_handler(int signum, siginfo_t *info, void *ctx)
 		ft_printf("CTRL+\\\n");
 }
 
-int signals_init(int i)
+// Recibe el pid como argumento.
+// En los fork se deberá pasar para que se gestion father y childs.
+int signals_init(int pid)
 {
-	struct sigaction	s_sa;
+	struct sigaction	sa;
 
-	if (i)
-		s_sa.sa_sigaction = &father_signal_handler;
-	else 
-		s_sa.sa_sigaction = &child_signal_handler;
-//	s_sa.sa_flags = SA_RESTART;
-	if (sigaction(SIGINT, &s_sa, NULL) == -1 \
-	|| sigaction(SIGQUIT,  &s_sa, NULL) == -1 \
-	|| sigaction(SIGTERM, &s_sa, NULL) == -1)
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGINT);
+	sigaddset(&sa.sa_mask, SIGQUIT);
+	sigaddset(&sa.sa_mask, SIGTERM);
+	
+	if (pid < 0)
+		return (1);
+	else if (pid == 0)
+		sa.sa_handler = child_sig_handler;
+	else
+		sa.sa_handler = father_sig_handler;
+	//	s_sa.sa_flags = SA_RESTART;
+	if (sigaction(SIGINT, &sa, NULL) == -1 \
+	|| sigaction(SIGQUIT,  &sa, NULL) == -1 \
+	|| sigaction(SIGTERM, &sa, NULL) == -1)
 		return (1);
 	return (0);
 }
