@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/11 22:50:25 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/12 18:58:36 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,44 @@
 // 	return (0);
 // }
 
-void	signal_ctrl_c(int sig)
+static void	signal_ctrl_term(int sig)
 {
-	if (sig == SIGINT)
+	if (sig == SIGTERM)
 	{
-		printf("\n");
+		printf("TERM\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
 }
 
-void	signals_init(void)
+static void	signal_ctrl_quit(int sig)
+{
+	if (sig == SIGQUIT)
+	{
+		printf("QUIT\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+
+static void	signal_ctrl_int(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("INT\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+
+void	signal_init(void)
 {
 	rl_catch_signals = 0;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, signal_ctrl_c);
+	signal(SIGTERM, signal_ctrl_term);
+	signal(SIGQUIT, signal_ctrl_quit);
+	signal(SIGINT, signal_ctrl_int);
 }
 //https://github.com/DinaGala/42_minishell/blob/main/src/signals/signals.c

@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/03/12 09:46:27 by mvisca           ###   ########.fr        #
+#    Updated: 2024/03/12 10:12:17 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,20 +106,20 @@ RM				:=	rm -r -f
 #	RECIPES			#
 #-------------------#
 
-all: callforlib $(BUILD) $(NAME)
+all: callforlib $(NAME)
 
 $(NAME): $(OBJS) $(LFT_A) $(RL_RL_A) $(RL_HY_A)
 	@echo "$(YELLOW)Compile... $(RED)$@ $(YELLOW)ready! $(NC)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBS_PATH) $(LIBS_PACK) -o $(NAME)
 
-$(BUILD):
-	@$(DIR_DUP)
-	@echo "$(GREEN)Create $(NC)$(@) ready! $(NC)"
-
-$(BUILD)%.o: $(SRC)%.c Makefile $(LFT_A) $(RL_RL_A) $(RL_HY_A)
+$(BUILD)%.o: $(SRC)%.c Makefile $(LFT_A) $(RL_RL_A) $(RL_HY_A) $(BUILD)
 	@$(CC) $(CFLAGS) $(INCS_PATH) -c $< -o $@
 	@echo "$(GREEN)Compile... $(NC)$(notdir $<) $(RED)-> $(NC)$(notdir $@)"
 -include $(DEPS)
+
+$(BUILD):
+	@$(DIR_DUP)
+	@echo "$(GREEN)Create $(NC)$(@) ready! $(NC)"
 
 $(LFT_A): $(LFT)/Makefile
 	@$(MAKE) -C $(LFT) $(MAKE_FLAGS)
@@ -128,17 +128,17 @@ $(RL_RL_A):
 	@$(MAKE) -C $(RL) $(MAKE_FLAGS)
 
 callforlib:
-	@cd $(RL) && ./configure &>/dev/null
-	@$(MAKE) -C $(RL) $(MAKE_FLAGS)
-	@echo "$(YELLOW)Build... $(RED)readline $(YELLOW)ready! $(NC)"
+#	@cd $(RL) && ./configure &>/dev/null
+#	@$(MAKE) -C $(RL) $(MAKE_FLAGS)
+#	@echo "$(YELLOW)Build... $(RED)readline $(YELLOW)ready! $(NC)"
 	@$(MAKE) -C $(LFT) $(MAKE_FLAGS)
 
 clean:
 	@echo "$(RED)Deleting objects for... $(NC)$(NAME) *.o *.d $(RED)>> 🗑️$(NC)"
 	@$(RM) $(BUILD)
 	@$(MAKE) -C $(LFT) clean $(MAKE_FLAGS)
-	@echo "$(RED)Deleting objects for... $(NC)readline $(RED)>> 🗑️$(NC)"
-	@$(MAKE) -C $(RL) clean $(MAKE_FLAGS)
+#	@echo "$(RED)Deleting all for... $(NC)readline $(RED)>> 🗑️$(NC)"
+#	@$(MAKE) -C $(RL) clean $(MAKE_FLAGS)
 
 fclean: clean
 	@$(RM) $(NAME)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/11 20:46:53 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/03/12 12:52:53 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,10 @@ int         parser_update_envarr(t_ms *ms);
 
 /*##################	SIGNAL		#####################*/
 
-void         signals_init(void);
+void        signal_init(void);
 
 /*##################	UTILS		#####################*/
+
 // Memory
 int 		utils_free_ms(t_ms *ms, int clean_env);
 void		utils_free_tab(char ***tab);
@@ -106,6 +107,7 @@ void		utils_free_env_list(t_envl **env);
 void		utils_free_token_list(t_tokl **token);
 void		utils_free_cmnd_list(t_coml **cmnd);
 void		utils_free_cmnd_list_fake(t_ms *ms);
+
 // String
 size_t      str_line_len(char *line);
 void        str_close_quote(char *line, size_t *i);

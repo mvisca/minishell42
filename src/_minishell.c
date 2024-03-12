@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _minishell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/11 20:47:16 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/03/12 12:51:49 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int ac, char **av, char **envp)
 {
 	t_ms	ms;
 
-	signals_init();
+	signal_init();
 	initialize(&ms, ac, av, envp);
 	while (1)
 	{

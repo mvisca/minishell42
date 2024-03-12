@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/09 00:45:07 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/12 20:09:23 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,8 @@ typedef struct s_coml
 	struct s_coml		*next;
 }	t_coml;
 
-typedef struct debug
-{
-	int	command_count;
-} t_deb;
-
 typedef struct s_ms
 {
-	t_deb				debu;
 	char				*line;
 	t_tokl				*token_list;
 	t_coml				*cmnd_list;
