@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/11 20:35:25 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/03/11 22:50:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,8 @@
 // 		sa.sa_handler = child_sig_handler;
 // 	else
 // 		sa.sa_handler = father_sig_handler;
-// 	//	s_sa.sa_flags = SA_RESTART;
-// 	if (sigaction(SIGINT, &sa, NULL) == -1 \
-// 	|| sigaction(SIGQUIT,  &sa, NULL) == -1 \
-// 	|| sigaction(SIGTERM, &sa, NULL) == -1)
+// 		s_sa.sa_flags = SA_RESTART;
+// 	if (sigaction(SIGINT, &sa, NULL) == -1 || sigaction(SIGQUIT,  &sa, NULL) == -1 || sigaction(SIGTERM, &sa, NULL) == -1)
 // 		return (1);
 // 	return (0);
 // }
