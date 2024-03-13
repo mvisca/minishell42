@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/03/12 10:12:17 by mvisca           ###   ########.fr        #
+#    Updated: 2024/03/13 23:36:07 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,8 @@ OTHER_H			:=	$(INC)/macros.h $(INC)/structures.h
 # Libft
 LFT				:=	./lib/libft
 LFT_INC			:=	$(LFT)/include
-LFT_INC_H		:=	$(LIB_LFT_INC)/libft.h
-LFT_A			:=	$(LIB_LFT)/libft.a
+LFT_INC_H		:=	$(LFT_INC)/libft.h
+LFT_A			:=	$(LFT)/libft.a
 
 # Readline
 RL				:=	./lib/readline
@@ -108,24 +108,24 @@ RM				:=	rm -r -f
 
 all: callforlib $(NAME)
 
-$(NAME): $(OBJS) $(LFT_A) $(RL_RL_A) $(RL_HY_A)
+$(NAME): $(BUILD) $(OBJS)
 	@echo "$(YELLOW)Compile... $(RED)$@ $(YELLOW)ready! $(NC)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBS_PATH) $(LIBS_PACK) -o $(NAME)
 
-$(BUILD)%.o: $(SRC)%.c Makefile $(LFT_A) $(RL_RL_A) $(RL_HY_A) $(BUILD)
+$(BUILD)%.o: $(SRC)%.c Makefile $(LFT_A) $(MS_H) $(OTHER_H)
 	@$(CC) $(CFLAGS) $(INCS_PATH) -c $< -o $@
 	@echo "$(GREEN)Compile... $(NC)$(notdir $<) $(RED)-> $(NC)$(notdir $@)"
 -include $(DEPS)
 
-$(BUILD):
-	@$(DIR_DUP)
-	@echo "$(GREEN)Create $(NC)$(@) ready! $(NC)"
-
-$(LFT_A): $(LFT)/Makefile
+$(LFT_A): $(LFT)/Makefile $(LFT_INC_H)
 	@$(MAKE) -C $(LFT) $(MAKE_FLAGS)
 
 $(RL_RL_A):
 	@$(MAKE) -C $(RL) $(MAKE_FLAGS)
+
+$(BUILD):
+	@$(DIR_DUP)
+	@echo "$(GREEN)Create $(NC)$(@) ready! $(NC)"
 
 callforlib:
 #	@cd $(RL) && ./configure &>/dev/null
