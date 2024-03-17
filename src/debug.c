@@ -92,3 +92,14 @@ int	debug_all(t_ms *ms, int env, int tok, int com)
 		debug_command(ms);
 	return (1);
 }
+
+void	debug_expander(char *str)
+{
+	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
+	ft_printf(RED"EXPANDER"RESET" <envarr> "BLUE" -> "RESET"debug start\n");
+	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
+	ft_printf("\t%s\n", str);
+	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
+	ft_printf(RED"EXPANDER"RESET" <envarr> "BLUE" -> "RESET"debug done\n");
+	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
+}

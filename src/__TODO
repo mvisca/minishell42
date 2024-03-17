@@ -1,10 +1,22 @@
-SIGNAL
-    CTRL C - OK
-    CTRL D - 
-    CTRL \
-BUILTINS
+DONE:
+    UPDATE_SHELL_LEVEL +1
+    SIGNAL
+        CTRL C - OK
+        CTRL D - 
+        CTRL \
+        PENDING: ADAPT THE HANDLER FUNCTIONS BEHAVIOUR
+
+
 EXPANDER
-EXECUTOR
-UPDATE_SHELL_LEVEL +1
+    $var
+    $(var)
+    $((var or expresion))
+        cómo interpreta los caracteres dentro de una expresión
+            son tratados como integres que se convierten a cero?
+            son tratados como un is_digit?
+    
+
 MOVE SYNTAX CHEK TO PARSER OR LEXER
+BUILTINS
+EXECUTOR
 HERE DOC EN PARSER

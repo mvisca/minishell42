@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/12 12:52:53 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/17 18:55:08 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@
 
 /*##################	DEBUG		#####################*/
 
-int        debug_all(t_ms *ms, int env, int tok, int com);
+int         debug_all(t_ms *ms, int env, int tok, int com);
 void        debug_token(t_ms *ms);
 void        debug_command(t_ms *ms);
 void    	debug_envarr(t_ms *ms);
+void	    debug_expander(char *str);
 
 /*##################	ENVIRONMENT	#####################*/
 // Factory
@@ -66,7 +67,9 @@ int			errors_syntax_curly_brackets(char *line);
 
 /*##################	EXECUTOR	#####################*/
 
-/*##################	EXPANSOR	#####################*/
+/*##################	EXPANDER	#####################*/
+
+int			expander(t_ms *ms);
 
 /*##################	INITIALIZER	#####################*/
 
@@ -111,7 +114,5 @@ void		utils_free_cmnd_list_fake(t_ms *ms);
 // String
 size_t      str_line_len(char *line);
 void        str_close_quote(char *line, size_t *i);
-char        *str_clean_spaces(char *str);
-int         str_only_spaces(char *str);
 
 #endif

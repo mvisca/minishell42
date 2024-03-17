@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/06 01:09:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/17 18:39:18 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	parser(t_ms *ms)
 	cmnd = NULL;
 	while (token->type != END)
 	{
-		if ( !cmnd)
+		if (!cmnd)
 		{
 			parser_new_command(&cmnd);
 			if (!cmnd)

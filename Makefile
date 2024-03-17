@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/03/13 23:36:07 by mvisca           ###   ########.fr        #
+#    Updated: 2024/03/16 09:22:32 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ FILES			:=	_minishell.c 				\
 					errors_syntax_cases.c		\
 					errors_syntax.c				\
 					errors.c					\
+					expander.c					\
 					initialize.c				\
 					interface.c					\
 					lexer.c						\
