@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/17 18:53:30 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/17 19:04:48 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ size_t	str_line_len(char *line)
 	while (line[i] && line[i] != '|' && line[i] != '<' && line[i] != '>')
 	{
 		if (line[i] == S_QUOTE || line[i] == D_QUOTE)
+		{
 			str_close_quote(line, &i);
-		if (line[i])
-			i++;
+			if (line[i])
+				i++;
+		}	
 	}
 	return (i);
 }
