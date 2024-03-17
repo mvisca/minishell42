@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/04 22:42:06 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/09 15:38:36 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int ac, char **av, char **envp)
 		debug_envarr(&ms);
 		if (ms.cmnd_list->command && ft_strnstr(ms.cmnd_list->command[0], "exit", 4))
 			break ;
+		ft_execute(&ms); //llamada al executer
 		utils_free_ms(&ms, FALSE);
 	}
 	ft_printf(YELLOW"Natural exit\n"RESET);

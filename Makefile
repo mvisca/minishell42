@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/03/04 22:17:15 by mvisca           ###   ########.fr        #
+#    Updated: 2024/03/09 15:40:24 by fcatala-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ FILES			:=	_minishell.c 				\
 					errors_syntax_cases.c		\
 					errors_syntax.c				\
 					errors.c					\
+					executer.c					\
 					initialize.c				\
 					interface.c					\
 					lexer.c						\
@@ -135,4 +136,4 @@ test2:
 test3:
 	@echo "$(BLUE)$(FILES)$(NC)"
 
-.PHONY: clean fclean re callforlib
+.PHONY: all clean fclean re callforlib

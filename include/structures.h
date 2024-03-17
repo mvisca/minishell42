@@ -18,6 +18,7 @@ typedef struct s_tokl
 typedef struct s_redl
 {
 	int					type;
+	int					fdes;
 	char				*path;
 	struct s_redl		*next;
 } t_redl;
@@ -31,7 +32,7 @@ typedef struct s_coml
 
 typedef struct debug
 {
-	int	command_count;
+	int	cmnd_count;
 } t_deb;
 
 typedef struct s_ms

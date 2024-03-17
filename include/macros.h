@@ -9,9 +9,16 @@
 // XAVI:: Está ok que in sea 0 y out sea 1 ?? O es al revés ??
 # define FD_IN     0
 # define FD_OUT    1
+# define FD_HERE   2
+# define H_FILE    ".xyz_here_tmp.tmp"
 
-// Macro con el título que despliega el prompt
+// Macros con el título que despliega el prompt
 # define TITLE "💻 \x1b[33mMiniShell \x1b[1;35m@ \x1b[0m"
+// falta definir titulo heredoc similar a heredoc>
+
+// Macros para pipes
+# define R_END   0
+# define W_END   1
 
 // Macros para manipular funciones de LEXER
 # define END    	    0

@@ -47,7 +47,7 @@ int			errors_syntax(t_ms *ms);
 int			errors_syntax_curly_brackets(char *line);
 
 /*##################	EXECUTOR	#####################*/
-
+int			ft_execute(t_ms *ms);
 /*##################	EXPANSOR	#####################*/
 
 /*##################	INITIALIZER	#####################*/
