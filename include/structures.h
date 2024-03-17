@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/17 17:51:57 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/17 22:38:34 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,33 +54,5 @@ typedef struct s_ms
 	int						prev_fd[2];
 	int						exit_code;
 }	t_ms;
-
-// Expander
-typedef enum expan_token_type
-{
-	end,
-	dollar,
-	curly_open,
-	curly_close,
-	curve_open,
-	curve_close,
-	square_open,
-	square_close,
-	character
-}	t_expan_token_type;
-
-typedef struct	s_expan_token
-{
-	int						index;
-	int						type;
-}	t_expan_token;
-
-typedef struct	s_expander
-{
-	t_expan_token			*et;
-	int						str_num;
-	int						char_index;
-	int						token;
-}	t_expander;
 
 #endif

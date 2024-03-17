@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/17 19:04:48 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/17 19:36:59 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,22 @@ void	str_close_quote(char *line, size_t *i)
 size_t	str_line_len(char *line)
 {
 	size_t	i;
+	int		flag;
 
 	i = 0;
+	flag = 0;
 	while (line[i] && line[i] != '|' && line[i] != '<' && line[i] != '>')
 	{
+		flag = 0;
 		if (line[i] == S_QUOTE || line[i] == D_QUOTE)
 		{
 			str_close_quote(line, &i);
 			if (line[i])
 				i++;
-		}	
+			flag = 1;
+		}
+		if (!flag)
+			i++;
 	}
 	return (i);
 }

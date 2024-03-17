@@ -6,11 +6,70 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/17 18:57:12 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/17 23:59:36 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static int	expander_var_name(t_ms *ms, size_t i, size_t *j)
+{
+	// tiene el punto de partida de ms->cmnd_list->command[i][j]
+	// mientras que no sea D_QUOTE or '\0' or !ft_isalnum
+		// junta el nombre de la variable
+	// con el nombre de la variabla la busca
+		// si encuentra suistituye el valor en el string
+		// si no la encuentra es nada
+	return (0);
+}
+
+static int	expander_in_d_quote(t_ms *ms, size_t i, size_t *j)
+{
+	char	*str;
+	char	*start;
+
+	str = ms->cmnd_list->command[i];
+	start = ft_strchr(str, DOLLAR);
+	if (!start)
+		str_close_quote(str, j); // j es puntero
+	else
+		expander_var_name(ms, i, j); // j es puntero
+
+
+	// itera por str
+	// busca $ o EOF o "
+
+	return (0);
+}
+
+int expander(t_ms *ms)
+{
+	size_t	i;
+	size_t	j;
+	int		count;
+	char	*str;
+
+	i = 0;
+	count = ft_tablen(ms->cmnd_list->command);
+	while (ms->cmnd_list && ms->cmnd_list->command && ms->cmnd_list->command[i])
+	{
+		str = &ms->cmnd_list->command[i];
+		j = 0;
+		while (str[j])
+		{
+			if (str[j] == S_QUOTE)
+				str_close_quote(str[j], (size_t *)&j);
+			else if (str[j] == D_QUOTE)
+				expander_in_d_quote(ms, i, &j);
+			else if (str[j] == DOLLAR)
+				expander_var_name(ms, i, &j); // '\0' '"' !alphanum 
+			if (ms->cmnd_list->command[i][j])
+				j++;
+		}
+		i++;
+	}
+	return (0);
+}
 
 /*
 expandir
@@ -47,129 +106,3 @@ $(v1)
 v1:command not found
 
 */
-
-static int	expander_set_values(t_expander *ex, int k, int j, t_expan_token_type token_type)
-{
-	ex->et[j].type = token_type;
-	ex->et[i].index = j;
-}
-
-// Para cada 'command' se crea un objeto t_expander_token (con type e index)
-static int	expander_tokenize(char *command, t_expander *ex)
-{
-	int	i;
-	int	start;
-
-	i = 0;
-	while (command[i])
-	{
-		if (command[i] == S_QUOTE)
-			str_close_quote(command, &i);
-		if (command[i])
-			i++;
-		if (command[i] == $)
-		{
-			if (sq > 0 && newstr[i] == D_QUOTE)
-				dq *= -1;
-			if (dq > 0 && newstr[i] == S_QUOTE)
-				sq *= -1;
-			
-			start = i;
-			
-		}
-	}
-}
-
-
-void	str_close_quote(char *line, size_t *i)
-{
-	char	c;
-
-	c = line[*i];
-	(*i)++;
-	while (line[*i] && line[*i] != c)
-		(*i)++;
-}
-
-
-	int		sq;
-	int		dq;
-	int		i;
-
-	sq = 1;
-	dq = 1;
-	i = 0;
-	while (str[i])
-	{
-		if (sq > 0 && newstr[i] == D_QUOTE)
-			dq *= -1;
-		if (dq > 0 && newstr[i] == S_QUOTE)
-			sq *= -1;
-		while (!sq && !dq && newstr[i] && newstr[i + 1] && \
-			ft_isspace(newstr[i]) && ft_isspace(newstr[i + 1]))
-			ft_memmove(&newstr[i + 1], &newstr[i + 2], ft_strlen(&newstr[i + 2]));
-		i++;
-	}
-
-		// if (command[ex->j] == '$')
-		// {
-		// 	expander_set_values(ex, ex->k, ex->j, dollar);
-		// 	ex->et[ex->k].type = dollar;
-		// }
-		// else if (command[ex->j] == '{')
-		// {
-		// 	ex->et[ex->k].type = curly_open;
-		// }	
-		// else if (command[ex->j] == '}')
-		// {
-		// 	ex->et[ex->k].type = curly_open;
-		// }
-		// else if (command[ex->j] == '(')
-		// {
-		// 	ex->et[ex->k].type = curve_open;
-		// }
-		// else if (command[ex->j] == ')')
-		// {
-		// 	ex->et[ex->k].type = curve_open;
-		// }
-		// else if (command[ex->j] == '[')
-		// {
-		// 	ex->et[ex->k].type = square_open;
-		// }
-		// else if (command[ex->j] == ']')
-		// {
-		// 	ex->et[ex->k].type = square_close;
-		// }
-		// else if (command[ex->k] != '\0')
-		// {
-		// 	ex->et[ex->k].type = character;
-		// }
-		// ex->j++;
-
-
-int expander(t_ms *ms)
-{
-	t_expander		ex;
-	int				strings;
-
-	strings = ft_tablen(ms->cmnd_list->command);
-	ex.str_num = 0;
-	while (ex.str_num < strings)
-		expander_tokenize(&ms->cmnd_list->command[ex.str_num++], &ex);
-		// esta funcion debe iterar todo el string y buscar 
-
-   /*
-	tokenizar el comando
-	0 End
-	1 $ 
-	2 (
-	3 )
-	4 {
-	5 }
-	6 [
-	7 ]
-	8 Characters
-
-   */
-	return (0);
-}

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/09 19:01:13 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/17 23:04:14 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@
 // Macros para manipular funciones de LEXER
 # define END    	    0
 # define DOLLAR			1
+# define PIPE			2
+# define L_REDIRECT		3
+# define R_REDIRECT		4
+# define DL_REDIRECT	5
+# define DR_REDIRECT	6
+# define WORD			7
 # define D_QUOTE		34
 # define S_QUOTE		39
-# define PIPE			4
-# define L_REDIRECT		5
-# define R_REDIRECT		6
-# define DL_REDIRECT	7
-# define DR_REDIRECT	8
-# define WORD			9
 # define SPACES         " \t\v\n\r"
 
 // Para customizar UI con colores ANSI
