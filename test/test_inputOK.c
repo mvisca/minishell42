@@ -35,7 +35,7 @@ int main()
             perror("Failed to open input file");
             exit(EXIT_FAILURE);
         }
-
+//		printf("\nDealing with %s fd = %d\n", files[i], in_fd);
         // Fork a child process
         pid_t pid = fork();
         if (pid == -1) 
@@ -44,7 +44,8 @@ int main()
             exit(EXIT_FAILURE);
         }
 
-        if (pid == 0) { // Child process
+        if (pid == 0) 
+		{ // Child process
             // Redirect standard input
             if (dup2(in_fd, STDIN_FILENO) == -1) 
 			{
