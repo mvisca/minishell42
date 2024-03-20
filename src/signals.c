@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/12 18:58:36 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/20 12:33:54 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ static void	signal_ctrl_int(int sig)
 
 void	signal_init(void)
 {
-	rl_catch_signals = 0;
 	signal(SIGTERM, signal_ctrl_term);
 	signal(SIGQUIT, signal_ctrl_quit);
 	signal(SIGINT, signal_ctrl_int);

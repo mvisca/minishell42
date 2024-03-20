@@ -3,71 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/17 23:59:36 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/20 14:15:46 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	expander_var_name(t_ms *ms, size_t i, size_t *j)
+static int	expander_init_strs(char ***strs)
 {
-	// tiene el punto de partida de ms->cmnd_list->command[i][j]
-	// mientras que no sea D_QUOTE or '\0' or !ft_isalnum
-		// junta el nombre de la variable
-	// con el nombre de la variabla la busca
-		// si encuentra suistituye el valor en el string
-		// si no la encuentra es nada
-	return (0);
-}
-
-static int	expander_in_d_quote(t_ms *ms, size_t i, size_t *j)
-{
-	char	*str;
-	char	*start;
-
-	str = ms->cmnd_list->command[i];
-	start = ft_strchr(str, DOLLAR);
-	if (!start)
-		str_close_quote(str, j); // j es puntero
-	else
-		expander_var_name(ms, i, j); // j es puntero
-
-
-	// itera por str
-	// busca $ o EOF o "
-
-	return (0);
-}
-
-int expander(t_ms *ms)
-{
-	size_t	i;
-	size_t	j;
-	int		count;
-	char	*str;
-
-	i = 0;
-	count = ft_tablen(ms->cmnd_list->command);
-	while (ms->cmnd_list && ms->cmnd_list->command && ms->cmnd_list->command[i])
+	*strs = (char **)ft_calloc(3, sizeof(char *));
+	if (!*strs)
+		return (1);
+	(*strs)[NEW] = ft_strdup("");
+	if (!(*strs)[NEW])
 	{
-		str = &ms->cmnd_list->command[i];
-		j = 0;
-		while (str[j])
+		free(*strs);
+		return (1);
+	}
+	return (NEW);
+}
+
+static char	*expander_get_expansion(char *str)
+{
+	char	**strs;
+
+	if (expander_init_strs(&strs) != 0)
+		return (1);
+	strs[NEW] = str;
+	while (str)
+	{
+		// copiar char por char
+		// si es DOLLAR hacer esto
+		str = ft_strchr(str, DOLLAR);
+		if (*(str + 1) == CURLY_OPEN || ft_isalpha(*(str + 1)))
 		{
-			if (str[j] == S_QUOTE)
-				str_close_quote(str[j], (size_t *)&j);
-			else if (str[j] == D_QUOTE)
-				expander_in_d_quote(ms, i, &j);
-			else if (str[j] == DOLLAR)
-				expander_var_name(ms, i, &j); // '\0' '"' !alphanum 
-			if (ms->cmnd_list->command[i][j])
-				j++;
+			
+		}
+		else
+		{
+			strs[AUX] = strs[NEW];
+			strs[NEW] = ft_strjoin(strs[AUX], "$");
+			free(strs[AUX]);
+			str++;
+		}
+	}
+	return (strs[NEW]);
+}
+
+int	expander(t_ms *ms)
+{
+	int		i;
+	char	**strs;
+	// NEW AUX BUF
+
+	if (expander_init_strs(&strs) != 0)
+		return (1);
+	free(strs[NEW]);
+	i = 0;
+	while (ms->cmnd_list && ms->cmnd_list->command[i])
+	{
+		if (ft_strchr(ms->cmnd_list->command[i], DOLLAR))
+		{
+			strs[AUX] = ms->cmnd_list->command[i];
+			strs[NEW] = expander_get_expansion(ms->cmnd_list->command[i]);
+			ms->cmnd_list->command[i] = strs[NEW];
+			free(strs[AUX]);
 		}
 		i++;
 	}
+	free(strs);
 	return (0);
 }
 

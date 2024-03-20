@@ -6,7 +6,6 @@ DONE:
         CTRL \
         PENDING: ADAPT THE HANDLER FUNCTIONS BEHAVIOUR
 
-
 EXPANDER
     $var
     $(var)
@@ -17,6 +16,12 @@ EXPANDER
     cómo gestionar el tratamiento de las comillas en AWK
 
 MOVE SYNTAX CHEK TO PARSER OR LEXER
+
 BUILTINS
+
 EXECUTOR
+
 HERE DOC EN PARSER
+
+>a <a CASE, NO GENERA REDIR. PERO >>a <<a SI LO GENERA
+REVISAR MAKEFILE
