@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/21 11:16:31 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:38:12 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,18 @@
 
 // Macros para manipular funciones de LEXER
 # define END    	    0
-# define WORD		    1
-# define D_QUOTE		34
-# define S_QUOTE		39
-# define DOLLAR			36
-# define L_REDIRECT		60
-# define R_REDIRECT		62
-# define DL_REDIRECT	2
-# define DR_REDIRECT	3
-# define QUESTION   	63
-# define PIPE			124
+# define DOLLAR			1
+# define D_QUOTE		2
+# define S_QUOTE		3
+# define PIPE			4
+# define L_REDIRECT		5
+# define R_REDIRECT		6
+# define DL_REDIRECT	7
+# define DR_REDIRECT	8
+# define WORD			9
+# define SPACES         " \t\v\n\r"
 # define O_CURLY    	123
 # define C_CURLY    	125
-# define SPACES         " \t\v\n\r"
 
 // Macros para expand
 # define NEW            0

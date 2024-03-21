@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/21 15:15:38 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:39:42 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	expander_var(t_ms *ms, char *str, int *i, char **strs) // coger hasta
 {
 	unsigned int	start;
 
-	if (str[*i] == QUESTION)
+	if (str[*i] == '?')
 	{
 		strs[BUF] = ft_itoa(ms->exit_code);
 		(*i)++;
@@ -67,7 +67,7 @@ static char	*expander_get_expansion(t_ms *ms, char *str) //, t_deb_exp deb_exp)
 			i += 2;
 		else if (str[i] == DOLLAR && (ft_isalpha(str[i+1]) || str[i+1] == '?')) // bloque
 			i++;
-		if (str[i] == O_CURLY || ft_isalpha(str[i]) || str[i] == QUESTION)
+		if (str[i] == O_CURLY || ft_isalpha(str[i]) || str[i] == '?')
 			expander_var(ms, str, &i, strs); //, deb_exp); // coger hasta que se cierra el curly // DEB quitar despues
 		else // uno a uno
 			strs[BUF] = ft_substr(str, i++, 1); // coge uno
