@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   macros.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/20 13:56:16 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/03/21 11:16:31 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,24 @@
 // Macros para manipular funciones de LEXER
 # define END    	    0
 # define WORD		    1
-# define DL_REDIRECT	2
-# define DR_REDIRECT	3
 # define D_QUOTE		34
 # define S_QUOTE		39
 # define DOLLAR			36
 # define L_REDIRECT		60
 # define R_REDIRECT		62
-# define CURLY_OPEN		123
+# define DL_REDIRECT	2
+# define DR_REDIRECT	3
+# define QUESTION   	63
 # define PIPE			124
-# define CURLY_CLOSE	125
+# define O_CURLY    	123
+# define C_CURLY    	125
 # define SPACES         " \t\v\n\r"
 
 // Macros para expand
 # define NEW            0
 # define AUX            1
 # define BUF            2
+# define SWITCH         3
 
 // Para customizar UI con colores ANSI
 # define RESET          "\x1b[0m"

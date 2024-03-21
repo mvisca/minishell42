@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+         #
+#    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/03/20 12:39:21 by mvisca-g         ###   ########.fr        #
+#    Updated: 2024/03/21 14:32:58 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC         = 		_minishell.c 				\
 					errors_syntax_cases.c		\
 					errors_syntax.c				\
 					errors.c					\
+					expander.c					\
 					initialize.c				\
 					interface.c					\
 					lexer.c						\
@@ -83,7 +84,7 @@ cleanrl:
 	@echo "$(PINK)READLINE removed$(DEF_COLOR)"
 
 $(NAME)::  $(OBJ) ./$(LIBFT) ./$(RLINE) ./$(RLINE_H)
-	@$(CC) $(CFLAGS) $(^) -ltermcap -lreadline -o $(NAME)
+	@$(CC) $(CFLAGS) $(^) -ltermcap -lreadline -o $(NAME) -g -fsanitize=address
 	@echo "$(GREEN)MINISHELL compiled :D$(DEF_COLOR)"
 
 subsystems:
