@@ -6,100 +6,124 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/21 15:39:42 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/23 13:23:48 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	expander_init_strs(char ***strs, int alloc_str)
-{
-	*strs = (char **)ft_calloc(3, sizeof(char *));
-	if (!*strs)
-		return (1);
-	if (alloc_str)
-	{
-		(*strs)[NEW] = ft_strdup("");
-		if (!(*strs)[NEW])
-		{
-			free(*strs);
-			return (1);
-		}
-	}
-	return (0);
-}
-
-static int	expander_var(t_ms *ms, char *str, int *i, char **strs) // coger hasta que se cierra el curly // BUF devuelve
+// extracts var name and gets value when between curly brakets
+// NO HAY QUE MANEJAR PARÉNTESIS NO CERRADO
+static char	*expander_var_curly(t_ms *ms, char *str, int *i)
 {
 	unsigned int	start;
+	char			*aux;
+	char			*buf;	
 
-	if (str[*i] == '?')
+	if (!ft_strchr(&str[*i], '}'))
 	{
-		strs[BUF] = ft_itoa(ms->exit_code);
-		(*i)++;
-		return (*i);
+		ft_printf("Error de paréntesis no cerrado\n");
+		return (NULL);
 	}
-	else
+	start = *i + 2;
+	while (str[*i] && (str[*i] != '}'))
+		*i += 1;
+	aux = ft_substr(str, start, (&str[*i] - &str[start]));
+	*i += 1;
+	if (!aux)
 	{
-		start = *i;
-		while (str[*i] && str[*i] != C_CURLY)
-			(*i)++;
-		if (str[*i] == '\0')
-			return (*i);
-		strs[AUX] = ft_substr(str, start, (size_t)(&str[*i] - &str[start])); // es el nombre de la variable
-		strs[BUF] = environment_get_value(ms, strs[AUX]); // es el valor, no se libera aquí, será reemplazado despues
-		free(strs[AUX]);
+		ft_printf("Error de mala substitución");
+		return (NULL);
 	}
-	return (0);
+	buf = environment_get_value(ms, aux);
+	free(aux);
+	buf = ft_strdup(buf);
+	return (buf);
 }
 
-static char	*expander_get_expansion(t_ms *ms, char *str) //, t_deb_exp deb_exp)
+// extracts var name and gets value when not between curly brakets
+static char	*expander_var_alpha(t_ms *ms, char *str, int *i) 
 {
-	char	**strs;
+	unsigned int	start;
+	char			*aux;
+	char			*buf;
+
+	*i += 1;
+	start = *i;
+	while (str[*i] && ft_isalnum(str[*i]))
+		*i += 1;
+	aux = ft_substr(str, start, (&str[*i] - &str[start]));
+	buf = environment_get_value(ms, aux);
+	free(aux);
+	if (!buf)
+		buf = ft_strdup("\n");
+	else
+		buf = ft_strdup(buf);
+	return (buf);
+}
+
+// retrives exit code
+static char	*expander_var_exit(t_ms *ms, char *str, int *i)
+{
+	char	*buf;
+
+	if (ft_strnstr(str, "$?", 2))
+		*i += 2;
+	else if (ft_strnstr(str, "${?}", 4))
+		*i += 4;
+	buf = ft_itoa(ms->exit_code);
+	return (buf);
+}
+
+static char	*expander_get_expansion(t_ms *ms, char *str)
+{
+	char	*aux;
+	char	*buf;
+	char	*new;
 	int		i;
 
-	if (expander_init_strs(&strs, TRUE) != 0) // strs[NEW] es ""
-		return (NULL);
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == DOLLAR && str[i+1] == O_CURLY) // bloque // aquí modificar el strs[SWITCH] y llamar
-			i += 2;
-		else if (str[i] == DOLLAR && (ft_isalpha(str[i+1]) || str[i+1] == '?')) // bloque
-			i++;
-		if (str[i] == O_CURLY || ft_isalpha(str[i]) || str[i] == '?')
-			expander_var(ms, str, &i, strs); //, deb_exp); // coger hasta que se cierra el curly // DEB quitar despues
-		else // uno a uno
-			strs[BUF] = ft_substr(str, i++, 1); // coge uno
-
-		strs[AUX] = strs[NEW];
-		strs[NEW] = ft_strjoin(strs[AUX], strs[BUF]);
-		if (str[BUF])
-			free(strs[BUF]);
-		free(strs[AUX]);
+		if (ft_strnstr(&str[i], "$?", 2) || ft_strnstr(&str[i], "${?}", 4))
+			buf = expander_var_exit(ms, str, &i);
+		else if (str[i] == '$' && str[i + 1] == '{')
+			buf = expander_var_curly(ms, str, &i);
+		else if (str[i] == '$' && ft_isalnum(str[i + 1]))
+			buf = expander_var_alpha(ms, str, &i);
+		else
+			buf = ft_substr(str, i++, 1);
+		if (!buf)
+			return (NULL);
+		aux = new;
+		new = ft_strjoin(aux, buf);
+		free(buf);
+		free(aux);
 	}
-	return (strs[NEW]);
+	return (new);
 }
 
 int	expander(t_ms *ms)
 {
 	int			i;
-	char		**strs;
+	char		*aux;
 
-	if (expander_init_strs(&strs, FALSE) != 0)
-		return (1);
 	i = 0;
 	while (ms->cmnd_list && ms->cmnd_list->command[i])
 	{
-		if (ft_strchr(ms->cmnd_list->command[i], DOLLAR))
+		if (ft_strchr(ms->cmnd_list->command[i], '$'))
 		{
-			strs[NEW] = expander_get_expansion(ms, ms->cmnd_list->command[i]); //, deb_exp); // DEB deb_exp should be removed after debug
+			aux = expander_get_expansion(ms, ms->cmnd_list->command[i]);
+			if (!aux)
+			{
+				ft_printf("Error break");
+				return (1);
+			}
 			free(ms->cmnd_list->command[i]);
-			ms->cmnd_list->command[i] = strs[NEW];
+			ms->cmnd_list->command[i] = aux;
 		}
 		i++;
 	}
-	free(strs);
 	return (0);
 }
 
