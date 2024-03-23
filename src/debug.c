@@ -7,7 +7,6 @@ void    debug_token(t_ms *ms)
 
 	ft_printf(YELLOW"- - - - - - - - - - -\n"RESET);
 	ft_printf(RED"LEXER"RESET""BLUE" -> "RESET"debug start\n");
-	ft_printf(BLUE"- - - - - - - - - - -\n"RESET);
 
     token = ms->token_list;
     i = 1;
@@ -18,7 +17,6 @@ void    debug_token(t_ms *ms)
         token = token->next;
         i++;
     }
-	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
 	ft_printf(RED"LEXER"RESET""BLUE" -> "RESET"debug done\n");
 	ft_printf(BLUE"- - - - - - - - - -\n"RESET);
 }
@@ -32,7 +30,6 @@ void	debug_command(t_ms *ms)
 
 	ft_printf(GREEN"- - - - - - - - - - -\n"RESET);
 	ft_printf(GREEN"PARSER"RESET""BLUE" -> "RESET"debug start\n");
-	ft_printf(RED"- - - - - - - - - - -\n"RESET);
 	cmnd_aux = ms->cmnd_list;
 	count = 1;
 	while (cmnd_aux)
@@ -57,9 +54,8 @@ void	debug_command(t_ms *ms)
 		count++;
 		cmnd_aux = cmnd_aux->next;
 	}
-	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
 	ft_printf(GREEN"PARSER"RESET""BLUE" -> "RESET"debug done\n");
-	ft_printf(RED"- - - - - - - - - -\n"RESET);
+	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
 }
 
 void	debug_envarr(t_ms *ms)
@@ -67,8 +63,7 @@ void	debug_envarr(t_ms *ms)
 	int i;
 
 	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
-	ft_printf(RED"PARSER"RESET" <envarr> "BLUE" -> "RESET"debug start\n");
-	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
+	ft_printf(RED"ENVIRONMENT"RESET" <envarr> "BLUE" -> "RESET"debug start\n");
 	i = 0;
 	while (ms->envarr && ms->envarr[i])
 	{
@@ -80,8 +75,7 @@ void	debug_envarr(t_ms *ms)
 			ft_printf(RED"envarr[%d] >"RESET" %s\n", i, ms->envarr[i]);
 		i++;
 	}
-	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
-	ft_printf(RED"PARSER"RESET" <envarr> "BLUE" -> "RESET"debug done\n");
+	ft_printf(RED"ENVIRONMENT"RESET" <envarr> "BLUE" -> "RESET"debug done\n");
 	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
 }
 

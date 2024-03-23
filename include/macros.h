@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/23 10:38:07 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/23 19:22:02 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 // Macros para manipular funciones de LEXER
 # define END    	    0
 # define DOLLAR			1
-# define D_QUOTE		2
-# define S_QUOTE		3
+# define D_QUOTE		34
+# define S_QUOTE		39
 # define PIPE			4
 # define L_REDIRECT		5 // revisar en parser los macros usados
 # define R_REDIRECT		6

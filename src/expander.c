@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/23 13:23:48 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/23 19:07:53 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // extracts var name and gets value when between curly brakets
 // NO HAY QUE MANEJAR PARÉNTESIS NO CERRADO
-static char	*expander_var_curly(t_ms *ms, char *str, int *i)
+static char	*expander_var_curly(t_ms *ms, char *str, size_t *i)
 {
 	unsigned int	start;
 	char			*aux;
@@ -27,7 +27,14 @@ static char	*expander_var_curly(t_ms *ms, char *str, int *i)
 	}
 	start = *i + 2;
 	while (str[*i] && (str[*i] != '}'))
+	{
+		if (!ft_isalnum(str[*i]) || str[*i] != '_')
+		{
+			ft_printf("Error Bad sustitution\n");
+			return (NULL);
+		}	
 		*i += 1;
+	}
 	aux = ft_substr(str, start, (&str[*i] - &str[start]));
 	*i += 1;
 	if (!aux)
@@ -42,7 +49,7 @@ static char	*expander_var_curly(t_ms *ms, char *str, int *i)
 }
 
 // extracts var name and gets value when not between curly brakets
-static char	*expander_var_alpha(t_ms *ms, char *str, int *i) 
+static char	*expander_var_alpha(t_ms *ms, char *str, size_t *i) 
 {
 	unsigned int	start;
 	char			*aux;
@@ -63,7 +70,7 @@ static char	*expander_var_alpha(t_ms *ms, char *str, int *i)
 }
 
 // retrives exit code
-static char	*expander_var_exit(t_ms *ms, char *str, int *i)
+static char	*expander_var_exit(t_ms *ms, char *str, size_t *i)
 {
 	char	*buf;
 
@@ -80,12 +87,17 @@ static char	*expander_get_expansion(t_ms *ms, char *str)
 	char	*aux;
 	char	*buf;
 	char	*new;
-	int		i;
+	size_t	i;
 
 	i = 0;
+	new = NULL;
+	buf = NULL;
+	aux = NULL;
 	while (str[i])
 	{
-		if (ft_strnstr(&str[i], "$?", 2) || ft_strnstr(&str[i], "${?}", 4))
+		if (str[i] == '\'')
+			str_close_quote(str, &i);
+		else if (ft_strnstr(&str[i], "$?", 2) || ft_strnstr(&str[i], "${?}", 4))
 			buf = expander_var_exit(ms, str, &i);
 		else if (str[i] == '$' && str[i + 1] == '{')
 			buf = expander_var_curly(ms, str, &i);
@@ -93,13 +105,19 @@ static char	*expander_get_expansion(t_ms *ms, char *str)
 			buf = expander_var_alpha(ms, str, &i);
 		else
 			buf = ft_substr(str, i++, 1);
+		ft_printf(RED"i = %d\n"RESET, i);
+		ft_printf(RED"last char = %c\n"RESET, str[i]);
 		if (!buf)
+		{
+			ft_printf("SALE AQUI\n");
 			return (NULL);
+		}
 		aux = new;
 		new = ft_strjoin(aux, buf);
 		free(buf);
 		free(aux);
 	}
+	ft_printf("new %s\n", new);
 	return (new);
 }
 
@@ -107,22 +125,27 @@ int	expander(t_ms *ms)
 {
 	int			i;
 	char		*aux;
+	t_coml		*node;
 
-	i = 0;
-	while (ms->cmnd_list && ms->cmnd_list->command[i])
+	node = ms->cmnd_list;
+	while (node)
 	{
-		if (ft_strchr(ms->cmnd_list->command[i], '$'))
+		i = 0;
+		while (node && node->command && node->command[i])
 		{
-			aux = expander_get_expansion(ms, ms->cmnd_list->command[i]);
-			if (!aux)
+			if (ft_strchr(node->command[i++], '$'))
 			{
-				ft_printf("Error break");
-				return (1);
+				aux = expander_get_expansion(ms, node->command[i-1]);
+				if (!aux)
+				{
+					ft_printf("Error break");
+					return (1);
+				}
+				free(node->command[i-1]);
+				node->command[i-1] = aux;
 			}
-			free(ms->cmnd_list->command[i]);
-			ms->cmnd_list->command[i] = aux;
 		}
-		i++;
+		node = node->next;
 	}
 	return (0);
 }
