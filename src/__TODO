@@ -36,3 +36,41 @@ ESTE COMANDO EN UNA FUNCIÓN PODRÍA OBTENER EL PID EN UN FILE SIN TENER LA FUNC
 DESPUES ABRIR EL FILE Y OBTENER EL STRING
 IMPRIMIRLO
 BORRAR EL FILE CON rm FILE
+
+
+
+/*
+expandir
+${variable}
+$variable
+${variable:-valor_por_defecto}
+${variable:+valor_por_defecto}
+
+~:dir del usuario /home
+$*:todos los parámetros ?? QUE ES ESTO
+$2:segundo parámetro ?? QUE ES ESTO
+$0:nombre del script ?? QUE ES ESTO
+$?:código de salida OK
+$/:número de parámetros ?? QUE ES ESTO
+$!:pid del último trabajo en segundo plano ?? QUE ES ESTO
+
+$((expresión)) - NOT HADLED
+$[expresión] - NOT HANDLED
++ - / * % , < <= > >= == != , && || !
+:precedencia de operadores, paréntesis para alterar la precedencia
+:variables dentro de la expresión
+:funciones matemáticas dentro de la expresión
+
+${variables/espresión/reemplazo}
+*:cualquier string
+?:cualquier char
+*/
+
+/*
+export v1=hola
+v1
+v1: command not found
+$(v1)
+v1:command not found
+
+*/

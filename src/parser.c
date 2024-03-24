@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/21 15:39:15 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/24 21:07:31 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ t_coml	*parser_tab_to_array(char **tab, t_coml *cmnd)
 	while (cmnd->command && cmnd->command[i])
 	{
 		new[i] = cmnd->command[i];
+		ft_printf("pasaje de un tab a otro 1 = %s\n", new[i]);
 		i++;
 	}
 	while (tab && tab[i - len_old])
 	{
 		new[i] = tab[i - len_old];
+		ft_printf("pasaje de un tab a otro 2 = %s\n", new[i]);
 		i++;
 	}
 	new[i] = NULL;
@@ -79,7 +81,7 @@ static int	parser_populate_command(t_ms **ms, t_coml **cmnd, t_tokl **token, t_r
 		parser_tab_to_array(tab, *cmnd);
 		free(tab);
 	}
-	else if ((*token)->type >= 5 && (*token)->type <= 8)
+	else if ((*token)->type >= 5 && (*token)->type <= 8) // que es
 	{
 		if (parser_is_redir(cmnd, token, redir, &tab))
 			return (1);

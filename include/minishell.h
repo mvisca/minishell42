@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/21 14:29:35 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/24 20:49:05 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ int			parser(t_ms *ms);
 t_coml		*parser_new_command(t_coml **commnad);
 int			parser_add_command(t_ms *ms, t_coml *command);
 char        **parser_split(char *str);
+void        parser_ps_init(t_psplit *ps);
 
 int			parser_add_redirect(t_coml *cmnd, t_redl *redir);
-// int			parser_init_redir(t_coml *command, t_tokl *token);
 int         parser_update_envarr(t_ms *ms);
 
 /*##################	SIGNAL		#####################*/

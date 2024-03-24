@@ -6,12 +6,21 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/17 22:38:34 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/24 21:16:14 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
+
+typedef struct s_parser_split
+{
+	size_t					i;
+	size_t					start;
+	int						k;
+	int						dq;
+	int						sq;
+} 	t_psplit;
 
 typedef struct s_envl
 {
@@ -41,6 +50,13 @@ typedef struct s_coml
 	struct s_coml			*next;
 }	t_coml;
 
+typedef struct s_strs
+{
+	char					*aux;
+	char					*buf;
+	char					*new;						
+}	t_strs;
+
 typedef struct s_ms
 {
 	char					**envarr;
@@ -49,6 +65,7 @@ typedef struct s_ms
 	t_coml					*cmnd_list;
 	t_coml					*cmnd_list_fake;
 	char					*line;
+	t_strs					strs;
 	int						init_fd[2];
 	int						curr_fd[2];
 	int						prev_fd[2];

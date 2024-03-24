@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/03/21 14:32:58 by mvisca           ###   ########.fr        #
+#    Updated: 2024/03/24 20:49:42 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC         = 		_minishell.c 				\
 					lexer.c						\
 					parser.c					\
 					parser_split.c				\
+					parser_split_tools.c		\
 					parser_command_tools.c		\
 					parser_update_envarr.c		\
 					signals.c					\

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/23 19:22:02 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/24 15:01:16 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define D_QUOTE		34
 # define S_QUOTE		39
 # define PIPE			4
-# define L_REDIRECT		5 // revisar en parser los macros usados
+# define L_REDIRECT		5
 # define R_REDIRECT		6
 # define DL_REDIRECT	7
 # define DR_REDIRECT	8

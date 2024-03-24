@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/11 09:07:54 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/24 12:58:22 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ void	initialize(t_ms *ms, int ac, char **av, char **envp)
 	// ms->envlst = NULL; // movido al environment_init
 	ms->envlst = environment_init(ms, envp);
 	ms->envarr = NULL;
+	ms->strs.aux = NULL;
+	ms->strs.buf = NULL;
+	ms->strs.new = NULL;
 	ms->init_fd[FD_IN] = dup(STDIN_FILENO);
 	ms->init_fd[FD_OUT] = dup(STDOUT_FILENO);
 	init_shell_level(ms);
