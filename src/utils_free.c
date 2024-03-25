@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/24 21:09:42 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/26 00:03:54 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,30 +98,6 @@ void	utils_free_cmnd_list(t_coml **cmnd)
 	}
 }
 
-void	utils_free_cmnd_list_fake(t_ms *ms)
-{
-	t_coml	*next;
-	t_coml	*node;
-	int		i;
-
-	node = ms->cmnd_list_fake;
-	while (node)
-	{
-		next = node->next;
-		i = 0;
-		while (node->command[i])
-			free(node->command[i++]);
-		free(node->command);
-		if (node->redirect && node->redirect->path)
-			free(node->redirect->path);
-		if (node->redirect)
-			free(node->redirect);
-		free(node);
-		node = next;
-	}
-	ms->cmnd_list_fake = NULL;
-}
-
 int	utils_free_ms(t_ms *ms, int clean_env)
 {
 	if (ms->line)
@@ -146,7 +122,5 @@ int	utils_free_ms(t_ms *ms, int clean_env)
 		utils_free_cmnd_list(&ms->cmnd_list);
 		ms->cmnd_list = NULL;
 	}
-	if (ms->cmnd_list_fake)
-		utils_free_cmnd_list_fake(ms);
 	return (0);
 }

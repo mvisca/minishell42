@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/24 21:16:14 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/26 00:03:03 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct s_ms
 	t_envl					*envlst;
 	t_tokl					*token_list;
 	t_coml					*cmnd_list;
-	t_coml					*cmnd_list_fake;
 	char					*line;
 	t_strs					strs;
 	int						init_fd[2];
