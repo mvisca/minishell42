@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/25 08:07:41 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/25 20:06:27 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,9 @@ static int	expander_get_expansion(t_ms *ms, char *str)
 		{
 			start = i;
 			str_close_quote(&str[i], &i);
-			ms->strs.buf = ft_substr(str, start, i - start);
+			ms->strs.buf = ft_substr(str, start, i - start + 1);
 			i++;
+
 		}
 		else if (ft_strnstr(&str[i], "$?", 2) || ft_strnstr(&str[i], "${?}", 4))
 			expander_var_exit(ms, str, &i);
@@ -106,15 +107,14 @@ static int	expander_get_expansion(t_ms *ms, char *str)
 			ms->strs.buf = ft_substr(str, i++, 1);
 		if (!ms->strs.buf)
 		{
-			ft_printf("Memory management error\n");
+			ft_printf("System o syntax Error\n");
 			return (1);
 		}
 		ms->strs.aux= ms->strs.new;
 		ms->strs.new = ft_strjoin(ms->strs.aux, ms->strs.buf);
-		if (ms->strs.buf)
-			free(ms->strs.buf);	
-		if (ms->strs.aux)
-			free(ms->strs.aux);
+		free(ms->strs.buf);	
+		ms->strs.buf = NULL;
+		free(ms->strs.aux);
 	}
 	return (0);
 }
@@ -131,12 +131,13 @@ int	expander(t_ms *ms)
 		while (node->command && node->command[i])
 		{
 			expander_get_expansion(ms, node->command[i]);
+			ft_printf("address de strs %p y strs.new %p\n", ms->strs, ms->strs.new);
 			if (!ms->strs.new)
 			{
 				ft_printf("Error break\n");
 				return (1);
 			}
-			free(node->command[i]);
+			free(node->command[i]); // viene cambiado o vacío?
 			node->command[i] = ms->strs.new;
 			ms->strs.new = NULL;
 			i++;
