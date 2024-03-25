@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/24 21:07:31 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/25 08:17:59 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int	parser_is_redir(t_coml **cmnd, t_tokl **token, t_redl **redir, char *
 	*redir = (t_redl *)ft_calloc(1, sizeof(t_redl));
 	if (!*redir)
 		return (1);
-
 	(*redir)->type = (*token)->type;
 	(*redir)->path = NULL;
 	(*redir)->next = NULL;
@@ -81,7 +80,7 @@ static int	parser_populate_command(t_ms **ms, t_coml **cmnd, t_tokl **token, t_r
 		parser_tab_to_array(tab, *cmnd);
 		free(tab);
 	}
-	else if ((*token)->type >= 5 && (*token)->type <= 8) // que es
+	else if ((*token)->type >= 5 && (*token)->type <= 8)
 	{
 		if (parser_is_redir(cmnd, token, redir, &tab))
 			return (1);

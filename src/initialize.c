@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/24 12:58:22 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/25 08:26:50 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	initialize(t_ms *ms, int ac, char **av, char **envp)
 	ms->cmnd_list_fake = make_command(ms); // para desarrollar executor
 	if (!envp)
 		error_exit("variable no encontrada: no se recibió evnp\n", ms);
-	// ms->envlst = NULL; // movido al environment_init
 	ms->envlst = environment_init(ms, envp);
 	ms->envarr = NULL;
 	ms->strs.aux = NULL;
