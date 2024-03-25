@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/25 08:17:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/25 14:05:30 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ t_coml	*parser_tab_to_array(char **tab, t_coml *cmnd)
 	while (cmnd->command && cmnd->command[i])
 	{
 		new[i] = cmnd->command[i];
-		ft_printf("pasaje de un tab a otro 1 = %s\n", new[i]);
 		i++;
 	}
 	while (tab && tab[i - len_old])
 	{
 		new[i] = tab[i - len_old];
-		ft_printf("pasaje de un tab a otro 2 = %s\n", new[i]);
 		i++;
 	}
 	new[i] = NULL;

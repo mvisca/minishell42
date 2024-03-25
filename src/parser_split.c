@@ -6,11 +6,24 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:59:09 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/24 21:43:56 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/25 14:06:38 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static void	parser_free_all(char **spliter)
+{
+	int	i;
+
+	i = 0;
+	while (spliter[i])
+	{
+		free(spliter[i]);
+		i++;
+	}
+	free(spliter);
+}
 
 static int	parser_count(const char *s, char c)
 {
@@ -37,50 +50,34 @@ static int	parser_count(const char *s, char c)
 	return (count);
 }
 
-static void	parse_toggle_flag(char c, int *dq, int *sq)
+static char	**parser_do_split(char **spliter, const char *s, char c)
 {
-	if (c == '\'')
-	{
-		if (*sq)
-			*sq = 0;
-		else
-			*sq = 1;
-	}
-	else if (c == '"')
-	{
-		if (*dq)
-			*dq = 0;
-		else
-			*dq = 1;
-	}
-}
+	size_t	i;
+	int		k;
+	int		start;
 
-static char	**parser_do_split(char ***tab, const char *s, char c)
-{
-	t_psplit	ps;
-
-	parser_ps_init(&ps); // sq dq i k start -- todo a cero
-	while (s[ps.i])
+	i = 0;
+	k = 0;
+	while (s[i])
 	{
-		if (!(ps.dq + ps.sq))
+		if (s[i] && s[i] != c && (i == 0 || s[i - 1] == c))
+			start = i;
+		if ((s[i] == S_QUOTE || s[i] == D_QUOTE) && s[i + 1])
+			str_close_quote((char *)s, &i);
+		if (s[i] && s[i] != c && (s[i + 1] == c || !s[i + 1]))
 		{
-			if (s[ps.i] && s[ps.i] != c && (ps.i = 0 || s[ps.i - 1] == c))
-				ps.start = ps.i;
-			if (s[ps.i] && s[ps.i] == c && (s[ps.i - 1] != c))
-				(*tab)[ps.k] = ft_substr(s, ps.start, ps.i - ps.start + 1);
-			if (!(tab)[ps.k++])
+			spliter[k] = ft_substr(s, start, i + 1 - start);
+			if (!spliter[k++])
 			{
-				utils_free_tab(tab);
+				parser_free_all(spliter);
 				return (NULL);
 			}
-			if (s[ps.i] == '\'' || s[ps.i] == '"')
-				parse_toggle_flag(s[ps.i], &ps.dq, &ps.sq);
 		}
-		if (s[ps.i] == '\'' || s[ps.i] == '"')
-			parse_toggle_flag(s[ps.i], &ps.dq, &ps.sq);
-		ps.i++;
+		if (s[i])
+			i++;
 	}
-	return (*tab);
+	spliter[k] = NULL;
+	return (spliter);
 }
 
 char	**parser_split(char *str)
@@ -91,10 +88,10 @@ char	**parser_split(char *str)
 	if (!str)
 		return (NULL);
 	count = parser_count(str, 32);
-	tab = (char **)ft_calloc(count + 1, sizeof(char *));
+	tab = malloc (sizeof(char *) * (count + 1));
 	if (!tab)
 		return (NULL);
-	parser_do_split(&tab, str, 32);
+	tab = parser_do_split(tab, str, 32);
 	if (!tab)
 		return (NULL);
 	return (tab);
