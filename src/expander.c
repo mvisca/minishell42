@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/25 20:06:27 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/25 23:12:52 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,30 @@
 // NO HAY QUE MANEJAR PARÉNTESIS NO CERRADO
 static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 {
-	unsigned int	start;
+	size_t	start;
 
+	ft_printf("CURLY %s"RED"-\n"RESET, str);
 	if (!ft_strchr(&str[*i], '}'))
 	{
 		ft_printf("Error de paréntesis no cerrado\n");
 		return (1);
 	}
-	start = *i + 2;
+	*i += 2;
+	start = *i;
+	ft_printf("zzzzz CURLY %s"RED"-\n"RESET, str);
 	while (str[*i] && (str[*i] != '}'))
 	{
-		if (!ft_isalnum(str[*i]) && str[*i] != '_')
+		if (!(ft_isalnum(str[*i]) || str[*i] == '_'))
 		{
-			ft_printf("Error Bad substitution 1\n");
+			ft_printf(GREEN"Error Bad substitution 1\n"RESET);
 			return (1);
 		}	
-		*i += 1;
+		(*i)++;
 	}
 	ms->strs.aux = ft_substr(str, start, (&str[*i] - &str[start]));
+	ft_printf(RED"AUX -> %s\n", ms->strs.aux);
 	*i += 1;
-	if (!ft_strlen(ms->strs.aux))
+	if (!ms->strs.aux || ft_strlen(ms->strs.aux) == 0)
 	{
 		ft_printf("Error Bad substitution 2\n");
 		return (1);
@@ -95,7 +99,6 @@ static int	expander_get_expansion(t_ms *ms, char *str)
 			str_close_quote(&str[i], &i);
 			ms->strs.buf = ft_substr(str, start, i - start + 1);
 			i++;
-
 		}
 		else if (ft_strnstr(&str[i], "$?", 2) || ft_strnstr(&str[i], "${?}", 4))
 			expander_var_exit(ms, str, &i);

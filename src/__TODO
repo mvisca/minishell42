@@ -19,6 +19,8 @@ EXPANDER
             son tratados como integres que se convierten a cero?
             son tratados como un is_digit?
     cómo gestionar el tratamiento de las comillas en AWK
+    NOTA:
+    En caso de que no se cierra una comilla esa línea completa queda excluida del parser
 
 MOVE SYNTAX CHEK TO PARSER OR LEXER
 
