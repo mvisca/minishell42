@@ -5,8 +5,11 @@
 # define FALSE  0
 # define TRUE   1
 
+// Para acotar casos extremos
+# define MAX_PATH_LENGHT	1024
+# define MAX_ARGS 			256
+
 // Macros para gestionar fd de entrada y salida
-// XAVI:: Está ok que in sea 0 y out sea 1 ?? O es al revés ??
 # define FD_IN     0
 # define FD_OUT    1
 # define FD_HERE   2
@@ -62,5 +65,11 @@
 # define SYNTAX_CURLY_END   	7
 
 # define SYNTAX_MSSG "minishell: syntax error near unexpected token `"
+
+// Errores de ejecucion
+# define EXIT_DENIED	126
+# define EXIT_NOTFOUND	127
+# define EXIT_FORK		130
+# define EXIT_QUITFORK	131
 
 #endif

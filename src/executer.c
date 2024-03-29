@@ -6,12 +6,73 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/03/26 17:51:52 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/03/29 12:52:08 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+//Senyales => de momento son copias de otros.
+//De Tomas, alias Concha
+int	init_signals(int mode)
+{
+	struct	sigaction	signal;
+
+	signal.sa_flags = SA_RESTART | SA_SIGINFO;
+	sigemptyset(&signal.sa_mask);
+	if (mode == 1)
+		signal.sa_sigaction = handler_norm;
+	else if (mode == 2)
+		signal.sa_sigaction = handler_niet;
+	sigaction(SIGINT, &signal, NULL);
+	sigaction(SIGQUIT, &signal, NULL);
+	return (0);
+}
+
+void	handler_norm(int sig, siginfo_t *data, void *non_used_data)
+{
+	(void) data;
+	(void) non_used_data;
+	if (sig == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+		rl_replace_line("", 1);
+		rl_on_new_line();
+		rl_redisplay();
+		g_sig = 1;
+	}
+	return ;
+}
+
+void	handler_niet(int sig, siginfo_t *data, void *non_used_data)
+{
+	(void) data;
+	(void) non_used_data;
+	if (sig == SIGINT)
+	{
+		g_sig = 130;
+		exit(130);
+	}
+	else if (sig == SIGQUIT)
+	{
+		g_sig = 131;
+		exit(130);
+	}
+	return ;
+}
+
+void	ingnore_sign(int signum)
+{
+	struct sigaction	signal;
+
+	signal.sa_handler = SIG_IGN;
+	signal.sa_flags = SA_RESTART;
+	sigemptyset(&signal.sa_mask);
+	if (sigaction(signum, &signal, NULL) < 0)
+		exit (1);
+}
+
+//Salida limpia de un char **
 static void	ft_freechain(char **chain)
 {
 	int	i;
@@ -22,6 +83,7 @@ static void	ft_freechain(char **chain)
 	free(chain);
 }
 
+//Utils de strings en executer
 static int	ft_strlenp(const char *str)
 {
 	int	i;
@@ -65,20 +127,7 @@ static char	*ft_strjoin3(char *str1, char *str2, char *str3)
 	return (out);
 }
 
-static int	ft_openfile(char *file, int redir)
-{
-	int	fd;
-
-	fd = -1;
-	if (redir == L_REDIRECT)
-		fd = open(file, O_RDONLY, 0644);
-	else if (redir == R_REDIRECT)
-		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	else if (redir == DR_REDIRECT)
-		fd = open(file, O_RDWR | O_APPEND | O_CREAT, 0644);
-	return (fd);
-}
-
+//Contador de comandos. Poner en init o similar
 static int	ft_countcmd(t_coml *coml)
 {
 	int		i;
@@ -92,6 +141,21 @@ static int	ft_countcmd(t_coml *coml)
 		++i;
 	}
 	return (i);
+}
+
+//Gestion de ficheros
+static int	ft_openfile(char *file, int redir)
+{
+	int	fd;
+
+	fd = -1;
+	if (redir == L_REDIRECT)
+		fd = open(file, O_RDONLY, 0644);
+	else if (redir == R_REDIRECT)
+		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	else if (redir == DR_REDIRECT)
+		fd = open(file, O_RDWR | O_APPEND | O_CREAT, 0644);
+	return (fd);
 }
 
 static int	ft_opener(t_ms *ms, int i)
@@ -146,6 +210,7 @@ static int	ft_closer(t_ms *ms, int i)
 	return (0);
 }
 
+//Inicio de executer
 static char	*ft_getcmd(char *cmnd, char **envp)
 {
 	int		i;
@@ -233,6 +298,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms)
 static void	ft_runend(t_coml *job, t_ms *ms)
 {
 	t_redl	*aux_redl;
+//	pid_t	pid;//
 
 	if (job->redirect)
 	{
@@ -246,7 +312,19 @@ static void	ft_runend(t_coml *job, t_ms *ms)
 			aux_redl = aux_redl->next;
 		}
 	}
+/*
+ //inici	
+	pid = fork();
+	if (pid < 0)
+		printf("What a forkkkk\n\n");
+	if (pid == 0)
+		ft_runcmnd(job, ms);
+	wait(NULL);
+//final
+*/
+//inici	
 	ft_runcmnd(job, ms);
+//final	
 }
 
 static int	ft_job(t_ms *ms)
@@ -264,10 +342,11 @@ static int	ft_job(t_ms *ms)
 			job = job->next;
 	}
 	printf("HOLA PAPI\n");//
+//	waitpid(-1, NULL, 0);//linea movida
 	ft_runend(job, ms);
 	printf("HOLA PAPI 2\n");//
 	waitpid(-1, NULL, 0);
-	printf("FIN");
+	printf("FIN\n");
 	return (0);
 }
 
