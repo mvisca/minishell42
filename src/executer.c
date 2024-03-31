@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/03/29 12:52:08 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/03/31 11:21:17 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 //Senyales => de momento son copias de otros.
 //De Tomas, alias Concha
+/*
 int	init_signals(int mode)
 {
 	struct	sigaction	signal;
@@ -36,7 +37,7 @@ void	handler_norm(int sig, siginfo_t *data, void *non_used_data)
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
-		rl_replace_line("", 1);
+//		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
 		g_sig = 1;
@@ -71,7 +72,7 @@ void	ingnore_sign(int signum)
 	if (sigaction(signum, &signal, NULL) < 0)
 		exit (1);
 }
-
+*/
 //Salida limpia de un char **
 static void	ft_freechain(char **chain)
 {
@@ -323,7 +324,9 @@ static void	ft_runend(t_coml *job, t_ms *ms)
 //final
 */
 //inici	
-	ft_runcmnd(job, ms);
+//	ft_runcmnd(job, ms);
+	(void) ms;
+	printf("\nEND\n");
 //final	
 }
 

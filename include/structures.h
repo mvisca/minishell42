@@ -1,7 +1,7 @@
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
-extern	int	g_signal; //variable global para gestionar las senyales. Podria ser una estructura si conviniera
+extern	int	g_sig; //variable global para gestionar las senyales. Podria ser una estructura si conviniera
 
 typedef struct s_envl
 {
