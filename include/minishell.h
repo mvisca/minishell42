@@ -65,6 +65,13 @@ int			errors_syntax(t_ms *ms);
 int			errors_syntax_curly_brackets(char *line);
 
 /*##################	EXECUTOR	#####################*/
+int			ft_execute(t_ms *ms);
+
+/*##################	SIGNALS 	#####################*/
+int			init_signals(int mode);
+void		handler_norm(int sig, siginfo_t *data, void *non_used_data);
+void		handler_niet(int sig, siginfo_t *data, void *non_used_data);
+void    	ingnore_sign(int signum);
 
 /*##################	EXPANSOR	#####################*/
 

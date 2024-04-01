@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/09 19:01:13 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/01 19:24:46 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,15 @@
 # define FALSE  0
 # define TRUE   1
 
+// Para acotar casos extremos
+# define MAX_PATH_LENGHT	1024
+# define MAX_ARGS 			256
+
 // Macros para gestionar fd de entrada y salida
-// XAVI:: Está ok que in sea 0 y out sea 1 ?? O es al revés ??
 # define FD_IN     0
 # define FD_OUT    1
+# define FD_HERE   2
+# define H_FILE    ".xyz_here_tmp.tmp"
 
 // Macros para manipular funciones de LEXER
 # define END    	    0
@@ -72,5 +77,11 @@
 # define SYNTAX_CURLY_END   	7
 
 # define SYNTAX_MSSG "minishell: syntax error near unexpected token `"
+
+// Errores de ejecucion
+# define EXIT_DENIED	126
+# define EXIT_NOTFOUND	127
+# define EXIT_FORK		130
+# define EXIT_QUITFORK	131
 
 #endif
