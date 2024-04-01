@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/12 12:52:53 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/26 00:03:02 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@
 
 /*##################	DEBUG		#####################*/
 
-int        debug_all(t_ms *ms, int env, int tok, int com);
+int         debug_all(t_ms *ms, int env, int tok, int com);
 void        debug_token(t_ms *ms);
 void        debug_command(t_ms *ms);
 void    	debug_envarr(t_ms *ms);
+void	    debug_expand(t_ms *ms);
 
 /*##################	ENVIRONMENT	#####################*/
 // Factory
@@ -73,7 +74,9 @@ void		handler_norm(int sig, siginfo_t *data, void *non_used_data);
 void		handler_niet(int sig, siginfo_t *data, void *non_used_data);
 void    	ingnore_sign(int signum);
 
-/*##################	EXPANSOR	#####################*/
+/*##################	EXPANDER	#####################*/
+
+int			expander(t_ms *ms);
 
 /*##################	INITIALIZER	#####################*/
 
@@ -96,9 +99,9 @@ int			parser(t_ms *ms);
 t_coml		*parser_new_command(t_coml **commnad);
 int			parser_add_command(t_ms *ms, t_coml *command);
 char        **parser_split(char *str);
+void        parser_ps_init(t_psplit *ps);
 
 int			parser_add_redirect(t_coml *cmnd, t_redl *redir);
-// int			parser_init_redir(t_coml *command, t_tokl *token);
 int         parser_update_envarr(t_ms *ms);
 
 /*##################	SIGNAL		#####################*/
@@ -118,7 +121,5 @@ void		utils_free_cmnd_list_fake(t_ms *ms);
 // String
 size_t      str_line_len(char *line);
 void        str_close_quote(char *line, size_t *i);
-char        *str_clean_spaces(char *str);
-int         str_only_spaces(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:52:06 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/26 23:50:46 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/21 14:25:05 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ static int	errors_syntax_found(t_ms *ms, int i)
 		error_code = SYNTAX_BACK_RD_X3;
 	else if (!ft_strncmp(line, ">>>", 3))
 		error_code = SYNTAX_FOWARD_RD_X3;
-	else if (!ft_strncmp(line, "{", 1))
-		error_code = errors_syntax_curly_brackets(line);
-	else if (!ft_strncmp(line, "}", 1))
-		error_code = SYNTAX_CURLY_END;
+//	else if (!ft_strncmp(line, "{", 1))
+//		error_code = errors_syntax_curly_brackets(line);
+//	else if (!ft_strncmp(line, "}", 1))
+//		error_code = SYNTAX_CURLY_END;
 	else
 		error_code = errors_syntax_found2(&ms->line[i]);
 	return (error_code);

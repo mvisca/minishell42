@@ -6,58 +6,22 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/04/01 19:23:50 by mvisca           ###   ########.fr        #
+#    Updated: 2024/04/01 19:38:52 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#-------------------#
-#	FORMAT			#
-#-------------------#
 
-RED				:= \033[0;31m
-GREEN			:= \033[0;32m
-YELLOW			:= \033[0;33m
-BLUE			:= \033[0;34m
-NC				:= \033[0m
+DEF_COLOR	:=	\033[1;97m
+PINK		:=	\033[1;95m
+GREEN		:=	\033[1;92m
+CIAN		:=	\033[1;96m
 
-#-------------------#
-#	TARGET			#
-#-------------------#
+NAME        = minishell
 
-NAME			:=	minishell
+HEADER      = ./include/minishell.h
 
-#-------------------#
-#	INGREDIENTS		#
-#-------------------#
-
-# Headers
-INC				:=	./include
-MS_H			:=	$(INC)/minishell.h
-OTHER_H			:=	$(INC)/macros.h $(INC)/structures.h
-
-# Libft
-LFT				:=	./lib/libft
-LFT_INC			:=	$(LFT)/include
-LFT_INC_H		:=	$(LIB_LFT_INC)/libft.h
-LFT_A			:=	$(LIB_LFT)/libft.a
-
-# Readline
-RL				:=	./lib/readline
-RL_RL_A			:=	$(RL)/libreadline.a
-RL_HY_A			:=	$(RL)/libhistory.a
-
-# Complier flags, incs
-INCS_PATH		:=	-I $(LFT_INC) -I $(RL)
-
-# Compiler flags, libs
-LIBS_PATH		:=	-L $(LFT) -L $(RL)
-LIBS_PACK		:=	-lft -lreadline -ltermcap
-
-# Source directory
-SRC				:=	src/
-
-# Source files
-FILES			:=	_minishell.c 				\
+SRC_PATH    = src/
+SRC         = 		_minishell.c 				\
 					debug.c						\
 					environment_getters.c		\
 					environment_init.c			\
@@ -66,86 +30,80 @@ FILES			:=	_minishell.c 				\
 					errors_syntax.c				\
 					errors.c					\
 					executer.c					\
+					expander.c					\
 					initialize.c				\
 					interface.c					\
 					lexer.c						\
 					parser.c					\
 					parser_split.c				\
+					parser_split_tools.c		\
 					parser_command_tools.c		\
 					parser_update_envarr.c		\
 					signals.c					\
 					utils_free.c				\
 					utils_str.c
 
-# Sources absolute path
-SRCS			:= $(addprefix $(SRC), $(FILES))
+SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 
-# Object directory
-BUILD			:=	.obj/
+LIBFT_PATH	= lib/libft/
+LIBFT		= $(LIBFT_PATH)/libft.a
 
-# Objects absolute path
-OBJS			:=	$(addprefix $(BUILD), $(FILES:.c=.o))
+RLINE_PATH	= lib/readline/
+RLINE		= $(RLINE_PATH)/libreadline.a
+RLINE_H		= $(RLINE_PATH)/libhistory.a
 
-# Dependencies absolute path
-DEPS			:=	$(addprefix $(BUILD), $(OBJS:.o=.d))
+LIB_PATH	= -L$(LIBFT_PATH) -L$(RLINE_PATH) 
+LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap 
 
-#-------------------#
-#	UTILS			#
-#-------------------#
+OBJ_PATH	= ./OBJ/
+OBJ			= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
+DEP			= $(addprefix $(OBJ_PATH), $(OBJ:.o=.d))
 
-CC				:=	gcc
+INC_PATH	= ./includes/ ./lib/ $(LIBFT_PATH) $(RLINE_PATH)
+INC			= $(addprefix -I, $(INC_PATH))
 
-CFLAGS			:=	-Wall -Wextra -MMD -MP -g -fsanitize=address
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror -MMD 
+RM			= rm -f
 
-DIR_DUP			:=	mkdir -p $(BUILD)
-
-MAKE_FLAGS		+=	--no-print-directory
-
-RM				:=	rm -r -f
-
-#-------------------#
-#	RECIPES			#
-#-------------------#
-
-all: callforlib $(NAME)
-
-$(NAME): $(OBJS) $(LFT_A) $(RL_RL_A) $(RL_HY_A)
-	@echo "$(YELLOW)Compile... $(RED)$@ $(YELLOW)ready! $(NC)"
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBS_PATH) $(LIBS_PACK) -o $(NAME)
-
-$(BUILD)%.o: $(SRC)%.c Makefile $(LFT_A) $(RL_RL_A) $(RL_HY_A) $(BUILD)
-	@$(CC) $(CFLAGS) $(INCS_PATH) -c $< -o $@
-	@echo "$(GREEN)Compile... $(NC)$(notdir $<) $(RED)-> $(NC)$(notdir $@)"
--include $(DEPS)
-
-$(BUILD):
-	@$(DIR_DUP)
-	@echo "$(GREEN)Create $(NC)$(@) ready! $(NC)"
-
-$(LFT_A): $(LFT)/Makefile
-	@$(MAKE) -C $(LFT) $(MAKE_FLAGS)
-
-$(RL_RL_A):
-	@$(MAKE) -C $(RL) $(MAKE_FLAGS)
-
-callforlib:
-#	@cd $(RL) && ./configure &>/dev/null
-#	@$(MAKE) -C $(RL) $(MAKE_FLAGS)
-#	@echo "$(YELLOW)Build... $(RED)readline $(YELLOW)ready! $(NC)"
-	@$(MAKE) -C $(LFT) $(MAKE_FLAGS)
-
+all: $(RLINE) $(OBJ_PATH) subsystems $(NAME)
+	
 clean:
-	@echo "$(RED)Deleting objects for... $(NC)$(NAME) *.o *.d $(RED)>> 🗑️$(NC)"
-	@$(RM) $(BUILD)
-	@$(MAKE) -C $(LFT) clean $(MAKE_FLAGS)
-#	@echo "$(RED)Deleting all for... $(NC)readline $(RED)>> 🗑️$(NC)"
-#	@$(MAKE) -C $(RL) clean $(MAKE_FLAGS)
+	@$(RM) $(OBJS) $(DEPS)
+	@$(RM) -rf $(OBJ_PATH)
+	@make -s -C $(LIBFT_PATH) clean
+	@echo "$(PINK)Objects removed$(DEF_COLOR)"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo "$(RED)Deleting... $(NC)$(NAME) $(RED)>> 🗑️$(NC)"
-	@$(MAKE) -C $(LFT) fclean $(MAKE_FLAGS)
+	@make -s -C $(LIBFT_PATH) fclean
+	@echo "$(PINK)Minishell removed$(DEF_COLOR)"
 
 re: fclean all
 
-.PHONY: clean fclean re callforlib
+cleanrl:
+	@make -s -C $(RLINE_PATH) mostlyclean
+	@echo "$(PINK)READLINE removed$(DEF_COLOR)"
+
+$(NAME)::  $(OBJ) ./$(LIBFT) ./$(RLINE) ./$(RLINE_H)
+	@$(CC) $(CFLAGS) $(^) -ltermcap -lreadline -o $(NAME) -g -fsanitize=address
+	@echo "$(GREEN)MINISHELL compiled :D$(DEF_COLOR)"
+
+subsystems:
+	@make -s -C $(LIBFT_PATH)
+
+$(OBJ_PATH):
+	@mkdir -p $(OBJ_PATH)
+
+$(RLINE):
+	@cd lib/readline && ./configure &>/dev/null
+	@$(MAKE) -C $(RLINE_PATH) --no-print-directory
+	@echo "$(CIAN)READLINE compiled$(DEF_COLOR)"
+
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c Makefile $(HEADER)
+	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
+-include ${DEP}
+
+# Phony
+.PHONY: all clean fclean re cleanrl

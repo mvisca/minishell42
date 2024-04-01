@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/06 01:09:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/25 14:05:30 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static int	parser_is_redir(t_coml **cmnd, t_tokl **token, t_redl **redir, char *
 	*redir = (t_redl *)ft_calloc(1, sizeof(t_redl));
 	if (!*redir)
 		return (1);
-
 	(*redir)->type = (*token)->type;
 	(*redir)->path = NULL;
 	(*redir)->next = NULL;
@@ -104,7 +103,7 @@ int	parser(t_ms *ms)
 	cmnd = NULL;
 	while (token->type != END)
 	{
-		if ( !cmnd)
+		if (!cmnd)
 		{
 			parser_new_command(&cmnd);
 			if (!cmnd)

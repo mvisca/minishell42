@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 13:41:47 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/03 23:24:42 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/03/25 08:15:05 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	parser_add_command(t_ms *ms, t_coml *command)
 t_coml	*parser_new_command(t_coml **command)
 {
 	*command = (t_coml *)ft_calloc(1, sizeof(t_coml));
-	// *command = (t_coml *)supresedmalloc(sizeof(t_coml));
 	if (!*command)
 		return (NULL);
 	(*command)->command = NULL;
