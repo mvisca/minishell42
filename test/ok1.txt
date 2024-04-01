@@ -1,9 +1,0 @@
-word1
-word1
-word1x3
-word2
-word2x2
-word3
-word3
-word3
-word3x4

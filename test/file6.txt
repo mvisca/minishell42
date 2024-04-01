@@ -1,5 +1,0 @@
-word1
-word1
-word1x3
-word2
-word2x2
