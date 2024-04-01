@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/01 18:36:22 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/01 19:34:28 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	ingnore_sign(int signum)
 		exit (1);
 }
 */
+
 //Salida limpia de un char **
 static void	ft_freechain(char **chain)
 {
@@ -347,7 +348,7 @@ static void	ft_runend(t_coml *job, t_ms *ms)
 			aux_redl = aux_redl->next;
 		}
 	}
-	if (ms->debu.cmnd_count)//a ver
+	if (ms->cmnd_count)//a ver
 		ft_runcmnd(job, ms);
 }
 
@@ -364,7 +365,7 @@ static int	ft_job(t_ms *ms)
 		return (1);
 	if (pid == 0)
 	{
-		while (++i < ms->debu.cmnd_count)
+		while (++i < ms->cmnd_count)
 		{
 			ft_runchild(job, ms, i);
 			if (job->next)
@@ -379,7 +380,7 @@ static int	ft_job(t_ms *ms)
 
 int	ft_execute(t_ms *ms)
 {
-	ms->debu.cmnd_count = ft_countcmd(ms->cmnd_list);
+	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 //	if (!ms->debu.cmnd_count)
 //		return (0);
 	if (ft_check_infile(ms) >= 0)
@@ -387,6 +388,6 @@ int	ft_execute(t_ms *ms)
 		if (ft_check_outfile(ms) >= 0)
 			ft_job(ms);
 	}
-	ft_closer(ms, ms->debu.cmnd_count);
+	ft_closer(ms, ms->cmnd_count);
 	return (0);
 }

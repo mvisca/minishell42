@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/01 19:24:46 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/01 19:33:21 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,20 @@
 // Para funciones de validación y otros
 # define FALSE  0
 # define TRUE   1
+
+// Para acotar casos extremos
+# define MAX_PATH_LENGHT	1024
+# define MAX_ARGS 			256
+
+// Macros para gestionar fd de entrada y salida
+# define FD_IN     0
+# define FD_OUT    1
+# define FD_HERE   2
+# define H_FILE    ".xyz_here_tmp.tmp"
+
+// Macros para pipes
+# define R_END   0
+# define W_END   1
 
 // Para acotar casos extremos
 # define MAX_PATH_LENGHT	1024
