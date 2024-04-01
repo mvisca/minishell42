@@ -1,18 +1,13 @@
-       1
-
-Child 1 done
-HOLA PAPI
-       4
 total 936
-drwxr-xr-x  12 fcatala-  2022_barcelona     408 Mar 29 10:41 .
+drwxr-xr-x  12 fcatala-  2022_barcelona     408 Mar 31 18:42 .
 drwxr-xr-x  18 fcatala-  2022_barcelona     612 Mar 13 15:50 ..
-drwxr-xr-x  38 fcatala-  2022_barcelona    1292 Mar 29 10:41 .build
-drwxr-xr-x  15 fcatala-  2022_barcelona     510 Mar 26 18:52 .git
--rw-r--r--   1 fcatala-  2022_barcelona      37 Mar  4 16:15 .gitignore
--rw-r--r--   1 fcatala-  2022_barcelona    3636 Mar  9 15:40 Makefile
-drwxr-xr-x   5 fcatala-  2022_barcelona     170 Mar 29 07:29 include
+drwxr-xr-x  38 fcatala-  2022_barcelona    1292 Mar 31 18:42 .build
+drwxr-xr-x  15 fcatala-  2022_barcelona     510 Mar 31 12:21 .git
+-rw-r--r--   1 fcatala-  2022_barcelona      37 Mar 31 12:20 .gitignore
+-rw-r--r--   1 fcatala-  2022_barcelona    3636 Mar 31 12:20 Makefile
+drwxr-xr-x   6 fcatala-  2022_barcelona     204 Mar 31 16:58 include
 drwxr-xr-x   5 fcatala-  2022_barcelona     170 Feb 29 19:26 lib
--rwxr-xr-x   1 fcatala-  2022_barcelona  470936 Mar 29 10:41 minishell
-drwxr-xr-x   7 fcatala-  2022_barcelona     238 Mar  4 16:15 pipexold
-drwxr-xr-x  20 fcatala-  2022_barcelona     680 Mar 29 10:43 src
-drwxr-xr-x  31 fcatala-  2022_barcelona    1054 Mar 28 18:40 test
+-rwxr-xr-x   1 fcatala-  2022_barcelona  469952 Mar 31 18:42 minishell
+drwxr-xr-x   7 fcatala-  2022_barcelona     238 Mar 31 12:20 pipexold
+drwxr-xr-x  21 fcatala-  2022_barcelona     714 Mar 31 18:42 src
+drwxr-xr-x  31 fcatala-  2022_barcelona    1054 Mar 31 12:20 test

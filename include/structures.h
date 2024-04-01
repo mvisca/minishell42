@@ -29,6 +29,8 @@ typedef struct s_coml
 {
 	char				**command; // command[0] = comando; command[1] = opciones... command[n] = NULL;
 	t_redl				*redirect; // NULL o VALIDO
+	int					in;//control entrada para dups
+	int					out;//control salida para dups
 	struct s_coml		*next;
 }	t_coml;
 
@@ -47,9 +49,10 @@ typedef struct s_ms
 	char				**envarr;
 	t_envl				*envlst;
 	int					init_fd[2];
-	int					curr_fd[2];
+	int					tubo[2];//la pipe
 	int					prev_fd[2];
 	int					exit_code;
+	pid_t				pid;//para controlar executor
 }	t_ms;
 
 #endif
