@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/01 19:44:45 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/01 19:49:59 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,22 @@ typedef struct s_strs
 	char					*new;						
 }	t_strs;
 
+typedef struct s_strs
+{
+	char					*aux;
+	char					*buf;
+	char					*new;						
+}	t_strs;
+
 typedef struct s_ms
 {
 	char					*line;
 	t_tokl					*token_list;
 	t_coml					*cmnd_list;
 	t_coml					*cmnd_list_fake;
-	char					**envarr;
+	t_strs					strs;
 	t_envl					*envlst;
+	char					**envarr;
 	int						init_fd[2];
 	int						tubo[2];//la pipe
 	int						prev_fd[2];
