@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/01 19:49:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/03 08:34:21 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,6 @@ typedef struct s_coml
 	int						out;//control salida para dups
 	struct s_coml			*next;
 }	t_coml;
-
-typedef struct s_strs
-{
-	char					*aux;
-	char					*buf;
-	char					*new;						
-}	t_strs;
 
 typedef struct s_strs
 {
