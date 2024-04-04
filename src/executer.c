@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/04 17:38:12 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/04 17:51:25 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,29 +330,10 @@ static void	ft_redir(t_redl	*files)
 static void	ft_runchild(t_coml *job, t_ms *ms)
 {
 	int		tubo[2];
-	t_redl	*files;
 	pid_t	pid;
 
 	if (job->redirect)
-	{
-		files = job->redirect;
-		while (files) //falta control de errores
-		{
-			if (files->type == L_REDIRECT)
-			{
-				files->fdes = ft_openfile(files->path, files->type);
-				dup2(files->fdes, STDIN_FILENO);//falta control de errores
-				close(files->fdes);
-			}
-			if (files->type == R_REDIRECT || files->type == DR_REDIRECT)
-			{
-				files->fdes = ft_openfile(files->path, files->type);
-				dup2(files->fdes, STDOUT_FILENO);
-				close(files->fdes);
-			}
-			files = files->next;
-		}
-	}
+		ft_redir(job->redirect);
 	if (pipe(tubo) < 0)
 		printf("Errorrrrrr\n\n");//
 	pid = fork();
@@ -372,31 +353,8 @@ static void	ft_runchild(t_coml *job, t_ms *ms)
 
 static void	ft_runend(t_coml *job, t_ms *ms)
 {
-//	t_redl	*files;
-
 	if (job->redirect)
-	{
 		ft_redir(job->redirect);
-/*		
-		files = job->redirect;
-		while (files) //falta control de errores
-		{
-			if (files->type == L_REDIRECT)
-			{
-				files->fdes = ft_openfile(files->path, files->type);
-				dup2(files->fdes, STDIN_FILENO);//falta control de errores
-				close(files->fdes);
-			}
-			if (files->type == R_REDIRECT || files->type == DR_REDIRECT)
-			{
-				files->fdes = ft_openfile(files->path, files->type);
-				dup2(files->fdes, STDOUT_FILENO);
-				close(files->fdes);
-			}
-			files = files->next;
-		}
-*/		
-	}
 	if (job->command && job->command[0])
 		ft_runcmnd(job, ms);
 	else
