@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/04 17:18:36 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/04 17:38:12 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,6 +303,30 @@ static void	ft_dup_close(int tubo[2], int pos)
 	}
 }
 
+//falta mejorar control de errores
+static void	ft_redir(t_redl	*files)
+{
+	while (files)
+	{
+		if (files->type == L_REDIRECT)
+		{
+			files->fdes = ft_openfile(files->path, files->type);
+			if (dup2(files->fdes, STDIN_FILENO) < 0)
+				exit (1);
+			close(files->fdes);
+		}
+		if (files->type == R_REDIRECT || files->type == DR_REDIRECT)
+		{
+			files->fdes = ft_openfile(files->path, files->type);
+			if (dup2(files->fdes, STDOUT_FILENO) < 0)
+				exit (1);
+			close(files->fdes);
+		}
+		files = files->next;
+	}
+}
+
+
 static void	ft_runchild(t_coml *job, t_ms *ms)
 {
 	int		tubo[2];
@@ -348,10 +372,12 @@ static void	ft_runchild(t_coml *job, t_ms *ms)
 
 static void	ft_runend(t_coml *job, t_ms *ms)
 {
-	t_redl	*files;
+//	t_redl	*files;
 
 	if (job->redirect)
 	{
+		ft_redir(job->redirect);
+/*		
 		files = job->redirect;
 		while (files) //falta control de errores
 		{
@@ -369,6 +395,7 @@ static void	ft_runend(t_coml *job, t_ms *ms)
 			}
 			files = files->next;
 		}
+*/		
 	}
 	if (job->command && job->command[0])
 		ft_runcmnd(job, ms);
