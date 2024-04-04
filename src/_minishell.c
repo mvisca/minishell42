@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/01 19:57:28 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/02 18:16:30 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int ac, char **av, char **envp)
 {
 	t_ms	ms;
 
-	signal_init();
+//	signal_init();
 	initialize(&ms, ac, av, envp);
 	while (1)
 	{
@@ -45,7 +45,7 @@ int	main(int ac, char **av, char **envp)
 		//debug_all(&ms, 0, 0, 1);
 		if (check_exit(&ms))
 			break ;
-		ft_execute(&ms); //llamada al executer
+		ft_execute(&ms);
 		utils_free_ms(&ms, FALSE);
 	}
 	utils_free_ms(&ms, TRUE);

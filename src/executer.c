@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/01 19:34:28 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/02 20:17:34 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ static char	*ft_strjoin3(char *str1, char *str2, char *str3)
 	return (out);
 }
 
-//Contador de comandos
+//Contador de comandos. Inicializa los fd de entrada y salida
 static int	ft_countcmd(t_coml *coml)
 {
 	int		i;
@@ -139,6 +139,8 @@ static int	ft_countcmd(t_coml *coml)
 	aux = coml;
 	while (aux)
 	{
+		aux->in = STDIN_FILENO;
+		aux->out = STDOUT_FILENO;
 		aux = aux->next;
 		++i;
 	}
@@ -160,6 +162,7 @@ static int	ft_openfile(char *file, int redir)
 	return (fd);
 }
 
+/*
 static int	ft_check_infile(t_ms *ms)
 {
 	t_coml	*aux;
@@ -181,7 +184,7 @@ static int	ft_check_infile(t_ms *ms)
 			files = files->next;
 		}
 	}
-	return (0);
+	return (STDIN_FILENO);
 }
 
 static int	ft_check_outfile(t_ms *ms)
@@ -190,8 +193,8 @@ static int	ft_check_outfile(t_ms *ms)
 	t_redl	*files;
 
 	aux = ms->cmnd_list;
-	while (aux->next)
-		aux = aux->next;
+//	while (aux->next)
+//		aux = aux->next;
 	if (aux->redirect)
 	{
 		files = aux->redirect;
@@ -207,8 +210,9 @@ static int	ft_check_outfile(t_ms *ms)
 			files = files->next;
 		}
 	}
-	return (0);
+	return (STDOUT_FILENO);
 }
+*/
 
 static int	ft_closer(t_ms *ms, int i)
 {
@@ -299,23 +303,45 @@ static void	ft_dup_close(int tubo[2], int pos)
 	}
 }
 
-static void	ft_runchild(t_coml *job, t_ms *ms, int cmnd)
+static void	ft_runchild(t_coml *job, t_ms *ms)
 {
 	int		tubo[2];
-	t_redl	*aux_redl;
+	t_redl	*files;
 	pid_t	pid;
 
+/*
 	if (job->redirect && cmnd == 1)
 	{
-		aux_redl = job->redirect;
-		while (aux_redl)
+		files = job->redirect;
+		while (files)
 		{
-			if (aux_redl->type == L_REDIRECT)//falta heredoc
+			if (files->type == L_REDIRECT)//falta heredoc y control de errores
 			{
-				dup2(aux_redl->fdes, STDIN_FILENO);
-				break ;
+				files->fdes = ft_openfile(files->path, files->type);
+				dup2(files->fdes, STDIN_FILENO);
 			}
-			aux_redl = aux_redl->next;
+			files = files->next;
+		}
+	}
+*/	
+	if (job->redirect)
+	{
+		files = job->redirect;
+		while (files) //falta control de errores
+		{
+			if (files->type == L_REDIRECT)
+			{
+				files->fdes = ft_openfile(files->path, files->type);
+				dup2(files->fdes, STDIN_FILENO);//falta control de errores
+				close(files->fdes);
+			}
+			if (files->type == R_REDIRECT || files->type == DR_REDIRECT)
+			{
+				files->fdes = ft_openfile(files->path, files->type);
+				dup2(files->fdes, STDOUT_FILENO);
+				close(files->fdes);
+			}
+			files = files->next;
 		}
 	}
 	if (pipe(tubo) < 0)
@@ -334,21 +360,29 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int cmnd)
 
 static void	ft_runend(t_coml *job, t_ms *ms)
 {
-	t_redl	*aux_redl;
+	t_redl	*files;
 
 	if (job->redirect)
 	{
-		aux_redl = job->redirect;
-		while (aux_redl)
+		files = job->redirect;
+		while (files) //falta control de errores
 		{
-			if (aux_redl->type == L_REDIRECT)
-				dup2(aux_redl->fdes, STDIN_FILENO);
-			if (aux_redl->type == R_REDIRECT || aux_redl->type == DR_REDIRECT)
-				dup2(aux_redl->fdes, STDOUT_FILENO);
-			aux_redl = aux_redl->next;
+			if (files->type == L_REDIRECT)
+			{
+				files->fdes = ft_openfile(files->path, files->type);
+				dup2(files->fdes, STDIN_FILENO);//falta control de errores
+				close(files->fdes);
+			}
+			if (files->type == R_REDIRECT || files->type == DR_REDIRECT)
+			{
+				files->fdes = ft_openfile(files->path, files->type);
+				dup2(files->fdes, STDOUT_FILENO);
+				close(files->fdes);
+			}
+			files = files->next;
 		}
 	}
-	if (ms->cmnd_count)//a ver
+	if (job->command && job->command[0])
 		ft_runcmnd(job, ms);
 }
 
@@ -367,7 +401,7 @@ static int	ft_job(t_ms *ms)
 	{
 		while (++i < ms->cmnd_count)
 		{
-			ft_runchild(job, ms, i);
+			ft_runchild(job, ms);
 			if (job->next)
 				job = job->next;
 		}
@@ -383,11 +417,13 @@ int	ft_execute(t_ms *ms)
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 //	if (!ms->debu.cmnd_count)
 //		return (0);
-	if (ft_check_infile(ms) >= 0)
+/*	if (ft_check_infile(ms) >= 0)
 	{
 		if (ft_check_outfile(ms) >= 0)
 			ft_job(ms);
 	}
+*/	
+	ft_job(ms);
 	ft_closer(ms, ms->cmnd_count);
 	return (0);
 }
