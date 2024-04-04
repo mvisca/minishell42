@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/02 20:17:34 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/04 17:18:36 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,21 +309,6 @@ static void	ft_runchild(t_coml *job, t_ms *ms)
 	t_redl	*files;
 	pid_t	pid;
 
-/*
-	if (job->redirect && cmnd == 1)
-	{
-		files = job->redirect;
-		while (files)
-		{
-			if (files->type == L_REDIRECT)//falta heredoc y control de errores
-			{
-				files->fdes = ft_openfile(files->path, files->type);
-				dup2(files->fdes, STDIN_FILENO);
-			}
-			files = files->next;
-		}
-	}
-*/	
 	if (job->redirect)
 	{
 		files = job->redirect;
@@ -352,7 +337,10 @@ static void	ft_runchild(t_coml *job, t_ms *ms)
 	if (pid == 0)
 	{
 		ft_dup_close(tubo, 1);
-		ft_runcmnd(job, ms);
+		if (job->command && job->command[0])
+			ft_runcmnd(job, ms);
+		else
+			exit(0);
 	}
 	else
 		ft_dup_close(tubo, 2);		
@@ -384,6 +372,8 @@ static void	ft_runend(t_coml *job, t_ms *ms)
 	}
 	if (job->command && job->command[0])
 		ft_runcmnd(job, ms);
+	else
+		exit(0);
 }
 
 static int	ft_job(t_ms *ms)
@@ -415,14 +405,6 @@ static int	ft_job(t_ms *ms)
 int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
-//	if (!ms->debu.cmnd_count)
-//		return (0);
-/*	if (ft_check_infile(ms) >= 0)
-	{
-		if (ft_check_outfile(ms) >= 0)
-			ft_job(ms);
-	}
-*/	
 	ft_job(ms);
 	ft_closer(ms, ms->cmnd_count);
 	return (0);
