@@ -27,6 +27,7 @@ MOVE SYNTAX CHEK TO PARSER OR LEXER
 BUILTINS
 
 EXECUTOR
+    Commandos no válidos dan un memory leak
 
 HERE DOC EN PARSER
 

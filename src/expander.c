@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/25 23:12:52 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/05 12:34:13 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	expander(t_ms *ms)
 		while (node->command && node->command[i])
 		{
 			expander_get_expansion(ms, node->command[i]);
-			ft_printf("address de strs %p y strs.new %p\n", ms->strs, ms->strs.new);
+//			ft_printf("address de strs %p y strs.new %p\n", ms->strs, ms->strs.new);
 			if (!ms->strs.new)
 			{
 				ft_printf("Error break\n");
