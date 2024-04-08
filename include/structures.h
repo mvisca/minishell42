@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/02 19:47:42 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/08 17:53:09 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ typedef struct s_ms
 	t_strs					strs;
 	t_envl					*envlst;
 	char					**envarr;
-	int						init_fd[2];
-	int						tubo[2];//la pipe
-	int						prev_fd[2];
+	int						init_fd[2];//dup inicial de STDIN y STDOUT
+	int						tubo[2];//la pipe (prescinidible)
+	int						prev_fd[2];//prescindible
 	int						exit_code;
 	int						cmnd_count; // remplazar ms->debug->cmnd_count
 	pid_t					pid;//para controlar executor

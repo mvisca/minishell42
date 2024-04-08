@@ -42,7 +42,7 @@ int	main(int ac, char **av, char **envp)
 		if (parser(&ms) != 0)
 			return (utils_free_ms(&ms, TRUE));
 		expander(&ms);
-		//debug_all(&ms, 0, 0, 1);
+		debug_all(&ms, 0, 0, 1);
 		if (check_exit(&ms))
 			break ;
 		ft_execute(&ms);
