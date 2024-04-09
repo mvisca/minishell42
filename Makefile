@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/04/01 19:38:52 by mvisca           ###   ########.fr        #
+#    Updated: 2024/04/05 13:16:21 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ RLINE_H		= $(RLINE_PATH)/libhistory.a
 LIB_PATH	= -L$(LIBFT_PATH) -L$(RLINE_PATH) 
 LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap 
 
-OBJ_PATH	= ./OBJ/
+OBJ_PATH	= .obj/
 OBJ			= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
 DEP			= $(addprefix $(OBJ_PATH), $(OBJ:.o=.d))
 
