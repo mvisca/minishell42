@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/08 18:51:54 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:47:57 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,7 +241,7 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms)
 		exit (127);
 	}
 }
-
+/*
 static void	ft_read_heredoc(char *eof, int tubo[2], int init_fd[2])
 {
 	char	*tmp;
@@ -289,7 +289,7 @@ int	ft_heredoc(char *eof, int init_fd[2])
 	free(eof);
 	return (0);
 }
-
+*/
 //falta mejorar control de errores
 static void	ft_dup_close(int tubo[2], int pos)
 {
@@ -310,12 +310,12 @@ static void	ft_dup_close(int tubo[2], int pos)
 }
 
 //falta mejorar control de errores
-static void	ft_redir(t_redl	*files, int init_fd[2])
+static void	ft_redir(t_redl	*files) //init_fd[2])
 {
 	while (files)
 	{
-		if (files->type == DL_REDIRECT)
-			ft_heredoc(files->path, init_fd);
+//		if (files->type == DL_REDIRECT)
+//			ft_heredoc(files->path, init_fd);
 		if (files->type == L_REDIRECT)
 		{
 			files->fdes = ft_openfile(files->path, files->type);
@@ -349,7 +349,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms)
 	pid_t	pid;
 
 	if (job->redirect)
-		ft_redir(job->redirect, ms->init_fd);
+		ft_redir(job->redirect);//, ms->init_fd);
 	if (pipe(tubo) < 0)
 		printf("Errorrrrrr\n\n");//
 	pid = fork();
@@ -370,7 +370,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms)
 static void	ft_runend(t_coml *job, t_ms *ms)
 {
 	if (job->redirect)
-		ft_redir(job->redirect, ms->init_fd);
+		ft_redir(job->redirect);//, ms->init_fd);
 	if (job->command && job->command[0])
 		ft_runcmnd(job, ms);
 	else
