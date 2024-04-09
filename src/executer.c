@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/09 15:47:57 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/09 20:00:00 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ static int	ft_openfile(char *file, int redir)
 	if (redir == L_REDIRECT)
 		fd = open(file, O_RDONLY, 0644);
 	else if (redir == R_REDIRECT)
-		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		fd = open(file, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	else if (redir == DR_REDIRECT)
 		fd = open(file, O_RDWR | O_APPEND | O_CREAT, 0644);
 	return (fd);
@@ -241,7 +241,7 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms)
 		exit (127);
 	}
 }
-/*
+
 static void	ft_read_heredoc(char *eof, int tubo[2], int init_fd[2])
 {
 	char	*tmp;
@@ -250,7 +250,7 @@ static void	ft_read_heredoc(char *eof, int tubo[2], int init_fd[2])
 
 	i = 0;
 	close(tubo[0]);
-	i = init_fd[0];
+	dup2(init_fd[0], STDIN_FILENO);
 	while (1 && ++i < 100)
 	{
 		tmp = readline("> ");
@@ -265,7 +265,7 @@ static void	ft_read_heredoc(char *eof, int tubo[2], int init_fd[2])
 	free(tmp);
 	free(line);
 	close(tubo[1]);
-//	exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
 
 int	ft_heredoc(char *eof, int init_fd[2])
@@ -284,12 +284,14 @@ int	ft_heredoc(char *eof, int init_fd[2])
 		ft_read_heredoc(eof, tubo, init_fd);
 	}
 	waitpid(pid, &status, 0);
-	close(tubo[1]);
+	close(tubo[W_END]);
+	dup2(tubo[R_END], STDIN_FILENO);
+	close(tubo[R_END]);
 //	if (eof)
-	free(eof);
+//		free(eof);
 	return (0);
 }
-*/
+
 //falta mejorar control de errores
 static void	ft_dup_close(int tubo[2], int pos)
 {
@@ -310,12 +312,12 @@ static void	ft_dup_close(int tubo[2], int pos)
 }
 
 //falta mejorar control de errores
-static void	ft_redir(t_redl	*files) //init_fd[2])
+static void	ft_redir(t_redl	*files, int init_fd[2])
 {
 	while (files)
 	{
-//		if (files->type == DL_REDIRECT)
-//			ft_heredoc(files->path, init_fd);
+		if (files->type == DL_REDIRECT)
+			ft_heredoc(files->path, init_fd);
 		if (files->type == L_REDIRECT)
 		{
 			files->fdes = ft_openfile(files->path, files->type);
@@ -336,7 +338,7 @@ static void	ft_redir(t_redl	*files) //init_fd[2])
 		}
 		files = files->next;
 	}
-	if (files->fdes < 0)
+	if (files && files->fdes < 0)
 	{
 		perror(files->path);
 		exit (1);
@@ -349,7 +351,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms)
 	pid_t	pid;
 
 	if (job->redirect)
-		ft_redir(job->redirect);//, ms->init_fd);
+		ft_redir(job->redirect, ms->init_fd);
 	if (pipe(tubo) < 0)
 		printf("Errorrrrrr\n\n");//
 	pid = fork();
@@ -370,7 +372,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms)
 static void	ft_runend(t_coml *job, t_ms *ms)
 {
 	if (job->redirect)
-		ft_redir(job->redirect);//, ms->init_fd);
+		ft_redir(job->redirect, ms->init_fd);
 	if (job->command && job->command[0])
 		ft_runcmnd(job, ms);
 	else
