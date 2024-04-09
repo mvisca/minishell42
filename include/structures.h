@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/05 13:10:21 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/10 01:00:48 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_coml
 {
 	char					**command; // command[0] = comando; command[1] = opciones... command[n] = NULL;
 	t_redl					*redirect; // NULL o VALIDO
-	int						in;//control entrada para dups
+	int						in;//control entrada para dups 
 	int						out;//control salida para dups
 	struct s_coml			*next;
 }	t_coml;
@@ -72,9 +72,9 @@ typedef struct s_ms
 	t_strs					strs;
 	t_envl					*envlst;
 	char					**envarr;
-	int						init_fd[2];
-	int						tubo[2];//la pipe
-	int						prev_fd[2];
+	int						init_fd[2];//dup inicial de STDIN y STDOUT
+	int						tubo[2];//la pipe (prescinidible)
+	int						prev_fd[2];//prescindible
 	int						exit_code;
 	int						cmnd_count; // remplazar ms->debug->cmnd_count
 	pid_t					pid;//para controlar executor
