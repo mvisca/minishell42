@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/20 12:33:54 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:41:00 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ static void	signal_ctrl_int(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("INT\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
