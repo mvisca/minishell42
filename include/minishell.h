@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/10 15:26:49 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/10 17:49:35 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <sys/types.h>
+# include <termios.h>
 # include <unistd.h>
 
 // # include "global.h"
@@ -107,7 +108,7 @@ int         parser_update_envarr(t_ms *ms);
 
 /*##################	SIGNAL		#####################*/
 
-void        signal_init(void);
+int			signal_init(int pid);
 
 /*##################	UTILS		#####################*/
 

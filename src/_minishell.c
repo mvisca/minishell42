@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _minishell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/10 01:00:50 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:28:04 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ static int	check_exit(t_ms *ms)
 	}
 	return (0);
 }
+
 int	main(int ac, char **av, char **envp)
 {
 	t_ms	ms;
 
-//	signal_init();
+	signal_init(1);
 	initialize(&ms, ac, av, envp);
 	while (1)
 	{

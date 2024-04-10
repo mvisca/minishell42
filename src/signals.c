@@ -6,109 +6,69 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/20 12:33:54 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/10 17:48:57 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// static void father_sig_handler(int signum)
-// {
-// 	if (signum == SIGINT ) // macros de signals
-// 	{
-// 		rl_replace_line("", 0);
-// 		ft_printf("\n");
-// 		rl_on_new_line();
-// 		rl_redisplay();
-// 	}	
-// 	else if (signum == SIGQUIT)
-// 	{
-// 		rl_redisplay();
-// 		ft_printf("exit\n");
-// 	}
-// 	else if (signum == SIGTERM)
-// 		ft_printf("CTRL+\\\n");
-// }
-
-// static void child_sig_handler(int signum)
-// {
-// 	if (signum == SIGINT ) // macros de signals
-// 	{
-// //		rl_replace_line("", 0);
-// 		ft_printf("\n");
-// 		rl_on_new_line();
-// 		rl_redisplay();
-// 	}	
-// 	else if (signum == SIGQUIT)
-// 	{
-// 		rl_redisplay();
-// 		ft_printf("exit\n");
-// 	}
-// 	else if (signum == SIGTERM)
-// 		ft_printf("CTRL+\\\n");
-// }
-
-// // Recibe el pid como argumento.
-// // En los fork se deberá pasar para que se gestion father y childs.
-// int signals_init(int pid)
-// {
-// 	struct sigaction	sa;
-
-// 	sa.sa_flags = 0;
-// 	sigemptyset(&sa.sa_mask);
-// 	sigaddset(&sa.sa_mask, SIGINT);
-// 	sigaddset(&sa.sa_mask, SIGQUIT);
-// 	sigaddset(&sa.sa_mask, SIGTERM);
-	
-// 	if (pid < 0)
-// 		return (1);
-// 	else if (pid == 0)
-// 		sa.sa_handler = child_sig_handler;
-// 	else
-// 		sa.sa_handler = father_sig_handler;
-// 		s_sa.sa_flags = SA_RESTART;
-// 	if (sigaction(SIGINT, &sa, NULL) == -1 || sigaction(SIGQUIT,  &sa, NULL) == -1 || sigaction(SIGTERM, &sa, NULL) == -1)
-// 		return (1);
-// 	return (0);
-// }
-
-static void	signal_ctrl_term(int sig)
+static void	father_sig_handler(int signum)
 {
-	if (sig == SIGTERM)
+	if (signum == SIGINT)
 	{
-		printf("TERM\n");
+		ft_printf("\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	else if (signum == SIGQUIT)
+	{
+		rl_redisplay();
+		ft_printf("exit\n");
+	}
+	else if (signum == SIGTERM)
+		ft_printf("CTRL+\\\n");
 }
 
-static void	signal_ctrl_quit(int sig)
+static void	child_sig_handler(int signum)
 {
-	if (sig == SIGQUIT)
+	if (signum == SIGINT)
 	{
-		printf("QUIT\n");
 		rl_replace_line("", 0);
+		ft_printf("\n");
 		rl_on_new_line();
 		rl_redisplay();
 	}
-}
-
-static void	signal_ctrl_int(int sig)
-{
-	if (sig == SIGINT)
+	else if (signum == SIGQUIT)
 	{
-		printf("INT\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
 		rl_redisplay();
+		ft_printf("exit\n");
 	}
+	else if (signum == SIGTERM)
+		ft_printf("CTRL+\\\n");
 }
 
-void	signal_init(void)
+int	signal_init(int pid)
 {
-	signal(SIGTERM, signal_ctrl_term);
-	signal(SIGQUIT, signal_ctrl_quit);
-	signal(SIGINT, signal_ctrl_int);
+	struct sigaction	sa;
+
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGINT);
+	sigaddset(&sa.sa_mask, SIGQUIT);
+	sigaddset(&sa.sa_mask, SIGTERM);
+	if (pid == 0)
+		sa.sa_handler = child_sig_handler;
+	else
+	{
+		sa.sa_handler = father_sig_handler;
+		sa.sa_flags = SA_RESTART | SA_SIGINFO;
+	}
+	if (sigaction(SIGINT, &sa, NULL) == -1 || \
+	sigaction(SIGQUIT, &sa, NULL) == -1 || \
+	sigaction(SIGTERM, &sa, NULL) == -1)
+		return (1);
+	return (0);
 }
+
 //https://github.com/DinaGala/42_minishell/blob/main/src/signals/signals.c
