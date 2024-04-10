@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   macros.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/01 19:40:15 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/10 18:44:46 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,9 @@
 # define EXIT_NOTFOUND	127
 # define EXIT_FORK		130
 # define EXIT_QUITFORK	131
+
+// No env
+# define NOENV "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applicat\
+ions/VMware Fusion.app/Contents/Public:/usr/local/go/bin:/usr/local/munki"
 
 #endif
