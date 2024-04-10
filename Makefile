@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
+#    By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/04/05 12:45:56 by mvisca           ###   ########.fr        #
+#    Updated: 2024/04/10 15:23:17 by mvisca-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC         = 		_minishell.c 				\
 					errors.c					\
 					executer.c					\
 					expander.c					\
+					expander_tools.c			\
 					initialize.c				\
 					interface.c					\
 					lexer.c						\
@@ -55,7 +56,7 @@ RLINE_H		= $(RLINE_PATH)/libhistory.a
 LIB_PATH	= -L$(LIBFT_PATH) -L$(RLINE_PATH) 
 LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap 
 
-OBJ_PATH	= ./OBJ/
+OBJ_PATH	= ./.obj/
 OBJ			= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
 DEP			= $(addprefix $(OBJ_PATH), $(OBJ:.o=.d))
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/05 12:34:13 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/10 15:29:51 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 {
 	size_t	start;
 
-	ft_printf("CURLY %s"RED"-\n"RESET, str);
 	if (!ft_strchr(&str[*i], '}'))
 	{
 		ft_printf("Error de paréntesis no cerrado\n");
@@ -26,14 +25,13 @@ static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 	}
 	*i += 2;
 	start = *i;
-	ft_printf("zzzzz CURLY %s"RED"-\n"RESET, str);
 	while (str[*i] && (str[*i] != '}'))
 	{
 		if (!(ft_isalnum(str[*i]) || str[*i] == '_'))
 		{
 			ft_printf(GREEN"Error Bad substitution 1\n"RESET);
 			return (1);
-		}	
+		}
 		(*i)++;
 	}
 	ms->strs.aux = ft_substr(str, start, (&str[*i] - &str[start]));
@@ -55,7 +53,7 @@ static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 }
 
 // extracts var name and gets value when not between curly brakets
-static int	expander_var_alpha(t_ms *ms, char *str, size_t *i) 
+static int	expander_var_alpha(t_ms *ms, char *str, size_t *i)
 {
 	unsigned int	start;
 
@@ -113,9 +111,9 @@ static int	expander_get_expansion(t_ms *ms, char *str)
 			ft_printf("System o syntax Error\n");
 			return (1);
 		}
-		ms->strs.aux= ms->strs.new;
+		ms->strs.aux = ms->strs.new;
 		ms->strs.new = ft_strjoin(ms->strs.aux, ms->strs.buf);
-		free(ms->strs.buf);	
+		free(ms->strs.buf);
 		ms->strs.buf = NULL;
 		free(ms->strs.aux);
 	}
@@ -134,14 +132,13 @@ int	expander(t_ms *ms)
 		while (node->command && node->command[i])
 		{
 			expander_get_expansion(ms, node->command[i]);
-//			ft_printf("address de strs %p y strs.new %p\n", ms->strs, ms->strs.new);
 			if (!ms->strs.new)
 			{
 				ft_printf("Error break\n");
 				return (1);
 			}
-			free(node->command[i]); // viene cambiado o vacío?
-			node->command[i] = ms->strs.new;
+			free(node->command[i]);
+			node->command[i] = expander_filter_quotes(ms->strs.new);
 			ms->strs.new = NULL;
 			i++;
 		}

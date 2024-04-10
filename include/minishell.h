@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/26 00:03:02 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/10 15:26:49 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,19 @@
 int         debug_all(t_ms *ms, int env, int tok, int com);
 void        debug_token(t_ms *ms);
 void        debug_command(t_ms *ms);
-void    	debug_envarr(t_ms *ms);
+void        debug_envarr(t_ms *ms);
 void	    debug_expand(t_ms *ms);
 
 /*##################	ENVIRONMENT	#####################*/
 // Factory
-t_envl	    *environment_init(t_ms *ms, char **envp);
-t_envl  	*environment_new_node(t_ms *ms, char *key, char *value);
-t_envl  	*environment_add_node(t_ms *ms, t_envl *envnode);
+t_envl      *environment_init(t_ms *ms, char **envp);
+t_envl      *environment_new_node(t_ms *ms, char *key, char *value);
+t_envl      *environment_add_node(t_ms *ms, t_envl *envnode);
 void		environment_del_node(t_ms *ms, char *key);
-void	    environment_update_node(t_ms *ms, char *key, char *value);
+void        environment_update_node(t_ms *ms, char *key, char *value);
 
 // Getters
-t_envl  	*environment_get_node(t_ms *ms, char *key);
+t_envl      *environment_get_node(t_ms *ms, char *key);
 char		*environment_get_value(t_ms *ms, char *key);
 
 /*##################	ERRORS		#####################*/
@@ -72,11 +72,12 @@ int			ft_execute(t_ms *ms);
 int			init_signals(int mode);
 void		handler_norm(int sig, siginfo_t *data, void *non_used_data);
 void		handler_niet(int sig, siginfo_t *data, void *non_used_data);
-void    	ingnore_sign(int signum);
+void        ingnore_sign(int signum);
 
 /*##################	EXPANDER	#####################*/
 
 int			expander(t_ms *ms);
+char        *expander_filter_quotes(char *str);
 
 /*##################	INITIALIZER	#####################*/
 
