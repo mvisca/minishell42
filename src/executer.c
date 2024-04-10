@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/09 20:00:00 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:54:31 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,16 +246,14 @@ static void	ft_read_heredoc(char *eof, int tubo[2], int init_fd[2])
 {
 	char	*tmp;
 	char	*line;
-	int		i; //por si acaso
 
-	i = 0;
 	close(tubo[0]);
 	dup2(init_fd[0], STDIN_FILENO);
-	while (1 && ++i < 100)
+	while (1)
 	{
 		tmp = readline("> ");
 		line = ft_strjoin(tmp, "\n");
-		if (!tmp || !ft_strncmp(eof, tmp, ft_strlen(tmp)))
+		if (!line || (!ft_strncmp(eof, tmp, ft_strlen(tmp)) && ft_strlen(line) > 1))
 			break ;
 		write(tubo[1], line, ft_strlen(line));
 		free(tmp);
@@ -263,7 +261,6 @@ static void	ft_read_heredoc(char *eof, int tubo[2], int init_fd[2])
 	}
 	free(eof);
 	free(tmp);
-	free(line);
 	close(tubo[1]);
 	exit(EXIT_SUCCESS);
 }
@@ -287,8 +284,6 @@ int	ft_heredoc(char *eof, int init_fd[2])
 	close(tubo[W_END]);
 	dup2(tubo[R_END], STDIN_FILENO);
 	close(tubo[R_END]);
-//	if (eof)
-//		free(eof);
 	return (0);
 }
 

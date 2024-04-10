@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/26 00:02:44 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:46:07 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ static void	init_shell_level(t_ms *ms)
 // Tested Ok - Validar con las nuevas estructuras (ver con Marta)
 void	initialize(t_ms *ms, int ac, char **av, char **envp)
 {
-	if (ac > 1 || av[1])
-		error_exit("este programa no admite argumentos\n", ms);
+//	if (ac > 1 || av[1])
+//		error_exit("este programa no admite argumentos\n", ms);
+	(void)ac;//afegit
+	(void)av;//afegit
 	ms->line = NULL;
 	ms->token_list = NULL;
 	ms->cmnd_list = NULL;
