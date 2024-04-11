@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/11 18:00:22 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:58:45 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@
 # define C_CURLY    	125
 
 // Macros para expand
-# define NEW            0
-# define AUX            1
-# define BUF            2
+//# define NEW            0
+//# define AUX            1
+//# define BUF            2
 
 // Para customizar UI con colores ANSI
 # define RESET          "\x1b[0m"

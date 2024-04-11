@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/10 17:46:02 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/11 19:19:38 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,15 @@ static char	*build_prompt(t_ms *ms)
 int	interface_get_line(t_ms *ms)
 {
 	char	*prompt;
-	char 	*trim;
+	char	*aux;
 
 	prompt = build_prompt(ms);
 	if (!prompt)
 		return (1);
-	ms->line = readline(prompt);
-	free(prompt);
-	trim = ft_strtrim(ms->line, SPACES);
-	if (!trim || trim[0] == '\0')
-	{
-		free(ms->line);
-		free(trim);
-		return (1);
-	}
-	free(trim);
+	aux = readline(prompt);
+	ms->line = ft_strtrim(aux, SPACES);
 	add_history(ms->line);
+	free(aux);
+	free(prompt);
 	return (0);
 }
