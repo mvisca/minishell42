@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_init.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:10:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/09 09:37:27 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/11 18:20:32 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ static int	check_oversplit(t_envl *new, char **pair)
 	return (0);
 }
 
+static void	environment_noenv(t_ms *ms)
+{
+	t_envl	*new_env;
+
+	new_env = environment_new_node(ms, "PATH", AUTOENV);
+	environment_add_node(ms, new_env);
+}
+
 // Tested Ok
 t_envl	*environment_init(t_ms *ms, char **envp)
 {
@@ -59,5 +67,7 @@ t_envl	*environment_init(t_ms *ms, char **envp)
 		utils_free_tab(&pair);
 		i++;
 	}
+	if (!envp || !environment_get_node(ms, "PATH"))
+		environment_noenv(ms);
 	return (ms->envlst);
 }

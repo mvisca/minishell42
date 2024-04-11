@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/10 18:44:46 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:00:22 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@
 # define EXIT_QUITFORK	131
 
 // No env
-# define NOENV "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applicat\
-ions/VMware Fusion.app/Contents/Public:/usr/local/go/bin:/usr/local/munki"
+# define AUTOENV "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 #endif
