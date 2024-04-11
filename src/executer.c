@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/10 16:54:31 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:59:43 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,7 @@ static void	ft_read_heredoc(char *eof, int tubo[2], int init_fd[2])
 	exit(EXIT_SUCCESS);
 }
 
+//mirar prioridad de heredoc
 int	ft_heredoc(char *eof, int init_fd[2])
 {
 	int		tubo[2];
@@ -348,10 +349,10 @@ static void	ft_runchild(t_coml *job, t_ms *ms)
 	if (job->redirect)
 		ft_redir(job->redirect, ms->init_fd);
 	if (pipe(tubo) < 0)
-		printf("Errorrrrrr\n\n");//
+		exit (1);//
 	pid = fork();
 	if (pid < 0)
-		printf("What a forrrrk\n\n");///
+		exit (1);///
 	if (pid == 0)
 	{
 		ft_dup_close(tubo, 1);
@@ -374,12 +375,39 @@ static void	ft_runend(t_coml *job, t_ms *ms)
 		exit(0);
 }
 
+/*
+static void	ft_runend(t_coml *job, t_ms *ms)
+{
+	ms->pid = fork();
+	if (ms->pid < 0)
+		exit(1);
+	else if (ms->pid == 0)
+		ft_runchild(job, ms);
+	else
+		exit(0);
+}
+*/
+
+static void handle_child_exit(int signum) 
+{
+    int status;
+    pid_t pid;
+
+   (void)signum;
+	while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
+        // Handle child exit here if needed
+        printf("Child process %d exited with status %d\n", pid, status);
+    }
+}
+
+
 static int	ft_job(t_ms *ms)
 {
 	int		i;
 	t_coml	*job;
 	pid_t	pid;
 
+	signal(SIGCHLD, handle_child_exit);
 	i = 0;
 	job = ms->cmnd_list;
 	pid = fork();
@@ -387,16 +415,19 @@ static int	ft_job(t_ms *ms)
 		return (1);
 	if (pid == 0)
 	{
-		while (++i < ms->cmnd_count)
+		while (++i <  ms->cmnd_count)
 		{
 			ft_runchild(job, ms);
 			if (job->next)
 				job = job->next;
 		}
+//	pid = fork();
+//	if (pid == 0)
 		ft_runend(job, ms);
 	}
 	else
-		waitpid(-1, NULL, 0);
+		return (0);
+//		waitpid(-1, NULL, 0);
 	return (0);
 }
 
