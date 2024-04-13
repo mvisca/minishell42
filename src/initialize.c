@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/26 00:02:44 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/13 21:00:44 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	init_shell_level(t_ms *ms)
 // Tested Ok - Validar con las nuevas estructuras (ver con Marta)
 void	initialize(t_ms *ms, int ac, char **av, char **envp)
 {
+	g_exit = 0;
 	if (ac > 1 || av[1])
 		error_exit("este programa no admite argumentos\n", ms);
 	ms->line = NULL;

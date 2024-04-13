@@ -6,13 +6,27 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/10 17:48:57 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/13 20:57:36 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static void	father_sig_handler(int signum)
+// Maneja la senyal intrrupt durante consola interactiva
+static void	interactive_handler(int signum)
+{ 
+	if (signum == SIGINT)
+	{
+		ft_printf("\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		g_exit = 1;
+	}
+}
+
+// Maneja la senyal interrupt durante heredoc
+static void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -20,55 +34,45 @@ static void	father_sig_handler(int signum)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		exit(1);
 	}
-	else if (signum == SIGQUIT)
-	{
-		rl_redisplay();
-		ft_printf("exit\n");
-	}
-	else if (signum == SIGTERM)
-		ft_printf("CTRL+\\\n");
 }
 
-static void	child_sig_handler(int signum)
+// Silencia el echo de los comandos con control
+static void	signal_silent(void)
 {
-	if (signum == SIGINT)
-	{
-		rl_replace_line("", 0);
-		ft_printf("\n");
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	else if (signum == SIGQUIT)
-	{
-		rl_redisplay();
-		ft_printf("exit\n");
-	}
-	else if (signum == SIGTERM)
-		ft_printf("CTRL+\\\n");
+	struct termios	terminal;
+
+	tcgetattr(0, &terminal);
+	terminal.c_cflag &= ~ECHOCTL;
+	tcsetattr(0, TCSANOW, &terminal);
 }
 
-int	signal_init(int pid)
+int	signal_init(int mode)
 {
 	struct sigaction	sa;
 
-	sa.sa_flags = 0;
+	signal_slient();
 	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGINT);
-	sigaddset(&sa.sa_mask, SIGQUIT);
-	sigaddset(&sa.sa_mask, SIGTERM);
-	if (pid == 0)
-		sa.sa_handler = child_sig_handler;
-	else
-	{
-		sa.sa_handler = father_sig_handler;
-		sa.sa_flags = SA_RESTART | SA_SIGINFO;
-	}
+	sa.sa_flags = SA_RESTART; // | SA_SIGINFO;
+	if (mode == INTERACTIVE)
+		sa.sa_handler = interactive_handler;
+	if (mode == HEREDOC)
+		sa.sa_handler = heredoc_handler;
 	if (sigaction(SIGINT, &sa, NULL) == -1 || \
-	sigaction(SIGQUIT, &sa, NULL) == -1 || \
-	sigaction(SIGTERM, &sa, NULL) == -1)
+	sigaction(SIGQUIT, &sa, NULL) == -1)
 		return (1);
 	return (0);
 }
 
-//https://github.com/DinaGala/42_minishell/blob/main/src/signals/signals.c
+int	signal_ignore(int sig_type)
+{
+	struct sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sa.sa_handler = SIG_IGN;
+	if (sigaction(sig_type, &sa, NULL) != 0)
+		return (1);
+	return (0);
+}

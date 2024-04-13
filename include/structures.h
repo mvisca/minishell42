@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/10 01:00:48 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/13 21:01:08 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
-// extern	int	g_sig; //variable global para gestionar las senyales.
-// Podria ser una estructura si conviniera
+//variable global para gestionar las senyales.
+extern	int	g_exit;
 
 typedef struct s_parser_split
 {

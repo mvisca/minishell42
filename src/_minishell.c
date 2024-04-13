@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/11 19:25:24 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/13 21:15:39 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,17 @@ int	main(int ac, char **av, char **envp)
 	initialize(&ms, ac, av, envp);
 	while (1)
 	{
-		signal_init(1);
-		/*
-		if (interface_get_line(&ms) != 0)
-			continue ;
-		else if (errors_syntax(&ms) != 0)
-		{
-			free(ms.line);
-			continue ;
-		}
-		*/
-		interface_get_line(&ms); // control de errores eliminado
+		if (signal_init(INTERACTIVE) != 0)
+			break ;
+		interface_get_line(&ms);
+		signal_ignore(SIGQUIT);
+		signal_ignore(SIGINT);
 		if ((!ms.line && empty_exit()) || ms.line[0] == 0)
 			continue ;
-		if (lexer(&ms, ms.line) != 0)
-			return (utils_free_ms(&ms, TRUE));
-		if (parser(&ms) != 0)
+		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
 			return (utils_free_ms(&ms, TRUE));
 		expander(&ms);
-//		debug_all(&ms, 0, 0, 1);
-		if (check_exit(&ms)) // eliminar al implement builtins
+		if (check_exit(&ms))
 			break ;
 		ft_execute(&ms);
 		utils_free_ms(&ms, FALSE);

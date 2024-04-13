@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/10 17:49:35 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/13 20:14:51 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ int         parser_update_envarr(t_ms *ms);
 
 /*##################	SIGNAL		#####################*/
 
-int			signal_init(int pid);
+int			signal_init(int mode);
+int         signal_ignore(int sig_type);
 
 /*##################	UTILS		#####################*/
 

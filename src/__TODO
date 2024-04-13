@@ -1,79 +1,47 @@
-DONE:
-    UPDATE_SHELL_LEVEL +1
-    SIGNAL
-        CTRL C - OK
-        CTRL D - 
-        CTRL \
-        PENDING: ADAPT THE HANDLER FUNCTIONS BEHAVIOUR
-
-PARSER
-    LOS CONTENIDOS ENTRE PARÉNTESIS TIENEN QUE SER CONTENIDO EN UN COMMANDO SOLO
-    NO ESTÁ RESPETANDO ESTO EL PARSERç
-    // PUEDE SER QUE ESTÉ AFECTANDO EL CAMBIO DE MACROS, SI ES ASI SE ARREGLA FACIL //
+SIGNALS
+    Handler interactive
+    Handler heredoc
 
 EXPANDER
+    $$ -> PID
     $var
     $(var)
     $((var or expresion))
         cómo interpreta los caracteres dentro de una expresión
             son tratados como integres que se convierten a cero?
             son tratados como un is_digit?
-    cómo gestionar el tratamiento de las comillas en AWK
     NOTA:
     En caso de que no se cierra una comilla esa línea completa queda excluida del parser
+    EXPANDIR $$
+        ESTE COMANDO EN UNA FUNCIÓN PODRÍA OBTENER EL PID EN UN FILE SIN TENER LA FUNCION getpid() QUE NO ESTA PERMITIDA
+        ps aux | grep minishell | awk '{print $2}' | head -n 1 > FILE
+        DESPUES ABRIR EL FILE Y OBTENER EL STRING
+        IMPRIMIRLO
+        BORRAR EL FILE CON rm FILE
+    ${variable:-valor_por_defecto}
+    ${variable:+valor_por_defecto}
 
-MOVE SYNTAX CHEK TO PARSER OR LEXER
+    ~:dir del usuario /home
+    $*:todos los parámetros ?? QUE ES ESTO
+    $2:segundo parámetro ?? QUE ES ESTO
+    $0:nombre del script ?? QUE ES ESTO
+    $?:código de salida OK
+    $/:número de parámetros ?? QUE ES ESTO
+    $!:pid del último trabajo en segundo plano ?? QUE ES ESTO
 
-BUILTINS
+    $((expresión)) - NOT HADLED
+    $[expresión] - NOT HANDLED
+    + - / * % , < <= > >= == != , && || !
+    :precedencia de operadores, paréntesis para alterar la precedencia
+    :variables dentro de la expresión
+    :funciones matemáticas dentro de la expresión
 
-EXECUTOR
-    Commandos no válidos dan un memory leak
+    ${variables/espresión/reemplazo}
+    *:cualquier string
+    ?:cualquier char
 
-HERE DOC EN PARSER
-
-REVISAR MAKEFILE
-
-EXPANDIR $$
-ESTE COMANDO EN UNA FUNCIÓN PODRÍA OBTENER EL PID EN UN FILE SIN TENER LA FUNCION getpid() QUE NO ESTA PERMITIDA
- ps aux | grep minishell | awk '{print $2}' | head -n 1 > FILE
-DESPUES ABRIR EL FILE Y OBTENER EL STRING
-IMPRIMIRLO
-BORRAR EL FILE CON rm FILE
-
-
-
-/*
-expandir
-${variable}
-$variable
-${variable:-valor_por_defecto}
-${variable:+valor_por_defecto}
-
-~:dir del usuario /home
-$*:todos los parámetros ?? QUE ES ESTO
-$2:segundo parámetro ?? QUE ES ESTO
-$0:nombre del script ?? QUE ES ESTO
-$?:código de salida OK
-$/:número de parámetros ?? QUE ES ESTO
-$!:pid del último trabajo en segundo plano ?? QUE ES ESTO
-
-$((expresión)) - NOT HADLED
-$[expresión] - NOT HANDLED
-+ - / * % , < <= > >= == != , && || !
-:precedencia de operadores, paréntesis para alterar la precedencia
-:variables dentro de la expresión
-:funciones matemáticas dentro de la expresión
-
-${variables/espresión/reemplazo}
-*:cualquier string
-?:cualquier char
-*/
-
-/*
-export v1=hola
-v1
-v1: command not found
-$(v1)
-v1:command not found
-
-*/
+    export v1=hola
+    v1
+    v1: command not found
+    $(v1)
+    v1:command not found

@@ -6,17 +6,12 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/11 19:25:25 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:50:49 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MACROS_H
 # define MACROS_H
-
-// Debuger switch
-# ifndef DEBUG_ON
-#  define DEBUG_ON      1
-# endif
 
 // Para funciones de validación y otros
 # define FALSE          0
@@ -104,6 +99,10 @@
 # define EXIT_NOTFOUND	127
 # define EXIT_FORK		130
 # define EXIT_QUITFORK	131
+
+// Signals mode
+# define INTERACTIVE 1
+# define HEREDOC 2
 
 // No env
 # define AUTOENV "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
