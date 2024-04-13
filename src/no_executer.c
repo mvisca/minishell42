@@ -1,78 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   old_executer.c                                     :+:      :+:    :+:   */
+/*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/13 16:05:31 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/13 17:03:16 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-//Senyales => de momento son copias de otros.
-//De Tomas, alias Concha
-/*
-int	init_signals(int mode)
-{
-	struct	sigaction	signal;
-
-	signal.sa_flags = SA_RESTART | SA_SIGINFO;
-	sigemptyset(&signal.sa_mask);
-	if (mode == 1)
-		signal.sa_sigaction = handler_norm;
-	else if (mode == 2)
-		signal.sa_sigaction = handler_niet;
-	sigaction(SIGINT, &signal, NULL);
-	sigaction(SIGQUIT, &signal, NULL);
-	return (0);
-}
-
-void	handler_norm(int sig, siginfo_t *data, void *non_used_data)
-{
-	(void) data;
-	(void) non_used_data;
-	if (sig == SIGINT)
-	{
-		ft_putstr_fd("\n", 1);
-//		rl_replace_line("", 1);
-		rl_on_new_line();
-		rl_redisplay();
-		g_sig = 1;
-	}
-	return ;
-}
-
-void	handler_niet(int sig, siginfo_t *data, void *non_used_data)
-{
-	(void) data;
-	(void) non_used_data;
-	if (sig == SIGINT)
-	{
-		g_sig = 130;
-		exit(130);
-	}
-	else if (sig == SIGQUIT)
-	{
-		g_sig = 131;
-		exit(130);
-	}
-	return ;
-}
-
-void	ingnore_sign(int signum)
-{
-	struct sigaction	signal;
-
-	signal.sa_handler = SIG_IGN;
-	signal.sa_flags = SA_RESTART;
-	sigemptyset(&signal.sa_mask);
-	if (sigaction(signum, &signal, NULL) < 0)
-		exit (1);
-}
-*/
 
 //Salida limpia de un char **
 static void	ft_freechain(char **chain)
@@ -283,25 +221,6 @@ int	ft_heredoc(char *eof, int init_fd[2])
 }
 
 //falta mejorar control de errores
-static void	ft_dup_close(int tubo[2], int pos)
-{
-	if (pos == 1)
-	{
-		close(tubo[R_END]);
-		if (dup2(tubo[W_END], STDOUT_FILENO) < 0)
-			exit (1);
-		close(tubo[W_END]);
-	}
-	if (pos == 2)
-	{
-		close(tubo[W_END]);
-		if (dup2(tubo[R_END], STDIN_FILENO) < 0)
-			exit (1);
-		close(tubo[R_END]);
-	}
-}
-
-//falta mejorar control de errores
 static void	ft_redir(t_redl	*files, int init_fd[2])
 {
 	while (files)
@@ -334,40 +253,54 @@ static void	ft_redir(t_redl	*files, int init_fd[2])
 		exit (1);
 	}
 }
-
-static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
+/*
+static void	ft_dup_close(int tubo[2], int pos)
 {
-	int		tubo[2];
-
-	if (job->redirect)
-		ft_redir(job->redirect, ms->init_fd);
-	if (pipe(tubo) < 0)
-		exit (1);//
-	pid[i] = fork();
-	if (pid[i] < 0)
-		exit (1);///
-	if (pid[i] == 0)
+	if (pos == 1)
 	{
-		ft_dup_close(tubo, 1);
-		if (job->command && job->command[0])
-			ft_runcmnd(job, ms);
-		else
-			exit(0);
+//		close(tubo[R_END]);
+		if (dup2(tubo[W_END], STDOUT_FILENO) < 0)
+			exit (1);
+		close(tubo[W_END]);
 	}
-	else
-		ft_dup_close(tubo, 2);
+	if (pos == 2)
+	{
+		close(tubo[W_END]);
+		if (dup2(tubo[R_END], STDIN_FILENO) < 0)
+			exit (1);
+		close(tubo[R_END]);
+	}
 }
-
-static void	ft_runend(t_coml *job, t_ms *ms)
+*/
+static void	ft_runchild(t_coml *job, t_ms *ms, int i)
 {
-
+	if (i != ms->cmnd_count)
+	{
+		close(ms->l_tubo[R_END]);
+		ms->l_tubo[R_END] = -42;
+	}
 	if (job->redirect)
 		ft_redir(job->redirect, ms->init_fd);
+	if (dup2(ms->l_tubo[W_END], STDOUT_FILENO) < 0)
+		exit (1);
 	if (job->command && job->command[0])
 		ft_runcmnd(job, ms);
-	else
-		exit(0);
 }
+
+static int	ft_runend(t_coml *job, t_ms *ms, int i)
+{
+	ms->pid[i] = fork();
+	if (ms->pid[i] < 0)
+		exit (1);
+	else if (ms->pid[i] == 0)
+		ft_runchild(job, ms, i);
+	if (job->in >= 0)
+		close(job->in);
+	if (ms->l_tubo[R_END] >= 0)
+		close(ms->l_tubo[R_END]);
+	return (1);
+}
+
 
 static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 {
@@ -381,30 +314,32 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 	}
 }
 
-//original
 static int	ft_job(t_ms *ms)
 {
 	int		i;
 	t_coml	*job;
-	pid_t	pid[MAX_ARGS];
 
-	i = 0;
+	i = -1;
 	job = ms->cmnd_list;
-	pid[0] = fork();
-	if (pid[0] < 0)
-		return (1);
-	if (pid[0] == 0)
+	while (++i <  ms->cmnd_count)
 	{
-		while (++i <  ms->cmnd_count)
-		{
-			ft_runchild(job, ms, i, pid);
-			if (job->next)
-				job = job->next;
-		}
-		ft_runend(job, ms);
+		if (pipe(ms->l_tubo) == -1)
+			return (-1);////controlar error
+		job->out = ms->l_tubo[W_END];
+		ms->pid[i] = fork();
+		if (ms->pid[i] < 0)
+			return (-1);////controlar error
+		if (ms->pid[i] == 0)
+			ft_runchild(job, ms, i);
+		close(ms->l_tubo[W_END]);
+		if (job->in >= 0)
+			close(job->in);
+		if (job->next)
+			job = job->next;
+		job->in = ms->l_tubo[R_END];
 	}
-	else
-		ft_wait(ms->cmnd_count, pid);
+	ft_runend(job, ms, i);
+	ft_wait(ms->cmnd_count, ms->pid);
 	return (0);
 }
 
