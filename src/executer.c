@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/11 18:59:43 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/13 09:36:07 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,19 +341,19 @@ static void	ft_redir(t_redl	*files, int init_fd[2])
 	}
 }
 
-static void	ft_runchild(t_coml *job, t_ms *ms)
+static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 {
 	int		tubo[2];
-	pid_t	pid;
+//	pid_t	pid;
 
 	if (job->redirect)
 		ft_redir(job->redirect, ms->init_fd);
 	if (pipe(tubo) < 0)
 		exit (1);//
-	pid = fork();
-	if (pid < 0)
+	pid[i] = fork();
+	if (pid[i] < 0)
 		exit (1);///
-	if (pid == 0)
+	if (pid[i] == 0)
 	{
 		ft_dup_close(tubo, 1);
 		if (job->command && job->command[0])
@@ -387,47 +387,57 @@ static void	ft_runend(t_coml *job, t_ms *ms)
 		exit(0);
 }
 */
-
+/*
 static void handle_child_exit(int signum) 
 {
     int status;
     pid_t pid;
 
    (void)signum;
-	while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
+	while ((pid = waitpid(-1, &status, WNOHANG)) > 0) 
+	{
         // Handle child exit here if needed
         printf("Child process %d exited with status %d\n", pid, status);
     }
 }
-
+*/
 
 static int	ft_job(t_ms *ms)
 {
 	int		i;
 	t_coml	*job;
-	pid_t	pid;
+	pid_t	pid[MAX_ARGS];
+	int		stat;
+	int		a;
 
-	signal(SIGCHLD, handle_child_exit);
+//	signal(SIGCHLD, handle_child_exit);
 	i = 0;
 	job = ms->cmnd_list;
-	pid = fork();
-	if (pid < 0)
+	pid[0] = fork();
+	if (pid[0] < 0)
 		return (1);
-	if (pid == 0)
+	if (pid[0] == 0)
 	{
 		while (++i <  ms->cmnd_count)
 		{
-			ft_runchild(job, ms);
+			ft_runchild(job, ms, i, pid);
 			if (job->next)
 				job = job->next;
 		}
-//	pid = fork();
-//	if (pid == 0)
 		ft_runend(job, ms);
 	}
 	else
-		return (0);
-//		waitpid(-1, NULL, 0);
+	{
+		a = ms->cmnd_count;
+		while (a-- >= 0)
+		{
+			waitpid(pid[a], &stat, 0);
+			if (WIFEXITED(stat))
+				printf("Child %d terminated with status: %d\n", pid[a], WEXITSTATUS(stat));
+		}
+	
+//		waitpid(-1, &stat, 0);
+	}
 	return (0);
 }
 
