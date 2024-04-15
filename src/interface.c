@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/12 12:56:46 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/13 17:18:31 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	interface_get_line(t_ms *ms)
 	prompt = build_prompt(ms);
 	if (!prompt)
 		return (1);
+	ft_printf("pid %d\n", getpid());
 	ms->line = readline(prompt);
 	free(prompt);
 	trim = ft_strtrim(ms->line, SPACES);

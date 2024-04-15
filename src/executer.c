@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   old_executer.c                                     :+:      :+:    :+:   */
+/*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/13 16:05:31 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/15 20:01:29 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -358,15 +358,33 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 		ft_dup_close(tubo, 2);
 }
 
-static void	ft_runend(t_coml *job, t_ms *ms)
+static void	ft_runend(t_coml *job, t_ms *ms, int i)
 {
+	int		stat;
 
-	if (job->redirect)
-		ft_redir(job->redirect, ms->init_fd);
-	if (job->command && job->command[0])
-		ft_runcmnd(job, ms);
+	stat = 0;
+	ms->pid[i] = fork();
+	if (ms->pid[i] == 0)
+	{
+		if (job->redirect)
+			ft_redir(job->redirect, ms->init_fd);
+		if (job->command && job->command[0])
+			ft_runcmnd(job, ms);
+		else
+			exit(0);
+	}
 	else
-		exit(0);
+	{
+		stat = 0;
+//		wait(NULL);
+//		dup2(ms->init_fd[0], STDIN_FILENO);
+//		close(ms->init_fd[0]);
+//		ms->init_fd[0] = dup(STDIN_FILENO);
+//		dup2(ms->init_fd[1], STDOUT_FILENO);
+//		close(ms->init_fd[1]);
+//		ms->init_fd[1] = dup(STDOUT_FILENO);
+		waitpid(ms->pid[i], &stat, 0);
+	}
 }
 
 static void	ft_wait(int count, pid_t pid[MAX_ARGS])
@@ -390,21 +408,20 @@ static int	ft_job(t_ms *ms)
 
 	i = 0;
 	job = ms->cmnd_list;
-	pid[0] = fork();
-	if (pid[0] < 0)
-		return (1);
-	if (pid[0] == 0)
+	while (++i <  ms->cmnd_count)
 	{
-		while (++i <  ms->cmnd_count)
-		{
-			ft_runchild(job, ms, i, pid);
-			if (job->next)
-				job = job->next;
-		}
-		ft_runend(job, ms);
+		ft_runchild(job, ms, i, pid);
+		if (job->next)
+			job = job->next;
 	}
-	else
-		ft_wait(ms->cmnd_count, pid);
+	ft_runend(job, ms, i);
+	dup2(ms->init_fd[0], STDIN_FILENO);
+	close(ms->init_fd[0]);
+	ms->init_fd[0] = dup(STDIN_FILENO);
+	dup2(ms->init_fd[1], STDOUT_FILENO);
+	close(ms->init_fd[1]);
+	ms->init_fd[1] = dup(STDOUT_FILENO);
+	ft_wait(ms->cmnd_count , pid);
 	return (0);
 }
 
