@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/10 01:00:50 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/15 21:41:08 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ static int	check_exit(t_ms *ms)
 int	main(int ac, char **av, char **envp)
 {
 	t_ms	ms;
+	int 	ctr;
 
 //	signal_init();
+	ctr = 0;
 	initialize(&ms, ac, av, envp);
-	while (1)
+	while (1 && ++ctr < 10)
 	{
 		if (interface_get_line(&ms) != 0)
 			continue ;
@@ -42,10 +44,11 @@ int	main(int ac, char **av, char **envp)
 		if (parser(&ms) != 0)
 			return (utils_free_ms(&ms, TRUE));
 		expander(&ms);
-//		debug_all(&ms, 0, 0, 1);
+		debug_all(&ms, 0, 0, 1);
 		if (check_exit(&ms))
 			break ;
 		ft_execute(&ms);
+		printf("Salida\n");
 		utils_free_ms(&ms, FALSE);
 	}
 	utils_free_ms(&ms, TRUE);
