@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/15 18:36:51 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/15 21:04:58 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,10 @@ static int	check_exit(t_ms *ms)
 int	main(int ac, char **av, char **envp)
 {
 	t_ms	ms;
-	int 	ctr;
 
 //	signal_init();
-	ctr = 0;
 	initialize(&ms, ac, av, envp);
-	while (1 && ++ctr < 10)
+	while (1)
 	{
 		if (interface_get_line(&ms) != 0)
 			continue ;
@@ -48,7 +46,6 @@ int	main(int ac, char **av, char **envp)
 		if (check_exit(&ms))
 			break ;
 		ft_execute(&ms);
-		printf("Salida\n");
 		utils_free_ms(&ms, FALSE);
 	}
 	utils_free_ms(&ms, TRUE);

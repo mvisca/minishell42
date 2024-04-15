@@ -6,72 +6,13 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/15 20:01:29 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/15 21:43:15 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//Senyales => de momento son copias de otros.
-//De Tomas, alias Concha
 /*
-int	init_signals(int mode)
-{
-	struct	sigaction	signal;
-
-	signal.sa_flags = SA_RESTART | SA_SIGINFO;
-	sigemptyset(&signal.sa_mask);
-	if (mode == 1)
-		signal.sa_sigaction = handler_norm;
-	else if (mode == 2)
-		signal.sa_sigaction = handler_niet;
-	sigaction(SIGINT, &signal, NULL);
-	sigaction(SIGQUIT, &signal, NULL);
-	return (0);
-}
-
-void	handler_norm(int sig, siginfo_t *data, void *non_used_data)
-{
-	(void) data;
-	(void) non_used_data;
-	if (sig == SIGINT)
-	{
-		ft_putstr_fd("\n", 1);
-//		rl_replace_line("", 1);
-		rl_on_new_line();
-		rl_redisplay();
-		g_sig = 1;
-	}
-	return ;
-}
-
-void	handler_niet(int sig, siginfo_t *data, void *non_used_data)
-{
-	(void) data;
-	(void) non_used_data;
-	if (sig == SIGINT)
-	{
-		g_sig = 130;
-		exit(130);
-	}
-	else if (sig == SIGQUIT)
-	{
-		g_sig = 131;
-		exit(130);
-	}
-	return ;
-}
-
-void	ingnore_sign(int signum)
-{
-	struct sigaction	signal;
-
-	signal.sa_handler = SIG_IGN;
-	signal.sa_flags = SA_RESTART;
-	sigemptyset(&signal.sa_mask);
-	if (sigaction(signum, &signal, NULL) < 0)
-		exit (1);
-}
 */
 
 //Salida limpia de un char **
@@ -376,13 +317,6 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	else
 	{
 		stat = 0;
-//		wait(NULL);
-//		dup2(ms->init_fd[0], STDIN_FILENO);
-//		close(ms->init_fd[0]);
-//		ms->init_fd[0] = dup(STDIN_FILENO);
-//		dup2(ms->init_fd[1], STDOUT_FILENO);
-//		close(ms->init_fd[1]);
-//		ms->init_fd[1] = dup(STDOUT_FILENO);
 		waitpid(ms->pid[i], &stat, 0);
 	}
 }
@@ -399,7 +333,16 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 	}
 }
 
-//original
+static void	ft_reset_dups(t_ms *ms)
+{
+	dup2(ms->init_fd[0], STDIN_FILENO);
+	close(ms->init_fd[0]);
+	ms->init_fd[0] = dup(STDIN_FILENO);
+	dup2(ms->init_fd[1], STDOUT_FILENO);
+	close(ms->init_fd[1]);
+	ms->init_fd[1] = dup(STDOUT_FILENO);
+}
+
 static int	ft_job(t_ms *ms)
 {
 	int		i;
@@ -415,12 +358,7 @@ static int	ft_job(t_ms *ms)
 			job = job->next;
 	}
 	ft_runend(job, ms, i);
-	dup2(ms->init_fd[0], STDIN_FILENO);
-	close(ms->init_fd[0]);
-	ms->init_fd[0] = dup(STDIN_FILENO);
-	dup2(ms->init_fd[1], STDOUT_FILENO);
-	close(ms->init_fd[1]);
-	ms->init_fd[1] = dup(STDOUT_FILENO);
+	ft_reset_dups(ms);
 	ft_wait(ms->cmnd_count , pid);
 	return (0);
 }
