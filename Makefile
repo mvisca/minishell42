@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+         #
+#    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/04/16 21:01:38 by mvisca-g         ###   ########.fr        #
+#    Updated: 2024/04/16 23:57:14 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ RLINE		= $(RLINE_PATH)/libreadline.a
 RLINE_H		= $(RLINE_PATH)/libhistory.a
 
 LIB_PATH	= -L$(LIBFT_PATH) -L$(RLINE_PATH) 
-LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap 
+LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap -g -fsanitize=address
 
 OBJ_PATH	= ./.obj/
 OBJ			= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
