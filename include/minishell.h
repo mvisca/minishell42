@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/26 00:03:02 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/16 20:01:08 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <sys/types.h>
+# include <termios.h>
 # include <unistd.h>
 
-// # include "global.h"
+# include "global.h"
 # include "macros.h"
 # include "structures.h"
 # include "../lib/libft/include/libft.h"
@@ -106,7 +107,8 @@ int         parser_update_envarr(t_ms *ms);
 
 /*##################	SIGNAL		#####################*/
 
-void        signal_init(void);
+int         signal_init(int mode);
+int         signal_ignore(int sig_num);
 
 /*##################	UTILS		#####################*/
 

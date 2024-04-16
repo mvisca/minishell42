@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   macros.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/01 19:40:15 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/16 19:51:40 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 // Para funciones de validación y otros
 # define FALSE          0
 # define TRUE           1
+
+// Para manejar el modo de las señales 
+# define INTERACTIVE    1
+# define HEREDOC        2
 
 // Para acotar casos extremos
 # define MAX_PATH_LENGHT	1024
