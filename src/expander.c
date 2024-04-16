@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/05 12:34:13 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/16 23:47:40 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 {
 	size_t	start;
 
-	ft_printf("CURLY %s"RED"-\n"RESET, str);
 	if (!ft_strchr(&str[*i], '}'))
 	{
 		ft_printf("Error de paréntesis no cerrado\n");
@@ -26,7 +25,6 @@ static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 	}
 	*i += 2;
 	start = *i;
-	ft_printf("zzzzz CURLY %s"RED"-\n"RESET, str);
 	while (str[*i] && (str[*i] != '}'))
 	{
 		if (!(ft_isalnum(str[*i]) || str[*i] == '_'))
@@ -37,7 +35,6 @@ static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 		(*i)++;
 	}
 	ms->strs.aux = ft_substr(str, start, (&str[*i] - &str[start]));
-	ft_printf(RED"AUX -> %s\n", ms->strs.aux);
 	*i += 1;
 	if (!ms->strs.aux || ft_strlen(ms->strs.aux) == 0)
 	{
@@ -141,7 +138,7 @@ int	expander(t_ms *ms)
 				return (1);
 			}
 			free(node->command[i]); // viene cambiado o vacío?
-			node->command[i] = ms->strs.new;
+			node->command[i] = expander_filter_quotes(ms->strs.new);
 			ms->strs.new = NULL;
 			i++;
 		}

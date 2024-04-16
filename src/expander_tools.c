@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_tools.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:55:55 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/04/16 19:49:24 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/16 23:51:56 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*expander_filter_quotes(char *str)
 {
 	size_t		i;
-	size_t		ini;
 	size_t		end;
 	char	quote;
 
@@ -25,7 +24,6 @@ char	*expander_filter_quotes(char *str)
 		if (str[i] == D_QUOTE || str[i] == S_QUOTE)
 		{
 			quote = str[i];
-			ini = i;
 			end = i;
 			str_close_quote(str, (size_t *)&end);
 			if (str[end] == quote)
