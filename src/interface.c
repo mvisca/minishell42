@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/11 19:25:24 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:57:24 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 // 	return (full_path);
 // }
 
-static char	*build_prompt(t_ms *ms)
+/*static char	*build_prompt(t_ms *ms)
 {
 	char	*full_path;
 	char	*aux;
@@ -48,22 +48,29 @@ static char	*build_prompt(t_ms *ms)
 	free(full_path);
 	free(aux);
 	return (prompt);
-}
+}*/
 
 // Muestra un prompt customizado con nombre del proyecto
 // y el directorio actual, que obtiene de enviroments
 int	interface_get_line(t_ms *ms)
 {
-	char	*prompt;
-	char	*aux;
+//	char	*prompt;
+	char 	*trim;
 
-	prompt = build_prompt(ms);
-	if (!prompt)
+//	prompt = build_prompt(ms);
+//	if (!prompt)
+//		return (1);
+//	ft_printf("pid %d\n", getpid());
+	ms->line = readline("Minishell > ");
+//	free(prompt);
+	trim = ft_strtrim(ms->line, SPACES);
+	if (!trim || trim[0] == '\0')
+	{
+		free(ms->line);
+		free(trim);
 		return (1);
-	aux = readline(prompt);
-	add_history(aux);
-	ms->line = ft_strtrim(aux, SPACES);
-	free(aux);
-	free(prompt);
+	}
+	free(trim);
+	add_history(ms->line);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/16 17:52:38 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:55:04 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(int ac, char **av, char **envp)
 		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
 			return (utils_free_ms(&ms, TRUE));
 		expander(&ms);
+		debug_all(&ms, 0, 0, 1);
 		if (check_exit(&ms))
 			break ;
 		ft_execute(&ms);
