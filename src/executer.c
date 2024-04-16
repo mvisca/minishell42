@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/15 21:43:15 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:42:01 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,8 +243,12 @@ static void	ft_dup_close(int tubo[2], int pos)
 }
 
 //falta mejorar control de errores
-static void	ft_redir(t_redl	*files, int init_fd[2])
+
+static void	ft_redir(t_redl	*redirect, int init_fd[2])
 {
+	t_redl	*files;
+
+	files = redirect;
 	while (files)
 	{
 		if (files->type == DL_REDIRECT)
@@ -276,6 +280,19 @@ static void	ft_redir(t_redl	*files, int init_fd[2])
 	}
 }
 
+/*
+static void	ft_redirout(t_coml *job)
+{
+	t_redl	*files;
+
+	files = job->redirect;
+	while (files)
+	{
+
+		files = files->next;
+	}
+}
+*/
 static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 {
 	int		tubo[2];
@@ -351,7 +368,7 @@ static int	ft_job(t_ms *ms)
 
 	i = 0;
 	job = ms->cmnd_list;
-	while (++i <  ms->cmnd_count)
+	while (++i < ms->cmnd_count)
 	{
 		ft_runchild(job, ms, i, pid);
 		if (job->next)
@@ -359,7 +376,7 @@ static int	ft_job(t_ms *ms)
 	}
 	ft_runend(job, ms, i);
 	ft_reset_dups(ms);
-	ft_wait(ms->cmnd_count , pid);
+	ft_wait(ms->cmnd_count, pid);
 	return (0);
 }
 
