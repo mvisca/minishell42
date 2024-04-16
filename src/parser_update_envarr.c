@@ -3,35 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   parser_update_envarr.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:56:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/24 20:46:44 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:27:19 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int parser_update_envarr(t_ms *ms)
+static int	parser_count_env_nodes(t_envl **envnode, t_ms *ms, int *i)
 {
-	int     nodes_num;
-	int		i;
-	t_envl  *envnode;
-	char    **newarr;
-	char	*aux;
+	int	nodes_num;
 
 	nodes_num = 0;
-	envnode = ms->envlst;
-	while (envnode)
+	while (*envnode)
 	{
-		envnode = envnode->next;
+		*envnode = (*envnode)->next;
 		nodes_num++;
 	}
+	*envnode = ms->envlst;
+	*i = 0;
+	return (nodes_num);
+}
+
+// Actualiza el array env antes para el executor
+int	parser_update_envarr(t_ms *ms)
+{
+	int		nodes_num;
+	int		i;
+	t_envl	*envnode;
+	char	**newarr;
+	char	*aux;
+
+	envnode = ms->envlst;
+	nodes_num = parser_count_env_nodes(&envnode, ms, &i);
 	newarr = (char **)ft_calloc(nodes_num + 1, sizeof(char **));
 	if (!newarr)
 		return (1);
-	envnode = ms->envlst;
-	i = 0;
 	while (envnode)
 	{
 		aux = ft_strjoin(envnode->key, "=");

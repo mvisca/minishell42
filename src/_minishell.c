@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/16 21:03:46 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/16 21:12:51 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_exit;
 
-static int	empty_exit()
+static int	empty_exit(void)
 {
 	if (isatty(STDIN_FILENO))
 		write(2, "exit\n", 5);

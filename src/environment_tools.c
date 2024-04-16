@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_tools.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/09 09:54:11 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/16 21:16:24 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_envl	*environment_new_node(t_ms *ms, char *key, char *value)
 	t_envl	*new;
 
 	new = (t_envl *)ft_calloc(1, sizeof(t_envl));
-	// new = (t_envl *)supresed_malloc(sizeof(t_envl));
 	if (!new)
 		error_free_exit("malloc error", ms);
 	new->next = NULL;

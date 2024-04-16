@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/16 21:04:30 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/16 21:16:54 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	signal_init(int mode)
 
 	signal_silent();
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART; // | SA_SIGINFO;
+	sa.sa_flags = SA_RESTART;
 	if (mode == INTERACTIVE)
 		sa.sa_handler = interactive_handler;
 	if (mode == HEREDOC)

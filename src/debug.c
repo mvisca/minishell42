@@ -81,6 +81,7 @@ void	debug_envarr(t_ms *ms)
 
 int	debug_all(t_ms *ms, int env, int tok, int com)
 {
+	// BORRAR ESTE FICHERO ANTES DE SUBIR EL PROYECTO A EVALUAR
 	if (env)
 		debug_envarr(ms);
 	if (tok)
