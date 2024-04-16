@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _minishell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/16 20:10:30 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/17 00:10:00 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	main(int ac, char **av, char **envp)
 		if (signal_init(INTERACTIVE) != 0)
 			break ;
 		interface_get_line(&ms);
-		signal_ignore(SIGQUIT);
-		signal_ignore(SIGINT);
+//		signal_ignore(SIGQUIT);
+//		signal_ignore(SIGINT);
 		if ((!ms.line && empty_exit()) || ms.line[0] == 0)
 			continue ;
 		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
