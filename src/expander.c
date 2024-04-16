@@ -6,7 +6,11 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/04/10 15:29:51 by mvisca-g         ###   ########.fr       */
+=======
+/*   Updated: 2024/04/16 23:47:40 by mvisca           ###   ########.fr       */
+>>>>>>> 64f5eee (fix quotes deletion)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +39,6 @@ static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 		(*i)++;
 	}
 	ms->strs.aux = ft_substr(str, start, (&str[*i] - &str[start]));
-	ft_printf(RED"AUX -> %s\n", ms->strs.aux);
 	*i += 1;
 	if (!ms->strs.aux || ft_strlen(ms->strs.aux) == 0)
 	{
@@ -137,7 +140,7 @@ int	expander(t_ms *ms)
 				ft_printf("Error break\n");
 				return (1);
 			}
-			free(node->command[i]);
+			free(node->command[i]); // viene cambiado o vacío?
 			node->command[i] = expander_filter_quotes(ms->strs.new);
 			ms->strs.new = NULL;
 			i++;

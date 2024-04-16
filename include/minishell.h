@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/16 23:57:58 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/16 23:59:36 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ int         parser_update_envarr(t_ms *ms);
 
 /*##################	SIGNAL		#####################*/
 
-int         signal_init(int mode);
-int         signal_ignore(int sig_num);
+int	        signal_init(int mode);
+int         signal_ignore(int sig_type);
 
 /*##################	UTILS		#####################*/
 
@@ -119,7 +119,6 @@ void		utils_free_tab(char ***tab);
 void		utils_free_env_list(t_envl **env);
 void		utils_free_token_list(t_tokl **token);
 void		utils_free_cmnd_list(t_coml **cmnd);
-void		utils_free_cmnd_list_fake(t_ms *ms);
 
 // String
 size_t      str_line_len(char *line);
