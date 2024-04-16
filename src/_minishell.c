@@ -6,11 +6,13 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/13 21:15:39 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:52:38 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	g_exit;
 
 static int	check_exit(t_ms *ms)
 {
