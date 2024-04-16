@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/13 18:50:49 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/16 21:01:49 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 // Para funciones de validación y otros
 # define FALSE          0
 # define TRUE           1
+
+// Para manejar el modo de las señales 
+# define INTERACTIVE    1
+# define HEREDOC        2
 
 // Para acotar casos extremos
 # define MAX_PATH_LENGHT	1024
