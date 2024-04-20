@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.c                                         :+:      :+:    :+:   */
+/*   executer copy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/20 17:32:22 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/15 21:43:15 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,6 @@ static void	ft_dup_close(int tubo[2], int pos)
 	if (pos == 1)
 	{
 		close(tubo[R_END]);
-		close(STDOUT_FILENO);//modified
 		if (dup2(tubo[W_END], STDOUT_FILENO) < 0)
 			exit (1);
 		close(tubo[W_END]);
@@ -237,7 +236,6 @@ static void	ft_dup_close(int tubo[2], int pos)
 	if (pos == 2)
 	{
 		close(tubo[W_END]);
-		close(STDIN_FILENO); // Modified
 		if (dup2(tubo[R_END], STDIN_FILENO) < 0)
 			exit (1);
 		close(tubo[R_END]);
@@ -245,11 +243,8 @@ static void	ft_dup_close(int tubo[2], int pos)
 }
 
 //falta mejorar control de errores
-static void	ft_redirin(t_coml *job, int init_fd[2])
+static void	ft_redir(t_redl	*files, int init_fd[2])
 {
-	t_redl	*files;
-
-	files = job->redirect;
 	while (files)
 	{
 		if (files->type == DL_REDIRECT)
@@ -258,34 +253,17 @@ static void	ft_redirin(t_coml *job, int init_fd[2])
 		{
 			files->fdes = ft_openfile(files->path, files->type);
 			if (files->fdes < 0)
-			{
-				perror(files->path);
-//				exit (149);
 				break ;
-			}
-			job->in = files->fdes;			
-			if (dup2(job->in, STDIN_FILENO) < 0)
-				exit (149);
+			if (dup2(files->fdes, STDIN_FILENO) < 0)
+				exit (1);
 			close(files->fdes);
 		}
-		files = files->next;
-	}
-}
-
-static void	ft_redirout(t_coml *job)
-{
-	t_redl	*files;
-
-	files = job->redirect;
-	while (files)
-	{
 		if (files->type == R_REDIRECT || files->type == DR_REDIRECT)
 		{
 			files->fdes = ft_openfile(files->path, files->type);
 			if (files->fdes < 0)
 				break ;
-			job->out = files->fdes;
-			if (dup2(job->out, STDOUT_FILENO) < 0)
+			if (dup2(files->fdes, STDOUT_FILENO) < 0)
 				exit (1);
 			close(files->fdes);
 		}
@@ -294,6 +272,7 @@ static void	ft_redirout(t_coml *job)
 	if (files && files->fdes < 0)
 	{
 		perror(files->path);
+		exit (1);
 	}
 }
 
@@ -302,10 +281,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 	int		tubo[2];
 
 	if (job->redirect)
-	{
-		ft_redirout(job);
-		ft_redirin(job, ms->init_fd);
-	}
+		ft_redir(job->redirect, ms->init_fd);
 	if (pipe(tubo) < 0)
 		exit (1);//
 	pid[i] = fork();
@@ -332,10 +308,7 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	if (ms->pid[i] == 0)
 	{
 		if (job->redirect)
-		{
-			ft_redirout(job);
-			ft_redirin(job, ms->init_fd);
-		}
+			ft_redir(job->redirect, ms->init_fd);
 		if (job->command && job->command[0])
 			ft_runcmnd(job, ms);
 		else
@@ -343,11 +316,8 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	}
 	else
 	{
-		close(STDIN_FILENO); // Modified
-	    close(STDOUT_FILENO);
 		stat = 0;
-		waitpid(-1, &stat, 0);
-//		waitpid(ms->pid[i], &stat, 0);
+		waitpid(ms->pid[i], &stat, 0);
 	}
 }
 
@@ -358,19 +328,19 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 	while (count-- >= 0)
 	{
 		waitpid(pid[count], &stat, 0);
-//		if (WIFEXITED(stat))
-//			printf("Child %d terminated with status: %d\n", pid[count], WEXITSTATUS(stat));
+		if (WIFEXITED(stat))
+			printf("Child %d terminated with status: %d\n", pid[count], WEXITSTATUS(stat));
 	}
 }
 
 static void	ft_reset_dups(t_ms *ms)
 {
 	dup2(ms->init_fd[0], STDIN_FILENO);
-//	close(ms->init_fd[0]);
-//	ms->init_fd[0] = dup(STDIN_FILENO);
+	close(ms->init_fd[0]);
+	ms->init_fd[0] = dup(STDIN_FILENO);
 	dup2(ms->init_fd[1], STDOUT_FILENO);
-//	close(ms->init_fd[1]);
-//	ms->init_fd[1] = dup(STDOUT_FILENO);
+	close(ms->init_fd[1]);
+	ms->init_fd[1] = dup(STDOUT_FILENO);
 }
 
 static int	ft_job(t_ms *ms)
@@ -381,7 +351,7 @@ static int	ft_job(t_ms *ms)
 
 	i = 0;
 	job = ms->cmnd_list;
-	while (++i < ms->cmnd_count)
+	while (++i <  ms->cmnd_count)
 	{
 		ft_runchild(job, ms, i, pid);
 		if (job->next)
@@ -389,7 +359,7 @@ static int	ft_job(t_ms *ms)
 	}
 	ft_runend(job, ms, i);
 	ft_reset_dups(ms);
-	ft_wait(ms->cmnd_count, pid);
+	ft_wait(ms->cmnd_count , pid);
 	return (0);
 }
 

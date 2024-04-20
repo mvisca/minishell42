@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/19 08:26:56 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/20 16:46:22 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	main(int ac, char **av, char **envp)
 		if (signal_init(INTERACTIVE) != 0)
 			break ;
 		interface_get_line(&ms);
-//		signal_ignore(SIGQUIT);
-//		signal_ignore(SIGINT);
+		signal_ignore(SIGQUIT);
+		signal_ignore(SIGINT);
 		if ((!ms.line && empty_exit()) || ms.line[0] == 0)
 			continue ;
 		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)

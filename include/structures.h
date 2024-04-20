@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/15 21:40:05 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/20 15:12:49 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ typedef struct s_ms
 	char					**envarr;
 	int						init_fd[2];//dup inicial de STDIN y STDOUT
 	int						l_tubo[2];//la pipe del proceso
-	int						prev_fd[2];//0
+	int						prev_fd[2];//no se usa
+	int						std_in;//dup inicial STDIN 
+	int						std_out;//dup inicial STDOUT
 	int						exit_code;
 	int						cmnd_count;
 	pid_t					pid[MAX_ARGS];//para controlar executor y funcion espera
