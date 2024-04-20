@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   macros.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/16 19:51:40 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:07:00 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@
 # define SPACES         " \t\v\n\r"
 # define O_CURLY    	123
 # define C_CURLY    	125
+# define O_PARENTH    	40
+# define C_PARENTH    	41
+# define O_SQUARE    	91
+# define C_SQUARE   	93
 
 // Macros para expand
 # define NEW            0

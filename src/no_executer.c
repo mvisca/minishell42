@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.c                                         :+:      :+:    :+:   */
+/*   no_executer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/13 17:03:16 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/19 09:04:18 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,11 +307,7 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 	int		stat;
 
 	while (count-- >= 0)
-	{
 		waitpid(pid[count], &stat, 0);
-		if (WIFEXITED(stat))
-			printf("Child %d terminated with status: %d\n", pid[count], WEXITSTATUS(stat));
-	}
 }
 
 static int	ft_job(t_ms *ms)
