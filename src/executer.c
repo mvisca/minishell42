@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/16 18:42:01 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/20 09:34:52 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ static void	ft_dup_close(int tubo[2], int pos)
 }
 
 //falta mejorar control de errores
-
+/*
 static void	ft_redir(t_redl	*redirect, int init_fd[2])
 {
 	t_redl	*files;
@@ -280,7 +280,35 @@ static void	ft_redir(t_redl	*redirect, int init_fd[2])
 	}
 }
 
-/*
+*/
+static void	ft_redirin(t_coml *job, int init_fd[2])
+{
+	t_redl	*files;
+
+	files = job->redirect;
+	while (files)
+	{
+		if (files->type == DL_REDIRECT)
+			ft_heredoc(files->path, init_fd);
+		if (files->type == L_REDIRECT)
+		{
+			files->fdes = ft_openfile(files->path, files->type);
+			if (files->fdes < 0)
+				break ;
+			job->in = files->fdes;
+			if (dup2(job->in, STDIN_FILENO) < 0)
+				exit (1);
+			//close(files->fdes);
+		}
+		files = files->next;
+	}
+
+	if (files && files->fdes < 0)
+	{
+		perror(files->path);
+		exit (1);
+	}
+}
 static void	ft_redirout(t_coml *job)
 {
 	t_redl	*files;
@@ -288,17 +316,35 @@ static void	ft_redirout(t_coml *job)
 	files = job->redirect;
 	while (files)
 	{
-
+		if (files->type == R_REDIRECT || files->type == DR_REDIRECT)
+		{
+			files->fdes = ft_openfile(files->path, files->type);
+			if (files->fdes < 0)
+				break ;
+			job->out = files->fdes;
+			if (dup2(job->out, STDOUT_FILENO) < 0)
+				exit (1);
+			//close(files->fdes);
+		}
 		files = files->next;
 	}
+	if (files && files->fdes < 0)
+	{
+		perror(files->path);
+		exit (1);
+	}
 }
-*/
+
 static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 {
 	int		tubo[2];
 
 	if (job->redirect)
-		ft_redir(job->redirect, ms->init_fd);
+	{
+		ft_redirout(job);
+		ft_redirin(job, ms->init_fd);
+//		ft_redir(job->redirect, ms->init_fd);
+	}
 	if (pipe(tubo) < 0)
 		exit (1);//
 	pid[i] = fork();
@@ -325,7 +371,11 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	if (ms->pid[i] == 0)
 	{
 		if (job->redirect)
-			ft_redir(job->redirect, ms->init_fd);
+		{
+			ft_redirout(job);
+			ft_redirin(job, ms->init_fd);
+//			ft_redir(job->redirect, ms->init_fd);
+		}
 		if (job->command && job->command[0])
 			ft_runcmnd(job, ms);
 		else
@@ -334,7 +384,8 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	else
 	{
 		stat = 0;
-		waitpid(ms->pid[i], &stat, 0);
+		waitpid(-1, &stat, 0);
+	//	waitpid(ms->pid[i], &stat, 0);
 	}
 }
 
@@ -382,6 +433,8 @@ static int	ft_job(t_ms *ms)
 
 int	ft_execute(t_ms *ms)
 {
+	if (!ms->line || ms->line[0] == '\0')
+		return (0);
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	ft_job(ms);
 	ft_closer(ms, ms->cmnd_count);
