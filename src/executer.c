@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/20 17:32:22 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/23 19:56:37 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,11 +331,15 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	ms->pid[i] = fork();
 	if (ms->pid[i] == 0)
 	{
+		job->out = ms->std_out;
+		job->in = ms->std_in;
 		if (job->redirect)
 		{
 			ft_redirout(job);
 			ft_redirin(job, ms->init_fd);
 		}
+		close(job->in);//
+		close(job->out);//
 		if (job->command && job->command[0])
 			ft_runcmnd(job, ms);
 		else
@@ -343,8 +347,10 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	}
 	else
 	{
-		close(STDIN_FILENO); // Modified
-	    close(STDOUT_FILENO);
+		close(job->out);//
+		close(job->in);//
+//		close(STDIN_FILENO); // Modified
+//	    close(STDOUT_FILENO);//
 		stat = 0;
 		waitpid(-1, &stat, 0);
 //		waitpid(ms->pid[i], &stat, 0);
