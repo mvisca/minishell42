@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/20 11:09:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/20 11:13:43 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	interface_get_line(t_ms *ms)
 	ms->line = readline("Minishell > ");
 //	free(prompt);
 	trim = ft_strtrim(ms->line, SPACES);
-	if (!trim || trim[0] == '\0' || trim[0] == '\n')
+	if (!trim || trim[0] == '\0')
 	{
 		free(ms->line);
 		ms->line = NULL;
