@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/04/16 23:51:36 by mvisca           ###   ########.fr        #
+#    Updated: 2024/04/27 09:23:17 by fcatala-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRC         = 		_minishell.c 				\
 					errors_syntax_cases.c		\
 					errors_syntax.c				\
 					errors.c					\
-					executer.c					\
+					work_executer.c					\
 					expander.c					\
 					expander_tools.c			\
 					initialize.c				\
