@@ -6,14 +6,11 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/27 08:13:00 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/27 18:22:15 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-/*
-*/
 
 //Salida limpia de un char **
 static void	ft_freechain(char **chain)
@@ -80,8 +77,6 @@ static int	ft_countcmd(t_coml *coml)
 	aux = coml;
 	while (aux)
 	{
-//		aux->in = STDIN_FILENO;
-//		aux->out = STDOUT_FILENO;
 		aux = aux->next;
 		++i;
 	}
@@ -224,21 +219,21 @@ int	ft_heredoc(char *eof, int init_fd[2])
 }
 
 //falta mejorar control de errores
-static void	ft_dup_close(int tubo[2], int pos)
+static void	ft_dup_close(t_coml *job)
 {
-	if (pos == 1)
+	if (job->in >= 0)
 	{
-		close(tubo[R_END]);
-		if (dup2(tubo[W_END], STDOUT_FILENO) < 0)
+		if (dup2(job->in, STDIN_FILENO) < 0)
 			exit (1);
-		close(tubo[W_END]);
+		close(job->in);
+		job->in = -42;
 	}
-	if (pos == 2)
+	if (job->out >= 0)
 	{
-		close(tubo[W_END]);
-		if (dup2(tubo[R_END], STDIN_FILENO) < 0)
+		if (dup2(job->out, STDOUT_FILENO) < 0)
 			exit (1);
-		close(tubo[R_END]);
+		close(job->out);
+		job->out = -69;
 	}
 }
 
@@ -257,14 +252,11 @@ static void	ft_redirin(t_coml *job, int init_fd[2])
 			files->fdes = ft_openfile(files->path, files->type);
 			if (files->fdes < 0)
 			{
-				perror(files->path);
+				perror(files->path);//chequear comportamiento bash
 //				exit (149);
 				break ;
 			}
 			job->in = files->fdes;			
-			if (dup2(job->in, STDIN_FILENO) < 0)
-				exit (149);
-			close(files->fdes);
 		}
 		files = files->next;
 	}
@@ -281,11 +273,8 @@ static void	ft_redirout(t_coml *job)
 		{
 			files->fdes = ft_openfile(files->path, files->type);
 			if (files->fdes < 0)
-				break ;
+				break ;//va a mantener el ultimo fd valido
 			job->out = files->fdes;
-			if (dup2(job->out, STDOUT_FILENO) < 0)
-				exit (1);
-			close(files->fdes);
 		}
 		files = files->next;
 	}
@@ -295,78 +284,54 @@ static void	ft_redirout(t_coml *job)
 	}
 }
 
-static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
+static void	ft_runchild(t_coml *job, t_ms *ms, int num)
 {
-	int		tubo[2];
 
-	if (job->redirect)
-	{
-		ft_redirout(job);
-		ft_redirin(job, ms->init_fd);
-	}
-	if (pipe(tubo) < 0)
-		exit (1);//
-	pid[i] = fork();
-	if (pid[i] < 0)
-		exit (1);///
-	if (pid[i] == 0)
-	{
-		ft_dup_close(tubo, 1);
-		if (job->command && job->command[0])
-			ft_runcmnd(job, ms);
-		else
-			exit(0);
-	}
+	if (num == 0)
+		close(ms->l_tubo[0]);//no se si hay que reinicializar a negativo
+	ft_redirout(job);
+	ft_redirin(job, ms->l_tubo);//hay que mirar el tema del HD
+	ft_dup_close(job);
+	if (job->command && job->command[0])
+		ft_runcmnd(job, ms);
 	else
-		ft_dup_close(tubo, 2);
+		exit(0);//mirar que pasa con este error
 }
 
-static void	ft_runend(t_coml *job, t_ms *ms, int i)
+static int	ft_runend(t_coml *job, t_ms *ms, int i)
+{
+	ms->pid = fork();
+	if (ms->pid < 0)
+		exit (1);//comprobar error
+	else if (ms->pid == 0)
+		ft_runchild(job, ms, i);
+	if (ms->cmnd_count > 1 && job->in >= 0)//no se si hay que controlar algo mas
+		close(job->in);
+	if (ms->l_tubo[0] >= 0)
+		close(ms->l_tubo[0]);
+	return (0);//acordar valor de retorno a ver
+}
+
+static void	ft_wait(t_ms *ms)
 {
 	int		stat;
+	int		i;
 
-	stat = 0;
-	ms->pid[i] = fork();
-	if (ms->pid[i] == 0)
+	i = 0;
+	while (++i <= ms->cmnd_count )
 	{
-		if (job->redirect)
+		if (ms->pid == wait(&stat))
 		{
-			ft_redirout(job);
-			ft_redirin(job, ms->init_fd);
+			if (WIFEXITED(stat))
+				ms->exit_code = WEXITSTATUS(stat);
 		}
-		if (job->command && job->command[0])
-			ft_runcmnd(job, ms);
-		else
-			exit(0);
 	}
-//	else
-//	{
-//		waitpid(-1, &stat, 0);
-//	}
 }
-//*
-static void	ft_wait(int count, pid_t pid[MAX_ARGS])
-{
-	int		stat;
 
-	while (count-- >= 0)
-	{
-		waitpid(pid[count], &stat, 0);
-//		if (WIFEXITED(stat))
-//			printf("Child %d terminated with status: %d\n", pid[count], WEXITSTATUS(stat));
-	}
-}
-//*/
 static void	ft_reset_dups(t_ms *ms)
 {
-/*	
-	dup2(ms->init_fd[0], STDIN_FILENO);
-	close(ms->init_fd[0]);
-	ms->init_fd[0] = dup(STDIN_FILENO);
-	dup2(ms->init_fd[1], STDOUT_FILENO);
-	close(ms->init_fd[1]);
-	ms->init_fd[1] = dup(STDOUT_FILENO);
-*/	
+	ms->cmnd_list->in = -42;
+	ms->cmnd_list->out = -63;
 	dup2(ms->std_in, STDIN_FILENO);
 	close(ms->std_in);
 	ms->std_in = dup(STDIN_FILENO);
@@ -379,30 +344,37 @@ static int	ft_job(t_ms *ms)
 {
 	int		i;
 	t_coml	*job;
-	pid_t	pid[MAX_ARGS];
-	int		stat;
 
 	i = 0;
-	stat = 0;
 	job = ms->cmnd_list;
-	ft_reset_dups(ms);
 	while (++i < ms->cmnd_count)
 	{
-		ft_runchild(job, ms, i, pid);
+		if (pipe(ms->l_tubo) == -1)
+			return (-1);
+		job->out = ms->l_tubo[1];
+		ms->pid = fork();
+		if (ms->pid < 0)
+			return (-1);
+		if (ms->pid == 0)
+			ft_runchild(job, ms, 0);
+		close (ms->l_tubo[1]);
+		if (job->in >= 0)
+			close (job->in);
 		if (job->next)
 			job = job->next;
+		job->in = ms->l_tubo[0];
 	}
-	ft_runend(job, ms, i);
-	ft_reset_dups(ms);
-//	waitpid(-1, &stat, 0);
-	ft_wait(ms->cmnd_count, pid);
+	ms->exit_code = ft_runend(job, ms, i);
+	ft_wait(ms);
 	return (0);
 }
 
 int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
+	ft_reset_dups(ms);
 	ft_job(ms);
+	ft_reset_dups(ms);
 	ft_closer(ms, ms->cmnd_count);
 	return (0);
 }
