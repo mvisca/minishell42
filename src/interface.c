@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/20 11:13:43 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/27 13:36:24 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,40 @@
 
 // Muestra un prompt customizado con nombre del proyecto
 // y el directorio actual, que obtiene de enviroments
+// int	interface_get_line(t_ms *ms)
+// {
+// 	char	*prompt;
+// 	char 	*trim;
+
+// 	prompt = build_prompt(ms);
+// 	if (!prompt)
+// 		return (1);
+// 	ft_printf("pid %d\n", getpid());
+// 	ms->line = readline("Minishell > ");
+// 	free(prompt);
+// 	trim = ft_strtrim(ms->line, SPACES);
+// 	if (!trim || trim[0] == '\0')
+// 	{
+// 		free(ms->line);
+// 		ms->line = NULL;
+// 		free(trim);
+// 		return (1);
+// 	}
+// 	free(trim);
+// 	add_history(ms->line);
+// 	return (0);
+// }
+
+// // Muestra un prompt customizado con nombre del proyecto
+// // y el directorio actual, que obtiene de enviroments
 int	interface_get_line(t_ms *ms)
 {
-//	char	*prompt;
 	char 	*trim;
 
-//	prompt = build_prompt(ms);
-//	if (!prompt)
-//		return (1);
-//	ft_printf("pid %d\n", getpid());
 	ms->line = readline("Minishell > ");
-//	free(prompt);
 	trim = ft_strtrim(ms->line, SPACES);
 	if (!trim || trim[0] == '\0')
 	{
-		free(ms->line);
-		ms->line = NULL;
 		free(trim);
 		return (1);
 	}
@@ -75,3 +93,15 @@ int	interface_get_line(t_ms *ms)
 	add_history(ms->line);
 	return (0);
 }
+
+// Muestra un prompt customizado con nombre del proyecto
+// y el directorio actual, que obtiene de enviroments
+// int	interface_get_line(t_ms *ms)
+// {
+// 	char 	*trim;
+
+// 	ms->line = readline("Minishell > ");
+// 	trim = ft_strtrim(ms->line, SPACES);
+// 	add_history(ms->line);
+// 	return (0);
+// }

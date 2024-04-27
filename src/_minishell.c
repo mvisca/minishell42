@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/19 08:26:56 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/27 13:39:39 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,16 @@
 
 int	g_exit;
 
-static int	empty_exit()
+
+static int	empty_exit(t_ms *ms)
 {
-	if (isatty(STDIN_FILENO))
-		write(2, "exit\n", 5);
-	exit (0); // probar exito code en mac
+	write(2, "exit\n", 5);
+	free(ms->line);
+	ms->line = NULL;
+	utils_free_ms(ms, TRUE);
+	exit (1);
 }
 
-static int	check_exit(t_ms *ms)
-{
-	if (ms->cmnd_list->command && ms->cmnd_list->command[0] \
-	&& ft_strnstr(ms->cmnd_list->command[0], "exit", 4))
-	{
-		write(1, "exit\n", 5);
-		return (0); // probar exito code en mac
-	}
-	return (0);
-}
 int	main(int ac, char **av, char **envp)
 {
 	t_ms	ms;
@@ -40,17 +33,17 @@ int	main(int ac, char **av, char **envp)
 	{
 		if (signal_init(INTERACTIVE) != 0)
 			break ;
+		signal_ignore(SIGQUIT);
 		interface_get_line(&ms);
-//		signal_ignore(SIGQUIT);
-//		signal_ignore(SIGINT);
-		if ((!ms.line && empty_exit()) || ms.line[0] == 0)
+		signal_ignore(SIGINT);
+		if (!ms.line && isatty(STDIN_FILENO) && empty_exit(&ms))
+			break ;
+		if (ms.line && ms.line[0] == 0 && utils_free_ms(&ms, FALSE))
 			continue ;
 		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
 			continue ;
 		expander(&ms);
-		if (check_exit(&ms))
-			break ;
-		// environment_init(ms) // hay que reiniciar el env antes del executer por si el contexto fue modificado desde otra termina (borrar el folder donde estamos actundo, crea files, mover a otro dir estando .trash, etc).
+//		environment_init(&ms, envp); // hay que reiniciar el env arr antes del executer por si el contexto fue modificado desde otra termina (borrar el folder donde estamos actundo, crea files, mover a otro dir estando .trash, etc).
 		ft_execute(&ms);
 		utils_free_ms(&ms, FALSE);
 	}
