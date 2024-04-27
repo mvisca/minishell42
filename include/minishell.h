@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/19 09:14:51 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/27 14:05:58 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void		initialize(t_ms *ms, int ac, char **av, char **envp);
 /*##################	INTERFACE	#####################*/
 
 int	    	interface_get_line(t_ms *ms);
+int	        empty_exit(t_ms *ms);
+
 
 /*##################	LEXER		#####################*/
 
