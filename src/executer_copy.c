@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer copy.c                                    :+:      :+:    :+:   */
+/*   executer_copy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/15 21:43:15 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:31:28 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,8 +280,8 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 {
 	int		tubo[2];
 
-	if (job->redirect)
-		ft_redir(job->redirect, ms->init_fd);
+//	if (job->redirect)
+//		ft_redir(job->redirect, ms->init_fd);
 	if (pipe(tubo) < 0)
 		exit (1);//
 	pid[i] = fork();
@@ -289,6 +289,8 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 		exit (1);///
 	if (pid[i] == 0)
 	{
+		if (job->redirect)
+			ft_redir(job->redirect, ms->init_fd);
 		ft_dup_close(tubo, 1);
 		if (job->command && job->command[0])
 			ft_runcmnd(job, ms);
@@ -329,7 +331,7 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 	{
 		waitpid(pid[count], &stat, 0);
 		if (WIFEXITED(stat))
-			printf("Child %d terminated with status: %d\n", pid[count], WEXITSTATUS(stat));
+			printf("Child %d pos %d terminated with status: %d\n", pid[count], count, WEXITSTATUS(stat));
 	}
 }
 
