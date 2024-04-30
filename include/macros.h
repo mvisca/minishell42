@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/18 16:07:00 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/27 18:19:36 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,6 @@
 # define BOLD_MAGENTA   "\x1b[1;35m"
 # define BOLD_CYAN      "\x1b[1;36m"
 # define BOLD_WHITE     "\x1b[1;37m"
-
-// Macro con el título que despliega el prompt
-# define TITLE          "💻\001"YELLOW"\002 MiniShell\001"GREEN"\002 "
-
-// Para errores de sintaxis
-# define SYNTAX_PIPE_AT_0		1
-# define SYNTAX_PIPE_X2			2
-# define SYNTAX_BACK_RD_X3		3
-# define SYNTAX_FOWARD_RD_X3	4
-# define SYNTAX_FAKE_ARROBA_X3	5
-# define SYNTAX_CURLY_START     6
-# define SYNTAX_CURLY_END   	7
 
 # define SYNTAX_MSSG    "minishell: syntax error near unexpected token `"
 
