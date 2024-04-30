@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/19 09:38:30 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/30 17:23:55 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,30 @@ int errors_word(t_ms *ms, t_tokl *token)
 
 int	errors_start(t_ms *ms)
 {
-	t_tokl *token;
-
-	token = ms->token_list;
-	if (token->type == PIPE)
-	{
-		if (ft_strnstr(ms->line, "||", 2))
-			errors_syntax_display(ms, "||");
-		else
-			errors_syntax_display(ms, "|");
-		return (1);
-	}
+	(void)ms;
 	return (0);
+	// modalidad mixta de linea y tokens
 }
+
+// int	errors_start(t_ms *ms)
+// {
+// 	t_tokl	*token;
+// 	t_tokl	*tnext;
+
+
+// 	token = ms->token_list;
+// 	tnext = ms->token_list->next;
+// 	if (token->type == PIPE)
+// 	{
+// 		if (ft_strnstr(ms->line, "||", 2))
+// 			errors_syntax_display(ms, "||");
+// 		else
+// 			errors_syntax_display(ms, "|");
+// 		return (1);
+// 	}
+// 	if ((token->type == DL_REDIRECT || token->type == DR_REDIRECT || 
+// 	token->type == L_REDIRECT || token->type == R_REDIRECT) && 
+// 	tnext && tnext->type != WORD)
+// 		errors_syntax_display(ms, tnext->str);
+// 	return (0);
+// }

@@ -6,15 +6,16 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/04/29 18:20:16 by fcatala-         ###   ########.fr        #
+#    Updated: 2024/04/30 17:35:44 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-DEF_COLOR	:=	\033[1;97m
-PINK		:=	\033[1;95m
-GREEN		:=	\033[1;92m
-CIAN		:=	\033[1;96m
+RED 		:= \033[0;31m
+GREEN 		:= \033[0;32m
+YELLOW 		:= \033[0;33m
+BLUE 		:= \033[0;34m
+NC 			:= \033[0m
 
 NAME        = minishell
 
@@ -56,7 +57,7 @@ RLINE_H		= $(RLINE_PATH)/libhistory.a
 LIB_PATH	= -L$(LIBFT_PATH) -L$(RLINE_PATH) 
 LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap -g -fsanitize=address
 
-OBJ_PATH	= ./.obj/
+OBJ_PATH	= .obj/
 OBJ			= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
 DEP			= $(addprefix $(OBJ_PATH), $(OBJ:.o=.d))
 
@@ -71,29 +72,16 @@ RM			= rm -f
 
 all: $(RLINE) $(OBJ_PATH) subsystems $(NAME)
 
-clean:
-	@$(RM) $(OBJS) $(DEPS)
-	@$(RM) -rf $(OBJ_PATH)
-	@make -s -C $(LIBFT_PATH) clean
-	@echo "$(PINK)Objects removed$(DEF_COLOR)"
-
-fclean: clean
-	@$(RM) $(NAME)
-	@make -s -C $(LIBFT_PATH) fclean
-	@echo "$(PINK)Minishell removed$(DEF_COLOR)"
-
-re: fclean all
-
-cleanrl:
-	@make -s -C $(RLINE_PATH) mostlyclean
-	@echo "$(PINK)READLINE removed$(DEF_COLOR)"
-
-$(NAME)::  $(OBJ) ./$(LIBFT) ./$(RLINE) ./$(RLINE_H)
+$(NAME):: $(OBJ) ./$(LIBFT) ./$(RLINE) ./$(RLINE_H)
 	@$(CC) $(CFLAGS) $(^) -ltermcap -lreadline -o $(NAME) -g -fsanitize=address
-	@echo "$(GREEN)MINISHELL compiled :D$(DEF_COLOR)"
+	@echo "$(YELLOW)Packing $(RED)$(NAME) $(YELLOW)ready!$(NC)"
+	@echo "$(BLUE)Minishell $(GREEN)compiled! 👍$(NC)"
 
-subsystems:
-	@make -s -C $(LIBFT_PATH)
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c Makefile $(HEADER)
+	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@echo "$(GREEN)Creating... $(NC)$(notdir $<) $(RED)-> $(NC)$(notdir $@)"
+
+-include $(DEP)
 
 $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
@@ -101,12 +89,27 @@ $(OBJ_PATH):
 $(RLINE):
 	@cd lib/readline && ./configure &>/dev/null
 	@$(MAKE) -C $(RLINE_PATH) --no-print-directory
-	@echo "$(CIAN)READLINE compiled$(DEF_COLOR)"
+	@echo "$(BLUE)Readline $(GREEN)compiled! 👍$(NC)"
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c Makefile $(HEADER)
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+subsystems:
+	@make -s -C $(LIBFT_PATH)
 
--include ${DEP}
+clean:
+#	@$(RM) $(OBJS) $(DEP)
+	@$(RM) -rf $(OBJ_PATH)
+	@make -s -C $(LIBFT_PATH) clean
+	@echo "$(RED)Deleting objects for $(NC) minishell $(RED)>> 🗑️$(NC)"
+
+fclean: clean
+	@$(RM) $(NAME)
+	@make -s -C $(LIBFT_PATH) fclean
+	@echo "$(RED)Minishell removed >> 🗑️$(NC)"
+
+re: fclean all
+
+cleanrl:
+	@make -s -C $(RLINE_PATH) mostlyclean
+	@echo "$(RED)Readline removed >> 🗑️$(NC)"
 
 # Phony
 .PHONY: all clean fclean re cleanrl
