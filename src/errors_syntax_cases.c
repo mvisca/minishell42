@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/27 19:24:06 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/30 17:23:55 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int errors_word(t_ms *ms, t_tokl *token)
 
 int	errors_start(t_ms *ms)
 {
+	(void)ms;
+	return (0);
 	// modalidad mixta de linea y tokens
 }
 
@@ -84,8 +86,8 @@ int	errors_start(t_ms *ms)
 // 			errors_syntax_display(ms, "|");
 // 		return (1);
 // 	}
-// 	if ((token->type == DL_REDIRECT || token->type == DR_REDIRECT || \
-// 	token->type == L_REDIRECT || token->type == R_REDIRECT) && \
+// 	if ((token->type == DL_REDIRECT || token->type == DR_REDIRECT || 
+// 	token->type == L_REDIRECT || token->type == R_REDIRECT) && 
 // 	tnext && tnext->type != WORD)
 // 		errors_syntax_display(ms, tnext->str);
 // 	return (0);
