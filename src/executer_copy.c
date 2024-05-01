@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/01 17:17:03 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:36:48 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,7 +323,8 @@ static void	ft_write_hd(int fd, char *eof)
 	{
 		tmp = readline("> ");
 		line = ft_strjoin(tmp, "\n");
-		if (!line || (!ft_strncmp(eof, tmp, ft_strlen(tmp)) && ft_strlen(line) > 1))
+		if (!line || (!ft_strncmp(eof, tmp, ft_strlen(tmp))
+				&& ft_strlen(line) > 1))
 			break ;
 		write(fd, line, ft_strlen(line));
 		free(tmp);
@@ -333,7 +334,7 @@ static void	ft_write_hd(int fd, char *eof)
 	close(fd);
 }
 
-static void ft_check_hd(t_redl *files)
+static void	ft_check_hd(t_redl *files)
 {
 	static int	n = 0;
 	char		*c;
