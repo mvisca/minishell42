@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/27 18:19:36 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/01 14:07:00 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define FD_IN     0
 # define FD_OUT    1
 # define FD_HERE   2
-# define H_FILE    ".xyz_here_tmp.tmp"
+# define H_FILE    "xyz_here_tmp.tmp"
 
 // Macros para pipes
 # define R_END   0
@@ -44,11 +44,11 @@
 # define MAX_PATH_LENGHT	1024
 # define MAX_ARGS 			256
 
-// Macros para gestionar fd de entrada y salida
+// Macros para gestionar fd de entrada y salida: esta repe?
 # define FD_IN     0
 # define FD_OUT    1
 # define FD_HERE   2
-# define H_FILE    ".xyz_here_tmp.tmp"
+# define H_FILE    "xyz_here_tmp.tmp"
 
 // Macros para manipular funciones de LEXER
 # define END    	    0

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/25 14:05:30 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/01 12:19:55 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	parser_is_redir(t_coml **cmnd, t_tokl **token, t_redl **redir, char *
 		return (1);
 	(*redir)->type = (*token)->type;
 	(*redir)->path = NULL;
+	(*redir)->eof = NULL;//afegit per controlar el hd
 	(*redir)->next = NULL;
 	*token = (*token)->next;
 	if (!*token)

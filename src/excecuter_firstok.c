@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer_copy.c                                    :+:      :+:    :+:   */
+/*   excecuter_firstok.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/01 17:17:03 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:51:18 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+/*
+*/
 
 //Salida limpia de un char **
 static void	ft_freechain(char **chain)
@@ -195,6 +198,54 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms)
 		exit (127);
 	}
 }
+/*
+static void	ft_read_heredoc(char *eof, int tubo[2], int init_fd[2])
+{
+	char	*tmp;
+	char	*line;
+
+	close(tubo[0]);
+	dup2(init_fd[0], STDIN_FILENO);
+	while (1)
+	{
+		tmp = readline("> ");
+		line = ft_strjoin(tmp, "\n");
+		if (!line || (!ft_strncmp(eof, tmp, ft_strlen(tmp)) && ft_strlen(line) > 1))
+			break ;
+		write(tubo[1], line, ft_strlen(line));
+		free(tmp);
+		free(line);
+	}
+	free(eof);
+	free(tmp);
+	close(tubo[1]);
+	exit(EXIT_SUCCESS);
+}
+*/
+
+/*/mirar prioridad de heredoc
+int	ft_heredoc(char *eof, int init_fd[2])
+{
+	int		tubo[2];
+	pid_t	pid;
+	int		status;
+
+	if (pipe(tubo) < 0)
+		exit (1);
+	pid = fork();
+	if (pid < 0)
+		exit (1);
+	if (pid == 0)
+	{
+		ft_read_heredoc(eof, tubo, init_fd);
+	}
+	waitpid(pid, &status, 0);
+	close(tubo[W_END]);
+	dup2(tubo[R_END], STDIN_FILENO);
+	close(tubo[R_END]);
+	return (0);
+}
+*/
 
 //falta mejorar control de errores
 static void	ft_dup_close(int tubo[2], int pos)
@@ -220,6 +271,8 @@ static void	ft_redir(t_redl	*files)
 {
 	while (files)
 	{
+//		if (files->type == DL_REDIRECT)
+//			ft_heredoc(files->eof, init_fd);
 		if (files->type == L_REDIRECT || files->type == DL_REDIRECT)
 		{
 			files->fdes = ft_openfile(files->path, files->type);
@@ -329,8 +382,10 @@ static void	ft_write_hd(int fd, char *eof)
 		free(tmp);
 		free(line);
 	}
+//	free(eof);
 	free(tmp);
 	close(fd);
+//	exit(EXIT_SUCCESS);
 }
 
 static void ft_check_hd(t_redl *files)

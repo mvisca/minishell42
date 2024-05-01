@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/29 18:22:16 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:18:41 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_redl
 	int						type;
 	int						fdes;
 	char					*path;
+	char					*eof;//NUEVO para controlar el hd
 	struct s_redl			*next;
 } t_redl;
 
