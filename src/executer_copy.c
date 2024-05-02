@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/01 17:36:48 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:41:05 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms)
 		aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
 	if (execve(aux->command[0], aux->command, ms->envarr) == -1)
 	{
-		printf("\nError in exec\n");
+		printf(": %d\n", errno);
 		exit (127);
 	}
 }
@@ -252,10 +252,10 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 	int		tubo[2];
 
 	if (pipe(tubo) < 0)
-		exit (1);//
+		exit (1);//perror("pipe"); exit (EXIT_FAILURE);
 	pid[i] = fork();
 	if (pid[i] < 0)
-		exit (1);///
+		exit (1);//perror("fork");exit(EXIT_FAILURE);
 	if (pid[i] == 0)
 	{
 		if (job->redirect)
@@ -398,9 +398,9 @@ static int	ft_job(t_ms *ms)
 			job = job->next;
 	}
 	ft_runend(job, ms, i);
-	ft_reset_dups(ms);
-	ft_wait(ms->cmnd_count, pid);
 //	ft_reset_dups(ms);
+	ft_wait(ms->cmnd_count, pid);
+//	ft_reset_dups(ms);//no se si va aqui
 	return (0);
 }
 
@@ -409,6 +409,6 @@ int	ft_execute(t_ms *ms)
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	ft_job(ms);
 	ft_closer(ms, ms->cmnd_count);
-//	ft_reset_dups(ms);
+	ft_reset_dups(ms);
 	return (0);
 }

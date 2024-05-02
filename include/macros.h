@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/01 14:07:00 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:41:00 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@
 # define BOLD_CYAN      "\x1b[1;36m"
 # define BOLD_WHITE     "\x1b[1;37m"
 
-# define SYNTAX_MSSG    "minishell: syntax error near unexpected token `"
-
+# define SYNTAX_MSSG    "Minishell: syntax error near unexpected token `"
+# define MSG_1267 		": command not found\n"
 // Errores de ejecucion
 # define EXIT_DENIED	126
 # define EXIT_NOTFOUND	127
