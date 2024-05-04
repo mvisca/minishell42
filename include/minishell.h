@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/27 14:05:58 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/04 14:09:34 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/types.h>
 # include <termios.h>
 # include <unistd.h>
+# include <dirent.h>
 
 # include "global.h"
 # include "macros.h"

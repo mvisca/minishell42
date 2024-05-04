@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/02 18:41:00 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/04 11:27:06 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@
 # define INTERACTIVE    1
 # define HEREDOC        2
 
-// Para acotar casos extremos
-# define MAX_PATH_LENGHT	1024
-# define MAX_ARGS 			256
-
 // Macros para gestionar fd de entrada y salida
 # define FD_IN     0
 # define FD_OUT    1
@@ -40,15 +36,17 @@
 # define R_END   0
 # define W_END   1
 
-// Para acotar casos extremos
+// Para acotar casos extremos de momento no se utiliza
 # define MAX_PATH_LENGHT	1024
 # define MAX_ARGS 			256
 
+/*
 // Macros para gestionar fd de entrada y salida: esta repe?
 # define FD_IN     0
 # define FD_OUT    1
 # define FD_HERE   2
 # define H_FILE    "xyz_here_tmp.tmp"
+*/
 
 // Macros para manipular funciones de LEXER
 # define END    	    0
@@ -93,8 +91,13 @@
 # define BOLD_CYAN      "\x1b[1;36m"
 # define BOLD_WHITE     "\x1b[1;37m"
 
+// Mensajes de error
 # define SYNTAX_MSSG    "Minishell: syntax error near unexpected token `"
-# define MSG_1267 		": command not found\n"
+# define MINI			"Minishell: "
+# define NO_PIPE		": unable to create a pipe\n"
+# define NO_FORK		": wa u doin, mada forker\n"
+# define NO_FOUND 		": command not found\n"
+
 // Errores de ejecucion
 # define EXIT_DENIED	126
 # define EXIT_NOTFOUND	127
@@ -102,3 +105,20 @@
 # define EXIT_QUITFORK	131
 
 #endif
+//ejemplos en bash
+//
+//bash-3.2$ ls | lib/;echo "Exit:" $? "Pipe: "$PIPESTATUS
+//bash: lib/: is a directory
+//Exit: 126 Pipe: 141
+//
+//bash-3.2$ lib/;echo "Exit:" $? "Pipe :"$PIPESTATUS
+//bash: lib/: is a directory
+//Exit: 126 Pipe :126
+//
+//bash-3.2$ lib;echo "Exit:" $? "Pipe :"$PIPESTATUS
+//bash: lib: command not found
+//Exit: 127 Pipe :127
+//
+//bash-3.2$ ls | ../test/out1.txt;echo "Exit:" $? "Pipe :"$PIPESTATUS
+//bash: ../test/out1.txt: Permission denied
+//Exit: 126 Pipe :141

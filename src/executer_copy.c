@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/02 18:41:05 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/04 16:44:42 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,17 +182,57 @@ static char	*ft_getcmd(char *cmnd, char **envp)
 //	return (NULL);
 //}
 //
-static void	ft_runcmnd(t_coml *job, t_ms *ms)
+static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 {
 	t_coml	*aux;
+	int		i;
 
 	aux = job;
+	i = 0;
 	if (!ft_strchr(aux->command[0], '/'))
+	{
 		aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
+		i = 1;
+	}
+	else if (opendir(aux->command[0]) != NULL)
+	{
+		ft_putstr_fd(MINI, 2);
+		ft_putstr_fd(aux->command[0], 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		if (last)
+			exit (126);
+		else
+			exit (0);
+	}
+	else if (access(aux->command[0], F_OK) != 0)
+	{
+		ft_putstr_fd(MINI, 2);
+		ft_putstr_fd(aux->command[0], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		if (last)
+			exit (127);
+		else
+			exit (0);
+	}
+	else if (access(aux->command[0], X_OK) !=0)
+	{
+		ft_putstr_fd(MINI, 2);
+		ft_putstr_fd(aux->command[0], 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+		if (last)
+			exit (126);
+		else
+			exit (0);
+	}
 	if (execve(aux->command[0], aux->command, ms->envarr) == -1)
 	{
-		printf(": %d\n", errno);
-		exit (127);
+		ft_putstr_fd(MINI, 2);
+		ft_putstr_fd(aux->command[0] + i, 2);
+		ft_putstr_fd(": command not found\n", 2);
+		if (last)
+			exit (127);
+		else
+			exit (0);
 	}
 }
 
@@ -242,6 +282,7 @@ static void	ft_redir(t_redl	*files)
 	}
 	if (files && files->fdes < 0)
 	{
+		ft_putstr_fd(MINI, 2);
 		perror(files->path);
 		exit (1);
 	}
@@ -262,7 +303,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 			ft_redir(job->redirect);
 		ft_dup_close(tubo, 1);
 		if (job->command && job->command[0])
-			ft_runcmnd(job, ms);
+			ft_runcmnd(job, ms, 0);
 		else
 			exit(0);
 	}
@@ -281,7 +322,7 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 		if (job->redirect)
 			ft_redir(job->redirect);
 		if (job->command && job->command[0])
-			ft_runcmnd(job, ms);
+			ft_runcmnd(job, ms, 1);
 		else
 			exit(0);
 	}
@@ -398,9 +439,8 @@ static int	ft_job(t_ms *ms)
 			job = job->next;
 	}
 	ft_runend(job, ms, i);
-//	ft_reset_dups(ms);
+	ft_reset_dups(ms);
 	ft_wait(ms->cmnd_count, pid);
-//	ft_reset_dups(ms);//no se si va aqui
 	return (0);
 }
 
