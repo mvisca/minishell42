@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/04 14:09:34 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/06 17:22:31 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char		*environment_get_value(t_ms *ms, char *key);
 // System errors
 void		error_exit(char *msj, t_ms *ms);
 void		error_free_exit(char *msj, t_ms *ms);
+void		ft_error_exit(char *com, char *msj, int code);
 
 // User errors
 int			errors_syntax(t_ms *ms);

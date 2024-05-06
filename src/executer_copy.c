@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/04 16:44:42 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:52:35 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,27 +161,6 @@ static char	*ft_getcmd(char *cmnd, char **envp)
 	return (cmd);
 }
 
-//falta mejorar control de errores
-//if (cmd[0] == '/')
-//	{
-//			if (opendir(cmd) != NULL)
-//						printf("minishell: %s: is a directory\n", cmd);
-//								else if (access(cmd, F_OK) == 0)
-//											return (cmd);
-//													else
-//																printf("minishell: %s: No such file or directory\n", cmd);
-//																	}
-//else if (cmd[0] == '.')
-//	{
-//		cmd_path = ft_join_dir(search_env_var("PWD", env), cmd);
-//		if (access(cmd_path, F_OK) == 0)
-//			return (cmd);
-//		else
-////			printf("minishell: %s: No such file or directory\n", cmd);
-//	}
-//	return (NULL);
-//}
-//
 static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 {
 	t_coml	*aux;
@@ -195,45 +174,13 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 		i = 1;
 	}
 	else if (opendir(aux->command[0]) != NULL)
-	{
-		ft_putstr_fd(MINI, 2);
-		ft_putstr_fd(aux->command[0], 2);
-		ft_putstr_fd(": is a directory\n", 2);
-		if (last)
-			exit (126);
-		else
-			exit (0);
-	}
+		ft_error_exit(aux->command[0], IS_DIR, last * EXIT_DENIED);
 	else if (access(aux->command[0], F_OK) != 0)
-	{
-		ft_putstr_fd(MINI, 2);
-		ft_putstr_fd(aux->command[0], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		if (last)
-			exit (127);
-		else
-			exit (0);
-	}
-	else if (access(aux->command[0], X_OK) !=0)
-	{
-		ft_putstr_fd(MINI, 2);
-		ft_putstr_fd(aux->command[0], 2);
-		ft_putstr_fd(": Permission denied\n", 2);
-		if (last)
-			exit (126);
-		else
-			exit (0);
-	}
+		ft_error_exit(aux->command[0], NO_FILE, last * EXIT_NOTFOUND);
+	else if (access(aux->command[0], X_OK) != 0)
+		ft_error_exit(aux->command[0], NO_EXEC, last * EXIT_DENIED);
 	if (execve(aux->command[0], aux->command, ms->envarr) == -1)
-	{
-		ft_putstr_fd(MINI, 2);
-		ft_putstr_fd(aux->command[0] + i, 2);
-		ft_putstr_fd(": command not found\n", 2);
-		if (last)
-			exit (127);
-		else
-			exit (0);
-	}
+		ft_error_exit(aux->command[0] + i, NO_FOUND, last * EXIT_NOTFOUND);
 }
 
 //falta mejorar control de errores
@@ -328,8 +275,12 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	}
 	else
 	{
-		stat = 0;
 		waitpid(ms->pid[i], &stat, 0);
+		if (WIFEXITED(stat))
+		{
+			ms->exit_code = WEXITSTATUS(stat);
+			printf("Child %d %s pos %d end status: %d\n", ms->pid[i], job->command[0], i, WEXITSTATUS(stat));
+		}
 	}
 }
 
@@ -341,7 +292,7 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 	{
 		waitpid(pid[count], &stat, 0);
 		if (WIFEXITED(stat))
-			printf("Child %d pos %d terminated with status: %d\n", pid[count], count, WEXITSTATUS(stat));
+			printf("Children %d pos %d terminated with status: %d\n", pid[count], count, WEXITSTATUS(stat));
 	}
 }
 
@@ -448,6 +399,7 @@ int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	ft_job(ms);
+	printf("Exit code: %d\n", ms->exit_code);
 	ft_closer(ms, ms->cmnd_count);
 	ft_reset_dups(ms);
 	return (0);

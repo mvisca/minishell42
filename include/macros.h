@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/04 11:27:06 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/06 17:16:54 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@
 # define NO_PIPE		": unable to create a pipe\n"
 # define NO_FORK		": wa u doin, mada forker\n"
 # define NO_FOUND 		": command not found\n"
+# define IS_DIR			": is a directory\n"
+# define NO_FILE		": No such file or directory\n"
+# define NO_EXEC		": Permission denied\n"
 
 // Errores de ejecucion
 # define EXIT_DENIED	126
