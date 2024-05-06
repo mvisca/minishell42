@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/01 17:36:48 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:52:35 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,39 +161,26 @@ static char	*ft_getcmd(char *cmnd, char **envp)
 	return (cmd);
 }
 
-//falta mejorar control de errores
-//if (cmd[0] == '/')
-//	{
-//			if (opendir(cmd) != NULL)
-//						printf("minishell: %s: is a directory\n", cmd);
-//								else if (access(cmd, F_OK) == 0)
-//											return (cmd);
-//													else
-//																printf("minishell: %s: No such file or directory\n", cmd);
-//																	}
-//else if (cmd[0] == '.')
-//	{
-//		cmd_path = ft_join_dir(search_env_var("PWD", env), cmd);
-//		if (access(cmd_path, F_OK) == 0)
-//			return (cmd);
-//		else
-////			printf("minishell: %s: No such file or directory\n", cmd);
-//	}
-//	return (NULL);
-//}
-//
-static void	ft_runcmnd(t_coml *job, t_ms *ms)
+static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 {
 	t_coml	*aux;
+	int		i;
 
 	aux = job;
+	i = 0;
 	if (!ft_strchr(aux->command[0], '/'))
-		aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
-	if (execve(aux->command[0], aux->command, ms->envarr) == -1)
 	{
-		printf("\nError in exec\n");
-		exit (127);
+		aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
+		i = 1;
 	}
+	else if (opendir(aux->command[0]) != NULL)
+		ft_error_exit(aux->command[0], IS_DIR, last * EXIT_DENIED);
+	else if (access(aux->command[0], F_OK) != 0)
+		ft_error_exit(aux->command[0], NO_FILE, last * EXIT_NOTFOUND);
+	else if (access(aux->command[0], X_OK) != 0)
+		ft_error_exit(aux->command[0], NO_EXEC, last * EXIT_DENIED);
+	if (execve(aux->command[0], aux->command, ms->envarr) == -1)
+		ft_error_exit(aux->command[0] + i, NO_FOUND, last * EXIT_NOTFOUND);
 }
 
 //falta mejorar control de errores
@@ -242,6 +229,7 @@ static void	ft_redir(t_redl	*files)
 	}
 	if (files && files->fdes < 0)
 	{
+		ft_putstr_fd(MINI, 2);
 		perror(files->path);
 		exit (1);
 	}
@@ -252,17 +240,17 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 	int		tubo[2];
 
 	if (pipe(tubo) < 0)
-		exit (1);//
+		exit (1);//perror("pipe"); exit (EXIT_FAILURE);
 	pid[i] = fork();
 	if (pid[i] < 0)
-		exit (1);///
+		exit (1);//perror("fork");exit(EXIT_FAILURE);
 	if (pid[i] == 0)
 	{
 		if (job->redirect)
 			ft_redir(job->redirect);
 		ft_dup_close(tubo, 1);
 		if (job->command && job->command[0])
-			ft_runcmnd(job, ms);
+			ft_runcmnd(job, ms, 0);
 		else
 			exit(0);
 	}
@@ -281,14 +269,18 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 		if (job->redirect)
 			ft_redir(job->redirect);
 		if (job->command && job->command[0])
-			ft_runcmnd(job, ms);
+			ft_runcmnd(job, ms, 1);
 		else
 			exit(0);
 	}
 	else
 	{
-		stat = 0;
 		waitpid(ms->pid[i], &stat, 0);
+		if (WIFEXITED(stat))
+		{
+			ms->exit_code = WEXITSTATUS(stat);
+			printf("Child %d %s pos %d end status: %d\n", ms->pid[i], job->command[0], i, WEXITSTATUS(stat));
+		}
 	}
 }
 
@@ -300,7 +292,7 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 	{
 		waitpid(pid[count], &stat, 0);
 		if (WIFEXITED(stat))
-			printf("Child %d pos %d terminated with status: %d\n", pid[count], count, WEXITSTATUS(stat));
+			printf("Children %d pos %d terminated with status: %d\n", pid[count], count, WEXITSTATUS(stat));
 	}
 }
 
@@ -400,7 +392,6 @@ static int	ft_job(t_ms *ms)
 	ft_runend(job, ms, i);
 	ft_reset_dups(ms);
 	ft_wait(ms->cmnd_count, pid);
-//	ft_reset_dups(ms);
 	return (0);
 }
 
@@ -408,7 +399,8 @@ int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	ft_job(ms);
+	printf("Exit code: %d\n", ms->exit_code);
 	ft_closer(ms, ms->cmnd_count);
-//	ft_reset_dups(ms);
+	ft_reset_dups(ms);
 	return (0);
 }
