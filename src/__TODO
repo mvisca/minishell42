@@ -77,3 +77,7 @@ $(v1)
 v1:command not found
 
 */
+
+Fallo en linea export h=hola
+El fallo se debe al no limpiar el command en algún punto en que se sale
+
