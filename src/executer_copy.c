@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/06 18:52:35 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/07 20:23:55 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ static void	ft_dup_close(int tubo[2], int pos)
 }
 
 //falta mejorar control de errores
-static void	ft_redir(t_redl	*files)
+static void	ft_redirin(t_redl	*files, int last)
 {
 	while (files)
 	{
@@ -216,6 +216,21 @@ static void	ft_redir(t_redl	*files)
 				exit (1);
 			close(files->fdes);
 		}
+		files = files->next;
+	}
+	if (files && files->fdes < 0)
+	{
+		if (access(files->path, F_OK) != 0)
+			ft_error_exit(files->path, NO_FILE, 1 * last);
+		else if (access(files->path, R_OK) != 0)
+			ft_error_exit(files->path, NO_EXEC, 1 * last);
+	}
+}
+
+static void	ft_redirout(t_redl	*files, int last)
+{
+	while (files)
+	{
 		if (files->type == R_REDIRECT || files->type == DR_REDIRECT)
 		{
 			files->fdes = ft_openfile(files->path, files->type);
@@ -231,7 +246,7 @@ static void	ft_redir(t_redl	*files)
 	{
 		ft_putstr_fd(MINI, 2);
 		perror(files->path);
-		exit (1);
+		exit (1 * last);
 	}
 }
 
@@ -247,7 +262,10 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 	if (pid[i] == 0)
 	{
 		if (job->redirect)
-			ft_redir(job->redirect);
+		{
+			ft_redirin(job->redirect, 0);
+			ft_redirout(job->redirect, 0);
+		}
 		ft_dup_close(tubo, 1);
 		if (job->command && job->command[0])
 			ft_runcmnd(job, ms, 0);
@@ -256,6 +274,21 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 	}
 	else
 		ft_dup_close(tubo, 2);
+}
+
+static void	ft_wait(int count, pid_t pid[MAX_ARGS])
+{
+	int		stat;
+	int		i;
+
+	i = 0;
+	while (++i < count)
+	{
+		waitpid(pid[i], &stat, 0);
+		if (WIFEXITED(stat))
+				printf("Children %d pos %d end status: %d\n", pid[i], i, WEXITSTATUS(stat));
+//		++i;
+	}
 }
 
 static void	ft_runend(t_coml *job, t_ms *ms, int i)
@@ -267,7 +300,10 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	if (ms->pid[i] == 0)
 	{
 		if (job->redirect)
-			ft_redir(job->redirect);
+		{
+			ft_redirin(job->redirect, 1);
+			ft_redirout(job->redirect, 1);
+		}
 		if (job->command && job->command[0])
 			ft_runcmnd(job, ms, 1);
 		else
@@ -283,19 +319,19 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 		}
 	}
 }
-
+/*
 static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 {
 	int		stat;
 
-	while (count-- >= 0)
+	while (--count > 0)
 	{
 		waitpid(pid[count], &stat, 0);
 		if (WIFEXITED(stat))
 			printf("Children %d pos %d terminated with status: %d\n", pid[count], count, WEXITSTATUS(stat));
 	}
 }
-
+*/
 static void	ft_reset_dups(t_ms *ms)
 {
 	dup2(ms->init_fd[0], STDIN_FILENO);
