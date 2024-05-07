@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/16 23:47:40 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:10:02 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,17 @@ static int	expander_var_exit(t_ms *ms, char *str, size_t *i)
 	return (0);
 }
 
+// Itera cada char del string, que es un item del command[]
+// Evalua
+	// Signle quotes, se salta hasta el final
+	// Var exit para el exito code del último comando
+	// Var dollar brackets
+	// Var dollar name
+	// Que sea solo un char
+// Todo lo anterior ejecuta accion que devuelve en strs.buf el resultado
+// Se concatena el strs.new con el strs.buf
+// Se ha iterado en cada acción anterior
+
 static int	expander_get_expansion(t_ms *ms, char *str)
 {
 	size_t	i;
@@ -110,7 +121,7 @@ static int	expander_get_expansion(t_ms *ms, char *str)
 			ft_printf("System o syntax Error\n");
 			return (1);
 		}
-		ms->strs.aux= ms->strs.new;
+		ms->strs.aux = ms->strs.new;
 		ms->strs.new = ft_strjoin(ms->strs.aux, ms->strs.buf);
 		free(ms->strs.buf);	
 		ms->strs.buf = NULL;
@@ -119,6 +130,15 @@ static int	expander_get_expansion(t_ms *ms, char *str)
 	return (0);
 }
 
+
+// De cada nodo cmnd, del array command, pasa cada item a expander_get_expansion
+	// O sea bucle anidado
+		// cada nodo
+			// nodo tiene command[]
+			// command[] tiene strs
+// Usa las variables ms->strs.new para recibir el resultado de la expansion
+// Pasa el ms->strs.new a expander_filter_quotes y recibe en asignacion
+// Asigna al puntero command el resultado anterior
 int	expander(t_ms *ms)
 {
 	int			i;
@@ -131,13 +151,12 @@ int	expander(t_ms *ms)
 		while (node->command && node->command[i])
 		{
 			expander_get_expansion(ms, node->command[i]);
-//			ft_printf("address de strs %p y strs.new %p\n", ms->strs, ms->strs.new);
 			if (!ms->strs.new)
 			{
 				ft_printf("Error break\n");
 				return (1);
 			}
-			free(node->command[i]); // viene cambiado o vacío?
+			free(node->command[i]);
 			node->command[i] = expander_filter_quotes(ms->strs.new);
 			ms->strs.new = NULL;
 			i++;

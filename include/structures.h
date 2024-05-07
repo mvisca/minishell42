@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/01 12:18:41 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/06 22:46:23 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_ms
 	char					*line;
 	t_tokl					*token_list;
 	t_coml					*cmnd_list;
-	t_coml					*cmnd_list_fake;
 	t_strs					strs;
 	t_envl					*envlst;
 	char					**envarr;
