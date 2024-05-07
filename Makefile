@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/04/30 17:35:44 by mvisca           ###   ########.fr        #
+#    Updated: 2024/04/16 23:58:52 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ INC_PATH	= ./includes/ ./lib/ $(LIBFT_PATH) $(RLINE_PATH)
 INC			= $(addprefix -I, $(INC_PATH))
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -MMD 
+CFLAGS		= -Wall -Wextra -Werror -MMD -g -fsanitize=address
 RM			= rm -f
 
 all: $(RLINE) $(OBJ_PATH) subsystems $(NAME)

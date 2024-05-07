@@ -44,7 +44,7 @@ static void	signal_silent(void)
 	struct termios	terminal;
 
 	tcgetattr(0, &terminal);
-	terminal.c_cflag &= ~ECHOCTL;
+	terminal.c_lflag &= ~ECHOCTL;
 	tcsetattr(0, TCSANOW, &terminal);
 }
 

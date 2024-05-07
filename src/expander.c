@@ -31,7 +31,7 @@ static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 		{
 			ft_printf(GREEN"Error Bad substitution 1\n"RESET);
 			return (1);
-		}	
+		}
 		(*i)++;
 	}
 	ms->strs.aux = ft_substr(str, start, (&str[*i] - &str[start]));
@@ -52,7 +52,7 @@ static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 }
 
 // extracts var name and gets value when not between curly brakets
-static int	expander_var_alpha(t_ms *ms, char *str, size_t *i) 
+static int	expander_var_alpha(t_ms *ms, char *str, size_t *i)
 {
 	unsigned int	start;
 
@@ -123,7 +123,7 @@ static int	expander_get_expansion(t_ms *ms, char *str)
 		}
 		ms->strs.aux = ms->strs.new;
 		ms->strs.new = ft_strjoin(ms->strs.aux, ms->strs.buf);
-		free(ms->strs.buf);	
+		free(ms->strs.buf);
 		ms->strs.buf = NULL;
 		free(ms->strs.aux);
 	}

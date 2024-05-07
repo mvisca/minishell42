@@ -13,11 +13,6 @@
 #ifndef MACROS_H
 # define MACROS_H
 
-// Debuger switch
-# ifndef DEBUG_ON
-#  define DEBUG_ON      1
-# endif
-
 // Para funciones de validación y otros
 # define FALSE          0
 # define TRUE           1
@@ -68,9 +63,9 @@
 # define C_SQUARE   	93
 
 // Macros para expand
-# define NEW            0
-# define AUX            1
-# define BUF            2
+//# define NEW            0
+//# define AUX            1
+//# define BUF            2
 
 // Para customizar UI con colores ANSI
 # define RESET          "\x1b[0m"
@@ -106,6 +101,13 @@
 # define EXIT_NOTFOUND	127
 # define EXIT_FORK		130
 # define EXIT_QUITFORK	131
+
+// Signals mode
+# define INTERACTIVE 1
+# define HEREDOC 2
+
+// No env
+# define AUTOENV "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 #endif
 //ejemplos en bash

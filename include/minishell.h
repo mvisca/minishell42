@@ -44,20 +44,20 @@ int         builtin_echo(char **com);
 int         debug_all(t_ms *ms, int env, int tok, int com);
 void        debug_token(t_ms *ms);
 void        debug_command(t_ms *ms);
-void    	debug_envarr(t_ms *ms);
+void        debug_envarr(t_ms *ms);
 void	    debug_expand(t_ms *ms);
 
 /*##################	ENVIRONMENT	#####################*/
 
 // Factory
-t_envl	    *environment_init(t_ms *ms, char **envp);
-t_envl  	*environment_new_node(t_ms *ms, char *key, char *value);
-t_envl  	*environment_add_node(t_ms *ms, t_envl *envnode);
+t_envl      *environment_init(t_ms *ms, char **envp);
+t_envl      *environment_new_node(t_ms *ms, char *key, char *value);
+t_envl      *environment_add_node(t_ms *ms, t_envl *envnode);
 void		environment_del_node(t_ms *ms, char *key);
-void	    environment_update_node(t_ms *ms, char *key, char *value);
+void        environment_update_node(t_ms *ms, char *key, char *value);
 
 // Getters
-t_envl  	*environment_get_node(t_ms *ms, char *key);
+t_envl      *environment_get_node(t_ms *ms, char *key);
 char		*environment_get_value(t_ms *ms, char *key);
 
 /*##################	ERRORS		#####################*/
