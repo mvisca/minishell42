@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/16 23:59:36 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/08 01:07:37 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/types.h>
 # include <termios.h>
 # include <unistd.h>
+# include <dirent.h>
 
 # include "global.h"
 # include "macros.h"
@@ -35,6 +36,8 @@
 # include "../lib/libft/include/libft.h"
 
 /*##################	BUILTINS	#####################*/
+
+int         builtin_echo(char **com);
 
 /*##################	DEBUG		#####################*/
 
@@ -45,6 +48,7 @@ void        debug_envarr(t_ms *ms);
 void	    debug_expand(t_ms *ms);
 
 /*##################	ENVIRONMENT	#####################*/
+
 // Factory
 t_envl      *environment_init(t_ms *ms, char **envp);
 t_envl      *environment_new_node(t_ms *ms, char *key, char *value);
@@ -61,19 +65,21 @@ char		*environment_get_value(t_ms *ms, char *key);
 // System errors
 void		error_exit(char *msj, t_ms *ms);
 void		error_free_exit(char *msj, t_ms *ms);
+void		ft_error_exit(char *com, char *msj, int code);
 
 // User errors
 int			errors_syntax(t_ms *ms);
-int			errors_syntax_curly_brackets(char *line);
+int	        errors_syntax_display(t_ms *ms, char *str);
+
+// Sybtax error cases
+int         errors_pipe(t_ms *ms, t_tokl *token);
+int         errors_redir(t_ms *ms, t_tokl *token);
+int         errors_word(t_ms *ms, t_tokl *token);
+int         errors_start(t_ms *ms);
 
 /*##################	EXECUTOR	#####################*/
-int			ft_execute(t_ms *ms);
 
-/*##################	SIGNALS 	#####################*/
-int			init_signals(int mode);
-void		handler_norm(int sig, siginfo_t *data, void *non_used_data);
-void		handler_niet(int sig, siginfo_t *data, void *non_used_data);
-void        ingnore_sign(int signum);
+int			ft_execute(t_ms *ms);
 
 /*##################	EXPANDER	#####################*/
 
@@ -87,6 +93,8 @@ void		initialize(t_ms *ms, int ac, char **av, char **envp);
 /*##################	INTERFACE	#####################*/
 
 int	    	interface_get_line(t_ms *ms);
+int	        empty_exit(t_ms *ms);
+
 
 /*##################	LEXER		#####################*/
 

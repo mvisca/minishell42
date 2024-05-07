@@ -3,31 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   _minishell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/16 21:03:46 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/05/01 20:35:07 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int	g_exit;
-
-static int	empty_exit()
-{
-	if (isatty(STDIN_FILENO))
-		write(2, "exit\n", 5);
-	exit (1);
-}
-
-static int	check_exit(t_ms *ms)
-{
-	if (ms->cmnd_list->command && ms->cmnd_list->command[0] \
-	&& ft_strnstr(ms->cmnd_list->command[0], "exit", 4))
-		return (1);
-	return (0);
-}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -38,16 +23,15 @@ int	main(int ac, char **av, char **envp)
 	{
 		if (signal_init(INTERACTIVE) != 0)
 			break ;
-		interface_get_line(&ms);
 		signal_ignore(SIGQUIT);
-		signal_ignore(SIGINT);
-		if ((!ms.line && empty_exit()) || ms.line[0] == 0)
+		if (interface_get_line(&ms) != 0)
 			continue ;
+		signal_ignore(SIGINT);
 		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
-			return (utils_free_ms(&ms, TRUE));
+			continue ;
 		expander(&ms);
-		if (check_exit(&ms))
-			break ;
+//		environment_init(&ms, envp); // hay que reiniciar el env arr antes del executer por si el contexto fue modificado desde otra termina (borrar el folder donde estamos actundo, crea files, mover a otro dir estando .trash, etc).
+//		debug_all(&ms, 0, 1, 1);
 		ft_execute(&ms);
 		utils_free_ms(&ms, FALSE);
 	}

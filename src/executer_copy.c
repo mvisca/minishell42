@@ -1,78 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   old_executer.c                                     :+:      :+:    :+:   */
+/*   executer_copy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/04/13 16:05:31 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:52:35 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-//Senyales => de momento son copias de otros.
-//De Tomas, alias Concha
-/*
-int	init_signals(int mode)
-{
-	struct	sigaction	signal;
-
-	signal.sa_flags = SA_RESTART | SA_SIGINFO;
-	sigemptyset(&signal.sa_mask);
-	if (mode == 1)
-		signal.sa_sigaction = handler_norm;
-	else if (mode == 2)
-		signal.sa_sigaction = handler_niet;
-	sigaction(SIGINT, &signal, NULL);
-	sigaction(SIGQUIT, &signal, NULL);
-	return (0);
-}
-
-void	handler_norm(int sig, siginfo_t *data, void *non_used_data)
-{
-	(void) data;
-	(void) non_used_data;
-	if (sig == SIGINT)
-	{
-		ft_putstr_fd("\n", 1);
-//		rl_replace_line("", 1);
-		rl_on_new_line();
-		rl_redisplay();
-		g_sig = 1;
-	}
-	return ;
-}
-
-void	handler_niet(int sig, siginfo_t *data, void *non_used_data)
-{
-	(void) data;
-	(void) non_used_data;
-	if (sig == SIGINT)
-	{
-		g_sig = 130;
-		exit(130);
-	}
-	else if (sig == SIGQUIT)
-	{
-		g_sig = 131;
-		exit(130);
-	}
-	return ;
-}
-
-void	ingnore_sign(int signum)
-{
-	struct sigaction	signal;
-
-	signal.sa_handler = SIG_IGN;
-	signal.sa_flags = SA_RESTART;
-	sigemptyset(&signal.sa_mask);
-	if (sigaction(signum, &signal, NULL) < 0)
-		exit (1);
-}
-*/
 
 //Salida limpia de un char **
 static void	ft_freechain(char **chain)
@@ -153,7 +91,7 @@ static int	ft_openfile(char *file, int redir)
 	int	fd;
 
 	fd = -1;
-	if (redir == L_REDIRECT)
+	if (redir == L_REDIRECT || redir == DL_REDIRECT)
 		fd = open(file, O_RDONLY, 0644);
 	else if (redir == R_REDIRECT)
 		fd = open(file, O_RDWR | O_TRUNC | O_CREAT, 0644);
@@ -177,6 +115,8 @@ static int	ft_closer(t_ms *ms, int i)
 			{
 				if (files->fdes > 0)
 					close(files->fdes);
+				if (files->type == DL_REDIRECT)
+					unlink(files->path);
 				files = files->next;
 			}
 		}
@@ -221,65 +161,26 @@ static char	*ft_getcmd(char *cmnd, char **envp)
 	return (cmd);
 }
 
-//falta mejorar control de errores
-static void	ft_runcmnd(t_coml *job, t_ms *ms)
+static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 {
 	t_coml	*aux;
+	int		i;
 
 	aux = job;
+	i = 0;
 	if (!ft_strchr(aux->command[0], '/'))
+	{
 		aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
+		i = 1;
+	}
+	else if (opendir(aux->command[0]) != NULL)
+		ft_error_exit(aux->command[0], IS_DIR, last * EXIT_DENIED);
+	else if (access(aux->command[0], F_OK) != 0)
+		ft_error_exit(aux->command[0], NO_FILE, last * EXIT_NOTFOUND);
+	else if (access(aux->command[0], X_OK) != 0)
+		ft_error_exit(aux->command[0], NO_EXEC, last * EXIT_DENIED);
 	if (execve(aux->command[0], aux->command, ms->envarr) == -1)
-	{
-		printf("\nError in exec\n");
-		exit (127);
-	}
-}
-
-static void	ft_read_heredoc(char *eof, int tubo[2], int init_fd[2])
-{
-	char	*tmp;
-	char	*line;
-
-	close(tubo[0]);
-	dup2(init_fd[0], STDIN_FILENO);
-	while (1)
-	{
-		tmp = readline("> ");
-		line = ft_strjoin(tmp, "\n");
-		if (!line || (!ft_strncmp(eof, tmp, ft_strlen(tmp)) && ft_strlen(line) > 1))
-			break ;
-		write(tubo[1], line, ft_strlen(line));
-		free(tmp);
-		free(line);
-	}
-	free(eof);
-	free(tmp);
-	close(tubo[1]);
-	exit(EXIT_SUCCESS);
-}
-
-//mirar prioridad de heredoc
-int	ft_heredoc(char *eof, int init_fd[2])
-{
-	int		tubo[2];
-	pid_t	pid;
-	int		status;
-
-	if (pipe(tubo) < 0)
-		exit (1);
-	pid = fork();
-	if (pid < 0)
-		exit (1);
-	if (pid == 0)
-	{
-		ft_read_heredoc(eof, tubo, init_fd);
-	}
-	waitpid(pid, &status, 0);
-	close(tubo[W_END]);
-	dup2(tubo[R_END], STDIN_FILENO);
-	close(tubo[R_END]);
-	return (0);
+		ft_error_exit(aux->command[0] + i, NO_FOUND, last * EXIT_NOTFOUND);
 }
 
 //falta mejorar control de errores
@@ -302,13 +203,11 @@ static void	ft_dup_close(int tubo[2], int pos)
 }
 
 //falta mejorar control de errores
-static void	ft_redir(t_redl	*files, int init_fd[2])
+static void	ft_redir(t_redl	*files)
 {
 	while (files)
 	{
-		if (files->type == DL_REDIRECT)
-			ft_heredoc(files->path, init_fd);
-		if (files->type == L_REDIRECT)
+		if (files->type == L_REDIRECT || files->type == DL_REDIRECT)
 		{
 			files->fdes = ft_openfile(files->path, files->type);
 			if (files->fdes < 0)
@@ -330,6 +229,7 @@ static void	ft_redir(t_redl	*files, int init_fd[2])
 	}
 	if (files && files->fdes < 0)
 	{
+		ft_putstr_fd(MINI, 2);
 		perror(files->path);
 		exit (1);
 	}
@@ -339,18 +239,18 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 {
 	int		tubo[2];
 
-	if (job->redirect)
-		ft_redir(job->redirect, ms->init_fd);
 	if (pipe(tubo) < 0)
-		exit (1);//
+		exit (1);//perror("pipe"); exit (EXIT_FAILURE);
 	pid[i] = fork();
 	if (pid[i] < 0)
-		exit (1);///
+		exit (1);//perror("fork");exit(EXIT_FAILURE);
 	if (pid[i] == 0)
 	{
+		if (job->redirect)
+			ft_redir(job->redirect);
 		ft_dup_close(tubo, 1);
 		if (job->command && job->command[0])
-			ft_runcmnd(job, ms);
+			ft_runcmnd(job, ms, 0);
 		else
 			exit(0);
 	}
@@ -358,15 +258,30 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 		ft_dup_close(tubo, 2);
 }
 
-static void	ft_runend(t_coml *job, t_ms *ms)
+static void	ft_runend(t_coml *job, t_ms *ms, int i)
 {
+	int		stat;
 
-	if (job->redirect)
-		ft_redir(job->redirect, ms->init_fd);
-	if (job->command && job->command[0])
-		ft_runcmnd(job, ms);
+	stat = 0;
+	ms->pid[i] = fork();
+	if (ms->pid[i] == 0)
+	{
+		if (job->redirect)
+			ft_redir(job->redirect);
+		if (job->command && job->command[0])
+			ft_runcmnd(job, ms, 1);
+		else
+			exit(0);
+	}
 	else
-		exit(0);
+	{
+		waitpid(ms->pid[i], &stat, 0);
+		if (WIFEXITED(stat))
+		{
+			ms->exit_code = WEXITSTATUS(stat);
+			printf("Child %d %s pos %d end status: %d\n", ms->pid[i], job->command[0], i, WEXITSTATUS(stat));
+		}
+	}
 }
 
 static void	ft_wait(int count, pid_t pid[MAX_ARGS])
@@ -377,11 +292,87 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 	{
 		waitpid(pid[count], &stat, 0);
 		if (WIFEXITED(stat))
-			printf("Child %d terminated with status: %d\n", pid[count], WEXITSTATUS(stat));
+			printf("Children %d pos %d terminated with status: %d\n", pid[count], count, WEXITSTATUS(stat));
 	}
 }
 
-//original
+static void	ft_reset_dups(t_ms *ms)
+{
+	dup2(ms->init_fd[0], STDIN_FILENO);
+	close(ms->init_fd[0]);
+	ms->init_fd[0] = dup(STDIN_FILENO);
+	dup2(ms->init_fd[1], STDOUT_FILENO);
+	close(ms->init_fd[1]);
+	ms->init_fd[1] = dup(STDOUT_FILENO);
+}
+
+static void	ft_write_hd(int fd, char *eof)
+{
+	char	*tmp;
+	char	*line;
+
+	while (1)
+	{
+		tmp = readline("> ");
+		line = ft_strjoin(tmp, "\n");
+		if (!line || (!ft_strncmp(eof, tmp, ft_strlen(tmp))
+				&& ft_strlen(line) > 1))
+			break ;
+		write(fd, line, ft_strlen(line));
+		free(tmp);
+		free(line);
+	}
+	free(tmp);
+	close(fd);
+}
+
+static void	ft_check_hd(t_redl *files)
+{
+	static int	n = 0;
+	char		*c;
+	int			fd;
+
+	fd = -1;
+	while (fd == -1)
+	{
+		c = ft_itoa(n++);
+		files->path = ft_strjoin3(".", c, H_FILE);
+		if (access(files->path, F_OK) != 0)
+		{
+			fd = open(files->path, O_CREAT | O_RDWR | O_APPEND, 0644);
+		}
+	}
+	ft_write_hd(fd, files->eof);
+	close(fd);
+	free(c);
+}
+
+static int	ft_search_hd(t_coml *job)
+{
+	t_coml		*coms;
+	t_redl		*files;
+
+	coms = job;
+	while (coms)
+	{
+		if (coms->redirect)
+		{
+			files = coms->redirect;
+			while (files)
+			{
+				if (files->type == DL_REDIRECT)
+				{
+					files->eof = ft_strdup(files->path);
+					ft_check_hd(files);
+				}
+				files = files->next;
+			}
+		}
+		coms = coms->next;
+	}
+	return (1);
+}
+
 static int	ft_job(t_ms *ms)
 {
 	int		i;
@@ -390,21 +381,17 @@ static int	ft_job(t_ms *ms)
 
 	i = 0;
 	job = ms->cmnd_list;
-	pid[0] = fork();
-	if (pid[0] < 0)
-		return (1);
-	if (pid[0] == 0)
+	ft_reset_dups(ms);
+	ft_search_hd(job);
+	while (++i < ms->cmnd_count)
 	{
-		while (++i <  ms->cmnd_count)
-		{
-			ft_runchild(job, ms, i, pid);
-			if (job->next)
-				job = job->next;
-		}
-		ft_runend(job, ms);
+		ft_runchild(job, ms, i, pid);
+		if (job->next)
+			job = job->next;
 	}
-	else
-		ft_wait(ms->cmnd_count, pid);
+	ft_runend(job, ms, i);
+	ft_reset_dups(ms);
+	ft_wait(ms->cmnd_count, pid);
 	return (0);
 }
 
@@ -412,6 +399,8 @@ int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	ft_job(ms);
+	printf("Exit code: %d\n", ms->exit_code);
 	ft_closer(ms, ms->cmnd_count);
+	ft_reset_dups(ms);
 	return (0);
 }

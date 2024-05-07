@@ -1,21 +1,4 @@
-<<<<<<< HEAD
-SIGNALS
-    Handler interactive
-    Handler heredoc
-=======
-DONE:
-    UPDATE_SHELL_LEVEL +1
-    SIGNAL
-        CTRL C - OK
-        CTRL D - 
-        CTRL \
-        PENDING: ADAPT THE HANDLER FUNCTIONS BEHAVIOUR
 
-PARSER
-    LOS CONTENIDOS ENTRE PARÉNTESIS TIENEN QUE SER CONTENIDO EN UN COMMANDO SOLO
-    NO ESTÁ RESPETANDO ESTO EL PARSER
-    // PUEDE SER QUE ESTÉ AFECTANDO EL CAMBIO DE MACROS, SI ES ASI SE ARREGLA FACIL //
->>>>>>> from42nou
 
 EXPANDER
     $$ -> PID
@@ -27,6 +10,7 @@ EXPANDER
             son tratados como un is_digit?
     NOTA:
     En caso de que no se cierra una comilla esa línea completa queda excluida del parser
+
     EXPANDIR $$
         ESTE COMANDO EN UNA FUNCIÓN PODRÍA OBTENER EL PID EN UN FILE SIN TENER LA FUNCION getpid() QUE NO ESTA PERMITIDA
         ps aux | grep minishell | awk '{print $2}' | head -n 1 > FILE
@@ -60,3 +44,4 @@ EXPANDER
     v1: command not found
     $(v1)
     v1:command not found
+

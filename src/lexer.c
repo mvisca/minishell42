@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/03 13:18:12 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/04/27 11:03:33 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,10 @@ int	lexer(t_ms *ms, char *line)
 			lexer_make_token(ms, &line[i], WORD, &i);
 	}
 	lexer_make_token(ms, NULL, END, &i);
+	if (errors_syntax(ms))
+	{
+		utils_free_ms(ms, FALSE);
+		return (1);
+	}
 	return (0);
 }
-
-

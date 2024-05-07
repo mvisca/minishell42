@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/16 17:58:43 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/05/06 22:46:23 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_redl
 	int						type;
 	int						fdes;
 	char					*path;
+	char					*eof;//NUEVO para controlar el hd
 	struct s_redl			*next;
 } t_redl;
 
@@ -68,15 +69,17 @@ typedef struct s_ms
 	char					*line;
 	t_tokl					*token_list;
 	t_coml					*cmnd_list;
-	t_coml					*cmnd_list_fake;
 	t_strs					strs;
 	t_envl					*envlst;
 	char					**envarr;
 	int						init_fd[2];//dup inicial de STDIN y STDOUT
 	int						l_tubo[2];//la pipe del proceso
-	int						prev_fd[2];//0
+	int						prev_fd[2];//no se usa
+	int						std_in;//dup inicial STDIN 
+	int						std_out;//dup inicial STDOUT
 	int						exit_code;
 	int						cmnd_count;
+//	pid_t					pid;
 	pid_t					pid[MAX_ARGS];//para controlar executor y funcion espera
 }	t_ms;
 

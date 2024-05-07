@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/16 17:57:09 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/04/20 15:18:33 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,16 @@ void	initialize(t_ms *ms, int ac, char **av, char **envp)
 	ms->token_list = NULL;
 	ms->cmnd_list = NULL;
 	if (!envp)
-		error_exit("variable no encontrada: no se recibió evnp\n", ms);
+		error_exit("Variable no encontrada: no se recibió evnp\n", ms);
 	ms->envlst = environment_init(ms, envp);
+	init_shell_level(ms);
 	ms->envarr = NULL;
 	ms->strs.aux = NULL;
 	ms->strs.buf = NULL;
 	ms->strs.new = NULL;
 	ms->init_fd[FD_IN] = dup(STDIN_FILENO);
 	ms->init_fd[FD_OUT] = dup(STDOUT_FILENO);
-	init_shell_level(ms);
+	ms->std_in= dup(STDIN_FILENO);
+	ms->std_out = dup(STDOUT_FILENO);
 	rl_initialize();
 }
