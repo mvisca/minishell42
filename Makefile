@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/05/08 08:48:54 by mvisca           ###   ########.fr        #
+#    Updated: 2024/05/08 09:00:38 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ HEADER      = ./include/minishell.h
 
 SRC_PATH    = src/
 SRC         = 		_minishell.c 				\
+					builtin_echo.c				\
+					builtin_pwd.c				\
 					debug.c						\
 					environment_getters.c		\
 					environment_init.c			\
@@ -30,7 +32,7 @@ SRC         = 		_minishell.c 				\
 					errors_syntax_cases.c		\
 					errors_syntax.c				\
 					errors.c					\
-					executer_copy.c					\
+					executer_copy.c				\
 					expander.c					\
 					expander_tools.c			\
 					initialize.c				\
