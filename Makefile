@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/04/16 23:58:52 by mvisca           ###   ########.fr        #
+#    Updated: 2024/05/08 08:48:54 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ RLINE		= $(RLINE_PATH)/libreadline.a
 RLINE_H		= $(RLINE_PATH)/libhistory.a
 
 LIB_PATH	= -L$(LIBFT_PATH) -L$(RLINE_PATH) 
-LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap -g -fsanitize=address
+LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap
 
 OBJ_PATH	= .obj/
 OBJ			= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
