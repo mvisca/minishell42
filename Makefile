@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/05/08 09:00:38 by mvisca           ###   ########.fr        #
+#    Updated: 2024/05/11 00:55:58 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC         = 		_minishell.c 				\
 					errors.c					\
 					executer_copy.c				\
 					expander.c					\
+					extend_libft.c				\
 					expander_tools.c			\
 					initialize.c				\
 					interface.c					\

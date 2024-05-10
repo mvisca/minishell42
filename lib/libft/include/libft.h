@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:37:36 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/02/06 23:25:19 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/11 00:56:58 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int				ft_putptr(va_list params, int *i, char mode);
 int				ft_puthex(va_list params, int *i, char mode);
 
 // libft functions
-
 char			*ft_itoa(int n);
 char			**ft_split(const char *s, char c);
 char			*ft_strchr(const char *s, int c);
@@ -58,7 +57,6 @@ int				ft_isalnum(int c);
 int				ft_isascii(int c);
 int				ft_isdigit(int c);
 int				ft_isprint(int c);
-int 			ft_isspace(char c);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_toupper(int c);
@@ -81,7 +79,6 @@ void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 void			ft_putstr_fd(char *s, int fd);
 void			ft_striteri(char *s, void (*f)(unsigned int, char*));
-int 			ft_tablen(char **tab);
 
 // libft bonus
 int				ft_lstsize(t_list *lst);

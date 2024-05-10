@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/31 17:14:27 by mvisca            #+#    #+#              #
-#    Updated: 2024/02/06 23:25:42 by mvisca           ###   ########.fr        #
+#    Updated: 2024/05/11 00:59:54 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,6 @@ SRCS		:=			\
 	ft_isascii.c		\
 	ft_isdigit.c		\
 	ft_isprint.c		\
-	ft_isspace.c		\
 	ft_itoa.c			\
 	ft_memchr.c			\
 	ft_memcmp.c			\
@@ -76,7 +75,6 @@ SRCS		:=			\
 	ft_strrchr.c		\
 	ft_strtrim.c		\
 	ft_substr.c			\
-	ft_tablen.c		\
 	ft_tolower.c		\
 	ft_toupper.c		\
 	ft_lstadd_back.c	\

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/08 08:29:06 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/11 01:02:11 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ void		environment_del_node(t_ms *ms, char *key);
 void        environment_update_node(t_ms *ms, char *key, char *value);
 
 // Getters
-t_envl      *environment_get_node(t_ms *ms, char *key);
+t_envl		*environment_get_node(t_ms *ms, char *key);
 char		*environment_get_value(t_ms *ms, char *key);
 
 /*##################	ERRORS		#####################*/
+
 
 // System errors
 void		error_exit(char *msj, t_ms *ms);
@@ -86,6 +87,11 @@ int			ft_execute(t_ms *ms);
 
 int			expander(t_ms *ms);
 char        *expander_filter_quotes(char *str);
+
+/*##################	EXTEND LIBFT	#####################*/
+
+int			ft_isspace(char c);
+int			ft_tablen(char **tab);
 
 /*##################	INITIALIZER	#####################*/
 
