@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/08 17:11:31 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:32:06 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,14 +161,32 @@ static char	*ft_getcmd(char *cmnd, char **envp)
 	return (cmd);
 }
 
+static int	ft_is_builtin(t_coml *aux)
+{
+	if (ft_strncmp(aux->command[0], "pwd", 3) == 0)
+		return (1);
+	else
+		return (0);
+}
+
+static int	ft_execute_built(t_ms *ms, int type)
+//static int	ft_execute_built(t_coml aux, t_ms *ms, int last, int type)
+{
+	if (type == 1)
+		return (builtin_pwd(ms));
+	return (0);
+}
 static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 {
 	t_coml	*aux;
 	int		i;
 
 	aux = job;
-	i = 0;
-	if (!ft_strchr(aux->command[0], '/'))
+	i = ft_is_builtin(aux);
+	if (i)
+		exit (ft_execute_built(ms, i));
+//		exit (ft_execute_built(aux, ms, last, i));
+	else if (!ft_strchr(aux->command[0], '/'))
 	{
 		aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
 		i = 1;
@@ -325,7 +343,7 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 		if (WIFEXITED(stat))
 		{
 			ms->exit_code = WEXITSTATUS(stat);
-			printf("Child %d %s pos %d end status: %d\n", ms->pid[i], job->command[0], i, WEXITSTATUS(stat));
+//			printf("Child %d %s pos %d end status: %d\n", ms->pid[i], job->command[0], i, WEXITSTATUS(stat));
 		}
 	}
 }
@@ -373,6 +391,7 @@ static void	ft_write_hd(int fd, char *eof)
 	close(fd);
 }
 
+//falta control errores hd
 static void	ft_check_hd(t_redl *files)
 {
 	static int	n = 0;
