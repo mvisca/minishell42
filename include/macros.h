@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/06 17:16:54 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/14 19:48:52 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@
 # define R_END   0
 # define W_END   1
 
-// Para acotar casos extremos de momento no se utiliza
-# define MAX_PATH_LENGHT	1024
-# define MAX_ARGS 			256
+// Para acotar casos extremos.Solo utiliza MAX_PATH
+# define MAX_PATH	1024
+# define MAX_ARGS	256
 
 /*
 // Macros para gestionar fd de entrada y salida: esta repe?
@@ -90,7 +90,7 @@
 # define SYNTAX_MSSG    "Minishell: syntax error near unexpected token `"
 # define MINI			"Minishell: "
 # define NO_PIPE		": unable to create a pipe\n"
-# define NO_FORK		": wa u doin, mada forker\n"
+# define NO_FORK		": Resource temporarily unavailable\n"
 # define NO_FOUND 		": command not found\n"
 # define IS_DIR			": is a directory\n"
 # define NO_FILE		": No such file or directory\n"

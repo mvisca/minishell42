@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/13 18:32:06 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/14 20:04:07 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,12 @@ static int	ft_closer(t_ms *ms, int i)
 }
 
 //Inicio de executer
+static char	*ft_clean_cmd(char *cmd, char *cmnd)
+{
+	free(cmd);
+	return (ft_strjoin("/", cmnd));
+}
+
 static char	*ft_getcmd(char *cmnd, char **envp)
 {
 	int		i;
@@ -138,10 +144,7 @@ static char	*ft_getcmd(char *cmnd, char **envp)
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
 		i++;
 	if (!envp[i])
-	{
-		cmd = ft_strdup("Error no path\n");//
-		return (cmd);
-	}
+		return (ft_strjoin("/", cmnd));
 	paths = ft_split(envp[i] + 5, ':');
 	i = -1;
 	aux = -1;
@@ -153,10 +156,7 @@ static char	*ft_getcmd(char *cmnd, char **envp)
 		aux = access(cmd, F_OK);
 	}
 	if (aux == -1)
-	{
-		free(cmd);
-		cmd = ft_strjoin("/", cmnd);
-	}
+		cmd = ft_clean_cmd(cmd, cmnd);
 	ft_freechain(paths);
 	return (cmd);
 }
@@ -165,17 +165,22 @@ static int	ft_is_builtin(t_coml *aux)
 {
 	if (ft_strncmp(aux->command[0], "pwd", 3) == 0)
 		return (1);
+	else if (ft_strncmp(aux->command[0], "echo", 4) == 0)
+		return (2);
 	else
 		return (0);
 }
 
-static int	ft_execute_built(t_ms *ms, int type)
-//static int	ft_execute_built(t_coml aux, t_ms *ms, int last, int type)
+static int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
+//static int	ft_execute_built(t_coml *aux, t_ms *ms, int last, int type)
 {
 	if (type == 1)
 		return (builtin_pwd(ms));
+	else if (type == 2)
+		return (builtin_echo(aux->command));
 	return (0);
 }
+
 static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 {
 	t_coml	*aux;
@@ -184,8 +189,7 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 	aux = job;
 	i = ft_is_builtin(aux);
 	if (i)
-		exit (ft_execute_built(ms, i));
-//		exit (ft_execute_built(aux, ms, last, i));
+		exit (ft_execute_built(aux, ms, i));
 	else if (!ft_strchr(aux->command[0], '/'))
 	{
 		aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
@@ -280,10 +284,10 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 	int		tubo[2];
 
 	if (pipe(tubo) < 0)
-		exit (1);//perror("pipe"); exit (EXIT_FAILURE);
+		ft_error_exit("Pipe failed", NO_PIPE, EXIT_FAILURE);
 	pid[i] = fork();
 	if (pid[i] < 0)
-		exit (1);//perror("fork");exit(EXIT_FAILURE);
+		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (pid[i] == 0)
 	{
 		job->out = -81;
@@ -318,12 +322,15 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 }
 */
 
+//			printf("Child %d %s pos %d end status: %d\n", ms->pid[i], job->command[0], i, WEXITSTATUS(stat));
 static void	ft_runend(t_coml *job, t_ms *ms, int i)
 {
 	int		stat;
 
 	stat = 0;
 	ms->pid[i] = fork();
+	if (ms->pid[i] < 0)
+		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (ms->pid[i] == 0)
 	{
 		job->out = -81;
@@ -343,7 +350,6 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 		if (WIFEXITED(stat))
 		{
 			ms->exit_code = WEXITSTATUS(stat);
-//			printf("Child %d %s pos %d end status: %d\n", ms->pid[i], job->command[0], i, WEXITSTATUS(stat));
 		}
 	}
 }

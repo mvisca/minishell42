@@ -1,4 +1,6 @@
-
+GETTER
+	Hay algun control sobre el tamanyo de los value en t_envl?
+	Por ejemplo el path deberia ser como maximo 1024  => MAX_PATH en nuestras macros
 
 EXPANDER
     $$ -> PID
