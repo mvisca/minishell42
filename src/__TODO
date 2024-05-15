@@ -47,3 +47,13 @@ EXPANDER
     $(v1)
     v1:command not found
 
+EXPORT
+	//Si se hace export con una variable que ya existe, se actualiza su valor
+	//Si se hace export con una variable que no existe, se crea
+	//Si se hace export con una variable que no tiene valor, se crea con valor NULL
+	//Si se hace export con una variable que no tiene valor pero tiene un igual 
+	//el valor de ese content sera ""
+	//Si se hace un export += a una variable existente se le añade el valor al final
+	//Si se hace un export += a una variable que no existe se crea con el valor
+
+

@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/14 20:04:07 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/15 17:45:37 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,12 +161,34 @@ static char	*ft_getcmd(char *cmnd, char **envp)
 	return (cmd);
 }
 
+static int	builtin_cd(t_ms *ms, char **cmnd)
+{
+	char	path[MAX_PATH];
+	int		i;
+
+//	(void)(cmnd);
+	i = 0;
+	if (ms->cmnd_count != 1)
+		return (0);
+	printf("Home: %s\n", environment_get_value(ms, "HOME"));
+	getcwd(path, sizeof(path));
+	printf("Path: %s\n", path);
+//	i = chdir("/");
+//	chdir(environment_get_value(ms, "HOME"));
+	if (cmnd[1])
+		 i = chdir(cmnd[1]);
+	printf("Do a ls %d\n", i);
+	return (0);
+}
+
 static int	ft_is_builtin(t_coml *aux)
 {
 	if (ft_strncmp(aux->command[0], "pwd", 3) == 0)
 		return (1);
 	else if (ft_strncmp(aux->command[0], "echo", 4) == 0)
 		return (2);
+	else if (ft_strncmp(aux->command[0], "cd", 2) == 0)
+		return (3);
 	else
 		return (0);
 }
@@ -178,6 +200,8 @@ static int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
 		return (builtin_pwd(ms));
 	else if (type == 2)
 		return (builtin_echo(aux->command));
+	else if (type == 3)
+		return (builtin_cd(ms, aux->command));
 	return (0);
 }
 
@@ -189,7 +213,7 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 	aux = job;
 	i = ft_is_builtin(aux);
 	if (i)
-		exit (ft_execute_built(aux, ms, i));
+		exit (ft_execute_built(aux, ms, i) * last);
 	else if (!ft_strchr(aux->command[0], '/'))
 	{
 		aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
@@ -317,12 +341,14 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 	{
 		waitpid(pid[i], &stat, 0);
 		if (WIFEXITED(stat))
-				printf("Children %d pos %d end status: %d\n", pid[i], i, WEXITSTATUS(stat));
+				printf("Children %d pos %d end status: %d\n", 
+				pid[i], i, WEXITSTATUS(stat));
 	}
 }
 */
 
-//			printf("Child %d %s pos %d end status: %d\n", ms->pid[i], job->command[0], i, WEXITSTATUS(stat));
+//			printf("Child %d %s pos %d end status: %d\n", ms->pid[i], 
+//			job->command[0], i, WEXITSTATUS(stat));
 static void	ft_runend(t_coml *job, t_ms *ms, int i)
 {
 	int		stat;
@@ -348,9 +374,7 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	{
 		waitpid(ms->pid[i], &stat, 0);
 		if (WIFEXITED(stat))
-		{
 			ms->exit_code = WEXITSTATUS(stat);
-		}
 	}
 }
 
@@ -363,7 +387,8 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 	{
 		waitpid(pid[count], &stat, 0);
 		if (WIFEXITED(stat))
-			printf("Children %d pos %d terminated with status: %d\n", pid[count], count, WEXITSTATUS(stat));
+			printf("Children %d pos %d terminated with status: %d\n",
+				pid[count], count, WEXITSTATUS(stat));
 	}
 }
 
