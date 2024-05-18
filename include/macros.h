@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/14 19:48:52 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:38:47 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@
 # define IS_DIR			": is a directory\n"
 # define NO_FILE		": No such file or directory\n"
 # define NO_EXEC		": Permission denied\n"
+# define NO_OLD			": OLDPWD not set\n"
 
 // Errores de ejecucion
 # define EXIT_DENIED	126

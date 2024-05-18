@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/18 11:20:09 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:56:15 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@ static void	ft_freechain(char **chain)
 }
 
 //Utils de strings en executer
+static int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0')
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
 static int	ft_strlenp(const char *str)
 {
 	int	i;
@@ -160,7 +174,7 @@ static char	*ft_getcmd(char *cmnd, char **envp)
 	ft_freechain(paths);
 	return (cmd);
 }
-
+/*
 static void minils()
 {
 	DIR				*dir;
@@ -177,6 +191,7 @@ static void minils()
 	closedir(dir);
 
 }
+*/
 
 static int	builtin_cd(t_ms *ms, char **cmnd)
 {
@@ -185,20 +200,16 @@ static int	builtin_cd(t_ms *ms, char **cmnd)
 	int		i;
 
 	i = 0;
-	minils();
 	getcwd(oldpwd, sizeof(oldpwd));
-	if (ms->cmnd_count != 1)
-		return (0);
-	if (cmnd[1])
-		 i = chdir(cmnd[1]);
-	else
-	{
-		i =	chdir(environment_get_value(ms, "HOME"));
-		getcwd(path,sizeof(path));
-		environment_update_node(ms, "PWD", path);
-		environment_update_node(ms, "OLDPWD", oldpwd);
-		minils();
-	}
+	if (!cmnd[1] || cmnd[1][0] == '\0' || ft_strcmp(cmnd[1], "~") == 0)
+		i = chdir(environment_get_value(ms, "HOME"));
+	else if (ft_strcmp(cmnd[1],"-") == 0 ) 
+		i = chdir(environment_get_value(ms, "OLDPWD"));
+	else 
+		i = chdir(cmnd[1]);
+	getcwd(path, sizeof(path));
+	environment_update_node(ms, "PWD", path);
+	environment_update_node(ms, "OLDPWD", oldpwd);
 	return (i);
 }
 
@@ -503,6 +514,11 @@ static int	ft_job(t_ms *ms)
 	job = ms->cmnd_list;
 	ft_reset_dups(ms);
 	ft_search_hd(job);
+	if (ft_strncmp(job->command[0], "cd", 2) == 0 && ms->cmnd_count == 1)
+	{
+		ms->exit_code = builtin_cd(ms, job->command);
+		return (ms->exit_code);
+	}
 	while (++i < ms->cmnd_count)
 	{
 		ft_runchild(job, ms, i, pid);
