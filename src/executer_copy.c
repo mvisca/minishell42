@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/15 17:45:37 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/18 11:20:09 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,24 +161,45 @@ static char	*ft_getcmd(char *cmnd, char **envp)
 	return (cmd);
 }
 
+static void minils()
+{
+	DIR				*dir;
+	struct dirent	*entry;
+	char	path[MAX_PATH];
+
+	getcwd(path,sizeof(path));
+	dir = opendir(path);
+	printf("Content of current directory: %s\n", path);
+	while ((entry = readdir(dir)) != NULL)
+	{
+		printf("%s\n", entry->d_name);
+	}
+	closedir(dir);
+
+}
+
 static int	builtin_cd(t_ms *ms, char **cmnd)
 {
 	char	path[MAX_PATH];
+	char	oldpwd[MAX_PATH];
 	int		i;
 
-//	(void)(cmnd);
 	i = 0;
+	minils();
+	getcwd(oldpwd, sizeof(oldpwd));
 	if (ms->cmnd_count != 1)
 		return (0);
-	printf("Home: %s\n", environment_get_value(ms, "HOME"));
-	getcwd(path, sizeof(path));
-	printf("Path: %s\n", path);
-//	i = chdir("/");
-//	chdir(environment_get_value(ms, "HOME"));
 	if (cmnd[1])
 		 i = chdir(cmnd[1]);
-	printf("Do a ls %d\n", i);
-	return (0);
+	else
+	{
+		i =	chdir(environment_get_value(ms, "HOME"));
+		getcwd(path,sizeof(path));
+		environment_update_node(ms, "PWD", path);
+		environment_update_node(ms, "OLDPWD", oldpwd);
+		minils();
+	}
+	return (i);
 }
 
 static int	ft_is_builtin(t_coml *aux)
@@ -213,7 +234,9 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 	aux = job;
 	i = ft_is_builtin(aux);
 	if (i)
+	{
 		exit (ft_execute_built(aux, ms, i) * last);
+	}
 	else if (!ft_strchr(aux->command[0], '/'))
 	{
 		aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
