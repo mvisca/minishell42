@@ -6,81 +6,32 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/18 15:56:15 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:25:01 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//Salida limpia de un char **
-static void	ft_freechain(char **chain)
+/*
+static void ft_mini_ls()
 {
-	int	i;
+	DIR				*dir;
+	struct dirent	*entry;
+	char	path[MAX_PATH];
 
-	i = -1;
-	while (chain[++i])
-		free(chain[i]);
-	free(chain);
-}
-
-//Utils de strings en executer
-static int	ft_strcmp(const char *s1, const char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0')
+	getcwd(path,sizeof(path));
+	dir = opendir(path);
+	printf("Content of current directory: %s\n", path);
+	entry = readdir(dir);
+	while (entry != NULL)
 	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
+		printf("%s\n", entry->d_name);
+		entry = readdir(dir)
 	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	closedir(dir);
+
 }
-
-static int	ft_strlenp(const char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (i);
-	while (str[i])
-		i++;
-	return (i);
-}
-
-static char	*ft_strcat(char *dest, const char *add)
-{
-	int	d;
-	int	i;
-
-	i = -1;
-	if (!add)
-		return (dest);
-	d = ft_strlenp(dest);
-	while (add[++i])
-		dest[d + i] = add[i];
-	dest[d + i] = '\0';
-	return (dest);
-}
-
-static char	*ft_strjoin3(char *str1, char *str2, char *str3)
-{
-	int		len;
-	char	*out;
-
-	len = ft_strlenp(str1) + ft_strlenp(str2) + ft_strlenp(str3);
-	out = malloc((len + 1) * sizeof(char));
-	if (!out)
-		return (NULL);
-	out[0] = '\0';
-	ft_strcat(out, str1);
-	ft_strcat(out, str2);
-	ft_strcat(out, str3);
-	return (out);
-}
-
+*/
 //Contador de comandos. Inicializa los fd de entrada y salida
 static int	ft_countcmd(t_coml *coml)
 {
@@ -99,99 +50,45 @@ static int	ft_countcmd(t_coml *coml)
 	return (i);
 }
 
-//Gestion de ficheros
-static int	ft_openfile(char *file, int redir)
-{
-	int	fd;
-
-	fd = -1;
-	if (redir == L_REDIRECT || redir == DL_REDIRECT)
-		fd = open(file, O_RDONLY, 0644);
-	else if (redir == R_REDIRECT)
-		fd = open(file, O_RDWR | O_TRUNC | O_CREAT, 0644);
-	else if (redir == DR_REDIRECT)
-		fd = open(file, O_RDWR | O_APPEND | O_CREAT, 0644);
-	return (fd);
-}
-
-static int	ft_closer(t_ms *ms, int i)
-{
-	t_coml	*aux;
-	t_redl	*files;
-
-	aux = ms->cmnd_list;
-	while (i--)
-	{
-		if (aux->redirect)
-		{
-			files = aux->redirect;
-			while (files)
-			{
-				if (files->fdes > 0)
-					close(files->fdes);
-				if (files->type == DL_REDIRECT)
-					unlink(files->path);
-				files = files->next;
-			}
-		}
-		aux = aux->next;
-	}
-	return (0);
-}
-
 //Inicio de executer
-static char	*ft_clean_cmd(char *cmd, char *cmnd)
-{
-	free(cmd);
-	return (ft_strjoin("/", cmnd));
-}
-
-static char	*ft_getcmd(char *cmnd, char **envp)
+static char	*ft_getcmd(char *cmnd)
 {
 	int		i;
 	int		aux;
-	char	*cmd;
+	char	*out;
 	char	**paths;
 
-	i = 0;
-	cmd = NULL;
-	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
-		i++;
-	if (!envp[i])
+	out = getenv("PATH");
+	if (!out)
 		return (ft_strjoin("/", cmnd));
-	paths = ft_split(envp[i] + 5, ':');
+	paths = ft_split(out, ':');
 	i = -1;
 	aux = -1;
 	while (aux == -1 && paths[++i])
 	{
-		if (cmd)
-			free(cmd);
-		cmd = ft_strjoin3(paths[i], "/", cmnd);
-		aux = access(cmd, F_OK);
+		out = ft_strjoin3(paths[i], "/", cmnd);
+		aux = access(out, F_OK);
 	}
 	if (aux == -1)
-		cmd = ft_clean_cmd(cmd, cmnd);
+		out = ft_strjoin("/", cmnd);
 	ft_freechain(paths);
-	return (cmd);
+	return (out);
 }
-/*
-static void minils()
+
+static int	ft_mini_cd(char *path)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	char	path[MAX_PATH];
+	int	out;
 
-	getcwd(path,sizeof(path));
-	dir = opendir(path);
-	printf("Content of current directory: %s\n", path);
-	while ((entry = readdir(dir)) != NULL)
-	{
-		printf("%s\n", entry->d_name);
-	}
-	closedir(dir);
-
+	out = 0;
+	if (path[0] == '~')
+		path = ft_strjoin(getenv("HOME"), path + 1);
+	out = chdir(path);
+	if (access(path, F_OK) == -1)
+		ft_error_noexit("cd", NO_FILE);
+	else if (access(path, X_OK) == -1)
+		ft_error_noexit("cd", NO_EXEC);
+	return (out);
 }
-*/
 
 static int	builtin_cd(t_ms *ms, char **cmnd)
 {
@@ -199,28 +96,45 @@ static int	builtin_cd(t_ms *ms, char **cmnd)
 	char	oldpwd[MAX_PATH];
 	int		i;
 
-	i = 0;
+	i = -1;
 	getcwd(oldpwd, sizeof(oldpwd));
 	if (!cmnd[1] || cmnd[1][0] == '\0' || ft_strcmp(cmnd[1], "~") == 0)
-		i = chdir(environment_get_value(ms, "HOME"));
-	else if (ft_strcmp(cmnd[1],"-") == 0 ) 
-		i = chdir(environment_get_value(ms, "OLDPWD"));
-	else 
-		i = chdir(cmnd[1]);
+		i *= chdir(getenv("HOME"));
+	else if (ft_strcmp(cmnd[1], "-") == 0)
+	{
+		i *= chdir(environment_get_value(ms, "OLDPWD"));
+		if (i != 0)
+			ft_error_noexit("cd", NO_OLD);
+		else
+			printf("%s\n", environment_get_value(ms, "OLDPWD"));
+	}
+	else
+		i *= ft_mini_cd(cmnd[1]);
 	getcwd(path, sizeof(path));
 	environment_update_node(ms, "PWD", path);
-	environment_update_node(ms, "OLDPWD", oldpwd);
+	if (environment_get_value(ms, "OLDPWD") && i == 0)
+		environment_update_node(ms, "OLDPWD", oldpwd);
+	else if (!environment_get_value(ms, "OLDPWD") && i == 0)
+		environment_add_node(ms, environment_new_node(ms, "OLDPWD", oldpwd));
 	return (i);
 }
 
 static int	ft_is_builtin(t_coml *aux)
 {
-	if (ft_strncmp(aux->command[0], "pwd", 3) == 0)
+	if (ft_strcmp(aux->command[0], "pwd") == 0)
 		return (1);
-	else if (ft_strncmp(aux->command[0], "echo", 4) == 0)
+	else if (ft_strcmp(aux->command[0], "echo") == 0)
 		return (2);
-	else if (ft_strncmp(aux->command[0], "cd", 2) == 0)
+	else if (ft_strcmp(aux->command[0], "cd") == 0)
 		return (3);
+	else if (ft_strcmp(aux->command[0], "export") == 0)
+		return (0);
+	else if (ft_strcmp(aux->command[0], "unset") == 0)
+		return (0);
+	else if (ft_strcmp(aux->command[0], "env") == 0)
+		return (0);
+	else if (ft_strcmp(aux->command[0], "exit") == 0)
+		return (0);
 	else
 		return (0);
 }
@@ -234,9 +148,11 @@ static int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
 		return (builtin_echo(aux->command));
 	else if (type == 3)
 		return (builtin_cd(ms, aux->command));
-	return (0);
+	else
+		return (0);
 }
 
+// old: aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
 static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 {
 	t_coml	*aux;
@@ -250,7 +166,7 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 	}
 	else if (!ft_strchr(aux->command[0], '/'))
 	{
-		aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
+		aux->command[0] = ft_getcmd(aux->command[0]);
 		i = 1;
 	}
 	else if (opendir(aux->command[0]) != NULL)
@@ -285,58 +201,6 @@ static void	ft_dup_close(int tubo[2], int pos, int out)
 	}
 }
 
-//falta mejorar control de errores
-static void	ft_redirin(t_redl	*files, int last)
-{
-	while (files)
-	{
-		if (files->type == L_REDIRECT || files->type == DL_REDIRECT)
-		{
-			files->fdes = ft_openfile(files->path, files->type);
-			if (files->fdes < 0)
-				break ;
-			if (dup2(files->fdes, STDIN_FILENO) < 0)
-				exit (1);
-			close(files->fdes);
-		}
-		files = files->next;
-	}
-	if (files && files->fdes < 0)
-	{
-		if (access(files->path, F_OK) != 0)
-			ft_error_exit(files->path, NO_FILE, 1 * last);
-		else if (access(files->path, R_OK) != 0)
-			ft_error_exit(files->path, NO_EXEC, 1 * last);
-	}
-}
-
-static void	ft_redirout(t_coml *job, int last)
-{
-	t_redl	*files;
-
-	files = job->redirect;
-	while (files)
-	{
-		if (files->type == R_REDIRECT || files->type == DR_REDIRECT)
-		{
-			files->fdes = ft_openfile(files->path, files->type);
-			job->out = files->fdes;
-			if (files->fdes < 0)
-				break ;
-			if (dup2(files->fdes, STDOUT_FILENO) < 0)
-				exit (1);
-			close(files->fdes);
-		}
-		files = files->next;
-	}
-	if (files && files->fdes < 0)
-	{
-		ft_putstr_fd(MINI, 2);
-		perror(files->path);
-		exit (1 * last);
-	}
-}
-
 static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 {
 	int		tubo[2];
@@ -345,7 +209,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 		ft_error_exit("Pipe failed", NO_PIPE, EXIT_FAILURE);
 	pid[i] = fork();
 	if (pid[i] < 0)
-		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
+		ft_error_exit("Fork failed:", NO_FORK , EXIT_FAILURE);
 	if (pid[i] == 0)
 	{
 		job->out = -81;
@@ -514,7 +378,7 @@ static int	ft_job(t_ms *ms)
 	job = ms->cmnd_list;
 	ft_reset_dups(ms);
 	ft_search_hd(job);
-	if (ft_strncmp(job->command[0], "cd", 2) == 0 && ms->cmnd_count == 1)
+	if (ft_strcmp(ft_strlwr(job->command[0]), "cd") == 0 && ms->cmnd_count == 1)
 	{
 		ms->exit_code = builtin_cd(ms, job->command);
 		return (ms->exit_code);

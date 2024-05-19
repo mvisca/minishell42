@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/05/11 00:55:58 by mvisca           ###   ########.fr        #
+#    Updated: 2024/05/19 17:49:15 by fcatala-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC         = 		_minishell.c 				\
 					errors_syntax.c				\
 					errors.c					\
 					executer_copy.c				\
+					executer_fds.c				\
 					expander.c					\
 					extend_libft.c				\
 					expander_tools.c			\
@@ -46,7 +47,9 @@ SRC         = 		_minishell.c 				\
 					parser_update_envarr.c		\
 					signals.c					\
 					utils_free.c				\
-					utils_str.c
+					utils_str.c					\
+					utils2_str.c				\
+					utils3_str.c
 
 SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 

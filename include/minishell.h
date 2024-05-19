@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/14 20:01:44 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/19 17:48:11 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char		*environment_get_value(t_ms *ms, char *key);
 void		error_exit(char *msj, t_ms *ms);
 void		error_free_exit(char *msj, t_ms *ms);
 void		ft_error_exit(char *com, char *msj, int code);
+void		ft_error_noexit(char *com, char *msj);
 
 // User errors
 int			errors_syntax(t_ms *ms);
@@ -82,6 +83,13 @@ int         errors_start(t_ms *ms);
 /*##################	EXECUTOR	#####################*/
 
 int			ft_execute(t_ms *ms);
+
+/*##################	EXECUTOR FILES & REDIRS  #####################*/
+
+int			ft_openfile(char *file, int redir);
+int			ft_closer(t_ms *ms, int i);
+void		ft_redirin(t_redl	*files, int last);
+void		ft_redirout(t_coml *job, int last);
 
 /*##################	EXPANDER	#####################*/
 
@@ -137,5 +145,16 @@ void		utils_free_cmnd_list(t_coml **cmnd);
 // String
 size_t      str_line_len(char *line);
 void        str_close_quote(char *line, size_t *i);
+
+/*##################	UTILS2_STR		#####################*/
+
+int			ft_strcmp(const char *s1, const char *s2);
+int			ft_strlenp(const char *str);
+char		*ft_strcat(char *dest, const char *add);
+char		*ft_strjoin3(char *str1, char *str2, char *str3);
+char		*ft_strlwr(char *str);
+
+/*##################	UTILS3_STR		#####################*/
+void		ft_freechain(char **chain);
 
 #endif

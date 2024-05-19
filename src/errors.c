@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:57:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/14 20:04:18 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/19 12:12:39 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,10 @@ void	ft_error_exit(char *com, char *msj, int code)
 	exit (code);
 }
 
+void	ft_error_noexit(char *com, char *msj)
+{
+	ft_putstr_fd(MINI, 2);
+	if (com)
+		ft_putstr_fd(com, 2);
+	ft_putstr_fd(msj, 2);
+}
