@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/19 18:25:01 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/21 20:13:45 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,17 @@ static int	ft_countcmd(t_coml *coml)
 }
 
 //Inicio de executer
-static char	*ft_getcmd(char *cmnd)
+//v_01 : recorrer envp como pipex (while)
+//v_02 : out = getenv("PATH");
+//v_03 : out = environment_get_value(ms, "PATH")
+static char	*ft_getcmd(char *cmnd, t_ms *ms)
 {
 	int		i;
 	int		aux;
 	char	*out;
 	char	**paths;
 
-	out = getenv("PATH");
+	out = environment_get_value(ms, "PATH");
 	if (!out)
 		return (ft_strjoin("/", cmnd));
 	paths = ft_split(out, ':');
@@ -119,20 +122,23 @@ static int	builtin_cd(t_ms *ms, char **cmnd)
 	return (i);
 }
 
+//ok in pipe: pwd, echo, env
+//only solo: cd, exit
+//only at the end: export unset
 static int	ft_is_builtin(t_coml *aux)
 {
 	if (ft_strcmp(aux->command[0], "pwd") == 0)
 		return (1);
 	else if (ft_strcmp(aux->command[0], "echo") == 0)
 		return (2);
-	else if (ft_strcmp(aux->command[0], "cd") == 0)
-		return (3);
+	else if (ft_strcmp(aux->command[0], "env") == 0)
+		return (0);
 	else if (ft_strcmp(aux->command[0], "export") == 0)
 		return (0);
 	else if (ft_strcmp(aux->command[0], "unset") == 0)
 		return (0);
-	else if (ft_strcmp(aux->command[0], "env") == 0)
-		return (0);
+	else if (ft_strcmp(aux->command[0], "cd") == 0)
+		return (6);
 	else if (ft_strcmp(aux->command[0], "exit") == 0)
 		return (0);
 	else
@@ -146,13 +152,15 @@ static int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
 		return (builtin_pwd(ms));
 	else if (type == 2)
 		return (builtin_echo(aux->command));
-	else if (type == 3)
+	else if (type == 6)
 		return (builtin_cd(ms, aux->command));
 	else
 		return (0);
 }
 
-// old: aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
+//v_01 : aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
+//v_02 : aux->command[0] = ft_getcmd(aux->command[0]);
+//v_03 : aux->command[0] = ft_getcmd(aux->command[0], ms);
 static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 {
 	t_coml	*aux;
@@ -166,7 +174,7 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 	}
 	else if (!ft_strchr(aux->command[0], '/'))
 	{
-		aux->command[0] = ft_getcmd(aux->command[0]);
+		aux->command[0] = ft_getcmd(aux->command[0], ms);
 		i = 1;
 	}
 	else if (opendir(aux->command[0]) != NULL)
@@ -209,7 +217,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 		ft_error_exit("Pipe failed", NO_PIPE, EXIT_FAILURE);
 	pid[i] = fork();
 	if (pid[i] < 0)
-		ft_error_exit("Fork failed:", NO_FORK , EXIT_FAILURE);
+		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (pid[i] == 0)
 	{
 		job->out = -81;
@@ -277,6 +285,7 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 }
 
 //descending  mode works fine as asdending mode
+//check for other exit cases
 static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 {
 	int		stat;
@@ -374,15 +383,16 @@ static int	ft_job(t_ms *ms)
 	t_coml	*job;
 	pid_t	pid[MAX_ARGS];
 
-	i = 0;
 	job = ms->cmnd_list;
 	ft_reset_dups(ms);
 	ft_search_hd(job);
-	if (ft_strcmp(ft_strlwr(job->command[0]), "cd") == 0 && ms->cmnd_count == 1)
+	i = ft_is_builtin(job);
+	if (ms->cmnd_count == 1 && i >= 6)
 	{
-		ms->exit_code = builtin_cd(ms, job->command);
+		ms->exit_code = ft_execute_built(job, ms, i);
 		return (ms->exit_code);
 	}
+	i = 0;
 	while (++i < ms->cmnd_count)
 	{
 		ft_runchild(job, ms, i, pid);
