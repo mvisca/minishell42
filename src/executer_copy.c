@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/22 17:28:25 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/22 22:58:08 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,6 +326,7 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 		if (!ft_strncmp(eof, tmp, ft_strlen(tmp)))
 			break ;
 		expander_get_expansion(ms, tmp);
+		expander_filter_quotes(ms->strs.new);
 		line = ft_strjoin(ms->strs.new, "\n");
 		write(fd, line, ft_strlen(line));
 		free(ms->strs.new);
