@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/22 16:55:32 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/22 17:28:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,24 +319,19 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 	char	*tmp;
 	char	*line;
 
-	tmp = readline("> ");
+//	tmp = readline("> ");
 	while (1)
 	{
-//		tmp = readline("> ");
-		line = ft_strjoin(tmp, "\n");
-		if (!line || (!ft_strncmp(eof, tmp, ft_strlen(tmp))
-				&& ft_strlen(line) > 1))
-			break ;
-		expander_get_expansion(ms, line);
-		if (line)
-		{
-			write(fd, ms->strs.new, ft_strlen(ms->strs.new));
-			free(ms->strs.new);
-		}	
-		free(tmp);
-		free(line);
-		free(ms->strs.new);
 		tmp = readline("> ");
+		if (!ft_strncmp(eof, tmp, ft_strlen(tmp)))
+			break ;
+		expander_get_expansion(ms, tmp);
+		line = ft_strjoin(ms->strs.new, "\n");
+		write(fd, line, ft_strlen(line));
+		free(ms->strs.new);
+		ms->strs.new = NULL;
+		free(line);
+		free(tmp);
 	}
 	free(tmp);
 	close(fd);

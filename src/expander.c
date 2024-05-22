@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/22 16:42:09 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/22 17:19:57 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,10 +123,10 @@ int	expander_get_expansion(t_ms *ms, char *str)
 		}
 		ms->strs.aux = ms->strs.new;
 		ms->strs.new = ft_strjoin(ms->strs.aux, ms->strs.buf);
-		free(ms->strs.buf);
-		ms->strs.buf = NULL;
 		free(ms->strs.aux);
 		ms->strs.aux = NULL;
+		free(ms->strs.buf);
+		ms->strs.buf = NULL;
 	}
 	return (0);
 }
