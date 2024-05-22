@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/19 17:48:11 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:19:17 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,10 @@ void		ft_redirout(t_coml *job, int last);
 
 int			expander(t_ms *ms);
 char        *expander_filter_quotes(char *str);
+int         expander_get_expansion(t_ms *ms, char *str);
+int			expander_var_exit(t_ms *ms, char *str, size_t *i);
+int			expander_var_alpha(t_ms *ms, char *str, size_t *i);
+int			expander_var_curly(t_ms *ms, char *str, size_t *i);
 
 /*##################	EXTEND LIBFT	#####################*/
 

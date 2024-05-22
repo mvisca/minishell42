@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_copy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/22 15:34:38 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:34:41 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,7 @@ static void	ft_reset_dups(t_ms *ms)
 	ms->init_fd[1] = dup(STDOUT_FILENO);
 }
 
-static void	ft_write_hd(int fd, char *eof)
+static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 {
 	char	*tmp;
 	char	*line;
@@ -322,7 +322,12 @@ static void	ft_write_hd(int fd, char *eof)
 		if (!line || (!ft_strncmp(eof, tmp, ft_strlen(tmp))
 				&& ft_strlen(line) > 1))
 			break ;
-		write(fd, line, ft_strlen(line));
+		expander_get_expansion(ms, line);
+		if (line)
+		{
+			write(fd, ms->strs.new, ft_strlen(ms->strs.new));
+			free(ms->strs.new);
+		}	
 		free(tmp);
 		free(line);
 		tmp = readline("> ");
@@ -332,7 +337,7 @@ static void	ft_write_hd(int fd, char *eof)
 }
 
 //falta control errores hd
-static void	ft_check_hd(t_redl *files)
+static void	ft_check_hd(t_ms *ms, t_redl *files)
 {
 	static int	n = 0;
 	char		*c;
@@ -348,12 +353,12 @@ static void	ft_check_hd(t_redl *files)
 			fd = open(files->path, O_CREAT | O_RDWR | O_APPEND, 0644);
 		}
 	}
-	ft_write_hd(fd, files->eof);
+	ft_write_hd(ms, fd, files->eof);
 	close(fd);
 	free(c);
 }
 
-static int	ft_search_hd(t_coml *job)
+static int	ft_search_hd(t_ms *ms, t_coml *job)
 {
 	t_coml		*coms;
 	t_redl		*files;
@@ -369,7 +374,7 @@ static int	ft_search_hd(t_coml *job)
 				if (files->type == DL_REDIRECT)
 				{
 					files->eof = ft_strdup(files->path);
-					ft_check_hd(files);
+					ft_check_hd(ms, files);
 				}
 				files = files->next;
 			}
@@ -387,7 +392,7 @@ static int	ft_job(t_ms *ms)
 
 	job = ms->cmnd_list;
 	ft_reset_dups(ms);
-	ft_search_hd(job);
+	ft_search_hd(ms, job);
 	i = ft_is_builtin(job);
 	if (ms->cmnd_count == 1 && i >= 6)
 	{
