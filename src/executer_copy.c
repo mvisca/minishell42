@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/22 16:34:41 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:55:32 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ static int	builtin_cd(t_ms *ms, char **cmnd)
 {
 	char	path[MAX_PATH];
 	char	oldpwd[MAX_PATH];
+	char	*tmp;
 	int		i;
 
 	i = -1;
@@ -114,9 +115,13 @@ static int	builtin_cd(t_ms *ms, char **cmnd)
 	else
 		i *= ft_mini_cd(cmnd[1]);
 	getcwd(path, sizeof(path));
-	environment_update_node(ms, "PWD", path);
+	tmp = ft_strdup(path);
+	environment_update_node(ms, "PWD", tmp);
 	if (environment_get_value(ms, "OLDPWD") && i == 0)
-		environment_update_node(ms, "OLDPWD", oldpwd);
+	{
+		tmp = ft_strdup(oldpwd);
+		environment_update_node(ms, "OLDPWD", tmp);
+	}
 	else if (!environment_get_value(ms, "OLDPWD") && i == 0)
 		environment_add_node(ms, environment_new_node(ms, "OLDPWD", oldpwd));
 	return (i);
@@ -330,6 +335,7 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 		}	
 		free(tmp);
 		free(line);
+		free(ms->strs.new);
 		tmp = readline("> ");
 	}
 	free(tmp);
