@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/21 20:13:45 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:34:38 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,9 @@ static int	builtin_cd(t_ms *ms, char **cmnd)
 	return (i);
 }
 
-//ok in pipe: pwd, echo, env
+//ok in pipe and at any place: pwd, echo, env
 //only solo: cd, exit
-//only at the end: export unset
+//only at the end? or solo: export unset
 static int	ft_is_builtin(t_coml *aux)
 {
 	if (ft_strcmp(aux->command[0], "pwd") == 0)
@@ -314,9 +314,10 @@ static void	ft_write_hd(int fd, char *eof)
 	char	*tmp;
 	char	*line;
 
+	tmp = readline("> ");
 	while (1)
 	{
-		tmp = readline("> ");
+//		tmp = readline("> ");
 		line = ft_strjoin(tmp, "\n");
 		if (!line || (!ft_strncmp(eof, tmp, ft_strlen(tmp))
 				&& ft_strlen(line) > 1))
@@ -324,6 +325,7 @@ static void	ft_write_hd(int fd, char *eof)
 		write(fd, line, ft_strlen(line));
 		free(tmp);
 		free(line);
+		tmp = readline("> ");
 	}
 	free(tmp);
 	close(fd);
