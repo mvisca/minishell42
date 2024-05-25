@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/22 18:04:35 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/23 17:07:30 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		expander(&ms);
 //		environment_init(&ms, envp); // hay que reiniciar el env arr antes del executer por si el contexto fue modificado desde otra termina (borrar el folder donde estamos actundo, crea files, mover a otro dir estando .trash, etc).
-		debug_all(&ms, 1, 0, 0);
+//		debug_all(&ms, 1, 0, 0);
 		ft_execute(&ms);
 		utils_free_ms(&ms, FALSE);
 	}

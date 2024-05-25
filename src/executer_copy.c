@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/22 17:28:25 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/25 11:12:18 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,20 @@ static int	ft_mini_cd(char *path)
 	return (out);
 }
 
+//eliminated lines
+//	char	*tmp;
+//	tmp = ft_strdup(path);
+//	tmp = ft_strdup(oldpwd);
 static int	builtin_cd(t_ms *ms, char **cmnd)
 {
 	char	path[MAX_PATH];
 	char	oldpwd[MAX_PATH];
-	char	*tmp;
 	int		i;
 
 	i = -1;
 	getcwd(oldpwd, sizeof(oldpwd));
 	if (!cmnd[1] || cmnd[1][0] == '\0' || ft_strcmp(cmnd[1], "~") == 0)
-		i *= chdir(getenv("HOME"));
+		i *= chdir(environment_get_value(ms, "HOME"));
 	else if (ft_strcmp(cmnd[1], "-") == 0)
 	{
 		i *= chdir(environment_get_value(ms, "OLDPWD"));
@@ -115,13 +118,9 @@ static int	builtin_cd(t_ms *ms, char **cmnd)
 	else
 		i *= ft_mini_cd(cmnd[1]);
 	getcwd(path, sizeof(path));
-	tmp = ft_strdup(path);
-	environment_update_node(ms, "PWD", tmp);
+	environment_update_node(ms, "PWD", ft_strdup(path));
 	if (environment_get_value(ms, "OLDPWD") && i == 0)
-	{
-		tmp = ft_strdup(oldpwd);
-		environment_update_node(ms, "OLDPWD", tmp);
-	}
+		environment_update_node(ms, "OLDPWD", ft_strdup(oldpwd));
 	else if (!environment_get_value(ms, "OLDPWD") && i == 0)
 		environment_add_node(ms, environment_new_node(ms, "OLDPWD", oldpwd));
 	return (i);
@@ -174,9 +173,7 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 	aux = job;
 	i = ft_is_builtin(aux);
 	if (i)
-	{
 		exit (ft_execute_built(aux, ms, i) * last);
-	}
 	else if (!ft_strchr(aux->command[0], '/'))
 	{
 		aux->command[0] = ft_getcmd(aux->command[0], ms);
@@ -192,7 +189,7 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 		ft_error_exit(aux->command[0] + i, NO_FOUND, last * EXIT_NOTFOUND);
 }
 
-//falta mejorar control de errores
+//falta afegir sortida errors
 static void	ft_dup_close(int tubo[2], int pos, int out)
 {
 	if (pos == 1)
@@ -319,10 +316,9 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 	char	*tmp;
 	char	*line;
 
-//	tmp = readline("> ");
+	tmp = readline("> ");
 	while (1)
 	{
-		tmp = readline("> ");
 		if (!ft_strncmp(eof, tmp, ft_strlen(tmp)))
 			break ;
 		expander_get_expansion(ms, tmp);
@@ -332,6 +328,7 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 		ms->strs.new = NULL;
 		free(line);
 		free(tmp);
+		tmp = readline("> ");
 	}
 	free(tmp);
 	close(fd);
@@ -392,12 +389,12 @@ static int	ft_job(t_ms *ms)
 	pid_t	pid[MAX_ARGS];
 
 	job = ms->cmnd_list;
-	ft_reset_dups(ms);
 	ft_search_hd(ms, job);
-	i = ft_is_builtin(job);
-	if (ms->cmnd_count == 1 && i >= 6)
+	if (ms->cmnd_count == 1 && ft_is_builtin(job) >= 6)
 	{
-		ms->exit_code = ft_execute_built(job, ms, i);
+		ms->exit_code = ft_builtin_redir(job);
+		if (!ms->exit_code)
+			ms->exit_code = ft_execute_built(job, ms, ft_is_builtin(job));
 		return (ms->exit_code);
 	}
 	i = 0;
