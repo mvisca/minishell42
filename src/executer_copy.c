@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_copy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/25 11:12:18 by fcatala-         ###   ########.fr       */
+/*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
+/*   Updated: 2024/05/25 11:53:00 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,6 +322,7 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 		if (!ft_strncmp(eof, tmp, ft_strlen(tmp)))
 			break ;
 		expander_get_expansion(ms, tmp);
+		expander_filter_quotes(ms->strs.new);
 		line = ft_strjoin(ms->strs.new, "\n");
 		write(fd, line, ft_strlen(line));
 		free(ms->strs.new);
