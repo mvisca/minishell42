@@ -6,32 +6,12 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/25 11:53:00 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/25 13:17:59 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*
-static void ft_mini_ls()
-{
-	DIR				*dir;
-	struct dirent	*entry;
-	char	path[MAX_PATH];
-
-	getcwd(path,sizeof(path));
-	dir = opendir(path);
-	printf("Content of current directory: %s\n", path);
-	entry = readdir(dir);
-	while (entry != NULL)
-	{
-		printf("%s\n", entry->d_name);
-		entry = readdir(dir)
-	}
-	closedir(dir);
-
-}
-*/
 //Contador de comandos. Inicializa los fd de entrada y salida
 static int	ft_countcmd(t_coml *coml)
 {
@@ -76,54 +56,6 @@ static char	*ft_getcmd(char *cmnd, t_ms *ms)
 		out = ft_strjoin("/", cmnd);
 	ft_freechain(paths);
 	return (out);
-}
-
-static int	ft_mini_cd(char *path)
-{
-	int	out;
-
-	out = 0;
-	if (path[0] == '~')
-		path = ft_strjoin(getenv("HOME"), path + 1);
-	out = chdir(path);
-	if (access(path, F_OK) == -1)
-		ft_error_noexit("cd", NO_FILE);
-	else if (access(path, X_OK) == -1)
-		ft_error_noexit("cd", NO_EXEC);
-	return (out);
-}
-
-//eliminated lines
-//	char	*tmp;
-//	tmp = ft_strdup(path);
-//	tmp = ft_strdup(oldpwd);
-static int	builtin_cd(t_ms *ms, char **cmnd)
-{
-	char	path[MAX_PATH];
-	char	oldpwd[MAX_PATH];
-	int		i;
-
-	i = -1;
-	getcwd(oldpwd, sizeof(oldpwd));
-	if (!cmnd[1] || cmnd[1][0] == '\0' || ft_strcmp(cmnd[1], "~") == 0)
-		i *= chdir(environment_get_value(ms, "HOME"));
-	else if (ft_strcmp(cmnd[1], "-") == 0)
-	{
-		i *= chdir(environment_get_value(ms, "OLDPWD"));
-		if (i != 0)
-			ft_error_noexit("cd", NO_OLD);
-		else
-			printf("%s\n", environment_get_value(ms, "OLDPWD"));
-	}
-	else
-		i *= ft_mini_cd(cmnd[1]);
-	getcwd(path, sizeof(path));
-	environment_update_node(ms, "PWD", ft_strdup(path));
-	if (environment_get_value(ms, "OLDPWD") && i == 0)
-		environment_update_node(ms, "OLDPWD", ft_strdup(oldpwd));
-	else if (!environment_get_value(ms, "OLDPWD") && i == 0)
-		environment_add_node(ms, environment_new_node(ms, "OLDPWD", oldpwd));
-	return (i);
 }
 
 //ok in pipe and at any place: pwd, echo, env
@@ -189,7 +121,6 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 		ft_error_exit(aux->command[0] + i, NO_FOUND, last * EXIT_NOTFOUND);
 }
 
-//falta afegir sortida errors
 static void	ft_dup_close(int tubo[2], int pos, int out)
 {
 	if (pos == 1)
@@ -198,7 +129,7 @@ static void	ft_dup_close(int tubo[2], int pos, int out)
 		if (out < 0)
 		{
 			if (dup2(tubo[W_END], STDOUT_FILENO) < 0)
-				exit (1);
+				ft_error_exit(DUP_FAIL, strerror(errno), EXIT_FAILURE);
 		}
 		close(tubo[W_END]);
 	}
@@ -206,7 +137,7 @@ static void	ft_dup_close(int tubo[2], int pos, int out)
 	{
 		close(tubo[W_END]);
 		if (dup2(tubo[R_END], STDIN_FILENO) < 0)
-			exit (1);
+			ft_error_exit(DUP_FAIL, strerror(errno), EXIT_FAILURE);
 		close(tubo[R_END]);
 	}
 }

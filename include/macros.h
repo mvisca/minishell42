@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/18 15:38:47 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/25 12:24:32 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@
 // Mensajes de error
 # define SYNTAX_MSSG    "Minishell: syntax error near unexpected token `"
 # define MINI			"Minishell: "
+# define DUP_FAIL		"dup2 failed "
 # define NO_PIPE		": unable to create a pipe\n"
 # define NO_FORK		": Resource temporarily unavailable\n"
 # define NO_FOUND 		": command not found\n"

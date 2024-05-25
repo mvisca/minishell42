@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/05/25 11:14:19 by fcatala-         ###   ########.fr        #
+#    Updated: 2024/05/25 13:19:03 by fcatala-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ HEADER      = ./include/minishell.h
 
 SRC_PATH    = src/
 SRC         = 		_minishell.c 				\
+					builtin_cd.c				\
 					builtin_echo.c				\
 					builtin_pwd.c				\
 					builtin_fds.c				\

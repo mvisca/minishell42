@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 11:03:28 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/19 11:18:27 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/25 12:43:47 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	ft_closer(t_ms *ms, int i)
 	return (0);
 }
 
-//Mensaje si falla dup2 en in y out?
 void	ft_redirin(t_redl	*files, int last)
 {
 	while (files)
@@ -62,7 +61,7 @@ void	ft_redirin(t_redl	*files, int last)
 			if (files->fdes < 0)
 				break ;
 			if (dup2(files->fdes, STDIN_FILENO) < 0)
-				exit (1);
+				ft_error_exit(DUP_FAIL, strerror(errno), EXIT_FAILURE);
 			close(files->fdes);
 		}
 		files = files->next;
@@ -90,7 +89,7 @@ void	ft_redirout(t_coml *job, int last)
 			if (files->fdes < 0)
 				break ;
 			if (dup2(files->fdes, STDOUT_FILENO) < 0)
-				exit (1);
+				ft_error_exit(DUP_FAIL, strerror(errno), EXIT_FAILURE);
 			close(files->fdes);
 		}
 		files = files->next;

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/25 11:10:02 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/25 13:19:08 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 
 int         builtin_echo(char **com);
 int         builtin_pwd(t_ms *ms);
+int			builtin_cd(t_ms *ms, char **cmnd);
 int			ft_builtin_redir(t_coml *job);
 
 /*##################	DEBUG		#####################*/
