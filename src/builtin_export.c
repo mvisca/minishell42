@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/28 00:35:21 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/28 00:42:33 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,29 @@ static int	builtin_export_declare(t_envl *env,  t_ms *ms)
 	return (0);
 }
 
+static int	builtin_export_check_option(t_coml *cmnd, t_ms *ms)
+{
+
+}
+
 int	builtin_export(t_coml *cmnd, t_ms *ms)
 {
+	int		i;
 	t_envl	*env;
 
 	env = ms->envlst;
 	if (cmnd->command[1] == NULL)
+	{
 		builtin_export_declare(env, ms);
+		return (0);
+	}
+	i = 1;
+	while (builtin_export_check_option(cmnd->command[i], ms))
+	{
+		
+	}
+
+	
 }
 
 
