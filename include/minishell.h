@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/22 16:19:17 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/27 18:36:53 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 
 int         builtin_echo(char **com);
 int         builtin_pwd(t_ms *ms);
+int	        builtin_export(t_coml *cmnd, t_ms *ms);
+
 
 /*##################	DEBUG		#####################*/
 
