@@ -229,6 +229,23 @@ WORKS FINE!
 
 CD
 
+A CONTROLAR
+bash-3.2$ mkdir borrar2
+bash-3.2$ cd borrar2
+bash-3.2$ rm -rf ../borrar2
+bash-3.2$ pwd
+/Users/fcatala-/Documents/Cursus/minishell/test/borrar2
+bash-3.2$ cd .
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+
+Minishell > mkdir borrar2
+Minishell > cd borrar2
+Minishell > rm -rf ../borrar2
+Minishell > pwd
+/Users/fcatala-/Documents/Cursus/minishell/test/borrar2
+Minishell > cd .
+Exit code: 0 => NO GENERA EL ERROR
+
 2 commands, cd at begining
 bash-3.2$ cd ../test | grep i;echo Exit: $?
 Exit: 1
