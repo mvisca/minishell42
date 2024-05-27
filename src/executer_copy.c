@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/27 16:53:56 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:44:36 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,15 +246,24 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 {
 	char	*tmp;
 	char	*line;
+	int		quoted;
 
+	quoted = 0;
+	if (eof[0] == '\"' && eof[ft_strlen(eof) - 1] == '\"')
+		quoted = 1;
+	eof = expander_filter_quotes(eof);
 	tmp = readline("> ");
 	while (1)
 	{
 		if (!ft_strcmp(eof, tmp))
 			break ;
-		expander_get_expansion(ms, tmp);
-		expander_filter_quotes(ms->strs.new);
-		line = ft_strjoin(ms->strs.new, "\n");
+		if (!quoted)
+		{
+			expander_get_expansion(ms, tmp);
+			line = ft_strjoin(ms->strs.new, "\n");
+		}
+		else
+			line = ft_strjoin(tmp, "\n");
 		write(fd, line, ft_strlen(line));
 		free(ms->strs.new);
 		ms->strs.new = NULL;

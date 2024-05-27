@@ -532,3 +532,34 @@ TH
 end of the story
 
 NOTE: NO ERROR HAS BEEN RETRIEVED FOR THE UNEXISTING VARIABLE
+
+heredoc combining variables inside and outside quotes:
+bash-3.2$ cat << EOF
+> dede
+> $USER
+> "El $USER soy " $USER
+> EOF
+dede
+fcatala-
+"El fcatala- soy " fcatala-
+
+Minishell > cat << EOF
+> dede
+> $USER
+> "El $USER soy " $USER
+> EOF
+dede
+fcatala-
+"El fcatala- soy " fcatala-
+
+bash-3.2$ cat << EOF
+> "El $USER esta en $HOME"
+> EOF
+"El fcatala- esta en /Users/fcatala-"
+bash-3.2$ ./minishell
+Minishell > cat << EOF
+> "El $USER esta en $HOME"
+> EOF
+"El fcatala- esta en /Users/fcatala-"
+
+SE COMPORTA IGUAL
