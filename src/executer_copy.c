@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/25 13:17:59 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:53:56 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 	tmp = readline("> ");
 	while (1)
 	{
-		if (!ft_strncmp(eof, tmp, ft_strlen(tmp)))
+		if (!ft_strcmp(eof, tmp))
 			break ;
 		expander_get_expansion(ms, tmp);
 		expander_filter_quotes(ms->strs.new);
