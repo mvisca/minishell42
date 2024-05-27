@@ -6,13 +6,11 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/28 00:29:49 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/28 00:35:21 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-
 
 static int	builtin_export_declare(t_envl *env,  t_ms *ms)
 {
