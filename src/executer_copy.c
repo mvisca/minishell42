@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/27 18:44:36 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/28 19:40:53 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static char	*ft_getcmd(char *cmnd, t_ms *ms)
 //only at the end? or solo: export unset
 static int	ft_is_builtin(t_coml *aux)
 {
+	if (!aux->command || !aux->command[0])
+		return (0);
 	if (ft_strcmp(aux->command[0], "pwd") == 0)
 		return (1);
 	else if (ft_strcmp(aux->command[0], "echo") == 0)
@@ -153,6 +155,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (pid[i] == 0)
 	{
+		signal_init(INTERACTIVE);
 		job->out = -81;
 		if (job->redirect)
 		{
@@ -198,6 +201,7 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (ms->pid[i] == 0)
 	{
+		signal_init(INTERACTIVE);
 		job->out = -81;
 		if (job->redirect)
 		{
@@ -249,12 +253,17 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 	int		quoted;
 
 	quoted = 0;
-	if (eof[0] == '\"' && eof[ft_strlen(eof) - 1] == '\"')
+	if ((eof[0] == '\"' && eof[ft_strlen(eof) - 1] == '\"')
+		|| (eof[0] == '\'' && eof[ft_strlen(eof) - 1] == '\''))
 		quoted = 1;
 	eof = expander_filter_quotes(eof);
+	signal_init(HEREDOC);
 	tmp = readline("> ");
 	while (1)
 	{
+//		tmp = readline("> ");
+		if (!tmp)
+			break ;
 		if (!ft_strcmp(eof, tmp))
 			break ;
 		if (!quoted)
@@ -355,7 +364,7 @@ int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	ft_job(ms);
-	printf("Exit code: %d\n", ms->exit_code);
+//	printf("Exit code: %d\n", ms->exit_code);
 	ft_closer(ms, ms->cmnd_count);
 	ft_reset_dups(ms);
 	return (0);
