@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/28 19:44:52 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:39:22 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,20 @@ static void	interactive_handler(int signum)
 }
 
 // Maneja la senyal interrupt durante heredoc
-// parece que las lineas comentadas no afectan para nada
-// seguramente estan pensadas para un heredod hecho con pipes
 // ctrl D no deberia hacer el salto de linea!
-// no esta claro que la interrupcion del heredoc deba tratarse
-// como in exit 1
+// ctr C desactivado pero debe hace algo
 static void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-//		ft_printf("\n ");
-//		rl_replace_line("", 0);
-//		rl_on_new_line();
-//		rl_redisplay();
-		exit(1);
+		printf("\r");
+		exit(0);
 	}
+//	else if (signum == SIGQUIT)
+//	{
+//		rl_replace_line("", 0);
+//		rl_redisplay();
+//	}
 }
 
 // Silencia el echo de los comandos con control
