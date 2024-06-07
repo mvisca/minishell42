@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/06 17:31:05 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/28 19:40:53 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,9 @@ static char	*ft_getcmd(char *cmnd, t_ms *ms)
 	{
 		out = ft_strjoin3(paths[i], "/", cmnd);
 		aux = access(out, F_OK);
-		if (out && aux == -1)
-			free(out);
 	}
 	if (aux == -1)
-		out = ft_strdup(cmnd);
+		out = ft_strjoin("/", cmnd);
 	ft_freechain(paths);
 	return (out);
 }
@@ -98,19 +96,6 @@ static int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
 		return (0);
 }
 
-static int	ft_isdir(char *path)
-{
-	DIR	*dir;
-
-	dir = opendir(path);
-	if (dir == NULL)
-		return (0);
-	else
-		closedir(dir);
-	return (1);
-}
-
-
 //v_01 : aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
 //v_02 : aux->command[0] = ft_getcmd(aux->command[0]);
 //v_03 : aux->command[0] = ft_getcmd(aux->command[0], ms);
@@ -126,16 +111,16 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 	else if (!ft_strchr(aux->command[0], '/'))
 	{
 		aux->command[0] = ft_getcmd(aux->command[0], ms);
-		i = 0;
+		i = 1;
 	}
-	else if (ft_isdir(aux->command[0]))//canvi
+	else if (opendir(aux->command[0]) != NULL)
 		ft_error_exit(aux->command[0], IS_DIR, last * EXIT_DENIED);
 	else if (access(aux->command[0], F_OK) != 0)
 		ft_error_exit(aux->command[0], NO_FILE, last * EXIT_NOTFOUND);
 	else if (access(aux->command[0], X_OK) != 0)
 		ft_error_exit(aux->command[0], NO_EXEC, last * EXIT_DENIED);
 	if (execve(aux->command[0], aux->command, ms->envarr) == -1)
-		ft_error_exit(aux->command[0], NO_FOUND, last * EXIT_NOTFOUND);
+		ft_error_exit(aux->command[0] + i, NO_FOUND, last * EXIT_NOTFOUND);
 }
 
 static void	ft_dup_close(int tubo[2], int pos, int out)
