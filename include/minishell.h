@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/27 18:36:53 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/07 22:25:19 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@
 
 int         builtin_echo(char **com);
 int         builtin_pwd(t_ms *ms);
-int	        builtin_export(t_coml *cmnd, t_ms *ms);
-
+int			builtin_cd(t_ms *ms, char **cmnd);
+int			ft_builtin_redir(t_coml *job);
 
 /*##################	DEBUG		#####################*/
 
@@ -48,7 +48,7 @@ int         debug_all(t_ms *ms, int env, int tok, int com);
 void        debug_token(t_ms *ms);
 void        debug_command(t_ms *ms);
 void        debug_envarr(t_ms *ms);
-void	    debug_expand(t_ms *ms);
+//void	    debug_expand(t_ms *ms);
 
 /*##################	ENVIRONMENT	#####################*/
 

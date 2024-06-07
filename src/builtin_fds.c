@@ -1,57 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer_fds.c                                     :+:      :+:    :+:   */
+/*   builtin_fds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 11:03:28 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/25 12:43:47 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/25 13:41:31 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	ft_openfile(char *file, int redir)
-{
-	int	fd;
-
-	fd = -1;
-	if (redir == L_REDIRECT || redir == DL_REDIRECT)
-		fd = open(file, O_RDONLY, 0644);
-	else if (redir == R_REDIRECT)
-		fd = open(file, O_RDWR | O_TRUNC | O_CREAT, 0644);
-	else if (redir == DR_REDIRECT)
-		fd = open(file, O_RDWR | O_APPEND | O_CREAT, 0644);
-	return (fd);
-}
-
-int	ft_closer(t_ms *ms, int i)
-{
-	t_coml	*aux;
-	t_redl	*files;
-
-	aux = ms->cmnd_list;
-	while (i--)
-	{
-		if (aux->redirect)
-		{
-			files = aux->redirect;
-			while (files)
-			{
-				if (files->fdes > 0)
-					close(files->fdes);
-				if (files->type == DL_REDIRECT)
-					unlink(files->path);
-				files = files->next;
-			}
-		}
-		aux = aux->next;
-	}
-	return (0);
-}
-
-void	ft_redirin(t_redl	*files, int last)
+static int	ft_redirin_built(t_redl	*files)
 {
 	while (files)
 	{
@@ -61,7 +22,7 @@ void	ft_redirin(t_redl	*files, int last)
 			if (files->fdes < 0)
 				break ;
 			if (dup2(files->fdes, STDIN_FILENO) < 0)
-				ft_error_exit(DUP_FAIL, strerror(errno), EXIT_FAILURE);
+				return (ft_error_noexit(DUP_FAIL, strerror(errno)), 1);
 			close(files->fdes);
 		}
 		files = files->next;
@@ -69,13 +30,15 @@ void	ft_redirin(t_redl	*files, int last)
 	if (files && files->fdes < 0)
 	{
 		if (access(files->path, F_OK) != 0)
-			ft_error_exit(files->path, NO_FILE, 1 * last);
+			ft_error_noexit(files->path, NO_FILE);
 		else if (access(files->path, R_OK) != 0)
-			ft_error_exit(files->path, NO_EXEC, 1 * last);
+			ft_error_noexit(files->path, NO_EXEC);
+		return (1);
 	}
+	return (0);
 }
 
-void	ft_redirout(t_coml *job, int last)
+static int	ft_redirout_built(t_coml *job)
 {
 	t_redl	*files;
 
@@ -89,7 +52,7 @@ void	ft_redirout(t_coml *job, int last)
 			if (files->fdes < 0)
 				break ;
 			if (dup2(files->fdes, STDOUT_FILENO) < 0)
-				ft_error_exit(DUP_FAIL, strerror(errno), EXIT_FAILURE);
+				return (ft_error_noexit(DUP_FAIL, strerror(errno)), 1);
 			close(files->fdes);
 		}
 		files = files->next;
@@ -98,6 +61,16 @@ void	ft_redirout(t_coml *job, int last)
 	{
 		ft_putstr_fd(MINI, 2);
 		perror(files->path);
-		exit (1 * last);
+		return (1);
 	}
+	return (0);
+}
+
+int	ft_builtin_redir(t_coml *job)
+{
+	if (ft_redirin_built(job->redirect))
+		return (1);
+	else if (ft_redirout_built(job))
+		return (1);
+	return (0);
 }

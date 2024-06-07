@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/18 15:38:47 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:40:57 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,18 @@
 // Mensajes de error
 # define SYNTAX_MSSG    "Minishell: syntax error near unexpected token `"
 # define MINI			"Minishell: "
+# define DUP_FAIL		"dup2 failed "
 # define NO_PIPE		": unable to create a pipe\n"
 # define NO_FORK		": Resource temporarily unavailable\n"
 # define NO_FOUND 		": command not found\n"
 # define IS_DIR			": is a directory\n"
+# define IS_NO_DIR		": Not a directory\n"
 # define NO_FILE		": No such file or directory\n"
 # define NO_EXEC		": Permission denied\n"
 # define NO_OLD			": OLDPWD not set\n"
+# define NO_HOME		": HOME not set\n"
+# define NO_CWD			"cd: error retrieving current directory: "
+# define NO_GETCWD		"getcwd: cannot access parent directories"
 
 // Errores de ejecucion
 # define EXIT_DENIED	126
