@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/07 22:26:23 by mvisca           ###   ########.fr       */
+/*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
+/*   Updated: 2024/06/07 22:31:21 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,15 +279,9 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 //		tmp = readline("> ");
 		if (!tmp)
 			break ;
-		if (!ft_strcmp(eof, tmp))
-			break ;
-		if (!quoted)
-		{
-			expander_get_expansion(ms, tmp);
-			line = ft_strjoin(ms->strs.new, "\n");
-		}
-		else
-			line = ft_strjoin(tmp, "\n");
+		expander_get_expansion(ms, tmp);
+		expander_filter_quotes(ms->strs.new);
+		line = ft_strjoin(ms->strs.new, "\n");
 		write(fd, line, ft_strlen(line));
 		free(ms->strs.new);
 		ms->strs.new = NULL;
