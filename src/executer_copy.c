@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/08 10:01:40 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:03:09 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,9 +263,10 @@ static void	ft_reset_dups(t_ms *ms)
 
 static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 {
-	char	*tmp;
-	char	*line;
-	int		quoted;
+	char		*tmp;
+	char		*line;
+	int			quoted;
+	static int	l = 0;
 
 	quoted = 0;
 	if ((eof[0] == '\"' && eof[ft_strlen(eof) - 1] == '\"')
@@ -276,6 +277,7 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 	tmp = readline("> ");
 	while (1)
 	{
+		ms->hdl = ++l; 
 //		tmp = readline("> ");
 		if (!tmp)
 			break ;
