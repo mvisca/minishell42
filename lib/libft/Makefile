@@ -5,12 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/31 17:14:27 by mvisca            #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2024/06/08 14:05:57 by mvisca-g         ###   ########.fr        #
-=======
-#    Updated: 2024/05/11 00:59:54 by mvisca           ###   ########.fr        #
->>>>>>> 0f75bf3c7bcd5723299353122a1d66431b916fb7
+#    Created: 2023/05/31 17:14:27 by mvisca-g          #+#    #+#              #
+#    Updated: 2024/06/08 14:47:59 by mvisca-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,10 +75,6 @@ SRCS		:=			\
 	ft_strrchr.c		\
 	ft_strtrim.c		\
 	ft_substr.c			\
-<<<<<<< HEAD
-	ft_tablen.c			\
-=======
->>>>>>> 0f75bf3c7bcd5723299353122a1d66431b916fb7
 	ft_tolower.c		\
 	ft_toupper.c		\
 	ft_lstadd_back.c	\
