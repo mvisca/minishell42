@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/29 01:48:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:45:24 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	builtin_export(t_coml *cmnd, t_ms *ms)
 	int		i;
 	t_envl	*env;
 
+	ft_printf("hola hola");
 	i = 1;
 	env = ms->envlst;
 	if (cmnd->command[1] == NULL)
