@@ -17,9 +17,13 @@ YELLOW 		:= \033[0;33m
 BLUE 		:= \033[0;34m
 NC 			:= \033[0m
 
-NAME        = minishell
+NAME        := minishell
 
-HEADER      = ./include/minishell.h
+HEADER      := 	./include/minishell.h
+
+HEADERS		:=	./include/global.h				\
+				./include/macros.h				\
+				./include/structures.h
 
 SRC_PATH    = src/
 SRC         = 		_minishell.c 				\
@@ -77,7 +81,7 @@ INC_PATH	= ./includes/ ./lib/ $(LIBFT_PATH) $(RLINE_PATH)
 INC			= $(addprefix -I, $(INC_PATH))
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -MMD -fPIC # -g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -MMD -fPIC -g -fsanitize=address
 RM			= rm -f
 
 all: $(RLINE) $(OBJ_PATH) subsystems $(NAME)
@@ -87,7 +91,7 @@ $(NAME):: $(OBJ) ./$(LIBFT) ./$(RLINE) ./$(RLINE_H)
 	@echo "$(YELLOW)Packing $(RED)$(NAME) $(YELLOW)ready!$(NC)"
 	@echo "$(BLUE)Minishell $(GREEN)compiled! 👍$(NC)"
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c Makefile $(HEADER)
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c Makefile $(HEADER) $(HEADERS)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 	@echo "$(GREEN)Creating... $(NC)$(notdir $<) $(RED)-> $(NC)$(notdir $@)"
 
