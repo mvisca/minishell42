@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/06 17:31:05 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/08 10:01:40 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char	*ft_getcmd(char *cmnd, t_ms *ms)
 			free(out);
 	}
 	if (aux == -1)
-		out = ft_strdup(cmnd);
+		out = ft_strdup(cmnd);//out = ft_strjoin("/", cmnd);
 	ft_freechain(paths);
 	return (out);
 }
@@ -379,7 +379,7 @@ int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	ft_job(ms);
-//	printf("Exit code: %d\n", ms->exit_code);
+	printf("Exit code: %d\n", ms->exit_code);
 	ft_closer(ms, ms->cmnd_count);
 	ft_reset_dups(ms);
 	return (0);

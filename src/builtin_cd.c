@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/27 16:26:37 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/08 11:31:40 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ static int	ft_mini_cd(char *path, t_ms *ms)
 	if (!path)
 		return (printf("%s%s%s", NO_CWD, NO_GETCWD, NO_FILE), 0);
 	if (access(path, F_OK) == -1)
-		return (ft_error_noexit(ft_strjoin("cd: ", path), NO_FILE), -1);
+		return (ft_error_noexit("cd: ", path, NO_FILE), -1);
 	if (!S_ISDIR(stat.st_mode))
-		return (ft_error_noexit(ft_strjoin("cd: ", path), IS_NO_DIR), -1);
+		return (ft_error_noexit("cd: ", path, IS_NO_DIR), -1);
 	if (access(path, X_OK) == -1)
-		return (ft_error_noexit(ft_strjoin("cd: ", path), NO_EXEC), -1);
+		return (ft_error_noexit("cd: ", path, NO_EXEC), -1);
+	free(path);
 	return (out);
 }
 
@@ -79,14 +80,14 @@ int	builtin_cd(t_ms *ms, char **cmnd)
 	if (!cmnd[1] || cmnd[1][0] == '\0' || ft_strcmp(cmnd[1], "~") == 0)
 	{
 		if (!environment_get_value(ms, "HOME"))
-			return (ft_error_noexit(cmnd[0], NO_HOME), 1);
+			return (ft_error_noexit(cmnd[0], NULL, NO_HOME), 1);
 		i *= chdir(environment_get_value(ms, "HOME"));
 	}
 	else if (ft_strcmp(cmnd[1], "-") == 0)
 	{
 		i *= chdir(environment_get_value(ms, "OLDPWD"));
 		if (i != 0)
-			ft_error_noexit("cd", NO_OLD);
+			ft_error_noexit("cd", NULL, NO_OLD);
 		else
 			printf("%s\n", environment_get_value(ms, "OLDPWD"));
 	}
