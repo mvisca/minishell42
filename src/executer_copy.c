@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/08 16:04:55 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/08 18:06:10 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,10 +265,10 @@ static void	ft_reset_dups(t_ms *ms)
 
 static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 {
+	static int	l = 0;
 	char		*tmp;
 	char		*line;
 	int			quoted;
-	static int	l = 0;
 
 	quoted = 0;
 	if ((eof[0] == '\"' && eof[ft_strlen(eof) - 1] == '\"')
@@ -283,9 +283,15 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 //		tmp = readline("> ");
 		if (!tmp)
 			break ;
-		expander_get_expansion(ms, tmp);
-		expander_filter_quotes(ms->strs.new);
-		line = ft_strjoin(ms->strs.new, "\n");
+		if (!ft_strcmp(eof, tmp))
+			break ;
+		if (!quoted)
+		{
+			expander_get_expansion(ms, tmp);
+			line = ft_strjoin(ms->strs.new, "\n");
+		}
+		else
+			line = ft_strjoin(tmp, "\n");
 		write(fd, line, ft_strlen(line));
 		free(ms->strs.new);
 		ms->strs.new = NULL;
@@ -353,14 +359,21 @@ static int	ft_job(t_ms *ms)
 
 	job = ms->cmnd_list;
 	ft_search_hd(ms, job);
-	if (ms->cmnd_count == 1 && ft_is_builtin(job) >= 6)
+	i = 0;
+	if (ms->cmnd_count == 1 && ft_is_builtin(job) >= 4)
 	{
 		ms->exit_code = ft_builtin_redir(job);
 		if (!ms->exit_code)
 			ms->exit_code = ft_execute_built(job, ms, ft_is_builtin(job));
 		return (ms->exit_code);
 	}
-	i = 0;
+	else if (ms->cmnd_count > 1 && ft_is_builtin(job) >= 4)
+	{
+		ft_execute_built(job, ms, ft_is_builtin(job));
+		i = 1;
+		if (job->next)
+			job = job->next;
+	}
 	while (++i < ms->cmnd_count)
 	{
 		ft_runchild(job, ms, i, pid);
