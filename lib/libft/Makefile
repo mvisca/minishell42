@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/31 17:14:27 by mvisca            #+#    #+#              #
-#    Updated: 2024/02/06 23:25:42 by mvisca           ###   ########.fr        #
+#    Created: 2023/05/31 17:14:27 by mvisca-g          #+#    #+#              #
+#    Updated: 2024/06/08 19:52:25 by mvisca-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,6 @@ SRCS		:=			\
 	ft_isascii.c		\
 	ft_isdigit.c		\
 	ft_isprint.c		\
-	ft_isspace.c		\
 	ft_itoa.c			\
 	ft_memchr.c			\
 	ft_memcmp.c			\
@@ -76,7 +75,6 @@ SRCS		:=			\
 	ft_strrchr.c		\
 	ft_strtrim.c		\
 	ft_substr.c			\
-	ft_tablen.c		\
 	ft_tolower.c		\
 	ft_toupper.c		\
 	ft_lstadd_back.c	\
@@ -105,7 +103,7 @@ DEPS		:= $(OBJS:.o=.d)
 CC 			:= cc
 
 # Compilation flags
-CFLAGS 		:= -Wall -Wextra -Werror
+CFLAGS 		:= -Wall -Wextra -Werror -fPIC
 
 # PreProcessor flags
 CPPFLAGS	:= $(addprefix -I, $(INCS)) -MMD

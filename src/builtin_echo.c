@@ -6,19 +6,21 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 22:36:21 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/08 01:06:34 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/14 17:32:59 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // -n omite nueva línea al final
-
+// corregido el error cuando se pasaba echo sin argumentos :-)
 static int  line_break(char *str)
 {
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (FALSE);
 	if (str[i] == '-')
 	{
 		i++;

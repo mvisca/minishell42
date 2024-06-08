@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/27 11:40:29 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:12:12 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,20 @@ static void	interactive_handler(int signum)
 }
 
 // Maneja la senyal interrupt durante heredoc
+// ctrl D no deberia hacer el salto de linea!
+// ctr C desactivado pero debe hace algo
 static void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		ft_printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		exit(1);
+		ft_error_noexit("warning: ", NULL, "here-document at line 34 ");
+		exit(0);
 	}
+//	else if (signum == SIGQUIT)
+//	{
+//		rl_replace_line("", 0);
+//		rl_redisplay();
+//	}
 }
 
 // Silencia el echo de los comandos con control

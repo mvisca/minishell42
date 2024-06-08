@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   utils3_str.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 23:23:12 by mvisca            #+#    #+#             */
-/*   Updated: 2024/02/06 23:24:44 by mvisca           ###   ########.fr       */
+/*   Created: 2024/05/19 08:26:07 by fcatala-          #+#    #+#             */
+/*   Updated: 2024/05/19 17:47:18 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_isspace(char c)
+#include "../include/minishell.h"
+
+void	ft_freechain(char **chain)
 {
-    if ((c >= 9 && c <= 13) || c == 32)
-        return (1);
-    return (0);
+	int	i;
+
+	i = -1;
+	while (chain[++i])
+		free(chain[i]);
+	free(chain);
 }

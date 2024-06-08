@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_copy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/08 18:06:10 by fcatala-         ###   ########.fr       */
+/*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
+/*   Updated: 2024/05/28 19:40:53 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,9 @@ static char	*ft_getcmd(char *cmnd, t_ms *ms)
 	{
 		out = ft_strjoin3(paths[i], "/", cmnd);
 		aux = access(out, F_OK);
-		if (out && aux == -1)
-			free(out);
 	}
 	if (aux == -1)
-		out = ft_strdup(cmnd);//out = ft_strjoin("/", cmnd);
+		out = ft_strjoin("/", cmnd);
 	ft_freechain(paths);
 	return (out);
 }
@@ -74,7 +72,7 @@ static int	ft_is_builtin(t_coml *aux)
 	else if (ft_strcmp(aux->command[0], "env") == 0)
 		return (0);
 	else if (ft_strcmp(aux->command[0], "export") == 0)
-		return (4);
+		return (0);
 	else if (ft_strcmp(aux->command[0], "unset") == 0)
 		return (0);
 	else if (ft_strcmp(aux->command[0], "cd") == 0)
@@ -92,26 +90,11 @@ static int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
 		return (builtin_pwd(ms));
 	else if (type == 2)
 		return (builtin_echo(aux->command));
-	else if (type == 4)
-		return (0);
 	else if (type == 6)
 		return (builtin_cd(ms, aux->command));
 	else
 		return (0);
 }
-
-static int	ft_isdir(char *path)
-{
-	DIR	*dir;
-
-	dir = opendir(path);
-	if (dir == NULL)
-		return (0);
-	else
-		closedir(dir);
-	return (1);
-}
-
 
 //v_01 : aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
 //v_02 : aux->command[0] = ft_getcmd(aux->command[0]);
@@ -128,16 +111,16 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 	else if (!ft_strchr(aux->command[0], '/'))
 	{
 		aux->command[0] = ft_getcmd(aux->command[0], ms);
-		i = 0;
+		i = 1;
 	}
-	else if (ft_isdir(aux->command[0]))//canvi
+	else if (opendir(aux->command[0]) != NULL)
 		ft_error_exit(aux->command[0], IS_DIR, last * EXIT_DENIED);
 	else if (access(aux->command[0], F_OK) != 0)
 		ft_error_exit(aux->command[0], NO_FILE, last * EXIT_NOTFOUND);
 	else if (access(aux->command[0], X_OK) != 0)
 		ft_error_exit(aux->command[0], NO_EXEC, last * EXIT_DENIED);
 	if (execve(aux->command[0], aux->command, ms->envarr) == -1)
-		ft_error_exit(aux->command[0], NO_FOUND, last * EXIT_NOTFOUND);
+		ft_error_exit(aux->command[0] + i, NO_FOUND, last * EXIT_NOTFOUND);
 }
 
 static void	ft_dup_close(int tubo[2], int pos, int out)
@@ -265,10 +248,9 @@ static void	ft_reset_dups(t_ms *ms)
 
 static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 {
-	static int	l = 0;
-	char		*tmp;
-	char		*line;
-	int			quoted;
+	char	*tmp;
+	char	*line;
+	int		quoted;
 
 	quoted = 0;
 	if ((eof[0] == '\"' && eof[ft_strlen(eof) - 1] == '\"')
@@ -279,7 +261,6 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 	tmp = readline("> ");
 	while (1)
 	{
-		ms->hdl = ++l; 
 //		tmp = readline("> ");
 		if (!tmp)
 			break ;
@@ -359,21 +340,14 @@ static int	ft_job(t_ms *ms)
 
 	job = ms->cmnd_list;
 	ft_search_hd(ms, job);
-	i = 0;
-	if (ms->cmnd_count == 1 && ft_is_builtin(job) >= 4)
+	if (ms->cmnd_count == 1 && ft_is_builtin(job) >= 6)
 	{
 		ms->exit_code = ft_builtin_redir(job);
 		if (!ms->exit_code)
 			ms->exit_code = ft_execute_built(job, ms, ft_is_builtin(job));
 		return (ms->exit_code);
 	}
-	else if (ms->cmnd_count > 1 && ft_is_builtin(job) >= 4)
-	{
-		ft_execute_built(job, ms, ft_is_builtin(job));
-		i = 1;
-		if (job->next)
-			job = job->next;
-	}
+	i = 0;
 	while (++i < ms->cmnd_count)
 	{
 		ft_runchild(job, ms, i, pid);
@@ -390,7 +364,7 @@ int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	ft_job(ms);
-	printf("Exit code: %d\n", ms->exit_code);
+//	printf("Exit code: %d\n", ms->exit_code);
 	ft_closer(ms, ms->cmnd_count);
 	ft_reset_dups(ms);
 	return (0);

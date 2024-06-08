@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/04/16 23:58:52 by mvisca           ###   ########.fr        #
+#    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
+#    Updated: 2024/06/08 20:57:13 by mvisca-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,12 @@ HEADER      = ./include/minishell.h
 
 SRC_PATH    = src/
 SRC         = 		_minishell.c 				\
+					builtin_cd.c				\
+					builtin_echo.c				\
+					builtin_export.c			\
+					builtin_fds.c				\
+					builtin_pwd.c				\
+					builtin_unset.c				\
 					debug.c						\
 					environment_getters.c		\
 					environment_init.c			\
@@ -30,8 +36,10 @@ SRC         = 		_minishell.c 				\
 					errors_syntax_cases.c		\
 					errors_syntax.c				\
 					errors.c					\
-					executer_copy.c					\
+					executer_copy.c				\
+					executer_fds.c				\
 					expander.c					\
+					extend_libft.c				\
 					expander_tools.c			\
 					initialize.c				\
 					interface.c					\
@@ -43,19 +51,21 @@ SRC         = 		_minishell.c 				\
 					parser_update_envarr.c		\
 					signals.c					\
 					utils_free.c				\
-					utils_str.c
+					utils_str.c					\
+					utils2_str.c				\
+					utils3_str.c
 
 SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 
 LIBFT_PATH	= lib/libft/
-LIBFT		= $(LIBFT_PATH)/libft.a
+LIBFT		= $(LIBFT_PATH)libft.a
 
 RLINE_PATH	= lib/readline/
 RLINE		= $(RLINE_PATH)/libreadline.a
 RLINE_H		= $(RLINE_PATH)/libhistory.a
 
 LIB_PATH	= -L$(LIBFT_PATH) -L$(RLINE_PATH) 
-LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap -g -fsanitize=address
+LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap
 
 OBJ_PATH	= .obj/
 OBJ			= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))
@@ -67,7 +77,7 @@ INC_PATH	= ./includes/ ./lib/ $(LIBFT_PATH) $(RLINE_PATH)
 INC			= $(addprefix -I, $(INC_PATH))
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -MMD -g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -MMD -fPIC # -g -fsanitize=address
 RM			= rm -f
 
 all: $(RLINE) $(OBJ_PATH) subsystems $(NAME)
