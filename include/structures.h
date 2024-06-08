@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/06 22:46:23 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:00:13 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define STRUCTURES_H
 
 //variable global para gestionar las senyales.
-extern	int	g_exit;
+//extern	int	g_exit;
 
 typedef struct s_parser_split
 {
@@ -79,6 +79,7 @@ typedef struct s_ms
 	int						std_out;//dup inicial STDOUT
 	int						exit_code;
 	int						cmnd_count;
+	int						hdl;//control de las lineas escritas en heredoc
 //	pid_t					pid;
 	pid_t					pid[MAX_ARGS];//para controlar executor y funcion espera
 }	t_ms;

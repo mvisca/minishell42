@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/30 19:39:22 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:12:12 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		printf("\r");
+		ft_error_noexit("warning: ", NULL, "here-document at line 34 ");
 		exit(0);
 	}
 //	else if (signum == SIGQUIT)
