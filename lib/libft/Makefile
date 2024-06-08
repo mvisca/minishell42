@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/31 17:14:27 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/06/08 14:47:59 by mvisca-g         ###   ########.fr        #
+#    Updated: 2024/06/08 19:52:25 by mvisca-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,7 +103,7 @@ DEPS		:= $(OBJS:.o=.d)
 CC 			:= cc
 
 # Compilation flags
-CFLAGS 		:= -Wall -Wextra -Werror
+CFLAGS 		:= -Wall -Wextra -Werror -fPIC
 
 # PreProcessor flags
 CPPFLAGS	:= $(addprefix -I, $(INCS)) -MMD
