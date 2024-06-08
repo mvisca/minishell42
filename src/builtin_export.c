@@ -6,40 +6,37 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/08 18:09:26 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/08 20:17:52 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	builtin_export_display_error(char *command)
+static int	builtin_export_display_error(char *command, t_ms *ms)
 {
 	ft_putstr_fd("export: '", 2);
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
-	return (1);
+	ms->exit_code = 1;
+	return (0);
 }
 
 static int	builtin_export_update(char *key, char *command, t_ms *ms)
 {
 	int		i;
-	char	*key;
 	char	*value;
+	char	*aux;
 
-	i = 0;
+	i = 1;
 	if (command[i] == '+')
-	{
-		i += 2;
-		environment_update
-	}
-
-	(environment_get_node(ms, command))
-	{
-		
-	}
-	else
-	{
-	}
+		i++;
+	aux = ft_substr(&command[i], 0, ft_strlen(&command[i]));
+	value = ft_strjoin(environment_get_value(ms, key), aux);
+	if (!value)
+		return (1);
+	environment_update_node(ms, key, value);
+	ms->exit_code = 0;
+	free(aux);
 	return (0);
 }
 
