@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/09 09:54:11 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/05/27 17:02:03 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	environment_del_node(t_ms *ms, char *key)
 	aux = ms->envlst;
 	while (aux)
 	{
-		if (ft_strncmp(aux->key, key, ft_strlen(key)))
+		if (ft_strcmp(aux->key, key))
 		{
 			if (prev)
 				prev->next = aux->next;

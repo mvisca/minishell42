@@ -6,7 +6,11 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2024/06/08 14:09:18 by mvisca-g         ###   ########.fr        #
+=======
+#    Updated: 2024/05/25 13:19:03 by fcatala-         ###   ########.fr        #
+>>>>>>> 0f75bf3c7bcd5723299353122a1d66431b916fb7
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +27,10 @@ HEADER      = ./include/minishell.h
 
 SRC_PATH    = src/
 SRC         = 		_minishell.c 				\
+					builtin_cd.c				\
+					builtin_echo.c				\
+					builtin_pwd.c				\
+					builtin_fds.c				\
 					debug.c						\
 					environment_getters.c		\
 					environment_init.c			\
@@ -30,8 +38,10 @@ SRC         = 		_minishell.c 				\
 					errors_syntax_cases.c		\
 					errors_syntax.c				\
 					errors.c					\
-					executer_copy.c					\
+					executer_copy.c				\
+					executer_fds.c				\
 					expander.c					\
+					extend_libft.c				\
 					expander_tools.c			\
 					initialize.c				\
 					interface.c					\
@@ -43,7 +53,9 @@ SRC         = 		_minishell.c 				\
 					parser_update_envarr.c		\
 					signals.c					\
 					utils_free.c				\
-					utils_str.c
+					utils_str.c					\
+					utils2_str.c				\
+					utils3_str.c
 
 SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 
@@ -55,7 +67,7 @@ RLINE		= $(RLINE_PATH)/libreadline.a
 RLINE_H		= $(RLINE_PATH)/libhistory.a
 
 LIB_PATH	= -L$(LIBFT_PATH) -L$(RLINE_PATH) 
-LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap -g -fsanitize=address
+LIB_FLAGS	= $(LIBFT) -lreadline -ltermcap
 
 OBJ_PATH	= .obj/
 OBJ			= $(addprefix $(OBJ_PATH), $(SRC:.c=.o))

@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*   extend_libft.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/05 12:09:50 by mvisca            #+#    #+#             */
-/*   Updated: 2023/10/05 12:15:33 by mvisca           ###   ########.fr       */
+/*   Created: 2024/05/11 00:56:16 by mvisca            #+#    #+#             */
+/*   Updated: 2024/05/11 00:58:32 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
-
-int ft_tablen(char **tab)
+int	ft_isspace(char c)
 {
-    int i;
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	return (0);
+}
 
-    i = 0;
-    while (tab && tab[i])
-        i++;
-    return (i);
+int	ft_tablen(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab && tab[i])
+		i++;
+	return (i);
 }

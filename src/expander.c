@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/02 15:10:02 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/08 08:48:12 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // extracts var name and gets value when between curly brakets
 // NO HAY QUE MANEJAR PARÉNTESIS NO CERRADO
-static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
+int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 {
 	size_t	start;
 
@@ -52,7 +52,7 @@ static int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 }
 
 // extracts var name and gets value when not between curly brakets
-static int	expander_var_alpha(t_ms *ms, char *str, size_t *i)
+int	expander_var_alpha(t_ms *ms, char *str, size_t *i)
 {
 	unsigned int	start;
 
@@ -72,7 +72,7 @@ static int	expander_var_alpha(t_ms *ms, char *str, size_t *i)
 }
 
 // retrives exit code
-static int	expander_var_exit(t_ms *ms, char *str, size_t *i)
+int	expander_var_exit(t_ms *ms, char *str, size_t *i)
 {
 	if (ft_strnstr(str, "$?", 2))
 		*i += 2;
@@ -93,7 +93,7 @@ static int	expander_var_exit(t_ms *ms, char *str, size_t *i)
 // Se concatena el strs.new con el strs.buf
 // Se ha iterado en cada acción anterior
 
-static int	expander_get_expansion(t_ms *ms, char *str)
+int	expander_get_expansion(t_ms *ms, char *str)
 {
 	size_t	i;
 	size_t	start;
@@ -123,9 +123,10 @@ static int	expander_get_expansion(t_ms *ms, char *str)
 		}
 		ms->strs.aux = ms->strs.new;
 		ms->strs.new = ft_strjoin(ms->strs.aux, ms->strs.buf);
+		free(ms->strs.aux);
+		ms->strs.aux = NULL;
 		free(ms->strs.buf);
 		ms->strs.buf = NULL;
-		free(ms->strs.aux);
 	}
 	return (0);
 }
