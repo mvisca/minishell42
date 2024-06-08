@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/31 17:14:27 by mvisca            #+#    #+#              #
-#    Updated: 2024/02/06 23:25:42 by mvisca           ###   ########.fr        #
+#    Updated: 2024/06/08 14:05:57 by mvisca-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ SRCS		:=			\
 	ft_strrchr.c		\
 	ft_strtrim.c		\
 	ft_substr.c			\
-	ft_tablen.c		\
+	ft_tablen.c			\
 	ft_tolower.c		\
 	ft_toupper.c		\
 	ft_lstadd_back.c	\
