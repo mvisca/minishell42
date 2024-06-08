@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/08 15:29:58 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/08 20:25:02 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 /*##################	BUILTINS	#####################*/
 
 int         builtin_echo(char **com);
+int			builtin_export(t_coml *cmnd, t_ms *ms);
 int         builtin_pwd(t_ms *ms);
 int			builtin_cd(t_ms *ms, char **cmnd);
 int			ft_builtin_redir(t_coml *job);

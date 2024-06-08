@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/08 20:17:52 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/08 20:30:40 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,49 +54,26 @@ static int	builtin_export_no_options(t_envl *env, t_ms *ms)
 static int	builtin_export_check_options(char *command, t_ms *ms)
 {
 	int		i;
-	char	key;
+	char	*key;
 
 	ms->exit_code = 0;
 	i = 0;
 	if (ft_strchr("qwertyuiopasdfghjklzxcvbnm_", command[0]) || \
 		ft_strchr("QWERTYUIOPASDFGHJKLZXCVBNM", command[0]))
 	{
-		whille (ft_isalnum(command[i]))
+		while (ft_isalnum(command[i]))
 			i++;
 		key = ft_substr(command, 0, i);
-		if (command[i] == '=' || (commnad[i] == '+' && command[i + 1] == '='))
+		if (command[i] == '=' || (command[i] == '+' && command[i + 1] == '='))
 			builtin_export_update(key, &command[i + 1], ms);
 		else
-			ms->exit_code = builtin_export_display_error(command);
+			builtin_export_display_error(command, ms);
 	}
 	else
-		ms->exit_code = builtin_export_display_error(command);
+		builtin_export_display_error(command, ms);
 	free(key);
-	return (exit_code);
+	return (0);
 }
-
-
-/*
-	i = 0;
-	while ((ft_isalnum(cmnd->command[i])) || cmnd->command[i] == '_')
-		i++;
-	if ((!ft_strchr("qwertyuiopaasdfghjklzxcvbnm", cmnd->command[0][0])) \
-	|| (!ft_strchr("_QWERTYUIOPASDFGHJKLZXCVBNM", cmnd->command[0][0])))
-		fail = 1;
-	if (fail || cmnd->command[i] != '=' && cmnd->command[i] != '\0')
-	{
-		ft_putstr_fd("export: '", 2);
-		ft_putstr_fd(cmnd, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		ms->exit_code = 1;
-	}
-	else
-	{
-		// create, update, contact
-	}
-	return (ms->exit_code);
-	// ir hasta el final recorriendo el string para ver donde esta el = y ver si el =+ va antes del =
-	// hacer el concat o reemplaza */
 
 int	builtin_export(t_coml *cmnd, t_ms *ms)
 {
@@ -112,30 +89,10 @@ int	builtin_export(t_coml *cmnd, t_ms *ms)
 		return (0);
 	}
 	i = 1;
-	while (cmnd->command[i], ms)
+	while (cmnd->command[i])
 	{
 		builtin_export_check_options(cmnd->command[i], ms);
 		i++;
 	}
-
+	return (0);
 }
-
-
-	// validar que cmnd[] no sea vacío
-		// Si es vacío hace algo más
-
-
-
-	// si hay comando
-		// bucle en lista de comandos para exportar todas las variables que se definenen
-/*
-Caso 1
-export
-
-declare -x KEY=VALUE
-
-Caso 2
-export algo
-
-
-*/
