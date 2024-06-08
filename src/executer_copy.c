@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/08 15:03:09 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:00:57 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	ft_is_builtin(t_coml *aux)
 	else if (ft_strcmp(aux->command[0], "env") == 0)
 		return (0);
 	else if (ft_strcmp(aux->command[0], "export") == 0)
-		return (0);
+		return (4);
 	else if (ft_strcmp(aux->command[0], "unset") == 0)
 		return (0);
 	else if (ft_strcmp(aux->command[0], "cd") == 0)
@@ -92,6 +92,8 @@ static int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
 		return (builtin_pwd(ms));
 	else if (type == 2)
 		return (builtin_echo(aux->command));
+	else if (type == 4)
+		return (0);
 	else if (type == 6)
 		return (builtin_cd(ms, aux->command));
 	else
