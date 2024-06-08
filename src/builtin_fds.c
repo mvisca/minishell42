@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 11:03:28 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/25 13:41:31 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/08 11:16:29 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_redirin_built(t_redl	*files)
 			if (files->fdes < 0)
 				break ;
 			if (dup2(files->fdes, STDIN_FILENO) < 0)
-				return (ft_error_noexit(DUP_FAIL, strerror(errno)), 1);
+				return (ft_error_noexit(DUP_FAIL, NULL, strerror(errno)), 1);
 			close(files->fdes);
 		}
 		files = files->next;
@@ -30,9 +30,9 @@ static int	ft_redirin_built(t_redl	*files)
 	if (files && files->fdes < 0)
 	{
 		if (access(files->path, F_OK) != 0)
-			ft_error_noexit(files->path, NO_FILE);
+			ft_error_noexit(files->path, NULL, NO_FILE);
 		else if (access(files->path, R_OK) != 0)
-			ft_error_noexit(files->path, NO_EXEC);
+			ft_error_noexit(files->path, NULL, NO_EXEC);
 		return (1);
 	}
 	return (0);
@@ -52,7 +52,7 @@ static int	ft_redirout_built(t_coml *job)
 			if (files->fdes < 0)
 				break ;
 			if (dup2(files->fdes, STDOUT_FILENO) < 0)
-				return (ft_error_noexit(DUP_FAIL, strerror(errno)), 1);
+				return (ft_error_noexit(DUP_FAIL, NULL, strerror(errno)), 1);
 			close(files->fdes);
 		}
 		files = files->next;

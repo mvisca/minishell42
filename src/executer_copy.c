@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/07 22:31:21 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:26:26 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char	*ft_getcmd(char *cmnd, t_ms *ms)
 			free(out);
 	}
 	if (aux == -1)
-		out = ft_strdup(cmnd);
+		out = ft_strdup(cmnd);//out = ft_strjoin("/", cmnd);
 	ft_freechain(paths);
 	return (out);
 }
@@ -263,9 +263,10 @@ static void	ft_reset_dups(t_ms *ms)
 
 static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 {
-	char	*tmp;
-	char	*line;
-	int		quoted;
+	char		*tmp;
+	char		*line;
+	int			quoted;
+	static int	l = 0;
 
 	quoted = 0;
 	if ((eof[0] == '\"' && eof[ft_strlen(eof) - 1] == '\"')
@@ -276,6 +277,7 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 	tmp = readline("> ");
 	while (1)
 	{
+		ms->hdl = ++l; 
 //		tmp = readline("> ");
 		if (!tmp)
 			break ;
@@ -373,7 +375,7 @@ int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	ft_job(ms);
-//	printf("Exit code: %d\n", ms->exit_code);
+	printf("Exit code: %d\n", ms->exit_code);
 	ft_closer(ms, ms->cmnd_count);
 	ft_reset_dups(ms);
 	return (0);

@@ -1,14 +1,14 @@
 VALID COMMANDS:
-One command, wrong input
-bash-3.2$ <../test/no ls;echo "Exit:" $? "Pipe: "$PIPESTATUS
-bash: ../test/no: No such file or directory
-Exit: 1 Pipe: 1
-
+One command, wrong input    
+	bash-3.2$ <../test/no ls;echo "Exit:" $? "Pipe: "$PIPESTATUS
+	bash: ../test/no: No such file or directory
+	Exit: 1 Pipe: 1
+    
 Two commands, first input wrongt
-bash-3.2$ <../test/no ls | ls;echo "Exit:" $? "Pipe: "$PIPESTATUS
-bash: ../test/no: No such file or directory
-Makefile	include		lib		minishell	src
-Exit: 0 Pipe: 1
+	bash-3.2$ <../test/no ls | ls;echo "Exit:" $? "Pipe: "$PIPESTATUS
+	bash: ../test/no: No such file or directory
+	Makefile	include		lib		minishell	src
+	Exit: 0 Pipe: 1
 
 2 commands, last input wrong
 bash-3.2$ ls | <../test/no ls;echo "Exit:" $? "Pipe: "$PIPESTATUS

@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/08 08:55:28 by mvisca            #+#    #+#              #
-#    Updated: 2024/05/25 13:19:03 by fcatala-         ###   ########.fr        #
+#    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
+#    Updated: 2024/06/08 14:45:27 by mvisca-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ SRC         = 		_minishell.c 				\
 SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 
 LIBFT_PATH	= lib/libft/
-LIBFT		= $(LIBFT_PATH)/libft.a
+LIBFT		= $(LIBFT_PATH)libft.a
 
 RLINE_PATH	= lib/readline/
 RLINE		= $(RLINE_PATH)/libreadline.a
