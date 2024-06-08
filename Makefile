@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/06/08 20:23:42 by mvisca-g         ###   ########.fr        #
+#    Updated: 2024/06/08 20:57:13 by mvisca-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,9 @@ SRC         = 		_minishell.c 				\
 					builtin_cd.c				\
 					builtin_echo.c				\
 					builtin_export.c			\
-					builtin_pwd.c				\
 					builtin_fds.c				\
+					builtin_pwd.c				\
+					builtin_unset.c				\
 					debug.c						\
 					environment_getters.c		\
 					environment_init.c			\

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/08 20:30:40 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/08 21:02:01 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	builtin_export_check_options(char *command, t_ms *ms)
 	return (0);
 }
 
-int	builtin_export(t_coml *cmnd, t_ms *ms)
+int	builtin_export(t_ms *ms, t_coml *cmnd)
 {
 	int		i;
 	t_envl	*env;
