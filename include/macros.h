@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/09 11:50:31 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/09 18:36:01 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@
 # define NO_HOME		": HOME not set\n"
 # define NO_CWD			"cd: error retrieving current directory: "
 # define NO_GETCWD		"getcwd: cannot access parent directories"
+# define HD_1			"warning: here-document at line "
+# define HD_2			" delimited by end-of-file (wanted `EOF')\n"
 
 // Errores de ejecucion
 # define EXIT_DENIED	126

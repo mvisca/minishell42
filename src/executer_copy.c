@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/09 11:13:04 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/09 18:34:19 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,6 +302,11 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 		free(tmp);
 		tmp = readline("> ");
 	}
+	if (!tmp)
+	{
+		line = ft_itoa(l);
+		ft_error_noexit(HD_1, line, HD_2);
+	}
 	free(tmp);
 	close(fd);
 }
@@ -323,9 +328,9 @@ static void	ft_check_hd(t_ms *ms, t_redl *files)
 			fd = open(files->path, O_CREAT | O_RDWR | O_APPEND, 0644);
 		}
 	}
+	free(c);
 	ft_write_hd(ms, fd, files->eof);
 	close(fd);
-	free(c);
 }
 
 static int	ft_search_hd(t_ms *ms, t_coml *job)
