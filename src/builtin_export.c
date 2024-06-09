@@ -6,19 +6,18 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/09 15:14:29 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/09 19:24:26 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	builtin_export_display_error(char *command, t_ms *ms)
+static int	builtin_export_display_error(char *command)
 {
 	ft_putstr_fd("Minishell: export: `", 2);
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
-	ms->exit_code = 1;
-	return (0);
+	return (1);
 }
 
 static int	builtin_export_update(char *key, char *command, t_ms *ms)
@@ -26,7 +25,7 @@ static int	builtin_export_update(char *key, char *command, t_ms *ms)
 	int		i;
 	t_envl	*node;
 
-	i = 1;
+	i = 0;
 	if (command[i] == '+')
 	{
 		i++;
@@ -57,28 +56,31 @@ static int	builtin_export_no_options(t_envl *env, t_ms *ms)
 	return (0);
 }
 
-static int	builtin_export_check_options(char *command, t_ms *ms)
+static int	builtin_export_check_options(char *com, t_ms *ms)
 {
 	int		i;
 	char	*key;
 
-	ft_printf("DAE\n");
 	ms->exit_code = 0;
 	key = NULL;
 	i = 0;
-	if (ft_strchr("qwertyuiopasdfghjklzxcvbnm_", command[0]) || \
-		ft_strchr("QWERTYUIOPASDFGHJKLZXCVBNM", command[0]))
+	if (ft_strchr("qwertyuiopasdfghjklzxcvbnm_", com[0]) || \
+		ft_strchr("QWERTYUIOPASDFGHJKLZXCVBNM", com[0]))
 	{
-		while (ft_isalnum(command[i]))
+		while (ft_isalnum(com[i]))
 			i++;
-		key = ft_substr(command, 0, i);
-		if (command[i] == '=' || (command[i] == '+' && command[i + 1] == '='))
-			builtin_export_update(key, &command[i + 1], ms);
+		key = ft_substr(com, 0, i);
+		if (com[i] == '=')
+			builtin_export_update(key, &com[i + 1], ms);
+		else if (com[i] == '+' && com[i] == '=')
+			builtin_export_update(key, &com[i + 2], ms);
+		else if (!com[i])
+			builtin_export_update(key, &com[i], ms);
 		else
-			builtin_export_display_error(command, ms);
+			return (builtin_export_display_error(com));
 	}
 	else
-		builtin_export_display_error(command, ms);
+		builtin_export_display_error(com);
 	free(key);
 	return (0);
 }
@@ -86,22 +88,21 @@ static int	builtin_export_check_options(char *command, t_ms *ms)
 int	builtin_export(t_ms *ms, t_coml *cmnd)
 {
 	int		i;
-	t_envl	*env;
+	int		control;
 
-	debug_envarr(ms);
-	env = ms->envlst;
+	control = 0;
 	i = 1;
-	ft_printf("c0 %s\n", cmnd->command[0]);
-	ft_printf("c1 %s\n", cmnd->command[1]);
-	if (cmnd->command[i] == NULL)
+	if (cmnd->command[i] && cmnd->command[i][0] == '\n')
+		cmnd->command[i][0] = '\0';
+	if (cmnd->command[i] == NULL || \
+	(cmnd->command[i][0] == '\0' && !cmnd->command[i + 1]))
 	{
-		builtin_export_no_options(env, ms);
+		builtin_export_no_options(ms->envlst, ms);
 		return (0);
 	}
-	while (cmnd->command[i])
+	while (!control && cmnd->command[i])
 	{
-		ft_printf("en %d\n", i);
-		builtin_export_check_options(cmnd->command[i], ms);
+		control = builtin_export_check_options(cmnd->command[i], ms);
 		i++;
 	}
 	return (ms->exit_code);
