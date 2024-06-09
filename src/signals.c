@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/08 15:12:12 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:13:11 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	interactive_handler(int signum)
 }
 
 // Maneja la senyal interrupt durante heredoc
-// ctrl D no deberia hacer el salto de linea!
 // ctr C desactivado pero debe hace algo
 static void	heredoc_handler(int signum)
 {

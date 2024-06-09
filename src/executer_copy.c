@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/09 10:14:53 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:13:04 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,7 +284,6 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 	while (1)
 	{
 		ms->hdl = ++l; 
-//		tmp = readline("> ");
 		if (!tmp)
 			break ;
 		if (!ft_strcmp(eof, tmp))
