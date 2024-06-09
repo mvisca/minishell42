@@ -563,3 +563,15 @@ Minishell > cat << EOF
 "El fcatala- esta en /Users/fcatala-"
 
 SE COMPORTA IGUAL
+
+EXPORT Y UNSET => only works when single commands
+bash$ export THINGXAVI=38 | echo $THINGXAVI
+
+=> The variable has not been set nor updated
+
+bash$ < kk export THINGXAVI=19677
+bash: kk: No such file or directory
+echo $?
+1
+=> The variable has not been set nor updated
+

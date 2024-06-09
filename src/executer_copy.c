@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/08 18:06:10 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/09 10:14:53 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	ft_is_builtin(t_coml *aux)
 	else if (ft_strcmp(aux->command[0], "export") == 0)
 		return (4);
 	else if (ft_strcmp(aux->command[0], "unset") == 0)
-		return (0);
+		return (5);
 	else if (ft_strcmp(aux->command[0], "cd") == 0)
 		return (6);
 	else if (ft_strcmp(aux->command[0], "exit") == 0)
@@ -92,8 +92,12 @@ static int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
 		return (builtin_pwd(ms));
 	else if (type == 2)
 		return (builtin_echo(aux->command));
-	else if (type == 4)
+	else if (type == 3)//env
 		return (0);
+	else if (type == 4)
+		return (builtin_export(ms, aux));
+	else if (type == 5)
+		return (builtin_unset(ms, aux));
 	else if (type == 6)
 		return (builtin_cd(ms, aux->command));
 	else
@@ -126,7 +130,7 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 	if (i)
 		exit (ft_execute_built(aux, ms, i) * last);
 	else if (!ft_strchr(aux->command[0], '/'))
-	{
+ 	{
 		aux->command[0] = ft_getcmd(aux->command[0], ms);
 		i = 0;
 	}
@@ -367,9 +371,10 @@ static int	ft_job(t_ms *ms)
 			ms->exit_code = ft_execute_built(job, ms, ft_is_builtin(job));
 		return (ms->exit_code);
 	}
-	else if (ms->cmnd_count > 1 && ft_is_builtin(job) >= 4)
+	else if (ms->cmnd_count > 1 && ft_is_builtin(job) == 6)
 	{
-		ft_execute_built(job, ms, ft_is_builtin(job));
+		if (!ft_builtin_redir(job))
+			ft_execute_built(job, ms, ft_is_builtin(job));
 		i = 1;
 		if (job->next)
 			job = job->next;
