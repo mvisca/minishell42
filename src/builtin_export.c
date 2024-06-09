@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/08 21:02:01 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/09 15:14:29 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	builtin_export_display_error(char *command, t_ms *ms)
 {
-	ft_putstr_fd("export: '", 2);
+	ft_putstr_fd("Minishell: export: `", 2);
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 	ms->exit_code = 1;
@@ -24,19 +24,25 @@ static int	builtin_export_display_error(char *command, t_ms *ms)
 static int	builtin_export_update(char *key, char *command, t_ms *ms)
 {
 	int		i;
-	char	*value;
-	char	*aux;
+	t_envl	*node;
 
 	i = 1;
 	if (command[i] == '+')
+	{
 		i++;
-	aux = ft_substr(&command[i], 0, ft_strlen(&command[i]));
-	value = ft_strjoin(environment_get_value(ms, key), aux);
-	if (!value)
-		return (1);
-	environment_update_node(ms, key, value);
+		ms->strs.aux = ft_substr(&command[i], 0, ft_strlen(&command[i]));
+		ms->strs.new = ft_strjoin(environment_get_value(ms, key), ms->strs.aux);
+		if (!ms->strs.new)
+			return (1);
+		environment_update_node(ms, key, ms->strs.new);
+		free(ms->strs.aux);
+	}
+	else
+	{
+		node = environment_new_node(ms, key, &command[i]);
+		environment_add_node(ms, node);
+	}
 	ms->exit_code = 0;
-	free(aux);
 	return (0);
 }
 
@@ -56,7 +62,9 @@ static int	builtin_export_check_options(char *command, t_ms *ms)
 	int		i;
 	char	*key;
 
+	ft_printf("DAE\n");
 	ms->exit_code = 0;
+	key = NULL;
 	i = 0;
 	if (ft_strchr("qwertyuiopasdfghjklzxcvbnm_", command[0]) || \
 		ft_strchr("QWERTYUIOPASDFGHJKLZXCVBNM", command[0]))
@@ -80,19 +88,21 @@ int	builtin_export(t_ms *ms, t_coml *cmnd)
 	int		i;
 	t_envl	*env;
 
-	ft_printf("hola hola");
-	i = 1;
+	debug_envarr(ms);
 	env = ms->envlst;
-	if (cmnd->command[1] == NULL)
+	i = 1;
+	ft_printf("c0 %s\n", cmnd->command[0]);
+	ft_printf("c1 %s\n", cmnd->command[1]);
+	if (cmnd->command[i] == NULL)
 	{
 		builtin_export_no_options(env, ms);
 		return (0);
 	}
-	i = 1;
 	while (cmnd->command[i])
 	{
+		ft_printf("en %d\n", i);
 		builtin_export_check_options(cmnd->command[i], ms);
 		i++;
 	}
-	return (0);
+	return (ms->exit_code);
 }
