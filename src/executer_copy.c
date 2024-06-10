@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/09 18:34:19 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:50:28 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ static int	ft_countcmd(t_coml *coml)
 }
 
 //Inicio de executer
-//v_01 : recorrer envp como pipex (while)
-//v_02 : out = getenv("PATH");
-//v_03 : out = environment_get_value(ms, "PATH")
 static char	*ft_getcmd(char *cmnd, t_ms *ms)
 {
 	int		i;
@@ -54,15 +51,12 @@ static char	*ft_getcmd(char *cmnd, t_ms *ms)
 		if (out && aux == -1)
 			free(out);
 	}
+	ft_freechain(paths);
 	if (aux == -1)
 		out = ft_strdup(cmnd);//out = ft_strjoin("/", cmnd);
-	ft_freechain(paths);
 	return (out);
 }
 
-//ok in pipe and at any place: pwd, echo, env
-//only solo: cd, exit
-//only at the end? or solo: export unset
 static int	ft_is_builtin(t_coml *aux)
 {
 	if (!aux->command || !aux->command[0])
@@ -86,7 +80,6 @@ static int	ft_is_builtin(t_coml *aux)
 }
 
 static int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
-//static int	ft_execute_built(t_coml *aux, t_ms *ms, int last, int type)
 {
 	if (type == 1)
 		return (builtin_pwd(ms));
@@ -116,10 +109,6 @@ static int	ft_isdir(char *path)
 	return (1);
 }
 
-
-//v_01 : aux->command[0] = ft_getcmd(aux->command[0], ms->envarr);
-//v_02 : aux->command[0] = ft_getcmd(aux->command[0]);
-//v_03 : aux->command[0] = ft_getcmd(aux->command[0], ms);
 static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 {
 	t_coml	*aux;
@@ -134,7 +123,7 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 		aux->command[0] = ft_getcmd(aux->command[0], ms);
 		i = 0;
 	}
-	else if (ft_isdir(aux->command[0]))//canvi
+	else if (ft_isdir(aux->command[0]))
 		ft_error_exit(aux->command[0], IS_DIR, last * EXIT_DENIED);
 	else if (access(aux->command[0], F_OK) != 0)
 		ft_error_exit(aux->command[0], NO_FILE, last * EXIT_NOTFOUND);
@@ -192,26 +181,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 	else
 		ft_dup_close(tubo, 2, job->out);
 }
-/*
-//ascending mode works fine as desdending mode
-static void	ft_wait(int count, pid_t pid[MAX_ARGS])
-{
-	int		stat;
-	int		i;
 
-	i = 0;
-	while (++i < count)
-	{
-		waitpid(pid[i], &stat, 0);
-		if (WIFEXITED(stat))
-				printf("Children %d pos %d end status: %d\n", 
-				pid[i], i, WEXITSTATUS(stat));
-	}
-}
-*/
-
-//			printf("Child %d %s pos %d end status: %d\n", ms->pid[i], 
-//			job->command[0], i, WEXITSTATUS(stat));
 static void	ft_runend(t_coml *job, t_ms *ms, int i)
 {
 	int		stat;
@@ -243,7 +213,6 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 }
 
 //descending  mode works fine as asdending mode
-//check for other exit cases
 static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 {
 	int		stat;
@@ -319,14 +288,15 @@ static void	ft_check_hd(t_ms *ms, t_redl *files)
 	int			fd;
 
 	fd = -1;
+//	files->path = (NULL);
 	while (fd == -1)
 	{
+		c = ft_memdel(c);
 		c = ft_itoa(n++);
+//		files->path = ft_memdel(files->path);
 		files->path = ft_strjoin3(".", c, H_FILE);
 		if (access(files->path, F_OK) != 0)
-		{
 			fd = open(files->path, O_CREAT | O_RDWR | O_APPEND, 0644);
-		}
 	}
 	free(c);
 	ft_write_hd(ms, fd, files->eof);

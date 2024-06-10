@@ -11,185 +11,185 @@ Two commands, first input wrongt
 	Exit: 0 Pipe: 1
 
 2 commands, last input wrong
-bash-3.2$ ls | <../test/no ls;echo "Exit:" $? "Pipe: "$PIPESTATUS
-bash: ../test/no: No such file or directory
-Exit 1 Pipe 141
+	bash-3.2$ ls | <../test/no ls;echo "Exit:" $? "Pipe: "$PIPESTATUS
+	bash: ../test/no: No such file or directory
+	Exit 1 Pipe 141
 
 3 commands, middle input wrong
-bash-3.2$ ls -la | <../test/no ls | ls -la ../test;echo "Exit:" $? "Pipe: "$PIPESTATUS
-bash: ../test/no: No such file or directory
-total 144
-drwxr-xr-x  20 fcatala-  2022_barcelona    680 May  4 12:03 .
-drwxr-xr-x   8 fcatala-  2022_barcelona    272 May  1 17:46 ..
--rw-------   1 fcatala-  2022_barcelona  12288 May  4 12:13 .redirs.txt.swp
-...
-Exit: 0 Pipe: 141
+	bash-3.2$ ls -la | <../test/no ls | ls -la ../test;echo "Exit:" $? "Pipe: "$PIPESTATUS
+	bash: ../test/no: No such file or directory
+	total 144
+	drwxr-xr-x  20 fcatala-  2022_barcelona    680 May  4 12:03 .
+	drwxr-xr-x   8 fcatala-  2022_barcelona    272 May  1 17:46 ..
+	-rw-------   1 fcatala-  2022_barcelona  12288 May  4 12:13 .redirs.txt.swp
+	...
+	Exit: 0 Pipe: 141
 
 4 commands, middle input wrong
-ls -la | grep m | <../test/no ls | ls -la ../test;echo "Exit:" $? "Pipe: "$PIPESTATUS
-bash: ../test/no: No such file or directory
-total 144
-drwxr-xr-x  20 fcatala-  2022_barcelona    680 May  4 12:03 .
-drwxr-xr-x   8 fcatala-  2022_barcelona    272 May  1 17:46 ..
--rw-------   1 fcatala-  2022_barcelona  12288 May  4 12:26 .redirs.txt.swp
--rw-r--r--   1 fcatala-  2022_barcelona      0 Apr 30 17:47 error1.txt
-...
-Exit: 0 Pipe: 0
+	ls -la | grep m | <../test/no ls | ls -la ../test;echo "Exit:" $? "Pipe: "$PIPESTATUS
+	bash: ../test/no: No such file or directory
+	total 144
+	drwxr-xr-x  20 fcatala-  2022_barcelona    680 May  4 12:03 .
+	drwxr-xr-x   8 fcatala-  2022_barcelona    272 May  1 17:46 ..
+	-rw-------   1 fcatala-  2022_barcelona  12288 May  4 12:26 .redirs.txt.swp
+	-rw-r--r--   1 fcatala-  2022_barcelona      0 Apr 30 17:47 error1.txt
+	...
+	Exit: 0 Pipe: 0
 
 n commands, final input wrong 
-bash-3.2$ ls -la | grep m | wc  | ls -la ../test | < no grep May;echo "Exit:" $? "Pipe: "$PIPESTATUS
-bash: no: No such file or directory
-Exit: 1 Pipe: 0
+	bash-3.2$ ls -la | grep m | wc  | ls -la ../test | < no grep May;echo "Exit:" $? "Pipe: "$PIPESTATUS
+	bash: no: No such file or directory
+	Exit: 1 Pipe: 0
 
 VALID COMMANDS, RIGTH INPUTS
 One command 2 inputs
-bash-3.2$ <../test/out5.txt <../test/new2.txt wc
+	bash-3.2$ <../test/out5.txt <../test/new2.txt wc
+	      43     372    2852
+	bash-3.2$ <../test/new2.txt wc
       43     372    2852
-bash-3.2$ <../test/new2.txt wc
-      43     372    2852
-=> only last redir
+	=> only last redir
 
-bash-3.2$ <../test/out5.txt <../test/new2.txt wc >../test/wc01.txt >../test/wc02.txt;echo Exit: $? Pipe: $PIPESTATUS
-Exit: 0 Pipe: 0
-=> Only last redirs
+	bash-3.2$ <../test/out5.txt <../test/new2.txt wc >../test/wc01.txt >../test/wc02.txt;echo Exit: $? Pipe: $PIPESTATUS
+	Exit: 0 Pipe: 0
+	=> Only last redirs
 
 VALID COMMANDS, WRONG INPUT OR OUTPUTS
 
 One command, 2 inputs, first wrong, one output
-bash-3.2$ < no < ../test/new2.txt wc >../test/ok3.txt;echo Exit: $? Pipe: $PIPESTATUS
-bash: no: No such file or directory
-Exit: 1 Pipe: 1
-output not created
+	bash-3.2$ < no < ../test/new2.txt wc >../test/ok3.txt;echo Exit: $? Pipe: $PIPESTATUS
+	bash: no: No such file or directory
+	Exit: 1 Pipe: 1
+	output not created
 
-bash-3.2$ < ../test/new2.txt <wo wc;echo Exit: $? Pipe: $PIPESTATUS
-bash: wo: No such file or directory
-Exit: 1 Pipe: 1
+	bash-3.2$ < ../test/new2.txt <wo wc;echo Exit: $? Pipe: $PIPESTATUS
+	bash: wo: No such file or directory
+	Exit: 1 Pipe: 1
 
-bash-3.2$ < ../test/new2.txt <wo <../test/new3.txt wc;echo Exit: $? Pipe: $PIPESTATUS
-bash: wo: No such file or directory
-Exit: 1 Pipe: 1
+	bash-3.2$ < ../test/new2.txt <wo <../test/new3.txt wc;echo Exit: $? Pipe: $PIPESTATUS
+	bash: wo: No such file or directory
+	Exit: 1 Pipe: 1
 
-bash-3.2$ < ../test/new2.txt <wo <no wc;echo Exit: $? Pipe: $PIPESTATUS
-bash: wo: No such file or directory
-Exit: 1 Pipe: 1
+	bash-3.2$ < ../test/new2.txt <wo <no wc;echo Exit: $? Pipe: $PIPESTATUS
+	bash: wo: No such file or directory
+	Exit: 1 Pipe: 1
 
 One command, 2 inputs, first wrong, one output => Error, not output created
 
 Two commands, first with some input wrong, last without in/out
-bash-3.2$ < ../test/new2.txt <wo wc >../test/ok2.txt | ls ;echo Exit: $? Pipe: $PIPESTATUS
-bash: wo: No such file or directory
-Makefile	include		lib		ls		minishell	src
-Exit: 0 Pipe: 1
+	bash-3.2$ < ../test/new2.txt <wo wc >../test/ok2.txt | ls ;echo Exit: $? Pipe: $PIPESTATUS
+	bash: wo: No such file or directory
+	Makefile	include		lib		ls		minishell	src
+	Exit: 0 Pipe: 1
 
 WRONG COMMANDS
 one wrong command
-bash-3.2$ lsd;echo Exit: $? Pipe: $PIPESTATUS
-bash: lsd: command not found
-Exit: 127 Pipe: 127
+	bash-3.2$ lsd;echo Exit: $? Pipe: $PIPESTATUS
+	bash: lsd: command not found
+	Exit: 127 Pipe: 127
 
 2 commands, first wrong
-bash-3.2$ lsd | wc;echo Exit: $? Pipe: $PIPESTATUS
-bash: lsd: command not found
+	bash-3.2$ lsd | wc;echo Exit: $? Pipe: $PIPESTATUS
+	bash: lsd: command not found
        0       0       0
-Exit: 0 Pipe: 127
+	Exit: 0 Pipe: 127
 
 2 commands, last wrong
-bash-3.2$ ls -la ../test | grup;echo Exit: $? Pipe: $PIPESTATUS
-bash: grup: command not found
-Exit: 127 Pipe: 141
+	bash-3.2$ ls -la ../test | grup;echo Exit: $? Pipe: $PIPESTATUS
+	bash: grup: command not found
+	Exit: 127 Pipe: 141
 
 3 commands, middle wrong
-bash-3.2$ ls -la | grop | ls;echo Exit: $? Pipe: $PIPESTATUS
-Makefile	include		lib		minishell	src
-bash: grop: command not found
-Exit: 0 Pipe: 0
+	bash-3.2$ ls -la | grop | ls;echo Exit: $? Pipe: $PIPESTATUS
+	Makefile	include		lib		minishell	src
+	bash: grop: command not found
+	Exit: 0 Pipe: 0
 
 4 commands, middle wrong
-bash-3.2$ ls -la | grep m | grop | ls -la ../test;echo Exit: $? Pipe: $PIPESTATUS
-bash: grop: command not found
-total 144
-drwxr-xr-x  20 fcatala-  2022_barcelona    680 May  4 12:03 .
-drwxr-xr-x   8 fcatala-  2022_barcelona    272 May  1 17:46 ..
--rw-------   1 fcatala-  2022_barcelona  12288 May  4 12:48 .redirs.txt.swp
--rw-r--r--   1 fcatala-  2022_barcelona      0 Apr 30 17:47 error1.txt
-...
-Exit: 0 Pipe: 0
+	bash-3.2$ ls -la | grep m | grop | ls -la ../test;echo Exit: $? Pipe: $PIPESTATUS
+	bash: grop: command not found
+	total 144
+	drwxr-xr-x  20 fcatala-  2022_barcelona    680 May  4 12:03 .
+	drwxr-xr-x   8 fcatala-  2022_barcelona    272 May  1 17:46 ..
+	-rw-------   1 fcatala-  2022_barcelona  12288 May  4 12:48 .redirs.txt.swp
+	-rw-r--r--   1 fcatala-  2022_barcelona      0 Apr 30 17:47 error1.txt
+	...
+	Exit: 0 Pipe: 0
 
 n commands, last wrong
-bash-3.2$ ls -la | grep m | wc -l | wc | kaka;echo Exit: $? Pipe: $PIPESTATUS
-bash: kaka: command not found
-Exit: 127 Pipe: 0
+	bash-3.2$ ls -la | grep m | wc -l | wc | kaka;echo Exit: $? Pipe: $PIPESTATUS
+	bash: kaka: command not found
+	Exit: 127 Pipe: 0
 
 n commands, last wrong but file exits
-bash-3.2$ ls -la | grep m | wc -l | wc | ../test/ok.txt;echo Exit: $? Pipe: $PIPESTATUS
-bash: ../test/ok.txt: Permission denied
-Exit: 126 Pipe: 0
+	bash-3.2$ ls -la | grep m | wc -l | wc | ../test/ok.txt;echo Exit: $? Pipe: $PIPESTATUS
+	bash: ../test/ok.txt: Permission denied
+	Exit: 126 Pipe: 0
 
 ALL RIGHT BUT LAST FILE IN IS CREATED IN FIRST PIE
-bash-3.2$cat << EOF >>../test/wc01.txt | ls -la >../test/new3.txt | <../test/wc01.txt wc >../test/new1.txt;echo Exit: $? Pipe: $PIPESTATUS
-bash: ../test/wc01.txt: No such file or directory
-Exit: 1 Pipe: 0
-but file created, although not read. Last file not created
+	bash-3.2$cat << EOF >>../test/wc01.txt | ls -la >../test/new3.txt | <../test/wc01.txt wc >../test/new1.txt;echo Exit: $? Pipe: $PIPESTATUS
+	bash: ../test/wc01.txt: No such file or directory
+	Exit: 1 Pipe: 0
+	but file created, although not read. Last file not created
 
 Magic line:
-bash:
-ls > a | << b | wc < a > b | << hola | wc < b > c
-the test:
-> hola
-> feo
-> a
-> b
-> fea
-> hola
-bash: b: No such file or directory
-ls > a
-	a was created with the content of ls
-<< b 
-	finished when b was entered, 
-wc < a > b
-	although a existed, the content in b is
-	0       0       0
-<< hola
-	finished when hola was entered
-wc < b > c
-	although b existed:
+	bash:
+	ls > a | << b | wc < a > b | << hola | wc < b > c
+	the test:
+	> hola
+	> feo
+	> a
+	> b
+	> fea
+	> hola
 	bash: b: No such file or directory
-	so c was not created
+	ls > a
+		a was created with the content of ls
+	<< b 
+		finished when b was entered, 
+	wc < a > b
+		although a existed, the content in b is
+		0       0       0
+	<< hola
+		finished when hola was entered
+	wc < b > c
+		although b existed:
+		bash: b: No such file or directory
+		so c was not created
 
-executer
-ls > ../test/a | << b | wc < ../test/a > ../test/b | << hola | wc <../test/ b > ../test/c
-> hola
-> feo
-> a
-> b
-> fea
-> hola
-wc: b: open: No such file or directory => mistake in the magic line
-Same in bash, but executer should write Minishell:
-again!
+	executer
+	ls > ../test/a | << b | wc < ../test/a > ../test/b | << hola | wc <../test/ b > ../test/c
+	> hola
+	> feo
+	> a
+	> b
+	> fea
+	> hola
+	wc: b: open: No such file or directory => mistake in the magic line
+	Same in bash, but executer should write Minishell:
+	again!
 
-ls > d | << e | wc < d > e | << hola | wc < e > f
-> hola
-> feo
-> e
-> fea
-> hola
+	ls > d | << e | wc < d > e | << hola | wc < e > f
+	> hola
+	> feo
+	> e
+	> fea
+	> hola
 
-Exit code: 0
-1) No errors (it happens sometimes in bash as well)
-d, e & f created
+	Exit code: 0
+	1) No errors (it happens sometimes in bash as well)
+	d, e & f created
 
-ls > d
-	d was created with the content of ls, including d
-<< e
-	finished when e was entered
-wc < d > e
-	d existed prior execution and was succesfully read
-	e was written with the right content
-<< hola
-	finished when hola was entered
-wc < e > f
-	fully successful
+	ls > d
+		d was created with the content of ls, including d
+	<< e
+		finished when e was entered
+	wc < d > e
+		d existed prior execution and was succesfully read
+		e was written with the right content
+	<< hola
+		finished when hola was entered
+	wc < e > f
+		fully successful
 
 waitng function is in ascending mode:
 	Child 5138 wc pos 5 end status: 0
@@ -199,81 +199,81 @@ waitng function is in ascending mode:
 	Children 5137 pos 4 end status: 0
 Same behavior in descendnig mode
 
-ls -la >../test/ro.txt | ls -la ../test | grep eof | wc >../test/new69.txt >../test/new70.txt | <../test/ro.txt grep word
-Minishell: ../test/ro.txt: Permission denied
-word1
-word1
-word1 con algo mas
-algo mas con word 1
-ultima1 word1x3
+	ls -la >../test/ro.txt | ls -la ../test | grep eof | wc >../test/new69.txt >../test/new70.txt | <../test/ro.txt grep word
+	Minishell: ../test/ro.txt: Permission denied
+	word1
+	word1
+	word1 con algo mas
+	algo mas con word 1
+	ultima1 word1x3
 
-Redirs well executed
+	Redirs well executed
 
 
 SPECIAL COMMANDS
 
-bash-3.2$ wc;echo Exit: $?
-a
-b
-c
+	bash-3.2$ wc;echo Exit: $?
+	a
+	b
+	c
        3       3       6
-Exit: 0
+	Exit: 0
 
-Minishell > wc
-a
-b
-c
-       3       3       6
-Exit code: 0
-WORKS FINE!
-
+	Minishell > wc
+	a
+	b
+	c
+	       3       3       6
+	Exit code: 0
+	WORKS FINE!
+	
 CD
 
 A CONTROLAR
-bash-3.2$ mkdir borrar2
-bash-3.2$ cd borrar2
-bash-3.2$ rm -rf ../borrar2
-bash-3.2$ pwd
-/Users/fcatala-/Documents/Cursus/minishell/test/borrar2
-bash-3.2$ cd .
-cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+	bash-3.2$ mkdir borrar2
+	bash-3.2$ cd borrar2
+	bash-3.2$ rm -rf ../borrar2
+	bash-3.2$ pwd
+	/Users/fcatala-/Documents/Cursus/minishell/test/borrar2
+	bash-3.2$ cd .
+	cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
 
-Minishell > mkdir borrar2
-Minishell > cd borrar2
-Minishell > rm -rf ../borrar2
-Minishell > pwd
-/Users/fcatala-/Documents/Cursus/minishell/test/borrar2
-Minishell > cd .
-Exit code: 0 => NO GENERA EL ERROR
+	Minishell > mkdir borrar2
+	Minishell > cd borrar2
+	Minishell > rm -rf ../borrar2
+	Minishell > pwd
+	/Users/fcatala-/Documents/Cursus/minishell/test/borrar2
+	Minishell > cd .
+	Exit code: 0 => NO GENERA EL ERROR
 
 2 commands, cd at begining
-bash-3.2$ cd ../test | grep i;echo Exit: $?
-Exit: 1
+	bash-3.2$ cd ../test | grep i;echo Exit: $?
+	Exit: 1
 
-bash-3.2$ cd ../test | ls;echo Exit: $?
-Makefile	include		lib		minishell	src
-Exit: 0
+	bash-3.2$ cd ../test | ls;echo Exit: $?
+	Makefile	include		lib		minishell	src
+	Exit: 0
 
-bash-3.2$ cd ../test >../test/cdnew.txt | ls;echo Exit: $?
-Makefile	include		lib		minishell	src
-Exit: 0
-bash-3.2$ ls ../test ;echo Exit: $?
-a		eofcat.txt	infile2.txt	ls2.txt		ok.txt		pwd1.txt	w1.txt
-b		error1.txt	infile3.txt	myeof.txt	out55.txt	redirect	w2.txt
-c		fin.txt		list.sh		new1.txt	outkkkls9.txt	redirect2	wc01.txt
-cd.txt		fin2.txt	ls-la.sh	new69.txt	outls9.txt	redirs.txt	wo.txt
-cdnew.txt	infile1.txt	ls1.txt		new70.txt	outls9999.txt	ro.txt
-bash-3.2$ cat ../test/cdnew.txt
-cdnew created but empty => redirs are first
+	bash-3.2$ cd ../test >../test/cdnew.txt | ls;echo Exit: $?
+	Makefile	include		lib		minishell	src
+	Exit: 0
+	bash-3.2$ ls ../test ;echo Exit: $?
+	a		eofcat.txt	infile2.txt	ls2.txt		ok.txt		pwd1.txt	w1.txt
+	b		error1.txt	infile3.txt	myeof.txt	out55.txt	redirect	w2.txt
+	c		fin.txt		list.sh		new1.txt	outkkkls9.txt	redirect2	wc01.txt
+	cd.txt		fin2.txt	ls-la.sh	new69.txt	outls9.txt	redirs.txt	wo.txt
+	cdnew.txt	infile1.txt	ls1.txt		new70.txt	outls9999.txt	ro.txt
+	bash-3.2$ cat ../test/cdnew.txt
+	cdnew created but empty => redirs are first
 
-bash-3.2$ cd ../test | lsd;echo Exit $?
-bash: lsd: command not found
-Exit 127
-
-bash-3.2$ cd ../tost | ls;echo Exit: $?
-bash: cd: ../tost: No such file or directory
-Makefile	include		lib		minishell	src
-Exit: 0
+	bash-3.2$ cd ../test | lsd;echo Exit $?
+	bash: lsd: command not found
+	Exit 127
+	
+	bash-3.2$ cd ../tost | ls;echo Exit: $?
+	bash: cd: ../tost: No such file or directory
+	Makefile	include		lib		minishell	src
+	Exit: 0
 
 With 2 commands, cd at begining
 	cd is not executed, but checked
@@ -281,29 +281,29 @@ With 2 commands, cd at begining
 	exit code (as always) is the last one
 
 2 commands, cd at the end
-bash-3.2$ wc | cd ../test;echo Exit: $?
-a
-b
-c
-Exit: 0
+	bash-3.2$ wc | cd ../test;echo Exit: $?
+	a
+	b
+	c
+	Exit: 0
 
-bash-3.2$ ls >../test/ls99.txt | cd ../test;echo Exit $?
-Exit 0
-bash-3.2$ cat ../test/ls99.txt;echo Exit $?
-Makefile
-include
-lib
-minishell
-src
-Exit 0
+	bash-3.2$ ls >../test/ls99.txt | cd ../test;echo Exit $?
+	Exit 0
+	bash-3.2$ cat ../test/ls99.txt;echo Exit $?
+	Makefile
+	include
+	lib
+	minishell
+	src
+	Exit 0
 
-bash-3.2$ lsd | cd ../test;echo Exit $?
-bash: lsd: command not found
-Exit 0
-
-bash-3.2$ ls >../test/ls99.txt | cd ../tost;echo Exit $?
-bash: cd: ../tost: No such file or directory
-Exit 1
+	bash-3.2$ lsd | cd ../test;echo Exit $?
+	bash: lsd: command not found
+	Exit 0
+	
+	bash-3.2$ ls >../test/ls99.txt | cd ../tost;echo Exit $?
+	bash: cd: ../tost: No such file or directory
+	Exit 1
 
 
 With 2 commands, cd at the end
@@ -315,15 +315,15 @@ CONCLUSION 1
 	cd is only executed in solo, but checked always
 
 HEREDOC with signals
-CTRL + d
-cat << EOF | wc
-> 1
-> 2
-> after this : ctrl d
->        3       7      24
-Exit success
+	CTRL + d
+	cat << EOF | wc
+	> 1
+	> 2
+	> after this : ctrl d
+	>        3       7      24
+	Exit success
 
-bash-3.2$ cat << EOF | grep m
+	bash-3.2$ cat << EOF | grep m
 > dede
 > dede
 > after this ctrl D

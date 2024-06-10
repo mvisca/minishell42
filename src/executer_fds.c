@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 11:03:28 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/25 12:43:47 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:36:33 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int	ft_closer(t_ms *ms, int i)
 				if (files->fdes > 0)
 					close(files->fdes);
 				if (files->type == DL_REDIRECT)
+				{
 					unlink(files->path);
+					files->path = ft_memdel(files->path);
+				}
 				files = files->next;
 			}
 		}
