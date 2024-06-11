@@ -1,0 +1,15 @@
+se crea ek fichero i salgo con ctr d
+total 1412
+drwxr-xr-x 8 fcatala- 2022_barcelona     170 Jun 11 15:53 .
+drwxr-xr-x 4 fcatala- 2022_barcelona      33 Jun  7 13:43 ..
+drwxr-xr-x 8 fcatala- 2022_barcelona     220 Jun 10 19:55 .git
+-rw-r--r-- 1 fcatala- 2022_barcelona      52 Jun  7 13:43 .gitignore
+drwxr-xr-x 2 fcatala- 2022_barcelona      77 Jun 10 18:49 include
+-rw-r--r-- 1 fcatala- 2022_barcelona      37 Jun 11 15:53 kakita.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona     948 Jun  9 12:26 leaks_exit.txt
+drwxr-xr-x 4 fcatala- 2022_barcelona      35 Jun  7 13:43 lib
+-rw-r--r-- 1 fcatala- 2022_barcelona    3732 Jun  9 06:47 Makefile
+-rwxr-xr-x 1 fcatala- 2022_barcelona 1420328 Jun 11 15:46 minishell
+drwxr-xr-x 2 fcatala- 2022_barcelona    4096 Jun 11 15:46 .obj
+drwxr-xr-x 2 fcatala- 2022_barcelona    4096 Jun 11 15:08 src
+drwxr-xr-x 2 fcatala- 2022_barcelona     103 Jun  8 12:24 test
