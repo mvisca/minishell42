@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 22:36:21 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/11 10:07:46 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/11 10:17:55 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int  line_break(char *str)
 int builtin_echo(char **com)
 {
 	int 	i;
+	int		count;
 	char	*str;
 
 	i = 1;
@@ -46,12 +47,12 @@ int builtin_echo(char **com)
 	{
 		str = ft_strtrim(com[i], SPACES);
 		if (str[0] != '\n')
-			ft_printf("%s", str);
-		if (!com[i])
-			break ;
-		else
-			ft_printf(" ");
+			count = ft_printf("%s", str);
 		free(str);
+		if (!com[i + 1])
+			break ;
+		else if (count && com[i + 1][0] != '\0')
+			ft_printf(" ");
 		i++;
 	}
 	if (!line_break(com[1]))
