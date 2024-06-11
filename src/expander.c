@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/10 16:55:23 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:38:40 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	expander_get_expansion(t_ms *ms, char *str)
 	while (str[i])
 	{
 		if (str[i] == S_QUOTE)
-		{
+ 		{
 			start = i;
 			str_close_quote(&str[i], &i);
 			ms->strs.buf = ft_substr(str, start, i - start + 1);
