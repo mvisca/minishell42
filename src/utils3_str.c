@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 08:26:07 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/11 18:18:31 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/11 19:09:34 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	*ft_memdel(void *ptr)
 
 void	ft_free_nullify(char **ptr)
 {
-	if (ptr != NULL) 
+	if (ptr != NULL)
 	{
-        if (*ptr != NULL) 
+		if (*ptr != NULL)
 		{
-            free(*ptr);
-        }
-        *ptr = NULL;
-    }
+			free(*ptr);
+		}
+		*ptr = NULL;
+	}
 }
