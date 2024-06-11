@@ -6,12 +6,13 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/09 19:24:26 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:54:52 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+/*
 static int	builtin_export_display_error(char *command)
 {
 	ft_putstr_fd("Minishell: export: `", 2);
@@ -45,6 +46,7 @@ static int	builtin_export_update(char *key, char *command, t_ms *ms)
 	return (0);
 }
 
+*/
 static int	builtin_export_no_options(t_envl *env, t_ms *ms)
 {
 	while (env)
@@ -56,37 +58,63 @@ static int	builtin_export_no_options(t_envl *env, t_ms *ms)
 	return (0);
 }
 
-static int	builtin_export_check_options(char *com, t_ms *ms)
-{
-	int		i;
-	char	*key;
 
-	ms->exit_code = 0;
-	key = NULL;
-	i = 0;
-	if (ft_strchr("qwertyuiopasdfghjklzxcvbnm_", com[0]) || \
-		ft_strchr("QWERTYUIOPASDFGHJKLZXCVBNM", com[0]))
-	{
-		while (ft_isalnum(com[i]))
-			i++;
-		key = ft_substr(com, 0, i);
-		if (com[i] == '=')
-			builtin_export_update(key, &com[i + 1], ms);
-		else if (com[i] == '+' && com[i] == '=')
-			builtin_export_update(key, &com[i + 2], ms);
-		else if (!com[i])
-			builtin_export_update(key, &com[i], ms);
-		else
-			return (builtin_export_display_error(com));
-	}
-	else
-		builtin_export_display_error(com);
-	free(key);
-	return (0);
-}
+// static int	builtin_export_check_options(char *com, t_ms *ms)
+// {
+// 	int		i;
+// 	char	*key;
+
+// 	ms->exit_code = 0;
+// 	key = NULL;
+// 	i = 0;
+// 	if (ft_strchr("qwertyuiopasdfghjklzxcvbnm_", com[0]) |* \ *|
+// 		ft_strchr("QWERTYUIOPASDFGHJKLZXCVBNM", com[0]))
+// 	{
+// 		while (ft_isalnum(com[i]))
+// 			i++;
+// 		key = ft_substr(com, 0, i);
+// 		if (com[i] == '=')
+// 			builtin_export_update(key, &com[i + 1], ms);
+// 		else if (com[i] == '+' && com[i] == '=')
+// 			builtin_export_update(key, &com[i + 2], ms);
+// 		else if (!com[i])
+// 			builtin_export_update(key, &com[i], ms);
+// 		else
+// 			return (builtin_export_display_error(com));
+// 	}
+// 	else
+// 		builtin_export_display_error(com);
+// 	free(key);
+// 	return (0);
+// }
 
 int	builtin_export(t_ms *ms, t_coml *cmnd)
 {
+	int		i;
+	char	*com;
+	// int	len;
+
+	i = 1;
+	// len = ft_strlen(cmnd->command[i]);
+	if (!cmnd->command[i] || cmnd->command[i][0] == '\0')
+	{
+		// cmnd->command[i] = '\0';
+		builtin_export_no_options(ms->envlst, ms);
+		return (0);
+	}
+	while (cmnd->command[i])
+	{
+		com = cmnd->command[i];
+		if (ft_strchr("qwertyuiopasdfghjklzxcvbnm", com[0]) || \
+			ft_strchr("QWERTYUIOPASDFGHJKLZXCVBNM_", com[0]))
+			ft_printf("input correcto\n");
+		i++;
+	}
+	return(ms->exit_code);
+}
+
+/*
+
 	int		i;
 	int		control;
 
@@ -106,4 +134,4 @@ int	builtin_export(t_ms *ms, t_coml *cmnd)
 		i++;
 	}
 	return (ms->exit_code);
-}
+}*/
