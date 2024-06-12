@@ -6,11 +6,23 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/09 11:13:11 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:54:06 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+// Set the exit code to 130 to indicate SIGINT was received
+//rl_done = 1; will cause readline to return
+static int	ft_event_hook(void)
+{
+	if (g_exit == 130)
+	{
+		rl_done = 1;
+	}
+	return (0);
+}
+
 
 // Maneja la senyal intrrupt durante consola interactiva
 static void	interactive_handler(int signum)
@@ -25,23 +37,33 @@ static void	interactive_handler(int signum)
 	}
 }
 
+
 // Maneja la senyal interrupt durante heredoc
-// ctr C desactivado pero debe hace algo
 static void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		ft_error_noexit("warning: ", NULL, "here-document at line 34 ");
-		exit(0);
+		g_exit = 130;
+		rl_done = 1;
 	}
-//	else if (signum == SIGQUIT)
-//	{
-//		rl_replace_line("", 0);
-//		rl_redisplay();
-//	}
 }
+/*
+{
+	if (signum == SIGINT)
+	{
+//		ft_printf("\n");
+		rl_replace_line("", 1);//canvi
+		rli_on_new_line();
+		rl_redisplay();
+		ft_printf("\n");
+		g_exit = 130;
+//		return ;
+	}
+}
+*/
 
 // Silencia el echo de los comandos con control
+//Se puede pone en init?
 static void	signal_silent(void)
 {
 	struct termios	terminal;
@@ -61,7 +83,10 @@ int	signal_init(int mode)
 	if (mode == INTERACTIVE)
 		sa.sa_handler = interactive_handler;
 	if (mode == HEREDOC)
+	{
+		rl_event_hook = ft_event_hook;
 		sa.sa_handler = heredoc_handler;
+	}
 	if (sigaction(SIGINT, &sa, NULL) == -1 || \
 	sigaction(SIGQUIT, &sa, NULL) == -1)
 		return (1);

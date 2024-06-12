@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/11 17:36:46 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:17:18 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define STRUCTURES_H
 
 //variable global para gestionar las senyales.
+//definida en global.h
 //extern	int	g_exit;
 
 typedef struct s_parser_split

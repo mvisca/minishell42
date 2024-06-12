@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/11 19:14:38 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:09:54 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ static void	ft_reset_dups(t_ms *ms)
 	ms->init_fd[1] = dup(STDOUT_FILENO);
 }
 
-static void	ft_write_hd(t_ms *ms, int fd, char *eof)
+static int	ft_write_hd(t_ms *ms, int fd, char *eof)
 {
 	static int	l = 0;
 	char		*tmp;
@@ -247,7 +247,7 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 	eof = expander_filter_quotes(eof);
 	signal_init(HEREDOC);
 	tmp = readline("> ");
-	while (1)
+	while (g_exit != 130)
 	{
 		++l;
 		if (!tmp)
@@ -268,22 +268,25 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 		free(tmp);
 		tmp = readline("> ");
 	}
-	if (!tmp)
+	if (!tmp && g_exit != 130)
 	{
 		line = ft_itoa(l);
 		ft_error_noexit(HD_1, line, HD_2);
 	}
 	free(tmp);
 	close(fd);
+	return (g_exit);
 }
 
 //falta control errores hd
-static void	ft_check_hd(t_ms *ms, t_redl *files)
+static int	ft_check_hd(t_ms *ms, t_redl *files)
 {
 	static int	n = 0;
 	char		*c;
 	int			fd;
+	int			i;
 
+	i = 0;
 	fd = -1;
 	while (fd == -1)
 	{
@@ -294,8 +297,9 @@ static void	ft_check_hd(t_ms *ms, t_redl *files)
 			fd = open(files->path, O_CREAT | O_RDWR | O_APPEND, 0644);
 	}
 	free(c);
-	ft_write_hd(ms, fd, files->eof);
+	i = ft_write_hd(ms, fd, files->eof);
 	close(fd);
+	return (i);
 }
 
 static int	ft_search_hd(t_ms *ms, t_coml *job)
@@ -314,14 +318,15 @@ static int	ft_search_hd(t_ms *ms, t_coml *job)
 				if (files->type == DL_REDIRECT)
 				{
 					files->eof = ft_strdup(files->path);
-					ft_check_hd(ms, files);
+					if (ft_check_hd(ms, files) == 130)
+						return (130);
 				}
 				files = files->next;
 			}
 		}
 		coms = coms->next;
 	}
-	return (1);
+	return (0);
 }
 
 static int	ft_job(t_ms *ms)
@@ -331,7 +336,7 @@ static int	ft_job(t_ms *ms)
 	pid_t	pid[MAX_ARGS];
 
 	job = ms->cmnd_list;
-	ft_search_hd(ms, job);
+	//ft_search_hd(ms, job);
 	i = 0;
 	if (ms->cmnd_count == 1 && ft_is_builtin(job) >= 4)
 	{
@@ -363,7 +368,8 @@ static int	ft_job(t_ms *ms)
 int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
-	ft_job(ms);
+	if (ft_search_hd(ms, ms->cmnd_list) != 130)
+		ft_job(ms);
 	ft_closer(ms, ms->cmnd_count);
 	ft_reset_dups(ms);
 	return (0);

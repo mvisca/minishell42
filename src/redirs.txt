@@ -315,7 +315,7 @@ CONCLUSION 1
 	cd is only executed in solo, but checked always
 
 HEREDOC with signals
-	CTRL + d
+CTRL + d
 	cat << EOF | wc
 	> 1
 	> 2
@@ -324,254 +324,296 @@ HEREDOC with signals
 	Exit success
 
 	bash-3.2$ cat << EOF | grep m
-> dede
-> dede
-> after this ctrl D
-> bash-3.2$
-bash-3.2$ echo $?
-Exit 1
-Note that the last line of th heredoc is the result of the piping
+	> dede
+	> dede
+	> after this ctrl D
+	> bash-3.2$
+	bash-3.2$ echo $?
+	Exit 1
+	Note that the last line of th heredoc is the result of the piping
 
-bash-3.2$ cat << EOF | grep m | wc
-> ww
-> ww
-> ww
-> EOF
-       0       0       0
-bash-3.2$ cat << EOF | grep m | wc
-> WW
-> WW
-> after this ctrl d
->        0       0       0
-bash-3.2$ echo Exit $?
-Exit 0
+	bash-3.2$ cat << EOF | grep m | wc
+	> ww
+	> ww
+	> ww
+	> EOF
+	       0       0       0
+	bash-3.2$ cat << EOF | grep m | wc
+	> WW
+	> WW
+	> after this ctrl d
+	>        0       0       0
+	bash-3.2$ echo Exit $?
+	Exit 0
 
-bash-3.2$ cat << EOF >../test/myeof.txt | grep m | wc
-> www
-> www
-> www
-> after this ctrl d
->        0       0       0
-bash-3.2$ cat ../test/myeof.txt
-www
-www
-www
-after this ctrl d
-ctrl + d acts like EOF
+	bash-3.2$ cat << EOF >../test/myeof.txt | grep m | wc
+	> www
+	> www
+	> www
+	> after this ctrl d
+	>        0       0       0
+	bash-3.2$ cat ../test/myeof.txt
+	www
+	www
+	www
+	after this ctrl d
+	ctrl + d acts like EOF
 
 
 HEREDOC WITH MULTIPLE PIPES
-bash-3.2$ cat << EOF >../test/myeof.txt | grep m | cat << EOF2 >>../test/myeof.txt | grep m | wc
-> dudu
-> dudu
-> EOF
-> dede
-> dede
-> EOF2
-       0       0       0
-bash-3.2$ cat ../test/myeof.txt
-dudu
-dudu
-dede
-dede
+	bash-3.2$ cat << EOF >../test/myeof.txt | grep m | cat << EOF2 >>../test/myeof.txt | grep m | wc
+	> dudu
+	> dudu
+	> EOF
+	> dede
+	> dede
+	> EOF2
+	       0       0       0
+	bash-3.2$ cat ../test/myeof.txt
+	dudu
+	dudu
+	dede
+	dede
 
-bash-3.2$ cat << EOF >../test/myeof.txt | grep m | cat << EOF2 >>../test/myeof.txt | grep m | wc >>../test/myeof.txt
-> dudu
-> dudu
-> EOF
-> dede
-> dede
-> EOF2
-bash-3.2$ cat ../test/myeof.txt
-dudu
-dudu
-     0       0
-dede
-dede
+	bash-3.2$ cat << EOF >../test/myeof.txt | grep m | cat << EOF2 >>../test/myeof.txt | grep m | wc >>../test/myeof.txt
+	> dudu
+	> dudu
+	> EOF
+	> dede
+	> dede
+	> EOF2
+	bash-3.2$ cat ../test/myeof.txt
+	dudu
+	dudu
+	     0       0
+	dede
+	dede
 
-bash-3.2$ cat << EOF >../test/myeof.txt | grep m | cat << EOF2 >>../test/myeof.txt | grep m | wc >>../test/myeof.txt
-> lele
-> lele
-> EOF
-> lolo
-> lolo
-> EOF2
-bash-3.2$ cat ../test/myeof.txt
-lele
-lele
-lolo
-lolo
-       0       0       0
-SEQUENCE OF WRITTING IN FILE IS NOT FIXED!!!
+	bash-3.2$ cat << EOF >../test/myeof.txt | grep m | cat << EOF2 >>../test/myeof.txt | grep m | wc >>../test/myeof.txt
+	> lele
+	> lele
+	> EOF
+	> lolo
+	> lolo
+	> EOF2
+	bash-3.2$ cat ../test/myeof.txt
+	lele
+	lele
+	lolo
+	lolo
+	       0       0       0
+	SEQUENCE OF WRITTING IN FILE IS NOT FIXED!!!
 
 HEREDOC WITH MULTIPLE PIPES AND SIGNALS
-bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
-> lele
-> lili
-> EOF
-> lulu
-> ctr d
-> bash-3.2$
-bash-3.2$ cat ../test/myeof3.txt
-lele
-lili
-     0       0
-lulu
-ctr d
-EXIT SUCCESS
-
-bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
-> 11
-> 11
-> EOF
-> 22
-> 22
-> ctr d
-> bash-3.2$ echo $?
-0
-bash-3.2$ cat ../test/myeof3.txt
-11
-11
- 0       0       0
-22
-22
-ctr d
-EXIT SUCCESS, NEW COMMAND LINE EXECUTABLE IN THE PROPMT OF HEREDOC
-bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
-> 11
-> 11
-> EOF
-> 22
-> 22
-> CTR D
-> bash-3.2$ ls
-Makefile	include		lib		minishell	src
-
-bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
-> 11
-> 11
-> ctr d
-> > 22
-> 22
-> EOF2
-bash-3.2$ cat ../test/myeof3.txt
-11
-11
-ctr d
-22
-22
+	bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
+	> lele
+	> lili
+	> EOF
+	> lulu
+	> ctr d
+	> bash-3.2$
+	bash-3.2$ cat ../test/myeof3.txt
+	lele
+	lili
+	     0       0
+	lulu
+	ctr d
+	EXIT SUCCESS
+	
+	bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
+	> 11
+	> 11
+	> EOF
+	> 22
+	> 22
+	> ctr d
+	> bash-3.2$ echo $?
+	0
+	bash-3.2$ cat ../test/myeof3.txt
+	11
+	11
+	 0       0       0
+	22
+	22
+	ctr d
+	EXIT SUCCESS, NEW COMMAND LINE EXECUTABLE IN THE PROPMT OF HEREDOC
+	bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
+	> 11
+	> 11
+	> EOF
+	> 22
+	> 22
+	> CTR D
+	> bash-3.2$ ls
+	Makefile	include		lib		minishell	src
+	
+	bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
+	> 11
+	> 11
+	> ctr d
+	> > 22
+	> 22
+	> EOF2
+	bash-3.2$ cat ../test/myeof3.txt
+	11
+	11
+	ctr d
+	22
+	22
        0       0       0
-AFTER THE FIRST CTRL D closes the first heredoc an displays the propmt of the second, then pipes and redirs
+	AFTER THE FIRST CTRL D closes the first heredoc an displays the propmt of the second, then pipes and redirs
 
 CTR C in first EOF
-bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
-> meme
-> meme
-> ctr c
->
-bash-3.2$ echo $?
-1
-Exit failure, no file created
+	bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
+	> meme
+	> meme
+	> ctr c
+	>
+	bash-3.2$ echo $?
+	1
+	Exit failure, no file created
+	
+	bash$ cat << EOF >s1.txt | cat << EOF2 >s2.txt | cat << EOF3 >s3.txt | ls
+	> s1
+	>    => ctr+c here
+
+	bash$ echo $?
+	130
+	NO FILE CREATED, NO EXECUTION, EXIT CODE 130
+
+	cat << EOF >s1.txt | cat << EOF2 >s2.txt | cat << EOF3 >s3.txt | ls >new.txt
+	> s1
+	> s1 interruptus EN esta linea
+	bash$ ATENCION! LA SENYAL INTERRUMPE LA LINEA; MUESTRA UNA NUEVA LINEA DE BASH EN LA PANTALLA
+	bash$ echo $?
+	130
+
+
+
+
+
+CTR C in second EOF
+	bash$ cat << EOF >s1.txt | cat << EOF2 >s2.txt | cat << EOF3 >s3.txt | ls >new.txt
+	> s1 ok
+	> EOF
+	> s2 interruptus tras esta linea
+	>
+	bash$ echo $?
+	130
+	NO FILE CREATED, NO EXECUTION, EXIT CODE 130
+	bash$
 
 CTR C in last EOF
-bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
-> meme
-> meme
-> EOF
-> dede
-> ctr c
->
-bash-3.2$ echo $?
-1
-Exit failure, no file created
+	bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
+	> meme
+	> meme
+	> EOF
+	> dede
+	> ctr c
+	>
+	bash-3.2$ echo $?
+	1
+	Exit failure, no file created
 
-bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
-> meme
-> momo
-> ctr d in next line
-> full while ctr d => nothing happens
-> EOF
-> moco
-> ctr c ini next line
-> full line while ctr c
-bash-3.2$ echo $?
-1
-Exit failure, no file created
+	bash-3.2$ cat << EOF >../test/myeof3.txt | grep m | cat << EOF2 >>../test/myeof3.txt | grep m | wc >>../test/myeof3.txt
+	> meme
+	> momo
+	> ctr d in next line
+	> full while ctr d => nothing happens
+	> EOF
+	> moco
+	> ctr c ini next line
+	> full line while ctr c
+	bash-3.2$ echo $?
+	1
+	Exit failure, no file created
+	
+	bash$ cat << EOF >s1.txt | cat << EOF2 >s2.txt | cat << EOF3 >s3.txt | ls >new.txt
+	> s1 ok
+	> EOF
+	> s2 ok
+	> EOF2
+	> s3 interruptus tras linea
+	> 
+	bash$ echo $?
+	130
+	NO FILE CREATED, NO EXECUTION, EXIT CODE 130
+	bash$
 
 HEREDOC WITH EXPANSIONS
 1 env variable in a line:
-bash-3.2$ cat << EOF
-> $USER
-> nada mas
-> EOF
-fcatala-
-nada mas
+	bash-3.2$ cat << EOF
+	> $USER
+	> nada mas
+	> EOF
+	fcatala-
+	nada mas
 
 2 env variables in a line and strings around them
-bash-3.2$ cat << EOF
-> More testings: string env variable string =>
-> Da master is $USER and he works in $PWD as a fool
-> end of this
-> EOF
-More testings: string env variable string =>
-Da master is fcatala- and he works in /Users/fcatala-/Documents/Cursus/minishell/minishell42 as a fool
-end of this
+	bash-3.2$ cat << EOF
+	> More testings: string env variable string =>
+	> Da master is $USER and he works in $PWD as a fool
+	> end of this
+	> EOF
+	More testings: string env variable string =>
+	Da master is fcatala- and he works in /Users/fcatala-/Documents/Cursus/minishell/minishell42 as a fool
+	end of this
 
 env variables in a line: one does'nt exist yet, the othe has never existed
-bash-3.2$ cat << EOF
-> $USER is brutal!
-> The present is $PWD and the past was $OLDPWD ou yeah
-> But I cannot read breoken things like $PA
-> TH
-> end of the story
-> EOF
-fcatala- is brutal!
-The present is /Users/fcatala-/Documents/Cursus/minishell/minishell42 and the past was  ou yeah
-But I cannot read breoken things like
-TH
-end of the story
-
+	bash-3.2$ cat << EOF
+	> $USER is brutal!
+	> The present is $PWD and the past was $OLDPWD ou yeah
+	> But I cannot read breoken things like $PA
+	> TH
+	> end of the story
+	> EOF
+	fcatala- is brutal!
+	The present is /Users/fcatala-/Documents/Cursus/minishell/minishell42 and the past was  ou yeah
+	But I cannot read breoken things like
+	TH
+	end of the story
+	
 NOTE: NO ERROR HAS BEEN RETRIEVED FOR THE UNEXISTING VARIABLE
 
 heredoc combining variables inside and outside quotes:
-bash-3.2$ cat << EOF
-> dede
-> $USER
-> "El $USER soy " $USER
-> EOF
-dede
-fcatala-
-"El fcatala- soy " fcatala-
+	bash-3.2$ cat << EOF
+	> dede
+	> $USER
+	> "El $USER soy " $USER
+	> EOF
+	dede
+	fcatala-
+	"El fcatala- soy " fcatala-
+	
+	Minishell > cat << EOF
+	> dede
+	> $USER
+	> "El $USER soy " $USER
+	> EOF
+	dede
+	fcatala-
+	"El fcatala- soy " fcatala-
 
-Minishell > cat << EOF
-> dede
-> $USER
-> "El $USER soy " $USER
-> EOF
-dede
-fcatala-
-"El fcatala- soy " fcatala-
-
-bash-3.2$ cat << EOF
-> "El $USER esta en $HOME"
-> EOF
-"El fcatala- esta en /Users/fcatala-"
-bash-3.2$ ./minishell
-Minishell > cat << EOF
-> "El $USER esta en $HOME"
-> EOF
-"El fcatala- esta en /Users/fcatala-"
-
+	bash-3.2$ cat << EOF
+	> "El $USER esta en $HOME"
+	> EOF
+	"El fcatala- esta en /Users/fcatala-"
+	bash-3.2$ ./minishell
+	Minishell > cat << EOF
+	> "El $USER esta en $HOME"
+	> EOF
+	"El fcatala- esta en /Users/fcatala-"
+	
 SE COMPORTA IGUAL
 
 EXPORT Y UNSET => only works when single commands
-bash$ export THINGXAVI=38 | echo $THINGXAVI
+	bash$ export THINGXAVI=38 | echo $THINGXAVI
 
-=> The variable has not been set nor updated
+	=> The variable has not been set nor updated
 
-bash$ < kk export THINGXAVI=19677
-bash: kk: No such file or directory
-echo $?
-1
-=> The variable has not been set nor updated
+	bash$ < kk export THINGXAVI=19677
+	bash: kk: No such file or directory
+	echo $?
+	1
+	=> The variable has not been set nor updated
 
