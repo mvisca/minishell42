@@ -6,132 +6,92 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/10 13:54:52 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:06:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-/*
-static int	builtin_export_display_error(char *command)
+static int	no_options(t_coml *cmnd)
 {
-	ft_putstr_fd("Minishell: export: `", 2);
-	ft_putstr_fd(command, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
-	return (1);
+	if (!cmnd->command[1])
+		return (1);
+	else if (ft_tablen(cmnd->command) == 2 && cmnd->command[1][0] == '\n')
+		return (1);
+	return (0);
 }
 
-static int	builtin_export_update(char *key, char *command, t_ms *ms)
+static int	update_env(t_ms *ms, char *key, char *value)
 {
-	int		i;
 	t_envl	*node;
+	t_envl	*new_node;
 
-	i = 0;
-	if (command[i] == '+')
+	ft_printf("key %s - value %s\n", key, value);
+	node = environment_get_node(ms, key);
+	if (node)
 	{
-		i++;
-		ms->strs.aux = ft_substr(&command[i], 0, ft_strlen(&command[i]));
-		ms->strs.new = ft_strjoin(environment_get_value(ms, key), ms->strs.aux);
-		if (!ms->strs.new)
-			return (1);
-		environment_update_node(ms, key, ms->strs.new);
-		free(ms->strs.aux);
+		environment_update_node(ms, key, value);
+		free(key);
 	}
 	else
 	{
-		node = environment_new_node(ms, key, &command[i]);
-		environment_add_node(ms, node);
+		new_node = environment_new_node(ms, key, value);
+		if (!new_node)
+			return (1);
+		environment_add_node(ms, new_node);
 	}
-	ms->exit_code = 0;
-	return (0);
+	return(0);
 }
 
-*/
-static int	builtin_export_no_options(t_envl *env, t_ms *ms)
+static int	options(t_ms *ms, int j)
 {
-	while (env)
+	char	*key;
+	char	*value;
+
+	if (ms->strs.aux[j] == '\0')
+		return (0);
+	key = ft_substr(ms->strs.aux, 0, j);
+	if (ms->strs.aux[j] == '=')
+		value = ft_strdup(&ms->strs.aux[j + 1]);
+	else if (ms->strs.aux[j] == '+')
 	{
-		ft_printf("declare -x %s=\"%s\"\n", env->key, env->value);
-		env = env->next;
+		ms->strs.buf = environment_get_value(ms, key);
+		ms->strs.new = &ms->strs.aux[j + 2];
+		value = ft_strjoin(ms->strs.buf, ms->strs.new);
+//		free(ms->strs.buf);
 	}
-	ms->exit_code = 0;
-	return (0);
+	update_env(ms, key, value);
+	free(key);
+	free(value);
+	strs_reset(ms);
+	return (0);	
 }
-
-
-// static int	builtin_export_check_options(char *com, t_ms *ms)
-// {
-// 	int		i;
-// 	char	*key;
-
-// 	ms->exit_code = 0;
-// 	key = NULL;
-// 	i = 0;
-// 	if (ft_strchr("qwertyuiopasdfghjklzxcvbnm_", com[0]) |* \ *|
-// 		ft_strchr("QWERTYUIOPASDFGHJKLZXCVBNM", com[0]))
-// 	{
-// 		while (ft_isalnum(com[i]))
-// 			i++;
-// 		key = ft_substr(com, 0, i);
-// 		if (com[i] == '=')
-// 			builtin_export_update(key, &com[i + 1], ms);
-// 		else if (com[i] == '+' && com[i] == '=')
-// 			builtin_export_update(key, &com[i + 2], ms);
-// 		else if (!com[i])
-// 			builtin_export_update(key, &com[i], ms);
-// 		else
-// 			return (builtin_export_display_error(com));
-// 	}
-// 	else
-// 		builtin_export_display_error(com);
-// 	free(key);
-// 	return (0);
-// }
 
 int	builtin_export(t_ms *ms, t_coml *cmnd)
 {
 	int		i;
-	char	*com;
-	// int	len;
+	int		j;
 
 	i = 1;
-	// len = ft_strlen(cmnd->command[i]);
-	if (!cmnd->command[i] || cmnd->command[i][0] == '\0')
-	{
-		// cmnd->command[i] = '\0';
-		builtin_export_no_options(ms->envlst, ms);
-		return (0);
-	}
+	if (no_options(cmnd))
+		return (export_print_env(ms));
 	while (cmnd->command[i])
 	{
-		com = cmnd->command[i];
-		if (ft_strchr("qwertyuiopasdfghjklzxcvbnm", com[0]) || \
-			ft_strchr("QWERTYUIOPASDFGHJKLZXCVBNM_", com[0]))
-			ft_printf("input correcto\n");
-		i++;
+		j = 0;
+		ms->strs.aux = cmnd->command[i++];
+		if (ms->strs.aux[0] == '\n')
+			ms->strs.aux[0]= '\0';
+		if (!ft_strchr(EXP_CHARS, ms->strs.aux[0]))
+			export_error(ms->strs.aux);
+		while (ms->strs.aux[j] && ft_strchr(EXP_CHARS, ms->strs.aux[j]))
+			j++;
+		if (!ms->strs.aux[j] || ms->strs.aux[j] == '=' || \
+			(ms->strs.aux[j] == '+' && ms->strs.aux[j + 1] == '='))
+//			!ft_strncmp(&ms->strs.aux[j], "+=", 2))
+			options(ms, j);
+		else
+			export_error(ms->strs.aux);
 	}
-	return(ms->exit_code);
+	strs_reset(ms);
+	return (0);
 }
-
-/*
-
-	int		i;
-	int		control;
-
-	control = 0;
-	i = 1;
-	if (cmnd->command[i] && cmnd->command[i][0] == '\n')
-		cmnd->command[i][0] = '\0';
-	if (cmnd->command[i] == NULL || \
-	(cmnd->command[i][0] == '\0' && !cmnd->command[i + 1]))
-	{
-		builtin_export_no_options(ms->envlst, ms);
-		return (0);
-	}
-	while (!control && cmnd->command[i])
-	{
-		control = builtin_export_check_options(cmnd->command[i], ms);
-		i++;
-	}
-	return (ms->exit_code);
-}*/

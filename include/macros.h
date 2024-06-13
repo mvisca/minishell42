@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/09 11:50:31 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:41:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,10 @@
 // Signals mode
 # define INTERACTIVE 	1
 # define HEREDOC 		2
+
+// Builtin Export
+# define EXP_CHARS   "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"
+
 
 // No env
 # define AUTOENV "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
