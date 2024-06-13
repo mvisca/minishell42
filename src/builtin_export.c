@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/13 17:06:25 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/13 23:58:29 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	builtin_export(t_ms *ms, t_coml *cmnd)
 {
 	int		i;
 	int		j;
+	char	*line;
 
 	i = 1;
 	if (no_options(cmnd))
@@ -78,20 +79,18 @@ int	builtin_export(t_ms *ms, t_coml *cmnd)
 	while (cmnd->command[i])
 	{
 		j = 0;
-		ms->strs.aux = cmnd->command[i++];
-		if (ms->strs.aux[0] == '\n')
-			ms->strs.aux[0]= '\0';
-		if (!ft_strchr(EXP_CHARS, ms->strs.aux[0]))
-			export_error(ms->strs.aux);
-		while (ms->strs.aux[j] && ft_strchr(EXP_CHARS, ms->strs.aux[j]))
+		line = cmnd->command[i++];
+		if (line[j] == '\n')
+			line[j]= '\0';
+		if (!line[j])
+			export_solo(line);
+		if (!ft_strchr(EXP_CHARS, line[j]))
+			export_error(line);
+		while (line[j] && ft_strchr(EXP_CHARS, line[j]))
 			j++;
-		if (!ms->strs.aux[j] || ms->strs.aux[j] == '=' || \
-			(ms->strs.aux[j] == '+' && ms->strs.aux[j + 1] == '='))
-//			!ft_strncmp(&ms->strs.aux[j], "+=", 2))
-			options(ms, j);
-		else
-			export_error(ms->strs.aux);
+		if (!line[j] || line[j] == '=' || \
+			(line[j] == '+' && line[j + 1] == '='))
+			export_options(ms, line, j);
 	}
-	strs_reset(ms);
 	return (0);
 }
