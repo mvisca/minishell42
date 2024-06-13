@@ -6,10 +6,10 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 20:59:32 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/04/13 21:01:00 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:02:28 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int g_exit;
+//int g_exit;

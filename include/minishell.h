@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/13 09:21:24 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:24:08 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,5 +167,7 @@ char		*ft_strlwr(char *str);
 
 /*##################	UTILS3_STR		#####################*/
 void		ft_freechain(char **chain);
+void		*ft_memdel(void *ptr);
+void		ft_free_nullify(char **ptr);
 
 #endif
