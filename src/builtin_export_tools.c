@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:30:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/13 09:13:14 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/13 17:29:46 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,3 @@ int	export_print_env(t_ms *ms)
 	return (0);
 }
 
-int	export_update(char *key, char *command, t_ms *ms)
-{
-	int		i;
-	t_envl	*node;
-
-	i = 0;
-	if (command[i] == '+')
-	{
-		i++;
-		ms->strs.aux = ft_substr(&command[i], 0, ft_strlen(&command[i]));
-		ms->strs.new = ft_strjoin(environment_get_value(ms, key), ms->strs.aux);
-		if (!ms->strs.new)
-			return (1);
-		environment_update_node(ms, key, ms->strs.new);
-		free(ms->strs.aux);
-	}
-	else
-	{
-		node = environment_new_node(ms, key, &command[i]);
-		environment_add_node(ms, node);
-	}
-	ms->exit_code = 0;
-	return (0);
-}
