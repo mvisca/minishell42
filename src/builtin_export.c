@@ -6,93 +6,92 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/08 21:02:01 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:06:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	builtin_export_display_error(char *command, t_ms *ms)
+static int	no_options(t_coml *cmnd)
 {
-	ft_putstr_fd("export: '", 2);
-	ft_putstr_fd(command, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
-	ms->exit_code = 1;
-	return (0);
-}
-
-static int	builtin_export_update(char *key, char *command, t_ms *ms)
-{
-	int		i;
-	char	*value;
-	char	*aux;
-
-	i = 1;
-	if (command[i] == '+')
-		i++;
-	aux = ft_substr(&command[i], 0, ft_strlen(&command[i]));
-	value = ft_strjoin(environment_get_value(ms, key), aux);
-	if (!value)
+	if (!cmnd->command[1])
 		return (1);
-	environment_update_node(ms, key, value);
-	ms->exit_code = 0;
-	free(aux);
+	else if (ft_tablen(cmnd->command) == 2 && cmnd->command[1][0] == '\n')
+		return (1);
 	return (0);
 }
 
-static int	builtin_export_no_options(t_envl *env, t_ms *ms)
+static int	update_env(t_ms *ms, char *key, char *value)
 {
-	while (env)
-	{
-		ft_printf("declare -x %s=\"%s\"\n", env->key, env->value);
-		env = env->next;
-	}
-	ms->exit_code = 0;
-	return (0);
-}
+	t_envl	*node;
+	t_envl	*new_node;
 
-static int	builtin_export_check_options(char *command, t_ms *ms)
-{
-	int		i;
-	char	*key;
-
-	ms->exit_code = 0;
-	i = 0;
-	if (ft_strchr("qwertyuiopasdfghjklzxcvbnm_", command[0]) || \
-		ft_strchr("QWERTYUIOPASDFGHJKLZXCVBNM", command[0]))
+	ft_printf("key %s - value %s\n", key, value);
+	node = environment_get_node(ms, key);
+	if (node)
 	{
-		while (ft_isalnum(command[i]))
-			i++;
-		key = ft_substr(command, 0, i);
-		if (command[i] == '=' || (command[i] == '+' && command[i + 1] == '='))
-			builtin_export_update(key, &command[i + 1], ms);
-		else
-			builtin_export_display_error(command, ms);
+		environment_update_node(ms, key, value);
+		free(key);
 	}
 	else
-		builtin_export_display_error(command, ms);
+	{
+		new_node = environment_new_node(ms, key, value);
+		if (!new_node)
+			return (1);
+		environment_add_node(ms, new_node);
+	}
+	return(0);
+}
+
+static int	options(t_ms *ms, int j)
+{
+	char	*key;
+	char	*value;
+
+	if (ms->strs.aux[j] == '\0')
+		return (0);
+	key = ft_substr(ms->strs.aux, 0, j);
+	if (ms->strs.aux[j] == '=')
+		value = ft_strdup(&ms->strs.aux[j + 1]);
+	else if (ms->strs.aux[j] == '+')
+	{
+		ms->strs.buf = environment_get_value(ms, key);
+		ms->strs.new = &ms->strs.aux[j + 2];
+		value = ft_strjoin(ms->strs.buf, ms->strs.new);
+//		free(ms->strs.buf);
+	}
+	update_env(ms, key, value);
 	free(key);
-	return (0);
+	free(value);
+	strs_reset(ms);
+	return (0);	
 }
 
 int	builtin_export(t_ms *ms, t_coml *cmnd)
 {
 	int		i;
-	t_envl	*env;
+	int		j;
 
-	ft_printf("hola hola");
 	i = 1;
-	env = ms->envlst;
-	if (cmnd->command[1] == NULL)
-	{
-		builtin_export_no_options(env, ms);
-		return (0);
-	}
-	i = 1;
+	if (no_options(cmnd))
+		return (export_print_env(ms));
 	while (cmnd->command[i])
 	{
-		builtin_export_check_options(cmnd->command[i], ms);
-		i++;
+		j = 0;
+		ms->strs.aux = cmnd->command[i++];
+		if (ms->strs.aux[0] == '\n')
+			ms->strs.aux[0]= '\0';
+		if (!ft_strchr(EXP_CHARS, ms->strs.aux[0]))
+			export_error(ms->strs.aux);
+		while (ms->strs.aux[j] && ft_strchr(EXP_CHARS, ms->strs.aux[j]))
+			j++;
+		if (!ms->strs.aux[j] || ms->strs.aux[j] == '=' || \
+			(ms->strs.aux[j] == '+' && ms->strs.aux[j + 1] == '='))
+//			!ft_strncmp(&ms->strs.aux[j], "+=", 2))
+			options(ms, j);
+		else
+			export_error(ms->strs.aux);
 	}
+	strs_reset(ms);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/27 15:40:57 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:23:44 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@
 # define BOLD_WHITE     "\x1b[1;37m"
 
 // Mensajes de error
+// warning: here-document at line 1 delimited by end-of-file (wanted `EOF')
 # define SYNTAX_MSSG    "Minishell: syntax error near unexpected token `"
 # define MINI			"Minishell: "
 # define DUP_FAIL		"dup2 failed "
@@ -101,6 +102,8 @@
 # define NO_HOME		": HOME not set\n"
 # define NO_CWD			"cd: error retrieving current directory: "
 # define NO_GETCWD		"getcwd: cannot access parent directories"
+# define HD_1			"warning: here-document at line "
+# define HD_2			" delimited by end-of-file (wanted `EOF')\n"
 
 // Errores de ejecucion
 # define EXIT_DENIED	126
@@ -109,27 +112,14 @@
 # define EXIT_QUITFORK	131
 
 // Signals mode
-# define INTERACTIVE 1
-# define HEREDOC 2
+# define INTERACTIVE 	1
+# define HEREDOC 		2
+
+// Builtin Export
+# define EXP_CHARS   "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"
+
 
 // No env
 # define AUTOENV "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 #endif
-//ejemplos en bash
-//
-//bash-3.2$ ls | lib/;echo "Exit:" $? "Pipe: "$PIPESTATUS
-//bash: lib/: is a directory
-//Exit: 126 Pipe: 141
-//
-//bash-3.2$ lib/;echo "Exit:" $? "Pipe :"$PIPESTATUS
-//bash: lib/: is a directory
-//Exit: 126 Pipe :126
-//
-//bash-3.2$ lib;echo "Exit:" $? "Pipe :"$PIPESTATUS
-//bash: lib: command not found
-//Exit: 127 Pipe :127
-//
-//bash-3.2$ ls | ../test/out1.txt;echo "Exit:" $? "Pipe :"$PIPESTATUS
-//bash: ../test/out1.txt: Permission denied
-//Exit: 126 Pipe :141

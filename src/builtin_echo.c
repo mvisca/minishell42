@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 22:36:21 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/14 17:32:59 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/11 10:17:55 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,35 +36,26 @@ static int  line_break(char *str)
 
 int builtin_echo(char **com)
 {
-	int i;
+	int 	i;
+	int		count;
+	char	*str;
 
 	i = 1;
 	if (com[1] && line_break(com[1]))
 		i++;
 	while (com[i])
 	{
-		ft_printf("%s", com[i]);
-		i++;
-		if (!com[i])
+		str = ft_strtrim(com[i], SPACES);
+		if (str[0] != '\n')
+			count = ft_printf("%s", str);
+		free(str);
+		if (!com[i + 1])
 			break ;
-		else
+		else if (count && com[i + 1][0] != '\0')
 			ft_printf(" ");
+		i++;
 	}
 	if (!line_break(com[1]))
 		ft_printf("\n");
 	return (0);
 }
-
-// int	main(int ac, char **av)
-// {
-// 	if (ac > 1 )
-// 	{
-// 		if (!ft_strncmp(av[1], "exit\0", 5))
-// 			return (0);
-// 		if (ac > 2 && !ft_strncmp(av[1], "echo\0", 5))
-// 			builtin_echo(&av[1]);
-// 	}
-// 	return (0);
-// }
-
-// compilar con 'cc src/builtin_echo.c -L./lib/libft -lft -I./include'
