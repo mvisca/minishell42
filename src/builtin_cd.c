@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/15 15:13:47 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:03:03 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	ft_mini_cd(char *path, t_ms *ms)
 	out = chdir(path);
 	path = getcwd(NULL, 0);
 	if (!path)
-		return (printf("%s%s%s", NO_CWD, NO_GETCWD, NO_FILE), 0);///cambiar
+		return (ft_error_return(NO_CWD, NO_GETCWD, NO_FILE, 0));		
 	free(path);
 	return (out);
 }
