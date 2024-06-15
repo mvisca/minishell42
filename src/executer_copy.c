@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/12 16:09:54 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/15 12:00:55 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static int	ft_isdir(char *path)
 	else
 		closedir(dir);
 	return (1);
-}
+} 
 
 static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 {
@@ -163,9 +163,9 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (pid[i] == 0)
 	{
-		signal_init(INTERACTIVE);
+		signal_init(INTERACTIVE);//mover a job tras check hd
 		job->out = -81;
-		if (job->redirect)
+		if (job->redirect)//crear funcion nueva 
 		{
 			ft_redirin(job->redirect, 0);
 			ft_redirout(job, 0);
@@ -190,9 +190,9 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (ms->pid[i] == 0)
 	{
-		signal_init(INTERACTIVE);
+		signal_init(INTERACTIVE);//mover a inicio job tras check hd
 		job->out = -81;
-		if (job->redirect)
+		if (job->redirect)//crear funcion nueva
 		{
 			ft_redirin(job->redirect, 1);
 			ft_redirout(job, 1);
@@ -245,7 +245,7 @@ static int	ft_write_hd(t_ms *ms, int fd, char *eof)
 		|| (eof[0] == '\'' && eof[ft_strlen(eof) - 1] == '\''))
 		quoted = 1;
 	eof = expander_filter_quotes(eof);
-	signal_init(HEREDOC);
+	signal_init(HEREDOC);//mover a check hd
 	tmp = readline("> ");
 	while (g_exit != 130)
 	{
@@ -329,6 +329,17 @@ static int	ft_search_hd(t_ms *ms, t_coml *job)
 	return (0);
 }
 
+/*
+	else if (ms->cmnd_count > 1 && ft_is_builtin(job) == 6)//ejecuta caso 6 (cd)
+	{
+		if (!ft_builtin_redir(job))
+			ft_execute_built(job, ms, ft_is_builtin(job));
+		i = 1;
+		if (job->next)
+			job = job->next;
+	}
+*/
+	//ft_search_hd(ms, job);//before after job = ms->cmnd_list
 static int	ft_job(t_ms *ms)
 {
 	int		i;
@@ -336,7 +347,6 @@ static int	ft_job(t_ms *ms)
 	pid_t	pid[MAX_ARGS];
 
 	job = ms->cmnd_list;
-	//ft_search_hd(ms, job);
 	i = 0;
 	if (ms->cmnd_count == 1 && ft_is_builtin(job) >= 4)
 	{
@@ -344,14 +354,6 @@ static int	ft_job(t_ms *ms)
 		if (!ms->exit_code)
 			ms->exit_code = ft_execute_built(job, ms, ft_is_builtin(job));
 		return (ms->exit_code);
-	}
-	else if (ms->cmnd_count > 1 && ft_is_builtin(job) == 6)
-	{
-		if (!ft_builtin_redir(job))
-			ft_execute_built(job, ms, ft_is_builtin(job));
-		i = 1;
-		if (job->next)
-			job = job->next;
 	}
 	while (++i < ms->cmnd_count)
 	{
