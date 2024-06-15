@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/12 16:16:35 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/15 13:46:04 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,4 @@ int	main(int ac, char **av, char **envp)
 	utils_free_ms(&ms, TRUE);
 	return (g_exit);
 }
+

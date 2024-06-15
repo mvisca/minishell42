@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/13 17:04:44 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/15 14:54:11 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,15 @@ t_envl	*environment_add_node(t_ms *ms, t_envl *envnode)
 	return (ms->envlst);
 }
 
+static int	del_node_mem(t_envl **node)
+{
+	free((*node)->key);
+	free((*node)->value);
+	free(*node);
+	return (1);
+}
+
 // Deletes the node with the given key
-// To be tested
 void	environment_del_node(t_ms *ms, char *key)
 {
 	t_envl	*prev;
@@ -68,13 +75,17 @@ void	environment_del_node(t_ms *ms, char *key)
 		if (ft_strcmp(aux->key, key))
 		{
 			if (prev)
+			{
 				prev->next = aux->next;
+			}
 			else
+			{
 				ms->envlst = aux->next;
-			free(aux->key);
-			free(aux->value);
+			}
+			del_node_mem(&aux);
 			return ;
 		}
+		prev = aux;
 		aux = aux->next;
 	}
 }

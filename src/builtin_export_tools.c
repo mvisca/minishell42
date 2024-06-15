@@ -6,11 +6,36 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:30:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/13 17:29:46 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/15 14:49:43 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	export_get_key_value(int j, char *line, char **key, char **value)
+{
+	*key = ft_substr(line, 0, j);
+	if (line[j]	== '+')
+		j++;
+	j++;
+	*value = ft_substr(line, j, ft_strlen(&line[j]));
+}
+
+int	export_set(int *j, char **line, char *command)
+{
+	*j = 0;
+	*line = command;
+	return (1);
+}
+
+void	export_ff(int *j, char *line)
+{
+	int	i;
+	while (line[*j] && ft_strchr(EXP_CHARS, line[*j]))
+		(*j)++;
+	i = *j;
+	(void)i;
+}
 
 int	export_error(char *command)
 {
