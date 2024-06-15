@@ -6,11 +6,36 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:30:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/13 09:13:14 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/15 14:49:43 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	export_get_key_value(int j, char *line, char **key, char **value)
+{
+	*key = ft_substr(line, 0, j);
+	if (line[j]	== '+')
+		j++;
+	j++;
+	*value = ft_substr(line, j, ft_strlen(&line[j]));
+}
+
+int	export_set(int *j, char **line, char *command)
+{
+	*j = 0;
+	*line = command;
+	return (1);
+}
+
+void	export_ff(int *j, char *line)
+{
+	int	i;
+	while (line[*j] && ft_strchr(EXP_CHARS, line[*j]))
+		(*j)++;
+	i = *j;
+	(void)i;
+}
 
 int	export_error(char *command)
 {
@@ -38,27 +63,3 @@ int	export_print_env(t_ms *ms)
 	return (0);
 }
 
-int	export_update(char *key, char *command, t_ms *ms)
-{
-	int		i;
-	t_envl	*node;
-
-	i = 0;
-	if (command[i] == '+')
-	{
-		i++;
-		ms->strs.aux = ft_substr(&command[i], 0, ft_strlen(&command[i]));
-		ms->strs.new = ft_strjoin(environment_get_value(ms, key), ms->strs.aux);
-		if (!ms->strs.new)
-			return (1);
-		environment_update_node(ms, key, ms->strs.new);
-		free(ms->strs.aux);
-	}
-	else
-	{
-		node = environment_new_node(ms, key, &command[i]);
-		environment_add_node(ms, node);
-	}
-	ms->exit_code = 0;
-	return (0);
-}
