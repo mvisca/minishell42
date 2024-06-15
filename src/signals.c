@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/13 17:24:20 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/15 15:02:12 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	ft_event_hook(void)
 {
 	if (g_exit == 130)
 	{
-		rl_done = 1;
+		rl_done = 0;
 	}
 	return (0);
 }
@@ -29,6 +29,8 @@ static void	interactive_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
+//		rl_done = 1;
+//		rl_done = 0;
 		ft_printf("\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -44,8 +46,8 @@ static void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		g_exit = 130;
 		rl_done = 1;
+		g_exit = 130;
 	}
 }
 /*
@@ -54,7 +56,7 @@ static void	heredoc_handler(int signum)
 	{
 //		ft_printf("\n");
 		rl_replace_line("", 1);//canvi
-		rli_on_new_line();
+		rl_on_new_line();
 		rl_redisplay();
 		ft_printf("\n");
 		g_exit = 130;

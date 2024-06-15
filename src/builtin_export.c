@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/15 14:58:54 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:11:35 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	export_assign(t_ms *ms, int j, char *line)
 	export_get_key_value(j, line, &key, &value);
 	if (!key || key[0] == '\0')
 		return ;
-	if (environment_get_node(ms, key))
+	if (!environment_get_node(ms, key))
 		environment_del_node(ms, key);
 	node = environment_new_node(ms, key, value);
 	environment_add_node(ms, node);

@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/08 11:31:40 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/15 11:59:56 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,7 @@ static void	ft_update_oldpwd(t_ms *ms, char *path, char *oldpwd, int i)
 		environment_add_node(ms, environment_new_node(ms, "OLDPWD", oldpwd));
 }
 
-//eliminated lines
-//	char	*tmp;
-//	tmp = ft_strdup(path);
-//	tmp = ft_strdup(oldpwd);
+//caso de 2 o mas argumentos en cd
 int	builtin_cd(t_ms *ms, char **cmnd)
 {
 	char	path[MAX_PATH];
