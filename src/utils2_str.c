@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 08:26:07 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/19 17:46:13 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/15 12:38:02 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*ft_strjoin3(char *str1, char *str2, char *str3)
 	return (out);
 }
 
+//not used
 char	*ft_strlwr(char *str)
 {
 	int	i;

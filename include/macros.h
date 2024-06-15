@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/10 16:46:01 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/15 12:34:39 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@
 # define BOLD_WHITE     "\x1b[1;37m"
 
 // Mensajes de error
-// warning: here-document at line 1 delimited by end-of-file (wanted `EOF')
 # define SYNTAX_MSSG    "Minishell: syntax error near unexpected token `"
 # define MINI			"Minishell: "
 # define DUP_FAIL		"dup2 failed "
@@ -104,6 +103,8 @@
 # define NO_GETCWD		"getcwd: cannot access parent directories"
 # define HD_1			"warning: here-document at line "
 # define HD_2			" delimited by end-of-file (wanted `EOF')\n"
+# define MANY			": too many arguments\n"
+# define NUMERIC		": numeric argument required\n"
 
 // Errores de ejecucion
 # define EXIT_DENIED	126
