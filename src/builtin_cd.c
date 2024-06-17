@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/15 11:59:56 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:03:03 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,16 @@ static int	ft_mini_cd(char *path, t_ms *ms)
 	if (path[0] == '~')
 		path = ft_strjoin(environment_get_value(ms, "HOME"), path + 1);
 	lstat(path, &stat);
+	if (access(path, F_OK) == -1)
+		return (ft_error_return("cd: ", path, NO_FILE, -1));
+	if (!S_ISDIR(stat.st_mode))
+		return (ft_error_return("cd: ", path, IS_NO_DIR, -1));
+	if (access(path, X_OK) == -1)
+		return (ft_error_return("cd: ", path, NO_EXEC, -1));
 	out = chdir(path);
 	path = getcwd(NULL, 0);
 	if (!path)
-		return (printf("%s%s%s", NO_CWD, NO_GETCWD, NO_FILE), 0);
-	if (access(path, F_OK) == -1)
-		return (ft_error_noexit("cd: ", path, NO_FILE), -1);
-	if (!S_ISDIR(stat.st_mode))
-		return (ft_error_noexit("cd: ", path, IS_NO_DIR), -1);
-	if (access(path, X_OK) == -1)
-		return (ft_error_noexit("cd: ", path, NO_EXEC), -1);
+		return (ft_error_return(NO_CWD, NO_GETCWD, NO_FILE, 0));		
 	free(path);
 	return (out);
 }
@@ -73,6 +73,8 @@ int	builtin_cd(t_ms *ms, char **cmnd)
 	int		i;
 
 	i = -1;
+	if (ft_tablen(cmnd) > 2)
+		return (ft_error_return("cd", NULL, MANY, 1));
 	getcwd(oldpwd, sizeof(oldpwd));
 	if (!cmnd[1] || cmnd[1][0] == '\0' || ft_strcmp(cmnd[1], "~") == 0)
 	{

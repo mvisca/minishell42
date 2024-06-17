@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 08:26:07 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/13 16:01:50 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/17 22:25:50 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*ft_strjoin3(char *str1, char *str2, char *str3)
 	return (out);
 }
 
+//not used
 char	*ft_strlwr(char *str)
 {
 	int	i;

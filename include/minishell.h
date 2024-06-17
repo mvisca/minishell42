@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/15 13:51:48 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/17 22:25:30 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void		error_exit(char *msj, t_ms *ms);
 void		error_free_exit(char *msj, t_ms *ms);
 void		ft_error_exit(char *com, char *msj, int code);
 void		ft_error_noexit(char *com, char *path, char *msj);
+int			ft_error_return(char *com, char *path, char *msj, int code);
 
 // User errors
 int			errors_syntax(t_ms *ms);

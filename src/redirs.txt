@@ -320,6 +320,13 @@ With 2 commands, cd at the end
 CONCLUSION 1
 	cd is only executed in solo, but checked always
 
+Wrong directory
+	new$ cd a
+	bash: cd: a: No such file or directory
+	echo $?
+	1
+
+
 cd with 2 or more arguments
 single command
 
