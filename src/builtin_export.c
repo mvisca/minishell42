@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/15 15:11:35 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/19 08:55:02 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	builtin_export(t_ms *ms, t_coml *cmnd)
 			else if (line[j] == '=')
 				export_assign(ms, j, line); // assign
 			}
+			else
+				export_error(line);
 		}
 	}
 	return (0);

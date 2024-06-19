@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/15 14:54:11 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:12:03 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	environment_update_node(t_ms *ms, char *key, char *value)
 	if (aux_node)
 	{
 		if (aux_node->value)
-//			free(aux_node->value);
+			free(aux_node->value);
 		aux_node->value = value;
 	}
 }
