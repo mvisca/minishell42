@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/20 16:22:16 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:36:48 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	}
 }
 
-static void	ft_wait(int count, pid_t pid[MAX_ARGS])
+static void	ft_wait(int count, pid_t pid[MAX_ARGS], t_ms *ms)
 {
 	int		stat;
 
@@ -223,7 +223,19 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 			printf("Children %d pos %d terminated with status: %d. Check signals\n",
 				pid[count], count, WEXITSTATUS(stat));
 		else if (WIFSIGNALED(stat))
+		{
 			printf("Sequence terminated with: %d or %d\n", WIFSIGNALED(stat), g_exit);
+			if (WTERMSIG(stat) == SIGINT)
+			{
+				printf("Exit code will be 130\n");
+				ms->exit_code = 130;				
+			}
+			else if (WTERMSIG(stat) == SIGQUIT)
+			{
+				ms->exit_code = 131;				
+				printf("Quit as 131\n");
+			}
+		}
 	}
 }
 
@@ -377,7 +389,7 @@ static int	ft_job(t_ms *ms)
 	}
 	ft_runend(job, ms, i);
 	ft_reset_dups(ms);
-	ft_wait(ms->cmnd_count, pid);
+	ft_wait(ms->cmnd_count, pid, ms);
 	return (0);
 }
 

@@ -6,14 +6,12 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/20 15:07:15 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:17:25 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// Set the exit code to 130 to indicate SIGINT was received
-//rl_done = 1; will cause readline to return
 static int	ft_event_hook(void)
 {
 	if (g_exit == 130)
@@ -29,7 +27,7 @@ static int	ft_event_hook2(void)
 }
 
 
-//ok display but bad error code
+//ok display but should return the exit code
 static void	normal_handler (int signum)
 {
 	if (signum == SIGINT)
@@ -41,22 +39,19 @@ static void	normal_handler (int signum)
 	}
 }
 
-// Maneja la senyal intrrupt durante consola interactiva
+//Handles the signal in interactive mode
 static void	interactive_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
 		ft_putstr_fd("\n", 2);
 		rl_done = 1;
-//		rl_replace_line("", 1);
-//		rl_on_new_line();
-//		rl_redisplay();
 		g_exit = 130;
 	}
 }
 
 
-// Maneja la senyal interrupt durante heredoc
+//Handles the signal in here_doc
 static void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
@@ -66,8 +61,7 @@ static void	heredoc_handler(int signum)
 	}
 }
 
-// Silencia el echo de los comandos con control
-//Se puede pone en init?
+//Silent diplays of signals
 static void	signal_silent(void)
 {
 	struct termios	terminal;
@@ -83,7 +77,7 @@ int	signal_init(int mode)
 
 	signal_silent();
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART; // | SA_SIGINFO;
+	sa.sa_flags = SA_RESTART | SA_SIGINFO;
 	if (mode == NORMAL)
 	{
 		sa.sa_handler = normal_handler;
