@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/20 15:28:31 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:22:16 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int	ft_countcmd(t_coml *coml)
 	return (i);
 }
 
-//Inicio de executer
 static char	*ft_getcmd(char *cmnd, t_ms *ms, int last)
 {
 	int		i;
@@ -213,7 +212,6 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	}
 }
 
-//afegir t_ms *ms per exit code
 static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 {
 	int		stat;
@@ -250,14 +248,40 @@ static int	ft_is_quoted(char *eof)
 	return (quoted);
 }
 
-//41 lineas sobran 15
+static char	*ft_expand_hd(int quoted, t_ms *ms, char *tmp)
+{
+	char	*line;
+
+	if (!quoted)
+	{
+		expander_get_expansion(ms, tmp);
+		line = ft_strjoin(ms->strs.new, "\n");
+	}
+	else
+		line = ft_strjoin(tmp, "\n");
+	return (line);
+}
+
+static void	ft_end_hd(char *tmp, char *eof, int fd, int l)
+{
+	char	*line;
+
+	if (!tmp && g_exit != 130)
+	{
+		line = ft_itoa(l);
+		tmp = ft_strjoin3(HD_2, eof, HD_3);
+		ft_error_noexit(HD_1, line, tmp);
+	}
+	free(tmp);
+	close(fd);
+}
+
 static int	ft_write_hd(t_ms *ms, int fd, char *eof)
 {
 	static int	l = 0;
 	char		*tmp;
 	char		*line;
 	int			quoted;
-//	char		*msj;
 
 	quoted = ft_is_quoted(eof);
 	eof = expander_filter_quotes(eof);
@@ -268,35 +292,17 @@ static int	ft_write_hd(t_ms *ms, int fd, char *eof)
 		++l;
 		if (!tmp || !ft_strcmp(eof, tmp))
 			break ;
-		if (!quoted)
-		{
-			expander_get_expansion(ms, tmp);
-			line = ft_strjoin(ms->strs.new, "\n");
-		}
-		else
-			line = ft_strjoin(tmp, "\n");
+		line = ft_expand_hd(quoted, ms, tmp);
 		write(fd, line, ft_strlen(line));
-		free(ms->strs.new);
-		ms->strs.new = NULL;
+		ms->strs.new = ft_memdel(ms->strs.new);
 		free(line);
 		free(tmp);
 		tmp = readline("> ");
 	}
-	if (!tmp && g_exit != 130)
-	{
-		line = ft_itoa(l);
-//		msj = ft_strjoin3(HD_2, eof, HD_3);
-		tmp  = ft_strjoin3(HD_2, eof, HD_3);
-		ft_error_noexit(HD_1, line, tmp);
-//		ft_error_noexit(HD_1, line, msj);
-//		free(msj);
-	}
-	free(tmp);
-	close(fd);
+	ft_end_hd(tmp, eof, fd, l);
 	return (g_exit);
 }
 
-//falta control errores hd
 static int	ft_check_hd(t_ms *ms, t_redl *files)
 {
 	static int	n = 0;
@@ -348,17 +354,6 @@ static int	ft_search_hd(t_ms *ms, t_coml *job)
 	return (0);
 }
 
-/*
-	else if (ms->cmnd_count > 1 && ft_is_builtin(job) == 6)//ejecuta caso 6 (cd)
-	{
-		if (!ft_builtin_redir(job))
-			ft_execute_built(job, ms, ft_is_builtin(job));
-		i = 1;
-		if (job->next)
-			job = job->next;
-	}
-*/
-	//ft_search_hd(ms, job);//before after job = ms->cmnd_list
 static int	ft_job(t_ms *ms)
 {
 	int		i;
