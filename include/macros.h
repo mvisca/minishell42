@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/15 12:34:39 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:48:40 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 // Para manejar el modo de las señales 
 # define INTERACTIVE    1
 # define HEREDOC        2
+# define NORMAL			3
 
 // Macros para gestionar fd de entrada y salida
 # define FD_IN     0
@@ -102,7 +103,8 @@
 # define NO_CWD			"cd: error retrieving current directory: "
 # define NO_GETCWD		"getcwd: cannot access parent directories"
 # define HD_1			"warning: here-document at line "
-# define HD_2			" delimited by end-of-file (wanted `EOF')\n"
+# define HD_2			" delimited by end-of-file (wanted '"
+# define HD_3			"')\n"
 # define MANY			": too many arguments\n"
 # define NUMERIC		": numeric argument required\n"
 

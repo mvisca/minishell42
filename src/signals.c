@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/15 07:50:05 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:07:15 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,35 @@ static int	ft_event_hook(void)
 	return (0);
 }
 
+static int	ft_event_hook2(void)
+{
+	return (0);
+}
+
+
+//ok display but bad error code
+static void	normal_handler (int signum)
+{
+	if (signum == SIGINT)
+	{
+		ft_printf("\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
 
 // Maneja la senyal intrrupt durante consola interactiva
 static void	interactive_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-//		rl_done = 1;
-//		rl_done = 0;
-		ft_printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		g_exit = 1;
+		ft_putstr_fd("\n", 2);
+		rl_done = 1;
+//		rl_replace_line("", 1);
+//		rl_on_new_line();
+//		rl_redisplay();
+		g_exit = 130;
 	}
 }
 
@@ -49,20 +65,6 @@ static void	heredoc_handler(int signum)
 		g_exit = 130;
 	}
 }
-/*
-{
-	if (signum == SIGINT)
-	{
-//		ft_printf("\n");
-		rl_replace_line("", 1);//canvi
-		rl_on_new_line();
-		rl_redisplay();
-		ft_printf("\n");
-		g_exit = 130;
-//		return ;
-	}
-}
-*/
 
 // Silencia el echo de los comandos con control
 //Se puede pone en init?
@@ -82,8 +84,15 @@ int	signal_init(int mode)
 	signal_silent();
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART; // | SA_SIGINFO;
+	if (mode == NORMAL)
+	{
+		sa.sa_handler = normal_handler;
+	}
 	if (mode == INTERACTIVE)
+	{
+		rl_event_hook = ft_event_hook2;
 		sa.sa_handler = interactive_handler;
+	}
 	if (mode == HEREDOC)
 	{
 		rl_event_hook = ft_event_hook;
