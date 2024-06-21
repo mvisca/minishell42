@@ -1,3 +1,33 @@
+new$ ./minishell
+Minishell > tres espacios y dos tabluadores, luego 1 tabulador
+Minishell: tres: command not found
+Minishell >    
+.git/       .gitignore  .obj/       Makefile    include/    lib/        minishell   src/        test/       
+Minishell >    
+.git/       .gitignore  .obj/       Makefile    include/    lib/        minishell   src/        test/       
+Minishell >    
+.git/       .gitignore  .obj/       Makefile    include/    lib/        minishell   src/        test/       
+Minishell >    
+Minishell > ls
+include  lib  Makefile	minishell  src	test
+Minishell > echo hola
+hola
+
+=================================================================
+==1839783==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 4 byte(s) in 1 object(s) allocated from:
+    #0 0x7f01dd9c6887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x556f5b2805fc in xmalloc /home/fcatala-/Documents/Cursus/minishell42/new/lib/readline/xmalloc.c:59
+
+SUMMARY: AddressSanitizer: 4 byte(s) leaked in 1 allocation(s).
+Minishell > 
+
+
+
+
+
+
 VALID COMMANDS:
 Problem with cat
 	Minishell > cat << EOF > eof1.txt | cat EOF2 >> eof1.txt | cat eof1.txt 

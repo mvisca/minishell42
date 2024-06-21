@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/12 15:26:46 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:06:56 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ void	initialize(t_ms *ms, int ac, char **av, char **envp)
 	ms->init_fd[FD_OUT] = dup(STDOUT_FILENO);
 	ms->std_in= dup(STDIN_FILENO);
 	ms->std_out = dup(STDOUT_FILENO);
+	ms->exit_code = 0;
 	rl_initialize();
 }
