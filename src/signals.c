@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/21 11:18:33 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 13:25:48 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ static void	heredoc_handler(int signum)
 		rl_done = 1;
 		g_exit = 130;
 	}
+	else
+		g_exit = 0;
 }
 
 //Silent diplays of signals
@@ -77,9 +79,7 @@ int	signal_init(int mode)
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART | SA_SIGINFO;
 	if (mode == NORMAL)
-	{
 		sa.sa_handler = normal_handler;
-	}
 	if (mode == INTERACTIVE)
 	{
 		rl_event_hook = ft_event_hook2;
@@ -87,9 +87,12 @@ int	signal_init(int mode)
 	}
 	if (mode == HEREDOC)
 	{
+		g_exit = 0;
 		rl_event_hook = ft_event_hook;
 		sa.sa_handler = heredoc_handler;
 	}
+	if (mode == 4)
+		g_exit = 0;
 	if (sigaction(SIGINT, &sa, NULL) == -1 || \
 	sigaction(SIGQUIT, &sa, NULL) == -1)
 		return (1);
