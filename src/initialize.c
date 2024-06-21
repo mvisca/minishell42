@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/12 15:26:46 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:53:44 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void	init_shell_level(t_ms *ms)
 	char	*a_lvl;
 
 	a_lvl = environment_get_value(ms, "SHLVL");
-	i_lvl = ft_atoi(a_lvl) + 1;
-	a_lvl = ft_itoa(i_lvl);
+	i_lvl = ft_atoi(a_lvl);
+	a_lvl = ft_itoa(i_lvl + 1);
 	environment_update_node(ms, "SHLVL", a_lvl);
 } 
 
@@ -48,5 +48,6 @@ void	initialize(t_ms *ms, int ac, char **av, char **envp)
 	ms->init_fd[FD_OUT] = dup(STDOUT_FILENO);
 	ms->std_in= dup(STDIN_FILENO);
 	ms->std_out = dup(STDOUT_FILENO);
+	ms->exit_code = 0;
 	rl_initialize();
 }

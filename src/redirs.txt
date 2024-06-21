@@ -1,4 +1,43 @@
+new$ ./minishell
+Minishell > tres espacios y dos tabluadores, luego 1 tabulador
+Minishell: tres: command not found
+Minishell >    
+.git/       .gitignore  .obj/       Makefile    include/    lib/        minishell   src/        test/       
+Minishell >    
+.git/       .gitignore  .obj/       Makefile    include/    lib/        minishell   src/        test/       
+Minishell >    
+.git/       .gitignore  .obj/       Makefile    include/    lib/        minishell   src/        test/       
+Minishell >    
+Minishell > ls
+include  lib  Makefile	minishell  src	test
+Minishell > echo hola
+hola
+
+=================================================================
+==1839783==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 4 byte(s) in 1 object(s) allocated from:
+    #0 0x7f01dd9c6887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x556f5b2805fc in xmalloc /home/fcatala-/Documents/Cursus/minishell42/new/lib/readline/xmalloc.c:59
+
+SUMMARY: AddressSanitizer: 4 byte(s) leaked in 1 allocation(s).
+Minishell > 
+
+
+
+
+
+
 VALID COMMANDS:
+Problem with cat
+	Minishell > cat << EOF > eof1.txt | cat EOF2 >> eof1.txt | cat eof1.txt 
+	> Inici 1er cat
+	> la sortida sera EOF
+	> EOF
+	/usr/bin/cat: EOF2: No such file or directory
+	CAL MIRAR AQUEST MISSAGTE, NO INTERPRETA EL COMANDO
+
+
 One command, wrong input    
 	bash-3.2$ <../test/no ls;echo "Exit:" $? "Pipe: "$PIPESTATUS
 	bash: ../test/no: No such file or directory
@@ -196,7 +235,7 @@ waitng function is in ascending mode:
 	Children 5134 pos 1 end status: 0
 	Children 5135 pos 2 end status: 0
 	Children 5136 pos 3 end status: 0
-	Children 5137 pos 4 end status: 0
+	Children 5137 pos 4 iend status: 0
 Same behavior in descendnig mode
 
 	ls -la >../test/ro.txt | ls -la ../test | grep eof | wc >../test/new69.txt >../test/new70.txt | <../test/ro.txt grep word
@@ -209,6 +248,39 @@ Same behavior in descendnig mode
 
 	Redirs well executed
 
+PIPES NOT CLOSED
+First pipe empty
+	test$  | grep m | wc
+	bash: syntax error near unexpected token `|'
+	Minishell > | wc -l
+	23
+	32
+	after this ctr+d
+	3
+	DOES NOT BEHAVE AS SHELL
+
+Last pipe empty
+	test$ ls -la | grep f |
+	> wc -l
+	11
+	Executes the command sequence, it behaves as usual pipe
+	
+	Minishell > ls -la | grep f |
+	Children 1044358 pos 2 terminated with status: 0. Check signals
+	Children 1044357 pos 1 terminated with status: 0. Check signals
+	Executes the command sequence without the last pipe
+
+Middle pipe empty
+	test$ ls -la | | wc -l
+	bash: syntax error near unexpected token `|'
+
+	Minishell > ls -la | | wc -l
+	Minishell: syntax error near unexpected token `|'
+	
+	SAME BEHAVIOR
+	CONCLUSION Minishell first empty behaves as bash last empty
+
+	EXPECTED BEHAVIOR: ONLY EMPTY LAST PIPE MUST BE EXECUTED TAKING AS COMMAND THE USER ENTRY
 
 SPECIAL COMMANDS
 
@@ -237,6 +309,9 @@ A CONTROLAR
 	/Users/fcatala-/Documents/Cursus/minishell/test/borrar2
 	bash-3.2$ cd .
 	cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+	bash-3.2$ echo $?
+	0
+	NO LO CONSIDERA COMO UN ERROR!!!!
 
 	Minishell > mkdir borrar2
 	Minishell > cd borrar2
@@ -244,7 +319,10 @@ A CONTROLAR
 	Minishell > pwd
 	/Users/fcatala-/Documents/Cursus/minishell/test/borrar2
 	Minishell > cd .
-	Exit code: 0 => NO GENERA EL ERROR
+	cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+	Minishell > echo $?
+	0
+	:-D MISMO COMPORTAMIENTO
 
 2 commands, cd at begining
 	bash-3.2$ cd ../test | grep i;echo Exit: $?
@@ -313,6 +391,48 @@ With 2 commands, cd at the end
 
 CONCLUSION 1
 	cd is only executed in solo, but checked always
+
+Wrong directory
+	new$ cd a
+	bash: cd: a: No such file or directory
+	echo $?
+	1
+
+
+cd with 2 or more arguments
+single command
+
+	cd src test;echo $?
+	bash: cd: too many arguments
+	1
+
+first command
+	cd src test | ls;echo $?
+	bash: cd: too many arguments
+	include  lib  Makefile	minishell  src	test
+	0
+
+middle
+	ls -la | cd src test | ls;echo $?
+	bash: cd: too many arguments
+	include  lib  Makefile	minishell  src	test
+	0
+
+last
+	ls -la | wc | cd src test;echo $?
+	bash: cd: too many arguments
+	1
+
+	new$ ls -la | wc >> test/file1.txt | cd src test;echo $?
+	bash: cd: too many arguments
+	1
+	new$ cat test/file1.txt 
+	hola 1
+	hola 66
+	hola 2
+	hola 3
+	kosa
+	     12     101     715
 
 HEREDOC with signals
 CTRL + d
@@ -488,10 +608,6 @@ CTR C in first EOF
 	bash$ echo $?
 	130
 
-
-
-
-
 CTR C in second EOF
 	bash$ cat << EOF >s1.txt | cat << EOF2 >s2.txt | cat << EOF3 >s3.txt | ls >new.txt
 	> s1 ok
@@ -606,6 +722,22 @@ heredoc combining variables inside and outside quotes:
 	
 SE COMPORTA IGUAL
 
+CTR+\
+Interactive 1 command (CAT)
+	test$ cat >>file1.txt 
+	file1.txt exists 
+	ctr+\ in this line^\Quit (core dumped)
+	test$ echo $?
+	131
+
+	Content of file1.txt:
+	EXISTING CONTENT
+	..... => new content
+	file1.txt exists
+
+
+
+
 EXPORT Y UNSET => only works when single commands
 	bash$ export THINGXAVI=38 | echo $THINGXAVI
 
@@ -616,4 +748,91 @@ EXPORT Y UNSET => only works when single commands
 	echo $?
 	1
 	=> The variable has not been set nor updated
+
+EXIT
+Test with exit codes: not numeric (new$ is bash)
+	new$ exit de
+	exit
+	bash: exit: de: numeric argument required
+	echo $? =>LINE IN NEW BASH (ONCE EXIT IS DONE)
+	2
+	EXIT VALUE = 2
+	
+	new$ exit +-32
+	exit
+	bash: exit: +-32: numeric argument required
+	echo $? =>LINE IN NEW BASH (ONCE EXIT IS DONE)
+	2
+	EXIT VALUE = 2
+	
+	new$ exit -13
+	exit
+	echo $? =>LINE IN NEW BASH (ONCE EXIT IS DONE)
+	243
+
+	new$ exit -42
+	exit
+	echo $? =>LINE IN NEW BASH (ONCE EXIT IS DONE)
+	214
+
+	new$ exit -0
+	exit
+	echo $? =>LINE IN NEW BASH (ONCE EXIT IS DONE)
+	0
+
+	new$ exit -1
+	exit
+	echo $? =>LINE IN NEW BASH (ONCE EXIT IS DONE)
+	255
+
+	new$ exit -256
+	exit
+ 	% echo $?
+	0
+
+	exit -257
+	exit
+	echo $?
+	255  => LIKE EXIT -1
+
+	new$ exit -512
+	exit
+ 	echo $?
+	0  => exit_code % 256
+
+	new$ exit 256
+	exit
+ 	% echo $?
+	0
+
+	new$ exit 257
+	exit
+ 	% echo $?
+	1 => exit_code % 256
+
+	new$ exit +42
+	exit
+ 	% echo $?
+	42
+
+	new$ exit 8a
+	exit
+	bash: exit: 8a: numeric argument required
+	% echo $?
+	2
+
+	new$ exit -8a
+	exit
+	bash: exit: -8a: numeric argument required
+ 	% echo $?
+	2
+
+
+pseudo code
+	if (ft_atoi(exit_code) >= 0)
+		exit_value = ft_atoi(exit_code) % 256
+	else
+		exit_value = 256 - (ft_atoi(exit_code) % 256)
+
+
 

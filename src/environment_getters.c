@@ -6,13 +6,14 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:18 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/22 18:24:57 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/20 21:26:10 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 // Tested OK
+// Tiene que devolver un char **
 t_envl	*environment_get_node(t_ms *ms, char *key)
 {
 	t_envl	*aux_node;

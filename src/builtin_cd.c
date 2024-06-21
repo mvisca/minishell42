@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/08 11:31:40 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 08:48:13 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,47 @@ static void ft_mini_ls()
 }
 */
 
+static int	ft_path_outmax(char *path)
+{
+	int		i;
+	char	**paths;
+
+	paths = ft_split(path, '/');
+	i = 0;
+	while (paths[i])
+	{
+		if (ft_strlen(paths[i]) > MAX_NAME)
+		{
+			ft_freechain(paths);
+			return (1);
+		}
+		i++;
+	}
+	ft_freechain(paths);
+	return (0);
+}
+
 static int	ft_mini_cd(char *path, t_ms *ms)
 {
 	int			out;
 	struct stat	stat;
 
 	out = 0;
+	if (ft_path_outmax(path))
+		return (ft_error_return("cd: ", path, TOO_LONG, -1));
 	if (path[0] == '~')
 		path = ft_strjoin(environment_get_value(ms, "HOME"), path + 1);
 	lstat(path, &stat);
+	if (access(path, F_OK) == -1)
+		return (ft_error_return("cd: ", path, NO_FILE, -1));
+	if (!S_ISDIR(stat.st_mode))
+		return (ft_error_return("cd: ", path, IS_NO_DIR, -1));
+	if (access(path, X_OK) == -1)
+		return (ft_error_return("cd: ", path, NO_EXEC, -1));
 	out = chdir(path);
 	path = getcwd(NULL, 0);
 	if (!path)
-		return (printf("%s%s%s", NO_CWD, NO_GETCWD, NO_FILE), 0);
-	if (access(path, F_OK) == -1)
-		return (ft_error_noexit("cd: ", path, NO_FILE), -1);
-	if (!S_ISDIR(stat.st_mode))
-		return (ft_error_noexit("cd: ", path, IS_NO_DIR), -1);
-	if (access(path, X_OK) == -1)
-		return (ft_error_noexit("cd: ", path, NO_EXEC), -1);
+		return (ft_error_return(NO_CWD, NO_GETCWD, NO_FILE, 0));
 	free(path);
 	return (out);
 }
@@ -65,10 +87,18 @@ static void	ft_update_oldpwd(t_ms *ms, char *path, char *oldpwd, int i)
 		environment_add_node(ms, environment_new_node(ms, "OLDPWD", oldpwd));
 }
 
-//eliminated lines
-//	char	*tmp;
-//	tmp = ft_strdup(path);
-//	tmp = ft_strdup(oldpwd);
+static int	ft_cd_to_old(t_ms *ms)
+{
+	int	i;
+
+	i = chdir(environment_get_value(ms, "OLDPWD"));
+	if (i != 0)
+		ft_error_noexit("cd", NULL, NO_OLD);
+	else
+		printf("%s\n", environment_get_value(ms, "OLDPWD"));
+	return (i);
+}
+
 int	builtin_cd(t_ms *ms, char **cmnd)
 {
 	char	path[MAX_PATH];
@@ -76,6 +106,8 @@ int	builtin_cd(t_ms *ms, char **cmnd)
 	int		i;
 
 	i = -1;
+	if (ft_tablen(cmnd) > 2)
+		return (ft_error_return("cd", NULL, MANY, 1));
 	getcwd(oldpwd, sizeof(oldpwd));
 	if (!cmnd[1] || cmnd[1][0] == '\0' || ft_strcmp(cmnd[1], "~") == 0)
 	{
@@ -85,11 +117,7 @@ int	builtin_cd(t_ms *ms, char **cmnd)
 	}
 	else if (ft_strcmp(cmnd[1], "-") == 0)
 	{
-		i *= chdir(environment_get_value(ms, "OLDPWD"));
-		if (i != 0)
-			ft_error_noexit("cd", NULL, NO_OLD);
-		else
-			printf("%s\n", environment_get_value(ms, "OLDPWD"));
+		i *= ft_cd_to_old(ms);
 	}
 	else
 		i *= ft_mini_cd(cmnd[1], ms);

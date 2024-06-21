@@ -6,11 +6,20 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:30:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/15 14:49:43 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:01:50 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	export_no_options(t_coml *cmnd)
+{
+	if (!cmnd->command[1])
+		return (1);
+	else if (ft_tablen(cmnd->command) == 2 && cmnd->command[1][0] == '\n')
+		return (1);
+	return (0);
+}
 
 void	export_get_key_value(int j, char *line, char **key, char **value)
 {

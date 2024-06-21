@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/11 16:38:40 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:13:09 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	expander_get_expansion(t_ms *ms, char *str)
 			ms->strs.buf = ft_substr(str, i++, 1);
 		if (!ms->strs.buf)
 		{
-			ft_printf("System o syntax Error\n");
+			ft_printf("System or syntax Error\n");
 			return (1);
 		}
 		ms->strs.aux = ms->strs.new;
