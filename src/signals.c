@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/15 15:02:12 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/20 21:30:32 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,10 @@ static void	interactive_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-//		rl_done = 1;
-//		rl_done = 0;
 		ft_printf("\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		ft_putstr_fd("aqui", 2);
 		g_exit = 1;
 	}
 }
