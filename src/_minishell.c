@@ -38,4 +38,3 @@ int	main(int ac, char **av, char **envp)
 	utils_free_ms(&ms, TRUE);
 	return ((unsigned char)g_exit);
 }
-
