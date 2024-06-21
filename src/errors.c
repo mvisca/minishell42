@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:57:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/15 14:32:19 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 07:00:22 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	ft_error_return(char *com, char *path, char *msj, int code)
 		ft_putstr_fd(com, 2);
 	if (path)
 		ft_putstr_fd(path, 2);
-	ft_putstr_fd(msj, 2);
+	if (msj)
+		ft_putstr_fd(msj, 2);
 	return (code);
 }

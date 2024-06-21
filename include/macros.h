@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/21 11:51:15 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/21 11:53:29 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,11 @@
 # define R_END   0
 # define W_END   1
 
-// Para acotar casos extremos.Solo utiliza MAX_PATH
-# define MAX_PATH	1024
+// Para acotar casos extremos.
+// Solo utiliza MAX_PATH y MAX_NAME
+# define MAX_PATH	4095
+# define MAX_NAME	255
 # define MAX_ARGS	256
-
-/*
-// Macros para gestionar fd de entrada y salida: esta repe?
-# define FD_IN     0
-# define FD_OUT    1
-# define FD_HERE   2
-# define H_FILE    "xyz_here_tmp.tmp"
-*/
 
 // Macros para manipular funciones de LEXER
 # define END    	    0
@@ -107,6 +101,7 @@
 # define HD_3			"')\n"
 # define MANY			": too many arguments\n"
 # define NUMERIC		": numeric argument required\n"
+# define TOO_LONG		": File name too long\n"
 
 // Errores de ejecucion
 # define EXIT_DENIED	126
@@ -114,13 +109,8 @@
 # define EXIT_FORK		130
 # define EXIT_QUITFORK	131
 
-// Signals mode
-# define INTERACTIVE 	1
-# define HEREDOC 		2
-
 // Builtin Export
 # define EXP_CHARS   "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"
-
 
 // No env
 # define AUTOENV "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."

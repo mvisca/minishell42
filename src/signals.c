@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/21 11:51:38 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/21 11:53:52 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ static int	ft_event_hook2(void)
 	return (0);
 }
 
-
 //ok display but should return the exit code
-static void	normal_handler (int signum)
+static void	normal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -49,7 +48,6 @@ static void	interactive_handler(int signum)
 		g_exit = 130;
 	}
 }
-
 
 //Handles the signal in here_doc
 static void	heredoc_handler(int signum)
