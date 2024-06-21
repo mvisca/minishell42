@@ -14,38 +14,18 @@
 
 static int	export_solo(t_ms *ms, char *line)
 {
-	(void)ms;
-	(void)line;
-	return (1);
-}
-
-static void	export_concat(t_ms *ms, int j, char *line)
-{
 	char	*key;
 	char	*value;
 	t_envl	*node;
 
-	export_get_key_value(j, line, &key, &value);
-	if (!key || key[0] == '\0')
-		return ;
-	if (environment_get_node(ms, key))
-	{
-		ms->strs.aux = environment_get_value(ms, key);
-		ms->strs.new = ft_strjoin(ms->strs.aux, value);
-		ms->strs.aux = NULL;
-		value = ms->strs.new;
-		environment_del_node(ms, key);
-		node = environment_new_node(ms, key, value);
-		environment_add_node(ms, node);
-		free(key);
-	}
-	else
-	{
-		node = environment_new_node(ms, key, value);
-		environment_add_node(ms, node);
-		free(key);
-		free(value);
-	}
+	export_get_key_value(ft_strlen(line), line, &key, &value);
+	node = environment_get_node(ms, key);
+	environment_del_node(ms, key);
+	node = environment_new_node(ms, key, value);
+	environment_add_node(ms, node);
+	free(key);
+	free(value);
+	return (1);
 }
 
 static void	export_assign(t_ms *ms, int j, char *line)
@@ -55,12 +35,34 @@ static void	export_assign(t_ms *ms, int j, char *line)
 	t_envl	*node;
 
 	export_get_key_value(j, line, &key, &value);
-	ft_printf("key %s value %s\n", key, value);
-	if (!key || key[0] == '\0')
-		return ;
-	environment_del_node(ms, key);
+	node = environment_get_node(ms, key);
+	if (node)
+		environment_del_node(ms, key);
 	node = environment_new_node(ms, key, value);
 	environment_add_node(ms, node);
+	free(key);
+	free(value);
+}
+
+static void	export_concat(t_ms *ms, int j, char *line)
+{
+	char	*key;
+	char	*value;
+	t_envl	*node;
+
+	export_get_key_value(j, line, &key, &value);
+	node = environment_get_node(ms, key);
+	if (node && node->value && (node->value)[0] != '\n')
+	{
+		ms->strs.aux = ft_strjoin(node->value, value);
+		environment_del_node(ms, key);
+		node = environment_new_node(ms, key, ms->strs.aux);
+		environment_add_node(ms, node);
+		free(ms->strs.aux);
+		ms->strs.aux = NULL;
+	}
+	else
+		export_assign(ms, j, line);
 	free(key);
 	free(value);
 }
@@ -101,5 +103,6 @@ int	builtin_export(t_ms *ms, t_coml *cmnd)
 				export_error(line);
 		}
 	}
+	strs_free(ms);
 	return (0);
 }

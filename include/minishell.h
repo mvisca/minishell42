@@ -42,6 +42,7 @@ int			builtin_export(t_ms *ms, t_coml *cmnd);
 int         export_error(char *command);
 void		export_get_key_value(int j, char *line, char **key, char **value);
 int     	export_print_env(t_ms *ms);
+int     	export_no_options(t_coml *comnd);
 void		export_ff(int *j, char *line);
 int	        export_no_options(t_coml *cmnd);
 int			export_set(int *j, char **line, char *command);

@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -24,10 +25,16 @@ int	export_no_options(t_coml *cmnd)
 void	export_get_key_value(int j, char *line, char **key, char **value)
 {
 	*key = ft_substr(line, 0, j);
-	if (line[j]	== '+')
-		j++;
-	j++;
-	*value = ft_substr(line, j, ft_strlen(&line[j]));
+	if (line[j])
+	{
+		if (line[j]	== '+')
+			j += 2;
+		else if (line[j] == '=')
+			j += 1;
+		*value = ft_substr(line, j, ft_strlen(&line[j]));
+	}
+	else
+		*value = ft_strdup("\n\0");
 }
 
 int	export_set(int *j, char **line, char *command)
@@ -63,7 +70,7 @@ int	export_print_env(t_ms *ms)
 	while (env)
 	{
 		ft_printf("declare -x %s", env->key);
-		if (env->value)
+		if (env->value[0] != '\n')
 			ft_printf("=\"%s\"", env->value);
 		ft_printf("\n");
 		env = env->next;
@@ -71,4 +78,3 @@ int	export_print_env(t_ms *ms)
 	ms->exit_code = 0;
 	return (0);
 }
-
