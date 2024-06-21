@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/21 13:25:48 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:19:43 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ static void	normal_handler(int signum)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		// ft_putstr_fd("aqui", 2);
+		// g_exit = 1;
+		ft_printf(RED"XAVI, no se si esta línea debe ir, lio del merge, en signals.c normal_handler\n");
 	}
 }
 

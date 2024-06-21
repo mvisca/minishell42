@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/01 19:46:55 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/21 12:48:41 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,22 @@ size_t	str_line_len(char *line)
 			i++;
 	}
 	return (i);
+}
+
+void	strs_reset(t_ms *ms)
+{
+	ms->strs.aux = NULL;
+	ms->strs.buf = NULL;
+	ms->strs.new = NULL;
+}
+
+void	strs_free(t_ms *ms)
+{
+	if (ms->strs.aux)
+		free(ms->strs.aux);
+	if (ms->strs.buf)
+		free(ms->strs.buf);
+	if (ms->strs.new)
+		free(ms->strs.new);
+	strs_reset(ms);
 }

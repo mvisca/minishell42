@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/21 08:56:38 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:17:02 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,9 @@
 # define EXIT_NOTFOUND	127
 # define EXIT_FORK		130
 # define EXIT_QUITFORK	131
+
+// Builtin Export
+# define EXP_CHARS   "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"
 
 // No env
 # define AUTOENV "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
