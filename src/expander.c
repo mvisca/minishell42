@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/11 16:38:40 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:49:38 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int	expander(t_ms *ms)
 	int			i;
 	t_coml		*node;
 
+	strs_free(ms);
 	node = ms->cmnd_list;
 	while (node)
 	{

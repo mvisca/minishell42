@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,19 +7,34 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:30:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/15 14:49:43 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:01:50 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+int	export_no_options(t_coml *cmnd)
+{
+	if (!cmnd->command[1])
+		return (1);
+	else if (ft_tablen(cmnd->command) == 2 && cmnd->command[1][0] == '\n')
+		return (1);
+	return (0);
+}
+
 void	export_get_key_value(int j, char *line, char **key, char **value)
 {
 	*key = ft_substr(line, 0, j);
-	if (line[j]	== '+')
-		j++;
-	j++;
-	*value = ft_substr(line, j, ft_strlen(&line[j]));
+	if (line[j])
+	{
+		if (line[j]	== '+')
+			j += 2;
+		else if (line[j] == '=')
+			j += 1;
+		*value = ft_substr(line, j, ft_strlen(&line[j]));
+	}
+	else
+		*value = ft_strdup("\n\0");
 }
 
 int	export_set(int *j, char **line, char *command)
@@ -54,7 +70,7 @@ int	export_print_env(t_ms *ms)
 	while (env)
 	{
 		ft_printf("declare -x %s", env->key);
-		if (env->value)
+		if (env->value[0] != '\n')
 			ft_printf("=\"%s\"", env->value);
 		ft_printf("\n");
 		env = env->next;
@@ -62,4 +78,3 @@ int	export_print_env(t_ms *ms)
 	ms->exit_code = 0;
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/17 22:25:30 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/21 12:49:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int			builtin_export(t_ms *ms, t_coml *cmnd);
 int         export_error(char *command);
 void		export_get_key_value(int j, char *line, char **key, char **value);
 int     	export_print_env(t_ms *ms);
+int     	export_no_options(t_coml *comnd);
 void		export_ff(int *j, char *line);
 int			export_set(int *j, char **line, char *command);
 int         builtin_pwd(t_ms *ms);
@@ -159,6 +160,7 @@ void		utils_free_cmnd_list(t_coml **cmnd);
 size_t      str_line_len(char *line);
 void        str_close_quote(char *line, size_t *i);
 void	    strs_reset(t_ms *ms);
+void	    strs_free(t_ms *ms);
 
 /*##################	UTILS2_STR		#####################*/
 
