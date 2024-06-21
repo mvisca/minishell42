@@ -29,6 +29,8 @@ t_envl	*environment_new_node(t_ms *ms, char *key, char *value)
 		free(new->key);
 		if (new->value)
 			free(new->value);
+		if (new->value)
+			new->value = NULL;
 		free(new);
 		new = NULL;
 		error_free_exit("malloc error", ms);
@@ -54,11 +56,14 @@ t_envl	*environment_add_node(t_ms *ms, t_envl *envnode)
 	return (ms->envlst);
 }
 
-static int	del_node_mem(t_envl **node)
+static int	del_node_mem(t_envl *node)
 {
-	free((*node)->key);
-	free((*node)->value);
-	free(*node);
+	if (node->key)
+		free(node->key);
+	if (node->value)
+		free(node->value);
+	if (node)
+		free(node);
 	return (1);
 }
 
@@ -75,14 +80,10 @@ void	environment_del_node(t_ms *ms, char *key)
 		if (!ft_strcmp(aux->key, key))
 		{
 			if (prev)
-			{
 				prev->next = aux->next;
-			}
 			else
-			{
 				ms->envlst = aux->next;
-			}
-			del_node_mem(&aux);
+			del_node_mem(aux);
 			return ;
 		}
 		prev = aux;

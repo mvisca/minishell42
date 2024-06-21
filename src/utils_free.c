@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/11 18:11:53 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:29:42 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,26 +104,20 @@ void	utils_free_cmnd_list(t_coml **cmnd)
 int	utils_free_ms(t_ms *ms, int clean_env)
 {
 	if (ms->line)
-	{
 		free(ms->line);
-		ms->line = NULL;
-	}
 	if (clean_env && ms->envlst)
-	{
 		utils_free_env_list(&ms->envlst);
-		ms->envlst = NULL;
-	}
 	if (ms->envarr)
 		utils_free_tab(&ms->envarr);
 	if (ms->token_list)
-	{
 		utils_free_token_list(&ms->token_list);
-		ms->token_list = NULL;
-	}
 	if (ms->cmnd_list)
-	{
 		utils_free_cmnd_list(&ms->cmnd_list);
-		ms->cmnd_list = NULL;
-	}
+	strs_free(ms);
+	ms->line = NULL;
+	ms->envlst = NULL;
+	ms->token_list = NULL;
+	ms->cmnd_list = NULL;
+	strs_free(ms);
 	return (0);
 }

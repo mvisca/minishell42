@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/15 12:00:55 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:36:48 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ static int	ft_countcmd(t_coml *coml)
 	return (i);
 }
 
-//Inicio de executer
-static char	*ft_getcmd(char *cmnd, t_ms *ms)
+static char	*ft_getcmd(char *cmnd, t_ms *ms, int last)
 {
 	int		i;
 	int		aux;
@@ -53,7 +52,7 @@ static char	*ft_getcmd(char *cmnd, t_ms *ms)
 	}
 	ft_freechain(paths);
 	if (aux == -1)
-		out = ft_strdup(cmnd);
+		ft_error_exit(cmnd, NO_FOUND, last * EXIT_NOTFOUND);
 	return (out);
 }
 
@@ -107,7 +106,7 @@ static int	ft_isdir(char *path)
 	else
 		closedir(dir);
 	return (1);
-} 
+}
 
 static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 {
@@ -120,15 +119,14 @@ static void	ft_runcmnd(t_coml *job, t_ms *ms, int last)
 	if (i)
 		exit (ft_execute_built(aux, ms, i) * last);
 	else if (!ft_strchr(aux->command[0], '/'))
-		aux->command[0] = ft_getcmd(aux->command[0], ms);
+		aux->command[0] = ft_getcmd(aux->command[0], ms, last);
 	else if (ft_isdir(aux->command[0]))
 		ft_error_exit(aux->command[0], IS_DIR, last * EXIT_DENIED);
 	else if (access(aux->command[0], F_OK) != 0)
 		ft_error_exit(aux->command[0], NO_FILE, last * EXIT_NOTFOUND);
 	else if (access(aux->command[0], X_OK) != 0)
 		ft_error_exit(aux->command[0], NO_EXEC, last * EXIT_DENIED);
-	if (execve(aux->command[0], aux->command, ms->envarr) == -1)
-		ft_error_exit(aux->command[0], NO_FOUND, last * EXIT_NOTFOUND);
+	exit(last * execve(aux->command[0], aux->command, ms->envarr));
 }
 
 static void	ft_dup_close(int tubo[2], int pos, int out)
@@ -163,9 +161,8 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (pid[i] == 0)
 	{
-		signal_init(INTERACTIVE);//mover a job tras check hd
 		job->out = -81;
-		if (job->redirect)//crear funcion nueva 
+		if (job->redirect)
 		{
 			ft_redirin(job->redirect, 0);
 			ft_redirout(job, 0);
@@ -180,19 +177,26 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 		ft_dup_close(tubo, 2, job->out);
 }
 
+static void	ft_waitend(pid_t pid, t_ms *ms)
+{
+	int	stat;
+
+	waitpid(pid, &stat, 0);
+	if (WIFEXITED(stat))
+	{
+		ms->exit_code = WEXITSTATUS(stat);
+	}
+}
+
 static void	ft_runend(t_coml *job, t_ms *ms, int i)
 {
-	int		stat;
-
-	stat = 0;
 	ms->pid[i] = fork();
 	if (ms->pid[i] < 0)
 		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (ms->pid[i] == 0)
 	{
-		signal_init(INTERACTIVE);//mover a inicio job tras check hd
 		job->out = -81;
-		if (job->redirect)//crear funcion nueva
+		if (job->redirect)
 		{
 			ft_redirin(job->redirect, 1);
 			ft_redirout(job, 1);
@@ -204,13 +208,11 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 	}
 	else
 	{
-		waitpid(ms->pid[i], &stat, 0);
-		if (WIFEXITED(stat))
-			ms->exit_code = WEXITSTATUS(stat);
+		ft_waitend(ms->pid[i], ms);
 	}
 }
 
-static void	ft_wait(int count, pid_t pid[MAX_ARGS])
+static void	ft_wait(int count, pid_t pid[MAX_ARGS], t_ms *ms)
 {
 	int		stat;
 
@@ -220,6 +222,20 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS])
 		if (WIFEXITED(stat))
 			printf("Children %d pos %d terminated with status: %d. Check signals\n",
 				pid[count], count, WEXITSTATUS(stat));
+		else if (WIFSIGNALED(stat))
+		{
+			printf("Sequence terminated with: %d or %d\n", WIFSIGNALED(stat), g_exit);
+			if (WTERMSIG(stat) == SIGINT)
+			{
+				printf("Exit code will be 130\n");
+				ms->exit_code = 130;				
+			}
+			else if (WTERMSIG(stat) == SIGQUIT)
+			{
+				ms->exit_code = 131;				
+				printf("Quit as 131\n");
+			}
+		}
 	}
 }
 
@@ -233,6 +249,45 @@ static void	ft_reset_dups(t_ms *ms)
 	ms->init_fd[1] = dup(STDOUT_FILENO);
 }
 
+static int	ft_is_quoted(char *eof)
+{
+	int	quoted;
+
+	quoted = 0;
+	if ((eof[0] == '\"' && eof[ft_strlen(eof) - 1] == '\"')
+		|| (eof[0] == '\'' && eof[ft_strlen(eof) - 1] == '\''))
+		quoted = 1;
+	return (quoted);
+}
+
+static char	*ft_expand_hd(int quoted, t_ms *ms, char *tmp)
+{
+	char	*line;
+
+	if (!quoted)
+	{
+		expander_get_expansion(ms, tmp);
+		line = ft_strjoin(ms->strs.new, "\n");
+	}
+	else
+		line = ft_strjoin(tmp, "\n");
+	return (line);
+}
+
+static void	ft_end_hd(char *tmp, char *eof, int fd, int l)
+{
+	char	*line;
+
+	if (!tmp && g_exit != 130)
+	{
+		line = ft_itoa(l);
+		tmp = ft_strjoin3(HD_2, eof, HD_3);
+		ft_error_noexit(HD_1, line, tmp);
+	}
+	free(tmp);
+	close(fd);
+}
+
 static int	ft_write_hd(t_ms *ms, int fd, char *eof)
 {
 	static int	l = 0;
@@ -240,45 +295,26 @@ static int	ft_write_hd(t_ms *ms, int fd, char *eof)
 	char		*line;
 	int			quoted;
 
-	quoted = 0;
-	if ((eof[0] == '\"' && eof[ft_strlen(eof) - 1] == '\"')
-		|| (eof[0] == '\'' && eof[ft_strlen(eof) - 1] == '\''))
-		quoted = 1;
+	quoted = ft_is_quoted(eof);
 	eof = expander_filter_quotes(eof);
-	signal_init(HEREDOC);//mover a check hd
+	signal_init(HEREDOC);
 	tmp = readline("> ");
 	while (g_exit != 130)
 	{
 		++l;
-		if (!tmp)
+		if (!tmp || !ft_strcmp(eof, tmp))
 			break ;
-		if (!ft_strcmp(eof, tmp))
-			break ;
-		if (!quoted)
-		{
-			expander_get_expansion(ms, tmp);
-			line = ft_strjoin(ms->strs.new, "\n");
-		}
-		else
-			line = ft_strjoin(tmp, "\n");
+		line = ft_expand_hd(quoted, ms, tmp);
 		write(fd, line, ft_strlen(line));
-		free(ms->strs.new);
-		ms->strs.new = NULL;
+		ms->strs.new = ft_memdel(ms->strs.new);
 		free(line);
 		free(tmp);
 		tmp = readline("> ");
 	}
-	if (!tmp && g_exit != 130)
-	{
-		line = ft_itoa(l);
-		ft_error_noexit(HD_1, line, HD_2);
-	}
-	free(tmp);
-	close(fd);
+	ft_end_hd(tmp, eof, fd, l);
 	return (g_exit);
 }
 
-//falta control errores hd
 static int	ft_check_hd(t_ms *ms, t_redl *files)
 {
 	static int	n = 0;
@@ -297,6 +333,7 @@ static int	ft_check_hd(t_ms *ms, t_redl *files)
 			fd = open(files->path, O_CREAT | O_RDWR | O_APPEND, 0644);
 	}
 	free(c);
+	signal_init(HEREDOC);
 	i = ft_write_hd(ms, fd, files->eof);
 	close(fd);
 	return (i);
@@ -329,17 +366,6 @@ static int	ft_search_hd(t_ms *ms, t_coml *job)
 	return (0);
 }
 
-/*
-	else if (ms->cmnd_count > 1 && ft_is_builtin(job) == 6)//ejecuta caso 6 (cd)
-	{
-		if (!ft_builtin_redir(job))
-			ft_execute_built(job, ms, ft_is_builtin(job));
-		i = 1;
-		if (job->next)
-			job = job->next;
-	}
-*/
-	//ft_search_hd(ms, job);//before after job = ms->cmnd_list
 static int	ft_job(t_ms *ms)
 {
 	int		i;
@@ -363,7 +389,7 @@ static int	ft_job(t_ms *ms)
 	}
 	ft_runend(job, ms, i);
 	ft_reset_dups(ms);
-	ft_wait(ms->cmnd_count, pid);
+	ft_wait(ms->cmnd_count, pid, ms);
 	return (0);
 }
 
@@ -371,7 +397,10 @@ int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	if (ft_search_hd(ms, ms->cmnd_list) != 130)
+	{
+		signal_init(INTERACTIVE);
 		ft_job(ms);
+	}
 	ft_closer(ms, ms->cmnd_count);
 	ft_reset_dups(ms);
 	return (0);
