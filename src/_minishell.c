@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/21 11:35:43 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/21 11:51:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int ac, char **av, char **envp)
 	initialize(&ms, ac, av, envp);
 	while (1)
 	{
-		if (signal_init(INTERACTIVE) != 0)
+		if (signal_init(NORMAL) != 0)
 			break ;
 		signal_ignore(SIGQUIT);
 		if (interface_get_line(&ms) != 0)

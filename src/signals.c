@@ -6,14 +6,12 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/20 21:30:32 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/21 11:51:38 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// Set the exit code to 130 to indicate SIGINT was received
-//rl_done = 1; will cause readline to return
 static int	ft_event_hook(void)
 {
 	if (g_exit == 130)
@@ -23,9 +21,14 @@ static int	ft_event_hook(void)
 	return (0);
 }
 
+static int	ft_event_hook2(void)
+{
+	return (0);
+}
 
-// Maneja la senyal intrrupt durante consola interactiva
-static void	interactive_handler(int signum)
+
+//ok display but should return the exit code
+static void	normal_handler (int signum)
 {
 	if (signum == SIGINT)
 	{
@@ -33,12 +36,22 @@ static void	interactive_handler(int signum)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		g_exit = 1;
+	}
+}
+
+//Handles the signal in interactive mode
+static void	interactive_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		ft_putstr_fd("\n", 2);
+		rl_done = 1;
+		g_exit = 130;
 	}
 }
 
 
-// Maneja la senyal interrupt durante heredoc
+//Handles the signal in here_doc
 static void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
@@ -47,23 +60,8 @@ static void	heredoc_handler(int signum)
 		g_exit = 130;
 	}
 }
-/*
-{
-	if (signum == SIGINT)
-	{
-//		ft_printf("\n");
-		rl_replace_line("", 1);//canvi
-		rl_on_new_line();
-		rl_redisplay();
-		ft_printf("\n");
-		g_exit = 130;
-//		return ;
-	}
-}
-*/
 
-// Silencia el echo de los comandos con control
-//Se puede pone en init?
+//Silent diplays of signals
 static void	signal_silent(void)
 {
 	struct termios	terminal;
@@ -79,9 +77,16 @@ int	signal_init(int mode)
 
 	signal_silent();
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART; // | SA_SIGINFO;
+	sa.sa_flags = SA_RESTART | SA_SIGINFO;
+	if (mode == NORMAL)
+	{
+		sa.sa_handler = normal_handler;
+	}
 	if (mode == INTERACTIVE)
+	{
+		rl_event_hook = ft_event_hook2;
 		sa.sa_handler = interactive_handler;
+	}
 	if (mode == HEREDOC)
 	{
 		rl_event_hook = ft_event_hook;

@@ -1,4 +1,13 @@
 VALID COMMANDS:
+Problem with cat
+	Minishell > cat << EOF > eof1.txt | cat EOF2 >> eof1.txt | cat eof1.txt 
+	> Inici 1er cat
+	> la sortida sera EOF
+	> EOF
+	/usr/bin/cat: EOF2: No such file or directory
+	CAL MIRAR AQUEST MISSAGTE, NO INTERPRETA EL COMANDO
+
+
 One command, wrong input    
 	bash-3.2$ <../test/no ls;echo "Exit:" $? "Pipe: "$PIPESTATUS
 	bash: ../test/no: No such file or directory
@@ -196,7 +205,7 @@ waitng function is in ascending mode:
 	Children 5134 pos 1 end status: 0
 	Children 5135 pos 2 end status: 0
 	Children 5136 pos 3 end status: 0
-	Children 5137 pos 4 end status: 0
+	Children 5137 pos 4 iend status: 0
 Same behavior in descendnig mode
 
 	ls -la >../test/ro.txt | ls -la ../test | grep eof | wc >../test/new69.txt >../test/new70.txt | <../test/ro.txt grep word
@@ -209,6 +218,39 @@ Same behavior in descendnig mode
 
 	Redirs well executed
 
+PIPES NOT CLOSED
+First pipe empty
+	test$  | grep m | wc
+	bash: syntax error near unexpected token `|'
+	Minishell > | wc -l
+	23
+	32
+	after this ctr+d
+	3
+	DOES NOT BEHAVE AS SHELL
+
+Last pipe empty
+	test$ ls -la | grep f |
+	> wc -l
+	11
+	Executes the command sequence, it behaves as usual pipe
+	
+	Minishell > ls -la | grep f |
+	Children 1044358 pos 2 terminated with status: 0. Check signals
+	Children 1044357 pos 1 terminated with status: 0. Check signals
+	Executes the command sequence without the last pipe
+
+Middle pipe empty
+	test$ ls -la | | wc -l
+	bash: syntax error near unexpected token `|'
+
+	Minishell > ls -la | | wc -l
+	Minishell: syntax error near unexpected token `|'
+	
+	SAME BEHAVIOR
+	CONCLUSION Minishell first empty behaves as bash last empty
+
+	EXPECTED BEHAVIOR: ONLY EMPTY LAST PIPE MUST BE EXECUTED TAKING AS COMMAND THE USER ENTRY
 
 SPECIAL COMMANDS
 
@@ -649,6 +691,22 @@ heredoc combining variables inside and outside quotes:
 	"El fcatala- esta en /Users/fcatala-"
 	
 SE COMPORTA IGUAL
+
+CTR+\
+Interactive 1 command (CAT)
+	test$ cat >>file1.txt 
+	file1.txt exists 
+	ctr+\ in this line^\Quit (core dumped)
+	test$ echo $?
+	131
+
+	Content of file1.txt:
+	EXISTING CONTENT
+	..... => new content
+	file1.txt exists
+
+
+
 
 EXPORT Y UNSET => only works when single commands
 	bash$ export THINGXAVI=38 | echo $THINGXAVI
