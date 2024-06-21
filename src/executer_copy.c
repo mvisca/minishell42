@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/20 18:36:48 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 14:14:10 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,7 +299,7 @@ static int	ft_write_hd(t_ms *ms, int fd, char *eof)
 	eof = expander_filter_quotes(eof);
 	signal_init(HEREDOC);
 	tmp = readline("> ");
-	while (g_exit != 130)
+	while (!g_exit)
 	{
 		++l;
 		if (!tmp || !ft_strcmp(eof, tmp))
@@ -336,6 +336,7 @@ static int	ft_check_hd(t_ms *ms, t_redl *files)
 	signal_init(HEREDOC);
 	i = ft_write_hd(ms, fd, files->eof);
 	close(fd);
+	ms->exit_code = i;
 	return (i);
 }
 
@@ -393,6 +394,8 @@ static int	ft_job(t_ms *ms)
 	return (0);
 }
 
+//Poner controles de numero de hd
+//Controls de pipes?
 int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);

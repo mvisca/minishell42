@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/21 11:53:52 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:20:23 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ static void	normal_handler(int signum)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		// ft_putstr_fd("aqui", 2);
+		// g_exit = 1;
+		ft_printf(RED"XAVI, no se si estas línea debe ir, lio del merge, en signals.c normal_handler\n");
 	}
 }
 
@@ -57,6 +60,8 @@ static void	heredoc_handler(int signum)
 		rl_done = 1;
 		g_exit = 130;
 	}
+	else
+		g_exit = 0;
 }
 
 //Silent diplays of signals
@@ -77,9 +82,7 @@ int	signal_init(int mode)
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART | SA_SIGINFO;
 	if (mode == NORMAL)
-	{
 		sa.sa_handler = normal_handler;
-	}
 	if (mode == INTERACTIVE)
 	{
 		rl_event_hook = ft_event_hook2;
@@ -87,9 +90,12 @@ int	signal_init(int mode)
 	}
 	if (mode == HEREDOC)
 	{
+		g_exit = 0;
 		rl_event_hook = ft_event_hook;
 		sa.sa_handler = heredoc_handler;
 	}
+	if (mode == 4)
+		g_exit = 0;
 	if (sigaction(SIGINT, &sa, NULL) == -1 || \
 	sigaction(SIGQUIT, &sa, NULL) == -1)
 		return (1);
