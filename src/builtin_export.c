@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/21 15:12:02 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/22 12:02:26 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ int	builtin_export(t_ms *ms, t_coml *cmnd)
 		return (export_print_env(ms));
 	while (export_set(&j, &line, cmnd->command[++i]) && line)
 	{
+		if (!export_context(cmnd)) // mando line y cmnd command y i+1
+		return (1);
+
 		if (line[j] != '\n')
 		{
 			if (line[j] && !ft_strchr(EXP_CHARS, line[j]))

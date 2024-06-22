@@ -46,11 +46,8 @@ int	export_set(int *j, char **line, char *command)
 
 void	export_ff(int *j, char *line)
 {
-	int	i;
 	while (line[*j] && ft_strchr(EXP_CHARS, line[*j]))
 		(*j)++;
-	i = *j;
-	(void)i;
 }
 
 int	export_error(char *command)
@@ -84,3 +81,18 @@ int	export_print_env(t_ms *ms)
 	ms->exit_code = 0;
 	return (0);
 }
+
+int	export_context(t_cmnd *cmnd)
+{
+	return (1);
+}
+
+int	export_context_error(char *key, char *value)
+{					
+	ft_putstr_fd(2, "export: not valid in this context: ");
+	ft_putstr_fd(2, key);
+	ft_putstr_fd(2, "+\n");
+	return (1);
+}
+
+
