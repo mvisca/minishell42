@@ -56,7 +56,8 @@ void	export_ff(int *j, char *line)
 int	export_error(char *command)
 {
 	ft_putstr_fd("Minishell: export: `", 2);
-	ft_putstr_fd(command, 2);
+	if (command[0] > 0)
+		ft_putstr_fd(command, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 	return (1);
 }
@@ -71,7 +72,12 @@ int	export_print_env(t_ms *ms)
 	{
 		ft_printf("declare -x %s", env->key);
 		if (env->value[0] != '\n')
-			ft_printf("=\"%s\"  atoi %d", env->value, 48 + env->value[0]);
+		{
+			if (env->value[0] > 0)
+				ft_printf("=\"%s\"", env->value);
+			else
+				ft_printf("=\"\"");
+		}
 		ft_printf("\n");
 		env = env->next;
 	}

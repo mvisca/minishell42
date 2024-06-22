@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 22:36:21 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/11 10:17:55 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/22 10:49:00 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ int builtin_echo(char **com)
 	while (com[i])
 	{
 		str = ft_strtrim(com[i], SPACES);
-		if (str[0] != '\n')
+		if (str[0] > 0)
 			count = ft_printf("%s", str);
+		else
+			count = ft_printf("%s", &str[1]);
 		free(str);
 		if (!com[i + 1])
 			break ;

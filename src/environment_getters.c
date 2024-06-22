@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:18 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/21 13:25:47 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/22 10:46:04 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ char	*environment_get_value(t_ms *ms, char *key)
 	if (aux_node)
 	{
 		res = aux_node->value;
-		if (res[0] == '\n')
-			return ("");
+		if (res && res[0] == '\n' && res[1] == '\0')
+			return (&res[1]);
 	}	
 	return (res);
 }
