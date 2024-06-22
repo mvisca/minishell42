@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/15 16:03:03 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/21 08:48:13 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,34 @@ static void ft_mini_ls()
 }
 */
 
+static int	ft_path_outmax(char *path)
+{
+	int		i;
+	char	**paths;
+
+	paths = ft_split(path, '/');
+	i = 0;
+	while (paths[i])
+	{
+		if (ft_strlen(paths[i]) > MAX_NAME)
+		{
+			ft_freechain(paths);
+			return (1);
+		}
+		i++;
+	}
+	ft_freechain(paths);
+	return (0);
+}
+
 static int	ft_mini_cd(char *path, t_ms *ms)
 {
 	int			out;
 	struct stat	stat;
 
 	out = 0;
+	if (ft_path_outmax(path))
+		return (ft_error_return("cd: ", path, TOO_LONG, -1));
 	if (path[0] == '~')
 		path = ft_strjoin(environment_get_value(ms, "HOME"), path + 1);
 	lstat(path, &stat);
@@ -51,7 +73,7 @@ static int	ft_mini_cd(char *path, t_ms *ms)
 	out = chdir(path);
 	path = getcwd(NULL, 0);
 	if (!path)
-		return (ft_error_return(NO_CWD, NO_GETCWD, NO_FILE, 0));		
+		return (ft_error_return(NO_CWD, NO_GETCWD, NO_FILE, 0));
 	free(path);
 	return (out);
 }
@@ -65,7 +87,18 @@ static void	ft_update_oldpwd(t_ms *ms, char *path, char *oldpwd, int i)
 		environment_add_node(ms, environment_new_node(ms, "OLDPWD", oldpwd));
 }
 
-//caso de 2 o mas argumentos en cd
+static int	ft_cd_to_old(t_ms *ms)
+{
+	int	i;
+
+	i = chdir(environment_get_value(ms, "OLDPWD"));
+	if (i != 0)
+		ft_error_noexit("cd", NULL, NO_OLD);
+	else
+		printf("%s\n", environment_get_value(ms, "OLDPWD"));
+	return (i);
+}
+
 int	builtin_cd(t_ms *ms, char **cmnd)
 {
 	char	path[MAX_PATH];
@@ -84,11 +117,7 @@ int	builtin_cd(t_ms *ms, char **cmnd)
 	}
 	else if (ft_strcmp(cmnd[1], "-") == 0)
 	{
-		i *= chdir(environment_get_value(ms, "OLDPWD"));
-		if (i != 0)
-			ft_error_noexit("cd", NULL, NO_OLD);
-		else
-			printf("%s\n", environment_get_value(ms, "OLDPWD"));
+		i *= ft_cd_to_old(ms);
 	}
 	else
 		i *= ft_mini_cd(cmnd[1], ms);

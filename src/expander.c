@@ -118,7 +118,7 @@ int	expander_get_expansion(t_ms *ms, char *str)
 			ms->strs.buf = ft_substr(str, i++, 1);
 		if (!ms->strs.buf)
 		{
-			ft_printf("System o syntax Error\n");
+			ft_printf("System or syntax Error\n");
 			return (1);
 		}
 		ms->strs.aux = ms->strs.new;

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/19 09:11:50 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:17:22 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,11 @@ static void	init_shell_level(t_ms *ms)
 {
 	int		i_lvl;
 	char	*a_lvl;
-//	t_envl	*node;
 
 	a_lvl = environment_get_value(ms, "SHLVL");
-	i_lvl = ft_atoi(a_lvl) + 1;
-	a_lvl = ft_itoa(i_lvl);
-//	node = environment_get_node(ms, "SHLVL");
-//	free(node->value);
-//	node->value = NULL;
+	i_lvl = ft_atoi(a_lvl);
+	a_lvl = ft_itoa(i_lvl + 1);
 	environment_update_node(ms, "SHLVL", a_lvl);
-//	free(a_lvl);
 } 
 
 // Sets t_ms initial values and calls enviroment initializer
@@ -53,5 +48,6 @@ void	initialize(t_ms *ms, int ac, char **av, char **envp)
 	ms->init_fd[FD_OUT] = dup(STDOUT_FILENO);
 	ms->std_in= dup(STDIN_FILENO);
 	ms->std_out = dup(STDOUT_FILENO);
+	ms->exit_code = 0;
 	rl_initialize();
 }

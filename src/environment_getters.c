@@ -13,6 +13,7 @@
 #include "../include/minishell.h"
 
 // Tested OK
+// Tiene que devolver un char **
 t_envl	*environment_get_node(t_ms *ms, char *key)
 {
 	t_envl	*aux_node;
