@@ -54,7 +54,7 @@ static void	export_concat(t_ms *ms, int j, char *line)
 	node = environment_get_node(ms, key);
 	if (node && node->value && (node->value)[0] != '\n')
 	{
-		ms->strs.aux = ft_strjoin(node->value, value);
+			ms->strs.aux = ft_strjoin(node->value, value);
 		environment_del_node(ms, key);
 		node = environment_new_node(ms, key, ms->strs.aux);
 		environment_add_node(ms, node);
@@ -75,7 +75,7 @@ static int	export_switch(t_ms *ms, char *line, int j)
 		export_concat(ms, j, line); // concat
 	else if (line[j] == '=')
 		export_assign(ms, j, line); // assign
-	else if (line[j] == '\0')
+	else if (line[j] == '\0' || line[j] == '\n')
 		export_solo(ms, line);
 	else
 		export_error(line);

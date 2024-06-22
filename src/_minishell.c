@@ -29,6 +29,8 @@ int	main(int ac, char **av, char **envp)
 		signal_ignore(SIGINT);
 		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
 			continue ;
+		free(ms.line);
+		ms.line = NULL;
 		expander(&ms);
 //		environment_init(&ms, envp); // hay que reiniciar el env arr antes del executer por si el contexto fue modificado desde otra termina (borrar el folder donde estamos actundo, crea files, mover a otro dir estando .trash, etc).
 //		debug_all(&ms, 1, 0, 0);
