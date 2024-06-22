@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:18 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/22 18:24:57 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/22 10:46:04 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,15 @@ t_envl	*environment_get_node(t_ms *ms, char *key)
 char	*environment_get_value(t_ms *ms, char *key)
 {
 	t_envl	*aux_node;
+	char	*res;
 
+	res = NULL;
 	aux_node = environment_get_node(ms, key);
 	if (aux_node)
-		return (aux_node->value);
-	return (NULL);
+	{
+		res = aux_node->value;
+		if (res && res[0] == '\n' && res[1] == '\0')
+			return (&res[1]);
+	}	
+	return (res);
 }

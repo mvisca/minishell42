@@ -6,93 +6,106 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/08 21:02:01 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/22 12:02:26 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	builtin_export_display_error(char *command, t_ms *ms)
+static int	export_solo(t_ms *ms, char *line)
 {
-	ft_putstr_fd("export: '", 2);
-	ft_putstr_fd(command, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
-	ms->exit_code = 1;
-	return (0);
-}
-
-static int	builtin_export_update(char *key, char *command, t_ms *ms)
-{
-	int		i;
-	char	*value;
-	char	*aux;
-
-	i = 1;
-	if (command[i] == '+')
-		i++;
-	aux = ft_substr(&command[i], 0, ft_strlen(&command[i]));
-	value = ft_strjoin(environment_get_value(ms, key), aux);
-	if (!value)
-		return (1);
-	environment_update_node(ms, key, value);
-	ms->exit_code = 0;
-	free(aux);
-	return (0);
-}
-
-static int	builtin_export_no_options(t_envl *env, t_ms *ms)
-{
-	while (env)
-	{
-		ft_printf("declare -x %s=\"%s\"\n", env->key, env->value);
-		env = env->next;
-	}
-	ms->exit_code = 0;
-	return (0);
-}
-
-static int	builtin_export_check_options(char *command, t_ms *ms)
-{
-	int		i;
 	char	*key;
+	char	*value;
+	t_envl	*node;
 
-	ms->exit_code = 0;
-	i = 0;
-	if (ft_strchr("qwertyuiopasdfghjklzxcvbnm_", command[0]) || \
-		ft_strchr("QWERTYUIOPASDFGHJKLZXCVBNM", command[0]))
+	export_get_key_value(ft_strlen(line), line, &key, &value);
+	node = environment_get_node(ms, key);
+	environment_del_node(ms, key);
+	node = environment_new_node(ms, key, value);
+	environment_add_node(ms, node);
+	free(key);
+	free(value);
+	return (1);
+}
+
+static void	export_assign(t_ms *ms, int j, char *line)
+{
+	char	*key;
+	char	*value;
+	t_envl	*node;
+
+	export_get_key_value(j, line, &key, &value);
+	node = environment_get_node(ms, key);
+	if (node)
+		environment_del_node(ms, key);
+	node = environment_new_node(ms, key, value);
+	environment_add_node(ms, node);
+	free(key);
+	free(value);
+}
+
+static void	export_concat(t_ms *ms, int j, char *line)
+{
+	char	*key;
+	char	*value;
+	t_envl	*node;
+
+	export_get_key_value(j, line, &key, &value);
+	node = environment_get_node(ms, key);
+	if (node && node->value && (node->value)[0] != '\n')
 	{
-		while (ft_isalnum(command[i]))
-			i++;
-		key = ft_substr(command, 0, i);
-		if (command[i] == '=' || (command[i] == '+' && command[i + 1] == '='))
-			builtin_export_update(key, &command[i + 1], ms);
-		else
-			builtin_export_display_error(command, ms);
+		ms->strs.aux = ft_strjoin(node->value, value);
+		environment_del_node(ms, key);
+		node = environment_new_node(ms, key, ms->strs.aux);
+		environment_add_node(ms, node);
+		free(ms->strs.aux);
+		ms->strs.aux = NULL;
 	}
 	else
-		builtin_export_display_error(command, ms);
+		export_assign(ms, j, line);
 	free(key);
+	free(value);
+}
+
+static int	export_switch(t_ms *ms, char *line, int j)
+{
+	strs_reset(ms);
+	export_ff(&j, line);
+	if (line[j] && line[j] == '+' && line[j + 1] == '=')
+		export_concat(ms, j, line); // concat
+	else if (line[j] == '=')
+		export_assign(ms, j, line); // assign
+	else if (line[j] == '\0')
+		export_solo(ms, line);
+	else
+		export_error(line);
 	return (0);
 }
 
 int	builtin_export(t_ms *ms, t_coml *cmnd)
 {
 	int		i;
-	t_envl	*env;
+	int		j;
+	char	*line;
 
-	ft_printf("hola hola");
-	i = 1;
-	env = ms->envlst;
-	if (cmnd->command[1] == NULL)
+	i = 0;
+	if (export_no_options(cmnd))
+		return (export_print_env(ms));
+	while (export_set(&j, &line, cmnd->command[++i]) && line)
 	{
-		builtin_export_no_options(env, ms);
-		return (0);
+		if (!export_context(cmnd)) // mando line y cmnd command y i+1
+		return (1);
+
+		if (line[j] != '\n')
+		{
+			if (line[j] && !ft_strchr(EXP_CHARS, line[j]))
+				export_error(line);
+			else if (line[j])
+				export_switch(ms, line, j);
+			else
+				export_error(line);
+		}
 	}
-	i = 1;
-	while (cmnd->command[i])
-	{
-		builtin_export_check_options(cmnd->command[i], ms);
-		i++;
-	}
+	strs_free(ms);
 	return (0);
 }

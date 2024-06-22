@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/06/08 20:57:13 by mvisca-g         ###   ########.fr        #
+#    Updated: 2024/06/11 23:33:40 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,15 +17,20 @@ YELLOW 		:= \033[0;33m
 BLUE 		:= \033[0;34m
 NC 			:= \033[0m
 
-NAME        = minishell
+NAME        := minishell
 
-HEADER      = ./include/minishell.h
+HEADER      := 	./include/minishell.h
+
+HEADERS		:=	./include/global.h				\
+				./include/macros.h				\
+				./include/structures.h
 
 SRC_PATH    = src/
 SRC         = 		_minishell.c 				\
 					builtin_cd.c				\
 					builtin_echo.c				\
 					builtin_export.c			\
+					builtin_export_tools.c		\
 					builtin_fds.c				\
 					builtin_pwd.c				\
 					builtin_unset.c				\
@@ -77,7 +82,7 @@ INC_PATH	= ./includes/ ./lib/ $(LIBFT_PATH) $(RLINE_PATH)
 INC			= $(addprefix -I, $(INC_PATH))
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -MMD -fPIC # -g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -MMD -fPIC -g -fsanitize=address
 RM			= rm -f
 
 all: $(RLINE) $(OBJ_PATH) subsystems $(NAME)
@@ -87,7 +92,7 @@ $(NAME):: $(OBJ) ./$(LIBFT) ./$(RLINE) ./$(RLINE_H)
 	@echo "$(YELLOW)Packing $(RED)$(NAME) $(YELLOW)ready!$(NC)"
 	@echo "$(BLUE)Minishell $(GREEN)compiled! 👍$(NC)"
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c Makefile $(HEADER)
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c Makefile $(HEADER) $(HEADERS)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 	@echo "$(GREEN)Creating... $(NC)$(notdir $<) $(RED)-> $(NC)$(notdir $@)"
 

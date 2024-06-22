@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/08 15:00:13 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:17:18 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define STRUCTURES_H
 
 //variable global para gestionar las senyales.
+//definida en global.h
 //extern	int	g_exit;
 
 typedef struct s_parser_split
@@ -46,7 +47,7 @@ typedef struct s_redl
 	char					*path;
 	char					*eof;//NUEVO para controlar el hd
 	struct s_redl			*next;
-} t_redl;
+}  t_redl;
 
 typedef struct s_coml
 {
@@ -54,11 +55,12 @@ typedef struct s_coml
 	t_redl					*redirect; // NULL o VALIDO
 	int						in;//control entrada para dups sera un fd
 	int						out;//control salida para dups sera un fd
+	int						aux;//control para saltarse la ejecucion del comando
 	struct s_coml			*next;
 }	t_coml;
 
 typedef struct s_strs
-{
+ {
 	char					*aux;
 	char					*buf;
 	char					*new;						
@@ -79,7 +81,7 @@ typedef struct s_ms
 	int						std_out;//dup inicial STDOUT
 	int						exit_code;
 	int						cmnd_count;
-	int						hdl;//control de las lineas escritas en heredoc
+//	int						hdl;//control de las lineas escritas en heredoc
 //	pid_t					pid;
 	pid_t					pid[MAX_ARGS];//para controlar executor y funcion espera
 }	t_ms;

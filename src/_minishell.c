@@ -6,13 +6,13 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/07 22:31:05 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/15 15:02:41 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	g_exit;
+volatile sig_atomic_t g_exit;//
 
 int	main(int ac, char **av, char **envp)
 {
@@ -36,5 +36,6 @@ int	main(int ac, char **av, char **envp)
 		utils_free_ms(&ms, FALSE);
 	}
 	utils_free_ms(&ms, TRUE);
-	return (0);
+	return (g_exit);
 }
+

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/01 15:47:24 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/11 18:11:53 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,10 @@ void	utils_free_cmnd_list(t_coml **cmnd)
 		while ((*cmnd)->redirect)
 		{
 			next_redir = (*cmnd)->redirect->next;
-			free((*cmnd)->redirect->path); // 3.b
 			if((*cmnd)->redirect->eof)
-				free((*cmnd)->redirect->eof);//ojto con esto
+				free((*cmnd)->redirect->eof);//OK ojto con esto el moc a dalt per provar
+			if((*cmnd)->redirect->path)
+				free((*cmnd)->redirect->path); // OK 3.b protejo esto
 			free((*cmnd)->redirect); // 2.2
 			(*cmnd)->redirect = next_redir;
 		}

@@ -1,6 +1,16 @@
-holla
-hola nen
-bebito
-EOF3
-EO
-hola fcatala-
+Quien es el mejor?
+El mejor es fcatala-
+el contenido de test es:
+total 1408
+drwxr-xr-x 8 fcatala- 2022_barcelona     156 Jun 15 15:03 .
+drwxr-xr-x 4 fcatala- 2022_barcelona      33 Jun  7 13:43 ..
+-rw-r--r-- 1 fcatala- 2022_barcelona      65 Jun 15 15:04 .0xyz_here_tmp.tmp
+drwxr-xr-x 8 fcatala- 2022_barcelona     220 Jun 15 12:15 .git
+-rw-r--r-- 1 fcatala- 2022_barcelona      52 Jun  7 13:43 .gitignore
+drwxr-xr-x 2 fcatala- 2022_barcelona     101 Jun 15 14:32 include
+drwxr-xr-x 4 fcatala- 2022_barcelona      35 Jun  7 13:43 lib
+-rw-r--r-- 1 fcatala- 2022_barcelona    3732 Jun  9 06:47 Makefile
+-rwxr-xr-x 1 fcatala- 2022_barcelona 1421192 Jun 15 14:57 minishell
+drwxr-xr-x 2 fcatala- 2022_barcelona    4096 Jun 15 14:57 .obj
+drwxr-xr-x 2 fcatala- 2022_barcelona    4096 Jun 15 14:49 src
+drwxr-xr-x 3 fcatala- 2022_barcelona     133 Jun 15 14:55 test
