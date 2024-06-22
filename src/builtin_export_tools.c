@@ -71,7 +71,7 @@ int	export_print_env(t_ms *ms)
 	{
 		ft_printf("declare -x %s", env->key);
 		if (env->value[0] != '\n')
-			ft_printf("=\"%s\"", env->value);
+			ft_printf("=\"%s\"  atoi %d", env->value, 48 + env->value[0]);
 		ft_printf("\n");
 		env = env->next;
 	}
