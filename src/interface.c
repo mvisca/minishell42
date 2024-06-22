@@ -6,19 +6,20 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/27 18:34:07 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/21 10:27:46 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+//No deberia salir como un error si se ha introducido ctr d para salir
 int	empty_exit(t_ms *ms)
 {
 	write(2, "exit\n", 5);
 	free(ms->line);
 	ms->line = NULL;
 	utils_free_ms(ms, TRUE);
-	exit (1);
+	exit (1);//deberia ser 0 en caso de ctr d
 }
 
 // // Muestra un prompt customizado con nombre del proyecto
