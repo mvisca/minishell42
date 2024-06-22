@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/15 15:02:41 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/06/22 09:37:40 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int ac, char **av, char **envp)
 		signal_ignore(SIGINT);
 		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
 			continue ;
+		free(ms.line);
+		ms.line = NULL;
 		expander(&ms);
 //		environment_init(&ms, envp); // hay que reiniciar el env arr antes del executer por si el contexto fue modificado desde otra termina (borrar el folder donde estamos actundo, crea files, mover a otro dir estando .trash, etc).
 //		debug_all(&ms, 1, 0, 0);
