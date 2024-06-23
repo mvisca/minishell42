@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/23 20:08:34 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/23 21:51:43 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int         debug_all(t_ms *ms, int env, int tok, int com);
 void        debug_token(t_ms *ms);
 void        debug_command(t_ms *ms);
 void        debug_envarr(t_ms *ms);
+void    	debug_tab(char ** tab);
+
 //void	    debug_expand(t_ms *ms);
 
 /*##################	ENVIRONMENT	#####################*/
@@ -109,7 +111,7 @@ void		ft_redirout(t_coml *job, int last);
 
 int			expander(t_ms *ms);
 char        *expander_filter_quotes(char *str);
-int         expander_get_expansion(t_ms *ms, char *str);
+int         expander_get_expansion(t_ms *ms, char *str, size_t i);
 int			expander_var_exit(t_ms *ms, char *str, size_t *i);
 int			expander_var_alpha(t_ms *ms, char *str, size_t *i);
 int			expander_var_curly(t_ms *ms, char *str, size_t *i);
