@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/23 11:12:01 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/23 11:22:23 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ static int	export_switch(t_ms *ms, char *line, int j)
 int	builtin_export(t_ms *ms, t_coml *cmnd)
 {
 	int		i;
-	int		k;
 	char	*line;
 
 	i = 1;
@@ -93,17 +92,17 @@ int	builtin_export(t_ms *ms, t_coml *cmnd)
 		return (export_print_env(ms));
 	while (cmnd->command[i] != NULL)
 	{
-		k = 0;
 		line = cmnd->command[i];
-		ft_printf("en entrada a export context\n");
-		if (i == 1 && export_context(ms, cmnd, i, 0))
-			return (1);
-		if (line[k] != '\n')
+		if (line[0] != '\n')
 		{
-			if (line[k] && !ft_strchr(EXP_CHARS, line[k]))
+			if (line[0] && !ft_strchr(EXP_CHARS, line[0]))
 				export_error(line);
-			else if (line[k])
-				export_switch(ms, line, k);
+			else if (line[0])
+			{
+				if (i == 1 && export_context(ms, cmnd, 1, 0))
+					return (1);
+				export_switch(ms, line, 0);
+			}
 			else
 				export_error(line);
 		}

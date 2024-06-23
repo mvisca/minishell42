@@ -75,11 +75,12 @@ int	export_print_env(t_ms *ms)
 	return (0);
 }
 
-int	export_context_error(char *key)
+int	export_context_error(t_ms *ms, char *key)
 {					
 	ft_putstr_fd("export: not valid in this context: ", 2);
 	ft_putstr_fd(key, 2);
 	ft_putstr_fd("+\n", 2);
+	strs_free(ms);
 	return (1);
 }
 
@@ -94,36 +95,28 @@ int	export_context_expand(t_ms *ms, t_coml *cmnd, int i, int j)
 	k = 0;
 	export_ff(&k, cmnd->command[i]);
 	export_get_key_value(k, cmnd->command[i], &ms->strs.aux, &ms->strs.buf);
-	ft_printf("1 key %s value %s\n", ms->strs.aux, ms->strs.buf);
 	free(ms->strs.buf);
 	l = 0;
 	export_ff(&l, cmnd->command[j]);
 	export_get_key_value(l, cmnd->command[j], &ms->strs.new, &ms->strs.buf);
-	ft_printf("2 key %s value %s\n", ms->strs.new, ms->strs.buf);
-	if ((ms->strs.new[l] == '+' || ms->strs.aux[k] == '+') && \
+	if ((cmnd->command[i][k] == '+' || cmnd->command[j][l] == '+') && \
 	!ft_strnstr(ms->strs.aux, ms->strs.new, ft_strlen(ms->strs.aux)))
 	{
-		ft_printf("saliend detectado\n");
+		export_context_error(ms, ms->strs.aux);
 		strs_free(ms);
-		return (export_context_error(ms->strs.aux));
+		return (1);
 	}
-	ft_printf("saliend SIN detectado\n");
 	strs_free(ms);
 	return (0);
 }
 
 int	export_context(t_ms *ms, t_coml *cmnd, int i, int j)
 {
-	ft_printf("en export context\n");
-	ft_printf("INIT valor de i = %d\n", i);
 	while (cmnd && cmnd->command[i])
 	{
-		ft_printf("IN 1 valor de i = %d\n", i);
 		j = i + 1;
 		while (cmnd && cmnd->command[j])
 		{
-			ft_printf("IN 2 valor de i = %d\n", i);
-			ft_printf("en bucle de export context\n");
 			if (export_context_expand(ms, cmnd, i, j))
 				return (1);
 			j++;
