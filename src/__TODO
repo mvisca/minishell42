@@ -41,20 +41,6 @@ EXPANDER
     *:cualquier string
     ?:cualquier char
 
-    export v1=hola
-    v1
-    v1: command not found
-    $(v1)
-    v1:command not found
-
-EXPORT
-	//Si se hace export con una variable que ya existe, se actualiza su valor
-	//Si se hace export con una variable que no existe, se crea
-	//Si se hace export con una variable que no tiene valor, se crea con valor NULL
-	//Si se hace export con una variable que no tiene valor pero tiene un igual 
-	//el valor de ese content sera ""
-	//Si se hace un export += a una variable existente se le añade el valor al final
-	//Si se hace un export += a una variable que no existe se crea con el valor
 
 ENV
 VIGILAR EL SHELL LEVEL
@@ -86,11 +72,11 @@ VIGILAR EL SHELL LEVEL
 	}
 }
 
-
-
-
-EN BUILT IN CD DAR ERROR TOO MANY ARGUMENTS CON AC > 2
-
-Expandir comando del environment
-
 Proteccion de SHLV 0 a 999
+
+-----
+
+Cuando se exporta $NADA=algo
+debería dar que =algo no es bueno,
+pero está tomando como export sin argumentos
+$NADA == '\n' hay que mirarlo con que no tenga nada después, porque si lo tiene hay que redirigir a error con argumento => &comando[1]
