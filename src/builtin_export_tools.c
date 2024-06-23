@@ -59,8 +59,7 @@ int	export_print_env(t_ms *ms)
 
 	ms_p = ft_calloc(sizeof(t_ms), 1);
 	initialize(ms_p, 1, ms->envarr, ms->envarr);
-	ft_printf("env %s", ms_p->envlst->key);
-	environment_sort(ms_p);
+	environment_sort(&(ms_p)->envlst);
 	curr = ms_p->envlst;
 	while (curr)
 	{
