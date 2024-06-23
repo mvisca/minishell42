@@ -29,14 +29,6 @@ Minishell >
 
 
 VALID COMMANDS:
-Problem with cat
-	Minishell > cat << EOF > eof1.txt | cat EOF2 >> eof1.txt | cat eof1.txt 
-	> Inici 1er cat
-	> la sortida sera EOF
-	> EOF
-	/usr/bin/cat: EOF2: No such file or directory
-	CAL MIRAR AQUEST MISSAGTE, NO INTERPRETA EL COMANDO
-
 
 One command, wrong input    
 	bash-3.2$ <../test/no ls;echo "Exit:" $? "Pipe: "$PIPESTATUS
@@ -750,6 +742,42 @@ EXPORT Y UNSET => only works when single commands
 	=> The variable has not been set nor updated
 
 EXIT
+	if alpha(argument)
+		exit (2)
+	else
+		if num_of_args > 1
+			ft_error_NOEXIT
+		else
+			exit (unsigned char(arg))
+					
+Test withe exit codes: checking validiy of args
+Multiple args, first numeric:
+	new$ exit 1 a b c
+	exit
+	bash: exit: too many arguments
+	echo $?
+	1
+	PRINTS EXIT OF STDERRNO, followed by error message, doesn't perform exit
+
+Multiple args, non numeric:
+	new$ exit a b c
+	exit
+	bash: exit: a: numeric argument required
+
+	hell42/new $ echo $?
+	2
+	PRINTS EXIT OF STDERRNO, followed by error message,	EXIT IS DONE
+
+Multiple args, non numeric, digit, alpha:
+	new$ exit a 1 c
+	exit
+	bash: exit: a: numeric argument required
+
+	hell42/new $ echo $?
+	2
+	PRINTS EXIT OF STDERRNO, followed by error message,	EXIT IS DONE
+
+
 Test with exit codes: not numeric (new$ is bash)
 	new$ exit de
 	exit
@@ -827,8 +855,8 @@ Test with exit codes: not numeric (new$ is bash)
  	% echo $?
 	2
 
-
-pseudo code
+	exit value is an unsigned char
+	to cast integer to unsigned char:
 	if (ft_atoi(exit_code) >= 0)
 		exit_value = ft_atoi(exit_code) % 256
 	else

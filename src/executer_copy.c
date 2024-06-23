@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/21 14:14:10 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/23 12:12:27 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,64 @@ static int	ft_is_builtin(t_coml *aux)
 	else if (ft_strcmp(aux->command[0], "cd") == 0)
 		return (6);
 	else if (ft_strcmp(aux->command[0], "exit") == 0)
-		return (0);
+		return (7);
 	else
 		return (0);
+}
+
+static int	ft_isnum(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_strlenp(str))
+		return (0);
+	if (str[0] == '+' || str[0] == '-')
+		++i;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		++i;
+	}
+	return (1);
+}
+
+static unsigned char	full_exit(t_ms *ms, unsigned int code, int show)
+{
+	if (show)
+		write(2, "exit\n", 5);
+	free(ms->line);
+	ms->line = NULL;
+	utils_free_ms(ms, TRUE);
+	exit (code);
+}
+
+//comprobar si imprime exit en la secuencia correcta
+//bash: exit: 1A: numeric argument required
+static unsigned char builtin_exit(t_ms *ms, char **cmnd)
+{
+//	unsigned char	bye;
+
+//	bye = ms->exit_code;
+	if (ft_tablen(cmnd) == 1 && ms->cmnd_count == 1)
+		return (full_exit(ms, 0, 1));
+	if (ft_isnum(cmnd[1]))
+	{
+		if (ft_tablen(cmnd) > 2)
+		{
+			ft_putstr_fd("exit\n", 2);
+			return(ft_error_return(cmnd[0], NULL, MANY, 2));
+		}
+		if (ms->cmnd_count == 1)
+			return (full_exit(ms, 222, 1));//change code
+		return (222);//change code
+	}
+	if (ms->cmnd_count > 1)
+		return (ft_error_return(cmnd[0], cmnd[1], NUMERIC, 2));
+	ft_putstr_fd("exit\n", 2);
+	ft_error_return("exit: ", cmnd[1], NUMERIC, 2);
+	return (full_exit(ms, 2, 0));
 }
 
 static int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
@@ -92,6 +147,8 @@ static int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
 		return (builtin_unset(ms, aux));
 	else if (type == 6)
 		return (builtin_cd(ms, aux->command));
+	else if (type == 7)
+		return (builtin_exit(ms, aux->command));
 	else
 		return (0);
 }
@@ -399,6 +456,8 @@ static int	ft_job(t_ms *ms)
 int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
+	if (!ms->cmnd_count)
+		return (0);
 	if (ft_search_hd(ms, ms->cmnd_list) != 130)
 	{
 		signal_init(INTERACTIVE);
