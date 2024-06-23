@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/23 11:22:23 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/23 13:19:35 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	builtin_export(t_ms *ms, t_coml *cmnd)
 			else if (line[0])
 			{
 				if (i == 1 && export_context(ms, cmnd, 1, 0))
-					return (1);
+					return (1); // sujeto a comprobación en 42 si se reproduce el mensaje
 				export_switch(ms, line, 0);
 			}
 			else

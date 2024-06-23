@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/23 11:47:34 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/23 16:42:21 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_envl      *environment_new_node(t_ms *ms, char *key, char *value);
 t_envl      *environment_add_node(t_ms *ms, t_envl *envnode);
 void		environment_del_node(t_ms *ms, char *key);
 void        environment_update_node(t_ms *ms, char *key, char *value);
+t_envl        *environment_sort(t_ms *ms);
 
 // Getters
 t_envl		*environment_get_node(t_ms *ms, char *key);
