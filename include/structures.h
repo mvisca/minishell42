@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/12 15:17:18 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/23 08:31:03 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ typedef struct s_ms
 	int						prev_fd[2];//no se usa
 	int						std_in;//dup inicial STDIN 
 	int						std_out;//dup inicial STDOUT
-	int						exit_code;
+	unsigned char			exit_code;
+//	int						exit_code;
 	int						cmnd_count;
 //	int						hdl;//control de las lineas escritas en heredoc
 //	pid_t					pid;
