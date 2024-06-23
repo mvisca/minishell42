@@ -1,37 +1,6 @@
 
 #include "../include/minishell.h"
 
-
-
-static int	environment_is_sort(t_ms *ms)
-{
-	int		sort;
-	t_envl	*curr;
-	t_envl	*prev;
-
-	sort = 1;
-	curr = ms->envlst->next;
-	prev = ms->envlst;
-	while (curr)
-	{
-		if (prev->key > curr->key)
-		{
-			sort = 1;
-			break ;
-		}
-		prev = curr;
-		curr = curr->next;
-	}
-	return (sort);
-}
-
-static int	environment_swap(t_envl **prev, t_envl **curr)
-{
-	(*prev)->next = (*curr)->next;
-	*curr = (*curr)->next;
-	return (0);
-}
-
 t_envl    *environment_sort(t_ms *ms_p)
 {
 	// ver nodo a nodo cuál es el key mayor
