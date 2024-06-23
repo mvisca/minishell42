@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/23 12:12:27 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/23 21:24:55 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,7 +323,7 @@ static char	*ft_expand_hd(int quoted, t_ms *ms, char *tmp)
 
 	if (!quoted)
 	{
-		expander_get_expansion(ms, tmp);
+		expander_get_expansion(ms, tmp, 0);
 		line = ft_strjoin(ms->strs.new, "\n");
 	}
 	else

@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/06/23 13:21:00 by mvisca           ###   ########.fr        #
+#    Updated: 2024/06/23 20:20:47 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC         = 		_minishell.c 				\
 					expander.c					\
 					extend_libft.c				\
 					expander_tools.c			\
+					expander_var_types.c		\
 					initialize.c				\
 					interface.c					\
 					lexer.c						\

@@ -79,6 +79,27 @@ void	debug_envarr(t_ms *ms)
 	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
 }
 
+void	debug_tab(char **tab)
+{
+	int i;
+
+	ft_printf(YELLOW"- - - - - - - - - -\n"RESET);
+	ft_printf(RED"TAB -> "RESET"debug start\n");
+	i = 0;
+	while (tab && tab[i])
+	{
+		if (ft_strnstr(tab[i], "PATH", 4))
+			ft_printf(RED"TAB[%d] >"BLUE" %s\n"RESET, i, tab[i]);
+		else if (ft_strnstr(tab[i], "SHLVL", 5))
+			ft_printf(RED"TAB[%d] >"YELLOW" %s\n"RESET, i, tab[i]);
+		else 
+			ft_printf(RED"TAB[%d] >"RESET" %s\n", i, tab[i]);
+		i++;
+	}
+	ft_printf(RED"TAB"RESET" <TAB> "BLUE" -> "RESET"debug done\n");
+	ft_printf(GREEN"- - - - - - - - - -\n"RESET);
+}
+
 int	debug_all(t_ms *ms, int env, int tok, int com)
 {
 	if (env)
