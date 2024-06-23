@@ -25,7 +25,7 @@ int	export_no_options(t_coml *cmnd)
 void	export_get_key_value(int j, char *line, char **key, char **value)
 {
 	*key = ft_substr(line, 0, j);
-	if (line[j])
+	if (line && line[j])
 	{
 		if (line[j]	== '+')
 			j += 2;
@@ -37,16 +37,9 @@ void	export_get_key_value(int j, char *line, char **key, char **value)
 		*value = ft_strdup("\n\0");
 }
 
-int	export_set(int *j, char **line, char *command)
-{
-	*j = 0;
-	*line = command;
-	return (1);
-}
-
 void	export_ff(int *j, char *line)
 {
-	while (line[*j] && ft_strchr(EXP_CHARS, line[*j]))
+	while (line && line[*j] && ft_strchr(EXP_CHARS, line[*j]))
 		(*j)++;
 }
 
@@ -82,17 +75,68 @@ int	export_print_env(t_ms *ms)
 	return (0);
 }
 
-int	export_context(t_cmnd *cmnd)
-{
-	return (1);
-}
-
-int	export_context_error(char *key, char *value)
+int	export_context_error(char *key)
 {					
-	ft_putstr_fd(2, "export: not valid in this context: ");
-	ft_putstr_fd(2, key);
-	ft_putstr_fd(2, "+\n");
+	ft_putstr_fd("export: not valid in this context: ", 2);
+	ft_putstr_fd(key, 2);
+	ft_putstr_fd("+\n", 2);
 	return (1);
 }
 
+// ms->strs.aux
+// ms->strs.buf
+// ms->strs.new
+int	export_context_expand(t_ms *ms, t_coml *cmnd, int i, int j)
+{
+	int k;
+	int	l;
 
+	k = 0;
+	export_ff(&k, cmnd->command[i]);
+	export_get_key_value(k, cmnd->command[i], &ms->strs.aux, &ms->strs.buf);
+	ft_printf("1 key %s value %s\n", ms->strs.aux, ms->strs.buf);
+	free(ms->strs.buf);
+	l = 0;
+	export_ff(&l, cmnd->command[j]);
+	export_get_key_value(l, cmnd->command[j], &ms->strs.new, &ms->strs.buf);
+	ft_printf("2 key %s value %s\n", ms->strs.new, ms->strs.buf);
+	if ((ms->strs.new[l] == '+' || ms->strs.aux[k] == '+') && \
+	!ft_strnstr(ms->strs.aux, ms->strs.new, ft_strlen(ms->strs.aux)))
+	{
+		ft_printf("saliend detectado\n");
+		strs_free(ms);
+		return (export_context_error(ms->strs.aux));
+	}
+	ft_printf("saliend SIN detectado\n");
+	strs_free(ms);
+	return (0);
+}
+
+int	export_context(t_ms *ms, t_coml *cmnd, int i, int j)
+{
+	ft_printf("en export context\n");
+	ft_printf("INIT valor de i = %d\n", i);
+	while (cmnd && cmnd->command[i])
+	{
+		ft_printf("IN 1 valor de i = %d\n", i);
+		j = i + 1;
+		while (cmnd && cmnd->command[j])
+		{
+			ft_printf("IN 2 valor de i = %d\n", i);
+			ft_printf("en bucle de export context\n");
+			if (export_context_expand(ms, cmnd, i, j))
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+// int	export_set(int *i, int *j, char **line, t_coml *cmnd)
+// {
+// 	*i = 1;
+// 	*j = 0;
+// 	*line = cmnd->command[1];
+// 	return (1);
+// }

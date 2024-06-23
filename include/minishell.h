@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/21 12:49:25 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/23 11:05:14 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,19 @@
 
 /*##################	BUILTINS	#####################*/
 
+int			builtin_cd(t_ms *ms, char **cond);
 int         builtin_echo(char **com);
 int			builtin_export(t_ms *ms, t_coml *cmnd);
-int         export_error(char *command);
-void		export_get_key_value(int j, char *line, char **key, char **value);
-int     	export_print_env(t_ms *ms);
-int     	export_no_options(t_coml *comnd);
+int			export_context(t_ms *ms, t_coml *cmnd, int i, int j);
+int			export_context_expand(t_ms *ms, t_coml *cmnd, int i, int j);
+int			export_context_error(char *key);
+int			export_error(char *command);
 void		export_ff(int *j, char *line);
-int			export_set(int *j, char **line, char *command);
+void		export_get_key_value(int j, char *line, char **key, char **value);
+int     	export_no_options(t_coml *comnd);
+int			export_print_env(t_ms *ms);
+// int			export_set(int *i, int *j, char **line, t_coml *cmnd);
 int         builtin_pwd(t_ms *ms);
-int			builtin_cd(t_ms *ms, char **cond);
 int			builtin_unset(t_ms *ms, t_coml *cmnd);
 int			ft_builtin_redir(t_coml *job);
 
