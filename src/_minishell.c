@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/23 12:57:35 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/23 17:15:17 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(int ac, char **av, char **envp)
 	t_ms	ms;
 
 	initialize(&ms, ac, av, envp);
+	rl_initialize();
 	while (1)
 	{
 		if (signal_init(NORMAL) != 0)
