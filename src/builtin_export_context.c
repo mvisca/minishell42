@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/24 11:05:33 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 13:17:35 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	export_context_expand(t_ms *ms, t_coml *cmnd, int i, int j)
 	l = 0;
 	export_ff(&l, cmnd->command[j]);
 	export_get_key_value(l, cmnd->command[j], &ms->strs.new, &ms->strs.buf);
-	ft_printf("antes de la condicion %s\n", &cmnd->command[j][l]);
 	if ((cmnd->command[i][k] == '+' || cmnd->command[j][l] == '+') && \
 	ft_strnstr(ms->strs.aux, ms->strs.new, ft_strlen(ms->strs.aux)))
 	{
@@ -41,8 +40,7 @@ int	export_context_expand(t_ms *ms, t_coml *cmnd, int i, int j)
 		strs_free(ms);
 		return (1);
 	}
-	strs_free(ms);
-	return (0);
+	return (strs_free(ms));
 }
 
 int	export_context(t_ms *ms, t_coml *cmnd, int i, int j)

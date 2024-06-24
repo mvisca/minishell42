@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/06/23 20:20:47 by mvisca           ###   ########.fr        #
+#    Updated: 2024/06/24 13:31:53 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC         = 		_minishell.c 				\
 					builtin_cd.c				\
 					builtin_echo.c				\
 					builtin_export.c			\
+					builtin_export_actions.c	\
 					builtin_export_tools.c		\
 					builtin_export_context.c	\
 					builtin_fds.c				\

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:30:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 10:53:29 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 13:11:40 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	export_no_options(t_coml *cmnd)
 {
 	if (!cmnd->command[1])
 		return (1);
-	else if (ft_tablen(cmnd->command) == 2 && cmnd->command[1][0] == '\n')
+	else if (ft_tablen(cmnd->command) == 2 && \
+		(cmnd->command[1][0] == '\n' && cmnd->command[1][1] == '\0'))
 		return (1);
 	return (0);
 }

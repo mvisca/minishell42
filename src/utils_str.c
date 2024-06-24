@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 10:21:32 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 13:17:02 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	strs_reset(t_ms *ms)
 	ms->strs.new = NULL;
 }
 
-void	strs_free(t_ms *ms)
+int	strs_free(t_ms *ms)
 {
 	if (ms->strs.aux)
 		free(ms->strs.aux);
@@ -61,4 +61,5 @@ void	strs_free(t_ms *ms)
 	if (ms->strs.new)
 		free(ms->strs.new);
 	strs_reset(ms);
+	return (0);
 }
