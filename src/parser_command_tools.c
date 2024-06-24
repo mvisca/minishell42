@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 13:41:47 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/25 08:15:05 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 10:20:03 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	parser_add_redirect(t_coml *cmnd, t_redl *redir)
 
 int	parser_add_command(t_ms *ms, t_coml *command)
 {
-	t_coml *aux;
+	t_coml	*aux;
 
 	if (!ms->cmnd_list)
 		ms->cmnd_list = command;

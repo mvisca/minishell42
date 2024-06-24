@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/27 11:03:33 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 10:44:26 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	lexer_make_token(t_ms *ms, char *line, int type, int *i)
 	size_t	len;
 
 	new = (t_tokl *)ft_calloc(1, sizeof(t_tokl));
-	// new = (t_tokl *)supresedmalloc(sizeof(t_tokl));
 	if (!new)
 		return (1);
 	new->type = type;
@@ -73,7 +72,7 @@ int	lexer(t_ms *ms, char *line)
 	int		i;
 
 	i = 0;
-	while (line && line[i]) // && line[i + 1])
+	while (line && line[i])
 	{
 		if (ft_isspace(line[i]))
 			i++;
@@ -82,7 +81,7 @@ int	lexer(t_ms *ms, char *line)
 		else if (ft_strnstr(&line[i], ">>", 2))
 			lexer_make_token(ms, ">>", DR_REDIRECT, &i);
 		else if (ft_strnstr(&line[i], "<<", 2))
-			lexer_make_token(ms, "<<", DL_REDIRECT, &i);	
+			lexer_make_token(ms, "<<", DL_REDIRECT, &i);
 		else if (line[i] == '>')
 			lexer_make_token(ms, ">", R_REDIRECT, &i);
 		else if (line[i] == '<')
@@ -92,9 +91,6 @@ int	lexer(t_ms *ms, char *line)
 	}
 	lexer_make_token(ms, NULL, END, &i);
 	if (errors_syntax(ms))
-	{
-		utils_free_ms(ms, FALSE);
-		return (1);
-	}
+		return (utils_free_ms(ms, FALSE));
 	return (0);
 }

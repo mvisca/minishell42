@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/23 21:51:43 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 11:01:10 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ char        **parser_split(char *str);
 void        parser_ps_init(t_psplit *ps);
 
 int			parser_add_redirect(t_coml *cmnd, t_redl *redir);
-int         parser_update_envarr(t_ms *ms);
+int         parser_update_envarr(t_ms *ms, int i, int node_num);
 
 /*##################	SIGNAL		#####################*/
 

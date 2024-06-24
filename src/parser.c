@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/05/01 12:19:55 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/24 11:01:25 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_coml	*parser_tab_to_array(char **tab, t_coml *cmnd)
 	i = 0;
 	len_old = ft_tablen(cmnd->command);
 	len_new = ft_tablen(tab);
-	new = (char **)ft_calloc(len_old + len_new + 1, sizeof(char *)); 
+	new = (char **)ft_calloc(len_old + len_new + 1, sizeof(char *));
 	if (!new)
 		return (NULL);
 	while (cmnd->command && cmnd->command[i])
@@ -41,14 +41,14 @@ t_coml	*parser_tab_to_array(char **tab, t_coml *cmnd)
 	return (cmnd);
 }
 
-static int	parser_is_redir(t_coml **cmnd, t_tokl **token, t_redl **redir, char ***tab)
+static int	p_rd(t_coml **cmnd, t_tokl **token, t_redl **redir, char ***tab)
 {
 	*redir = (t_redl *)ft_calloc(1, sizeof(t_redl));
 	if (!*redir)
 		return (1);
 	(*redir)->type = (*token)->type;
 	(*redir)->path = NULL;
-	(*redir)->eof = NULL;//afegit per controlar el hd
+	(*redir)->eof = NULL;
 	(*redir)->next = NULL;
 	*token = (*token)->next;
 	if (!*token)
@@ -67,9 +67,9 @@ static int	parser_is_redir(t_coml **cmnd, t_tokl **token, t_redl **redir, char *
 	return (0);
 }
 
-static int	parser_populate_command(t_ms **ms, t_coml **cmnd, t_tokl **token, t_redl **redir)
+static int	p_pop_comm(t_ms **ms, t_coml **cmnd, t_tokl **token, t_redl **redir)
 {
-	char **tab;
+	char	**tab;
 
 	if ((*token)->type == WORD)
 	{
@@ -81,14 +81,14 @@ static int	parser_populate_command(t_ms **ms, t_coml **cmnd, t_tokl **token, t_r
 	}
 	else if ((*token)->type >= 5 && (*token)->type <= 8)
 	{
-		if (parser_is_redir(cmnd, token, redir, &tab))
+		if (p_rd(cmnd, token, redir, &tab))
 			return (1);
 	}
 	if ((*token)->next)
 		*token = (*token)->next;
 	if ((*token)->type == PIPE || (*token)->type == END)
 	{
-		parser_add_command(*ms, *cmnd); 
+		parser_add_command(*ms, *cmnd);
 		*cmnd = NULL;
 	}
 	return (0);
@@ -110,10 +110,10 @@ int	parser(t_ms *ms)
 			if (!cmnd)
 				return (1);
 		}
-		if (parser_populate_command(&ms, &cmnd, &token, &redir))
+		if (p_pop_comm(&ms, &cmnd, &token, &redir))
 			return (1);
 	}
-	if (parser_update_envarr(ms) != 0)
+	if (parser_update_envarr(ms, 0, 0) != 0)
 		return (1);
 	return (0);
 }

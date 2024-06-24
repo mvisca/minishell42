@@ -6,15 +6,15 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:44:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/24 21:17:07 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 10:36:44 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void    parser_ps_init(t_psplit *ps)
+void	parser_ps_init(t_psplit *ps)
 {
-    (*ps).dq = 0;
+	(*ps).dq = 0;
 	(*ps).sq = 0;
 	(*ps).i = 0;
 	(*ps).k = 0;

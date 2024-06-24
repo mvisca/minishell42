@@ -80,3 +80,7 @@ Cuando se exporta $NADA=algo
 debería dar que =algo no es bueno,
 pero está tomando como export sin argumentos
 $NADA == '\n' hay que mirarlo con que no tenga nada después, porque si lo tiene hay que redirigir a error con argumento => &comando[1]
+
+
+
+en errors_start se puede poner validacione s de syntax

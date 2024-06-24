@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export_context.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
+/*   Updated: 2024/06/24 11:03:24 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	export_context_error(t_ms *ms, char *key)
@@ -9,12 +21,9 @@ int	export_context_error(t_ms *ms, char *key)
 	return (1);
 }
 
-// ms->strs.aux
-// ms->strs.buf
-// ms->strs.new
 int	export_context_expand(t_ms *ms, t_coml *cmnd, int i, int j)
 {
-	int k;
+	int	k;
 	int	l;
 
 	k = 0;
@@ -38,7 +47,6 @@ int	export_context_expand(t_ms *ms, t_coml *cmnd, int i, int j)
 
 int	export_context(t_ms *ms, t_coml *cmnd, int i, int j)
 {
-	// no pude ver este caso en wsl2, probar en 42, si no existe comentar
 	while (cmnd && cmnd->command[i])
 	{
 		j = i + 1;
@@ -52,11 +60,3 @@ int	export_context(t_ms *ms, t_coml *cmnd, int i, int j)
 	}
 	return (0);
 }
-
-// int	export_set(int *i, int *j, char **line, t_coml *cmnd)
-// {
-// 	*i = 1;
-// 	*j = 0;
-// 	*line = cmnd->command[1];
-// 	return (1);
-// }

@@ -6,21 +6,18 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:56:59 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/24 20:46:44 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 11:00:45 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int parser_update_envarr(t_ms *ms)
+int	parser_update_envarr(t_ms *ms, int i, int nodes_num)
 {
-	int     nodes_num;
-	int		i;
-	t_envl  *envnode;
-	char    **newarr;
+	t_envl	*envnode;
+	char	**newarr;
 	char	*aux;
 
-	nodes_num = 0;
 	envnode = ms->envlst;
 	while (envnode)
 	{
@@ -31,7 +28,6 @@ int parser_update_envarr(t_ms *ms)
 	if (!newarr)
 		return (1);
 	envnode = ms->envlst;
-	i = 0;
 	while (envnode)
 	{
 		aux = ft_strjoin(envnode->key, "=");

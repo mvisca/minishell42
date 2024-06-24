@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:59:09 by mvisca            #+#    #+#             */
-/*   Updated: 2024/03/25 14:06:38 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 10:58:40 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,12 @@ static int	parser_count(const char *s, char c)
 	return (count);
 }
 
-static char	**parser_do_split(char **spliter, const char *s, char c)
+static char	**parser_do_split(char **spliter, const char *s, char c, int k)
 {
 	size_t	i;
-	int		k;
 	int		start;
 
 	i = 0;
-	k = 0;
 	while (s[i])
 	{
 		if (s[i] && s[i] != c && (i == 0 || s[i - 1] == c))
@@ -91,11 +89,8 @@ char	**parser_split(char *str)
 	tab = malloc (sizeof(char *) * (count + 1));
 	if (!tab)
 		return (NULL);
-	tab = parser_do_split(tab, str, 32);
+	tab = parser_do_split(tab, str, 32, 0);
 	if (!tab)
 		return (NULL);
 	return (tab);
-} 
-
-// hola "hola hola" -> hola
-// hola "esto es junto" y esto no | y esto"si que es"junto
+}

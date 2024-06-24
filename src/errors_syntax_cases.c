@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/30 17:23:55 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 10:50:23 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,22 @@ int	errors_pipe(t_ms *ms, t_tokl *token)
 	return (0);
 }
 
-int errors_redir(t_ms *ms, t_tokl *token)
+int	errors_redir(t_ms *ms, t_tokl *token)
 {
-	if (token->type == L_REDIRECT &&  token->next->type == L_REDIRECT)
+	if (token->type == L_REDIRECT && token->next->type == L_REDIRECT)
 		errors_syntax_display(ms, "<");
-	else if (token->type == R_REDIRECT &&  token->next->type == R_REDIRECT)
+	else if (token->type == R_REDIRECT && token->next->type == R_REDIRECT)
 		errors_syntax_display(ms, ">");
-	else if (token->type == DL_REDIRECT &&  token->next->type == DL_REDIRECT)
+	else if (token->type == DL_REDIRECT && token->next->type == DL_REDIRECT)
 		errors_syntax_display(ms, "<<");
-	else if (token->type == DR_REDIRECT &&  token->next->type == DR_REDIRECT)
+	else if (token->type == DR_REDIRECT && token->next->type == DR_REDIRECT)
 		errors_syntax_display(ms, ">>");
 	else
 		return (0);
 	return (1);
 }
 
-int errors_word(t_ms *ms, t_tokl *token)
+int	errors_word(t_ms *ms, t_tokl *token)
 {
 	if (token->type == WORD && 0)
 	{
@@ -67,28 +67,4 @@ int	errors_start(t_ms *ms)
 {
 	(void)ms;
 	return (0);
-	// modalidad mixta de linea y tokens
 }
-
-// int	errors_start(t_ms *ms)
-// {
-// 	t_tokl	*token;
-// 	t_tokl	*tnext;
-
-
-// 	token = ms->token_list;
-// 	tnext = ms->token_list->next;
-// 	if (token->type == PIPE)
-// 	{
-// 		if (ft_strnstr(ms->line, "||", 2))
-// 			errors_syntax_display(ms, "||");
-// 		else
-// 			errors_syntax_display(ms, "|");
-// 		return (1);
-// 	}
-// 	if ((token->type == DL_REDIRECT || token->type == DR_REDIRECT || 
-// 	token->type == L_REDIRECT || token->type == R_REDIRECT) && 
-// 	tnext && tnext->type != WORD)
-// 		errors_syntax_display(ms, tnext->str);
-// 	return (0);
-// }

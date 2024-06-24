@@ -1,10 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environment_sort.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
+/*   Updated: 2024/06/24 10:17:13 by mvisca           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 void	environment_sort(t_envl **env)
 {
-	// ver nodo a nodo cuál es el key mayor
-	t_envl  *curr;
+	t_envl	*curr;
 	t_envl	*prev;
 	char	*key;
 	char	*value;

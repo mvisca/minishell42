@@ -6,15 +6,12 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:44:35 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/11 18:11:53 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/24 10:44:05 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/minishell.h"
 
-// V2
-// One-linier fee and null chars matrix
 void	utils_free_tab(char ***tab)
 {
 	int	i;
@@ -55,24 +52,18 @@ void	utils_free_token_list(t_tokl **token)
 {
 	t_tokl	*next_token;
 
-	while (*token)	
+	while (*token)
 	{
 		next_token = (*token)->next;
 		if ((*token)->str)
-			free((*token)->str); // 2
-		free(*token); // 1
+			free((*token)->str);
+		free(*token);
 		*token = NULL;
 		*token = next_token;
 	}
 	*token = NULL;
 }
 
-// V2
-//	(1 cmnd (2.1 char **command (3.a char *command[n] 3) 2.1) (2.2 redirect (3.b path 3) 2.2) 1)
-
-//	3.a *command		## ## ## ## ## 	// 3.b path		## ## ## ## ## ##
-//	2.1 **command		##############	// 2.2 redirect	#################
-//	1 cmnd				#################################################
 void	utils_free_cmnd_list(t_coml **cmnd)
 {
 	t_redl	*next_redir;
@@ -85,18 +76,18 @@ void	utils_free_cmnd_list(t_coml **cmnd)
 		while ((*cmnd)->redirect)
 		{
 			next_redir = (*cmnd)->redirect->next;
-			if((*cmnd)->redirect->eof)
-				free((*cmnd)->redirect->eof);//OK ojto con esto el moc a dalt per provar
-			if((*cmnd)->redirect->path)
-				free((*cmnd)->redirect->path); // OK 3.b protejo esto
-			free((*cmnd)->redirect); // 2.2
+			if ((*cmnd)->redirect->eof)
+				free((*cmnd)->redirect->eof);
+			if ((*cmnd)->redirect->path)
+				free((*cmnd)->redirect->path);
+			free((*cmnd)->redirect);
 			(*cmnd)->redirect = next_redir;
 		}
 		i = 0;
 		while ((*cmnd)->command && (*cmnd)->command[i])
-			free((*cmnd)->command[i++]); // 3.a
-		free ((*cmnd)->command); // 2.1
-		free(*cmnd); // 1
+			free((*cmnd)->command[i++]);
+		free ((*cmnd)->command);
+		free(*cmnd);
 		*cmnd = next_cmnd;
 	}
 }
@@ -125,5 +116,5 @@ int	utils_free_ms(t_ms *ms, int clean_env)
 		utils_free_cmnd_list(&ms->cmnd_list);
 		ms->cmnd_list = NULL;
 	}
-	return (0);
+	return (1);
 }

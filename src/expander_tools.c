@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:55:55 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/04/16 23:51:56 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 10:16:47 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*expander_filter_quotes(char *str)
 {
-	size_t		i;
-	size_t		end;
+	size_t	i;
+	size_t	end;
 	char	quote;
 
 	i = 0;
