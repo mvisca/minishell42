@@ -6,16 +6,12 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/23 16:26:14 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 11:11:35 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
-
-//variable global para gestionar las senyales.
-//definida en global.h
-//extern	int	g_exit;
 
 typedef struct s_parser_split
 {
@@ -24,7 +20,7 @@ typedef struct s_parser_split
 	int						k;
 	int						dq;
 	int						sq;
-} 	t_psplit;
+}	t_psplit;
 
 typedef struct s_envl
 {
@@ -45,22 +41,22 @@ typedef struct s_redl
 	int						type;
 	int						fdes;
 	char					*path;
-	char					*eof;//NUEVO para controlar el hd
+	char					*eof;
 	struct s_redl			*next;
-}  t_redl;
+}	t_redl;
 
 typedef struct s_coml
 {
-	char					**command; // command[0] = comando; command[1] = opciones... command[n] = NULL;
-	t_redl					*redirect; // NULL o VALIDO
-	int						in;//control entrada para dups sera un fd
-	int						out;//control salida para dups sera un fd
-	int						aux;//control para saltarse la ejecucion del comando
+	char					**command;
+	t_redl					*redirect;
+	int						in;
+	int						out;
+	int						aux;
 	struct s_coml			*next;
 }	t_coml;
 
 typedef struct s_strs
- {
+{
 	char					*aux;
 	char					*buf;
 	char					*new;						
@@ -74,17 +70,14 @@ typedef struct s_ms
 	t_strs					strs;
 	t_envl					*envlst;
 	char					**envarr;
-	int						init_fd[2];//dup inicial de STDIN y STDOUT
-	int						l_tubo[2];//la pipe del proceso
-	int						prev_fd[2];//no se usa
-	int						std_in;//dup inicial STDIN 
-	int						std_out;//dup inicial STDOUT
+	int						init_fd[2];
+	int						l_tubo[2];
+	int						prev_fd[2];
+	int						std_in;
+	int						std_out;
 	unsigned char			exit_code;
-//	int						exit_code;
 	int						cmnd_count;
-//	int						hdl;//control de las lineas escritas en heredoc
-//	pid_t					pid;
-	pid_t					pid[MAX_ARGS];//para controlar executor y funcion espera
+	pid_t					pid[MAX_ARGS];
 }	t_ms;
 
 #endif
