@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/25 19:19:43 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/25 20:00:14 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static int	ft_isnum(char *str)
 	return (1);
 }
 
-
+//corregir limites long long
 static long	long int ft_atolp(char *str, int *ok, int i)
 {
 	long long	num;
