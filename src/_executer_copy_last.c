@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/25 19:19:43 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/23 21:24:55 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,55 +85,16 @@ static int	ft_isnum(char *str)
 	i = 0;
 	if (!ft_strlenp(str))
 		return (0);
-	while (ft_isspace(str[i]))
-		++i;
-	if (str[i] == '+' || str[i] == '-')
+	if (str[0] == '+' || str[0] == '-')
 		++i;
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]) && !ft_isspace(str[i]))
+		if (!ft_isdigit(str[i]))
 			return (0);
-		else if (ft_isspace(str[i]))
-		{
-			while (ft_isspace(str[i]) && str[i])
-				++i;
-			if (str[i])
-				return (0);
-			return (1);
-		}
 		++i;
 	}
 	return (1);
 }
-
-
-static long	long int ft_atolp(char *str, int *ok, int i)
-{
-	long long	num;
-	int			sign;
-
-	sign = 1;
-	num = 0;
-	while (ft_isspace(str[i]))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		sign -= 2 * (str[i] == '-');
-		++i;
-	}
-	while (ft_isdigit(str[i]))
-	{
-		if ((num * 10) > 9223372036854775807)//need to check levels
-		{
-			*ok = 0;
-			break ;
-		}
-		num = (num * 10) + str[i] - '0';
-		i++;
-	}
-	return (num * sign);
-}
-
 
 static unsigned char	full_exit(t_ms *ms, unsigned int code, int show)
 {
@@ -147,25 +108,23 @@ static unsigned char	full_exit(t_ms *ms, unsigned int code, int show)
 
 //comprobar si imprime exit en la secuencia correcta
 //bash: exit: 1A: numeric argument required
-static unsigned char	builtin_exit(t_ms *ms, char **cmnd)
+static unsigned char builtin_exit(t_ms *ms, char **cmnd)
 {
-	int	ok;
+//	unsigned char	bye;
 
-	ok = 1;
+//	bye = ms->exit_code;
 	if (ft_tablen(cmnd) == 1 && ms->cmnd_count == 1)
-		return (full_exit(ms, ms->exit_code, 1));
+		return (full_exit(ms, 0, 1));
 	if (ft_isnum(cmnd[1]))
 	{
 		if (ft_tablen(cmnd) > 2)
 		{
 			ft_putstr_fd("exit\n", 2);
-			return (ft_error_return(cmnd[0], NULL, MANY, 2));
+			return(ft_error_return(cmnd[0], NULL, MANY, 2));
 		}
-		ms->exit_code = (unsigned char)(ft_atolp(cmnd[1], &ok, 0));
-		if (ms->cmnd_count == 1 && ok)
-			return (full_exit(ms, ms->exit_code, 1));
-		if (ms->cmnd_count > 1 && ok)
-			return (ms->exit_code);
+		if (ms->cmnd_count == 1)
+			return (full_exit(ms, 222, 1));//change code
+		return (222);//change code
 	}
 	if (ms->cmnd_count > 1)
 		return (ft_error_return(cmnd[0], cmnd[1], NUMERIC, 2));
