@@ -750,7 +750,7 @@ EXIT
 		else
 			exit (unsigned char(arg))
 					
-Test withe exit codes: checking validiy of args
+Test with exit codes: checking validiy of args
 Multiple args, first numeric:
 	new$ exit 1 a b c
 	exit
@@ -778,7 +778,7 @@ Multiple args, non numeric, digit, alpha:
 	PRINTS EXIT OF STDERRNO, followed by error message,	EXIT IS DONE
 
 
-Test with exit codes: not numeric (new$ is bash)
+Test codes:
 	new$ exit de
 	exit
 	bash: exit: de: numeric argument required
@@ -808,52 +808,140 @@ Test with exit codes: not numeric (new$ is bash)
 	echo $? =>LINE IN NEW BASH (ONCE EXIT IS DONE)
 	0
 
+Values from ms panic (new$ = bash; bin1 = zsh)
+Previous command in bash:
+	new$ < ksks ls -la
+	bash: ksks: No such file or directory
+		IT GENERATES ERROR = 1
+	new$ kaka
+	Command 'kaka' not found,
+		IT GENERATES ERROR = 127
+
+	new$ exit
+	exit
+	bin1$ echo $?
+	127
+
+	KEEPS SAME ERROR VALUE
+
+	new$ exit 0
+	new$ exit +0
+	new$ exit -0
+	exit
+	bin1$ echo $?
+	0
+	EACH VARIATION CHANGES EXIT VALUE TO 0	
+
+	new$ exit ++0
+	new$ exit --0
+	exit
+	bash: exit: ++0: numeric argument required
+	bin1$ echo $?
+	2
+
+	TWO CONSECUTIVE SIGNS MAKE THE ARGUMENT CONSIDERED AS NON NUMERIC
+
 	new$ exit -1
 	exit
-	echo $? =>LINE IN NEW BASH (ONCE EXIT IS DONE)
+	bin1$ echo $?
 	255
 
-	new$ exit -256
+	new$ exit '3'
 	exit
- 	% echo $?
-	0
+	bin1$ echo $?
+	3
 
-	exit -257
-	exit
-	echo $?
-	255  => LIKE EXIT -1
+	CHECK PARSING
 
-	new$ exit -512
+	
+	new$ exit ' 3' 		OR 	exit '3 ' OR '  3  '
 	exit
- 	echo $?
-	0  => exit_code % 256
+	bin1$ echo $?
+	3
 
-	new$ exit 256
-	exit
- 	% echo $?
-	0
 
-	new$ exit 257
+	new$ exit ' 3 2'	OR	exit '3 2' OR exit '  3  2'
 	exit
- 	% echo $?
-	1 => exit_code % 256
+	bash: exit:  3 2 : numeric argument required
+	bin1$ echo $?
+	2
+	
+	done => CHECK PARSING AND VALIDATION
+	exit 255
 
-	new$ exit +42
-	exit
- 	% echo $?
-	42
+	exit -255
+	VALUE = 1
 
-	new$ exit 8a
+	exit 256
+	exit -256
+	VALUE = 0
+
+	exit 2147483647
+	VALUE = 255
+
+	exit 2147483648
+	VALUE = 0
+
+	exit -2147483648
+	VALUE = 0
+	exit -2147483649
+	VALUE = 255
+
+	exit 4294967295
+	VALUE = 255
+
+	exit 4294967296
+	exit -4294967296
+	VALUE = 0
+
+	exit -4294967297
+	VALUE = 255
+	exit 4294967297
+	VALUE = 1
+	exit 	9223372036854775807
+			922337203685477580
+			9223372036854775807
+	VALUE = 255
+	
+	exit 9223372036854775808
 	exit
-	bash: exit: 8a: numeric argument required
-	% echo $?
+	bash: exit: 9223372036854775808: numeric argument required
+	bin1$ echo $?
+	2
+			-9223372036854775808
+			-922337203685477588
+	exit 	-9223372036854775808
+	VALUE = 0
+	exit -9223372036854775809
+	exit
+	bash: exit: -9223372036854775809: numeric argument required
+	bin1$ echo $?
 	2
 
-	new$ exit -8a
+	exit 18446744073709551615
 	exit
-	bash: exit: -8a: numeric argument required
- 	% echo $?
+	bash: exit: 18446744073709551615: numeric argument required
+	bin1$ echo $?
 	2
+
+	exit 18446744073709551616
+	exit
+	bash: exit: 18446744073709551616: numeric argument required
+	bin1$ echo $?
+	2
+
+	exit -18446744073709551616
+	exit -18446744073709551617
+	exit 9999999999999999999999
+	numeric argument required
+	
+	exit 0000000000000000000000
+	exit 0000000000000000000001
+	exit ok with right number
+	exit 1 2 3
+
+
+
 
 	exit value is an unsigned char
 	to cast integer to unsigned char:
