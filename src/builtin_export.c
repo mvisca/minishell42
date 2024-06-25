@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 13:29:42 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/24 13:34:50 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,6 @@ int	builtin_export(t_ms *ms, t_coml *cmnd)
 		line = cmnd->command[i];
 		if (line[0] != '\n')
 			export_not_new_line(ms, cmnd, line, i);
-		// {
-		// 	if (line[0] && !ft_strchr(EXP_CHARS, line[0]))
-		// 		export_error(line);
-		// 	else if (line[0])
-		// 	{
-		// 		if (i == 1 && export_context(ms, cmnd, 1, 0)) // check context error
-		// 			return (1);
-		// 		export_switch(ms, line, 0);
-		// 	}
-		// 	else
-		// 		export_error(line);
-		// }
 		else
 		{
 			ft_memmove(cmnd->command[i], &cmnd->command[i][1], \

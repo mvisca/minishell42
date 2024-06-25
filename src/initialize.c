@@ -6,11 +6,35 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 10:45:48 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/25 16:13:47 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+static int	init_normalize_shlvl(t_ms *ms, int i_lvl, char *a_lvl)
+{
+	t_envl	*node;
+
+	if (i_lvl > 999)
+	{
+		ft_putstr_fd("minishell: warning: shell level (", 2);
+		ft_putstr_fd(a_lvl, 2);
+		ft_putstr_fd(") too high, resetting to 1\n", 2);
+		node = environment_get_node(ms, "SHLVL");
+		free(node->value);
+		node->value = ft_strdup("1");
+		return (1);
+	}
+	else if (i_lvl < 0)
+	{
+		node = environment_get_node(ms, "SHLVL");
+		free(node->value);
+		node->value = ft_strdup("0");
+		return (1);
+	}
+	return (0);
+}
 
 // actualiza el nivel de shell
 static void	init_shell_level(t_ms *ms)
@@ -20,8 +44,11 @@ static void	init_shell_level(t_ms *ms)
 
 	a_lvl = environment_get_value(ms, "SHLVL");
 	i_lvl = ft_atoi(a_lvl) + 1;
-	a_lvl = ft_itoa(i_lvl);
-	environment_update_node(ms, "SHLVL", a_lvl);
+	if (!init_normalize_shlvl(ms, i_lvl, a_lvl))
+	{
+		a_lvl = ft_itoa(i_lvl);
+		environment_update_node(ms, "SHLVL", a_lvl);
+	}
 }
 
 void	initialize(t_ms *ms, int ac, char **av, char **envp)
