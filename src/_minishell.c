@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/23 17:15:17 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/26 16:24:08 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int ac, char **av, char **envp)
 		signal_ignore(SIGQUIT);
 		if (interface_get_line(&ms) != 0)
 			continue ;
+//		ms.line = readline("minishell $");
 		signal_ignore(SIGINT);
 		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
 			continue ;
