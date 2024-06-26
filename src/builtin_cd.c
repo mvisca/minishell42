@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/21 08:48:13 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:29:42 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,13 @@ int	builtin_cd(t_ms *ms, char **cmnd)
 		i *= chdir(environment_get_value(ms, "HOME"));
 	}
 	else if (ft_strcmp(cmnd[1], "-") == 0)
-	{
 		i *= ft_cd_to_old(ms);
-	}
 	else
 		i *= ft_mini_cd(cmnd[1], ms);
 	getcwd(path, sizeof(path));
-	ft_update_oldpwd(ms, path, oldpwd, i);
+	if (!ft_strcmp(cmnd[1], "//"))
+		ft_update_oldpwd(ms, "//", oldpwd, i);
+	else
+		ft_update_oldpwd(ms, path, oldpwd, i);
 	return (i);
 }
