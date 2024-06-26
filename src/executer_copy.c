@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/26 16:48:44 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:33:56 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,10 @@ static int	ft_isnum(char *str)
 	return (1);
 }
 
-static long	long int ft_atolp(char *str, int *ok, int i, int sign)
+static long	long int	ft_atolp(char *str, int *ok, int i, int sign)
 {
 	unsigned long long	num;
-//	int					sign;
 
-//	sign = 1;
 	num = 0;
 	while (ft_isspace(str[i]))
 		i++;
@@ -136,7 +134,6 @@ static long	long int ft_atolp(char *str, int *ok, int i, int sign)
 	return ((num * sign));
 }
 
-
 static unsigned char	full_exit(t_ms *ms, unsigned int code, int show)
 {
 	if (show)
@@ -147,8 +144,6 @@ static unsigned char	full_exit(t_ms *ms, unsigned int code, int show)
 	exit (code);
 }
 
-//comprobar si imprime exit en la secuencia correcta
-//bash: exit: 1A: numeric argument required
 static unsigned char	builtin_exit(t_ms *ms, char **cmnd)
 {
 	int	ok;
@@ -261,7 +256,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (pid[i] == 0)
 	{
-		job->out = -81;//necesario?
+		job->out = -81;
 		if (job->redirect)
 		{
 			ft_redirin(job->redirect, 0);
@@ -295,7 +290,7 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (ms->pid[i] == 0)
 	{
-		job->out = -81;//necesario?
+		job->out = -81;//necesario antes de redirect?
 		if (job->redirect)
 		{
 			ft_redirin(job->redirect, 1);
@@ -320,20 +315,16 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS], t_ms *ms)
 	{
 		waitpid(pid[count], &stat, 0);
 		if (WIFEXITED(stat))
-			printf("Children %d pos %d terminated with status: %d. Check signals\n",
-				pid[count], count, WEXITSTATUS(stat));
+			ms->exit_code = WEXITSTATUS(stat);
 		else if (WIFSIGNALED(stat))
 		{
-			printf("Sequence terminated with: %d or %d\n", WIFSIGNALED(stat), g_exit);
 			if (WTERMSIG(stat) == SIGINT)
 			{
-				printf("Exit code will be 130\n");
-				ms->exit_code = 130;				
+				ms->exit_code = 130;
 			}
 			else if (WTERMSIG(stat) == SIGQUIT)
 			{
-				ms->exit_code = 131;				
-				printf("Quit as 131\n");
+				ms->exit_code = 131;
 			}
 		}
 	}
