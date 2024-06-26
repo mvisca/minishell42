@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/26 08:37:22 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/26 16:48:44 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,12 @@ static int	ft_isnum(char *str)
 	return (1);
 }
 
-static long	long int ft_atolp(char *str, int *ok, int i)
+static long	long int ft_atolp(char *str, int *ok, int i, int sign)
 {
-	long long	num;
-	int			sign;
+	unsigned long long	num;
+//	int					sign;
 
-	sign = 1;
+//	sign = 1;
 	num = 0;
 	while (ft_isspace(str[i]))
 		i++;
@@ -122,15 +122,18 @@ static long	long int ft_atolp(char *str, int *ok, int i)
 	}
 	while (ft_isdigit(str[i]))
 	{
-		if ((num * 10) > 9223372036854775807)//need to check levels
+		if ((num * 10 + str[i] - '0') <= (ULLONG_MAX / 2 + (sign == -1)))
+		{
+			num = (num * 10) + str[i] - '0';
+			i++;
+		}
+		else
 		{
 			*ok = 0;
 			break ;
 		}
-		num = (num * 10) + str[i] - '0';
-		i++;
 	}
-	return (num * sign);
+	return ((num * sign));
 }
 
 
@@ -160,7 +163,7 @@ static unsigned char	builtin_exit(t_ms *ms, char **cmnd)
 			ft_putstr_fd("exit\n", 2);
 			return (ft_error_return(cmnd[0], NULL, MANY, 2));
 		}
-		ms->exit_code = (unsigned char)(ft_atolp(cmnd[1], &ok, 0));
+		ms->exit_code = (unsigned char)(ft_atolp(cmnd[1], &ok, 0, 1));
 		if (ms->cmnd_count == 1 && ok)
 			return (full_exit(ms, ms->exit_code, 1));
 		if (ms->cmnd_count > 1 && ok)
@@ -258,7 +261,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (pid[i] == 0)
 	{
-		job->out = -81;
+		job->out = -81;//necesario?
 		if (job->redirect)
 		{
 			ft_redirin(job->redirect, 0);
@@ -292,7 +295,7 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
 	if (ms->pid[i] == 0)
 	{
-		job->out = -81;
+		job->out = -81;//necesario?
 		if (job->redirect)
 		{
 			ft_redirin(job->redirect, 1);
