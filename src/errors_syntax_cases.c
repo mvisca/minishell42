@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/27 20:51:41 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/27 21:26:35 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,26 @@ int	errors_redir(t_ms *ms, t_tokl *token)
 	return (1);
 }
 
-int	errors_word(t_ms *ms, t_tokl *token)
+int	errors_word(t_ms *ms, t_tokl *tok)
 {
-	if (token->type == WORD && 0)
+	size_t	i;
+	size_t	j;
+
+	while (tok->type)
 	{
-		errors_syntax_display(ms, NULL);
-		return (1);
+		i = 0;
+		while (tok->str[i])
+		{
+			if (tok->str[i] == D_QUOTE || tok->str[i] == S_QUOTE)
+			{
+				j = i;
+				str_close_quote(tok->str, &i);
+				if (tok->str[j] != tok->str[i])
+					return (errors_syntax_display(ms, "Open Quotes"));
+			}
+			i++;
+		}
+		tok = tok->next;
 	}
 	return (0);
 }
@@ -68,7 +82,7 @@ int	errors_start(t_ms *ms)
 	t_tokl	*tok;
 	t_tokl	*prev;
 
-	debug_token(ms);
+//	debug_token(ms);
 	tok = ms->token_list;
 	if (tok->type == PIPE)
 		return (errors_syntax_display(ms, "|"));
