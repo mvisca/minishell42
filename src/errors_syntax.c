@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:52:06 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 10:54:18 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/27 20:45:51 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ int	errors_syntax_display(t_ms *ms, char *str)
 {
 	ft_putstr_fd(SYNTAX_MSSG, 2);
 	ft_putstr_fd(str, 2);
+	ft_putstr_fd("\'", 2);
 	ft_putstr_fd("\n", 2);
 	ms->exit_code = 2;
-	return (0);
+	return (1);
 }
 
 // estudiar cómo realizar esto con errno
