@@ -3,6 +3,7 @@ GETTER
 	Por ejemplo el path deberia ser como maximo 1024  => MAX_PATH en nuestras macros
 
 EXPANDER
+
     $$ -> PID
     $var
     $(var)
@@ -42,7 +43,8 @@ EXPANDER
     ?:cualquier char
 
 
-ENV
+
+    ENV
 VIGILAR EL SHELL LEVEL
 	void	ft_shlvl(t_env **env, t_env *temp, int shlvl, char *str)
 {
@@ -72,8 +74,6 @@ VIGILAR EL SHELL LEVEL
 	}
 }
 
-Proteccion de SHLV 0 a 999
-
 -----
 
 Cuando se exporta $NADA=algo
@@ -84,3 +84,6 @@ $NADA == '\n' hay que mirarlo con que no tenga nada después, porque si lo tiene
 
 
 en errors_start se puede poner validacione s de syntax
+1.  pipe al inicio
+2.  pipe al final
+3.  quotes sin cerrar simples o dobles
