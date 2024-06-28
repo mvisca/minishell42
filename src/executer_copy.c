@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/28 12:33:36 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/28 13:04:11 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,6 +291,11 @@ static void	ft_waitend(pid_t pid, t_ms *ms)
 	{
 		ms->exit_code = WEXITSTATUS(stat);
 	}
+	else if (WIFSIGNALED(stat))
+	{
+		if (WTERMSIG(stat) == SIGINT)
+			ms->exit_code = 130;
+	}
 }
 
 static void	ft_wait(int count, pid_t pid[MAX_ARGS], t_ms *ms)
@@ -307,11 +312,11 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS], t_ms *ms)
 		}
 		else if (WIFSIGNALED(stat))
 		{
-			if (WTERMSIG(stat) == SIGINT)
-			{
-				ms->exit_code = 130;
-			}
-			else if (WTERMSIG(stat) == SIGQUIT)
+//			if (WTERMSIG(stat) == SIGINT)
+//			{
+//				ms->exit_code = 130;
+//			}
+			if (WTERMSIG(stat) == SIGQUIT)
 			{
 				ms->exit_code = 131;
 			}
