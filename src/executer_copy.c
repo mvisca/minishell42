@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/26 18:33:56 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/28 12:33:36 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,16 @@ static void	ft_dup_close(int tubo[2], int pos, int out)
 	}
 }
 
+static void	ft_reset_dups(t_ms *ms)
+{
+	dup2(ms->init_fd[0], STDIN_FILENO);
+	close(ms->init_fd[0]);
+	ms->init_fd[0] = dup(STDIN_FILENO);
+	dup2(ms->init_fd[1], STDOUT_FILENO);
+	close(ms->init_fd[1]);
+	ms->init_fd[1] = dup(STDOUT_FILENO);
+}
+
 static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 {
 	int		tubo[2];
@@ -283,30 +293,6 @@ static void	ft_waitend(pid_t pid, t_ms *ms)
 	}
 }
 
-static void	ft_runend(t_coml *job, t_ms *ms, int i)
-{
-	ms->pid[i] = fork();
-	if (ms->pid[i] < 0)
-		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
-	if (ms->pid[i] == 0)
-	{
-		job->out = -81;//necesario antes de redirect?
-		if (job->redirect)
-		{
-			ft_redirin(job->redirect, 1);
-			ft_redirout(job, 1);
-		}
-		if (job->command && job->command[0])
-			ft_runcmnd(job, ms, 1);
-		else
-			exit(0);
-	}
-	else
-	{
-		ft_waitend(ms->pid[i], ms);
-	}
-}
-
 static void	ft_wait(int count, pid_t pid[MAX_ARGS], t_ms *ms)
 {
 	int		stat;
@@ -315,7 +301,10 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS], t_ms *ms)
 	{
 		waitpid(pid[count], &stat, 0);
 		if (WIFEXITED(stat))
-			ms->exit_code = WEXITSTATUS(stat);
+		{
+			printf("Exit will be %d\n", ms->exit_code);
+//			ms->exit_code = WEXITSTATUS(stat);
+		}
 		else if (WIFSIGNALED(stat))
 		{
 			if (WTERMSIG(stat) == SIGINT)
@@ -330,14 +319,28 @@ static void	ft_wait(int count, pid_t pid[MAX_ARGS], t_ms *ms)
 	}
 }
 
-static void	ft_reset_dups(t_ms *ms)
+static void	ft_runend(t_coml *job, t_ms *ms, int i)
 {
-	dup2(ms->init_fd[0], STDIN_FILENO);
-	close(ms->init_fd[0]);
-	ms->init_fd[0] = dup(STDIN_FILENO);
-	dup2(ms->init_fd[1], STDOUT_FILENO);
-	close(ms->init_fd[1]);
-	ms->init_fd[1] = dup(STDOUT_FILENO);
+	ms->pid[i] = fork();
+	if (ms->pid[i] < 0)
+		ft_error_exit("Fork failed:", NO_FORK, EXIT_FAILURE);
+	if (ms->pid[i] == 0)
+	{
+		job->out = -81;
+		if (job->redirect)
+		{
+			ft_redirin(job->redirect, 1);
+			ft_redirout(job, 1);
+		}
+		if (job->command && job->command[0])
+			ft_runcmnd(job, ms, 1);
+		else
+			exit(0);
+	}
+	else
+	{
+		ft_waitend(ms->pid[i], ms);
+	}
 }
 
 static int	ft_is_quoted(char *eof)

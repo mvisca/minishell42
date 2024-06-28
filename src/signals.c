@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/23 12:57:58 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/28 10:04:37 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	interactive_handler(int signum)
 	}
 }
 
-//Handles the signal in here_doc
+//Handles the signal in here_doc mind the value!
 static void	heredoc_handler(int signum)
 {
 	if (signum == SIGINT)
