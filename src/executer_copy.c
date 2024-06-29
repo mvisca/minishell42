@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/29 14:44:56 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:29:39 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -440,8 +440,8 @@ static int	ft_check_hd(t_ms *ms, t_redl *files)
 	signal_init(HEREDOC);
 	i = ft_write_hd(ms, fd, files->eof);
 	close(fd);
-	ms->exit_code = i;
-	return (i);
+	ms->exit_code = 130 * i/SIGINT;
+	return (ms->exit_code);
 }
 
 static int	ft_search_hd(t_ms *ms, t_coml *job)

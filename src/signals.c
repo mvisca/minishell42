@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/29 08:03:12 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:33:01 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ static void	interactive_handler(int signum)
 	{
 		ft_putstr_fd("\n", 2);
 		rl_done = 1;
-		g_exit = 130;
+		g_exit = SIGINT;
 	}
 	else if (signum == SIGQUIT)
 	{
-		g_exit = 131;
+		g_exit = SIGQUIT;
 	}
 }
 
@@ -60,7 +60,7 @@ static void	heredoc_handler(int signum)
 	if (signum == SIGINT)
 	{
 		rl_done = 1;
-		g_exit = 130;
+		g_exit = SIGINT;
 	}
 	else
 		g_exit = 0;
