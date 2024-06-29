@@ -1,0 +1,26 @@
+Minishell > echo (date)
+(date)
+Minishell > echo $?
+0
+Minishell > bash
+fcatala-@car9s6:~/Documents/Cursus/minishell42/new$ echo (date)
+bash: syntax error near unexpected token `date'
+fcatala-@car9s6:~/Documents/Cursus/minishell42/new$ echo $?
+2
+
+Minishell > echo "Text" >| test/errors.txt
+Minishell: Bad address
+Minishell > bash
+fcatala-@car9s6:~/Documents/Cursus/minishell42/new$ echo "Text" >| test/errors.txt
+fcatala-@car9s6:~/Documents/Cursus/minishell42/new$ cat test/errors.txt
+Text
+
+Minishell > | grep text
+text
+text
+kaka
+tet
+Minishell > bash
+fcatala-@car9s6:~/Documents/Cursus/minishell42/new$ | grep text
+bash: syntax error near unexpected token `|'
+

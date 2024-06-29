@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/23 12:57:28 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/29 12:32:10 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@
 # define MANY			": too many arguments\n"
 # define NUMERIC		": numeric argument required\n"
 # define TOO_LONG		": File name too long\n"
+# define EMPTY			"''"
 
 // Errores de ejecucion
 # define EXIT_DENIED	126

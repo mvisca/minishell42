@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/29 10:48:46 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/29 12:37:41 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static char	*ft_getcmd(char *cmnd, t_ms *ms, int last)
 	char	*out;
 	char	**paths;
 
+	if (!cmnd[0])
+		ft_error_exit(EMPTY, NO_FOUND, last * EXIT_NOTFOUND);
 	out = environment_get_value(ms, "PATH");
 	if (!out)
 		return (ft_strjoin("/", cmnd));
@@ -286,7 +288,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 			ft_redirout(job, 0);
 		}
 		ft_dup_close(tubo, 1, job->out);
-		if (job->command && job->command[0])
+		if (job->command)
 			ft_runcmnd(job, ms, 0);
 		else
 			exit(0);
@@ -340,7 +342,7 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 			ft_redirin(job->redirect, 1);
 			ft_redirout(job, 1);
 		}
-		if (job->command && job->command[0])
+		if (job->command)
 			ft_runcmnd(job, ms, 1);
 		else
 			exit(0);
