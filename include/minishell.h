@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 11:01:10 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/29 10:46:54 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 /*##################	BUILTINS	#####################*/
 
-int			builtin_cd(t_ms *ms, char **cond);
+int			builtin_cd(t_ms *ms, char **path, int i);
 int			builtin_echo(char **com);
 int			builtin_export(t_ms *ms, t_coml *cmnd);
 int			export_context(t_ms *ms, t_coml *cmnd, int i, int j);
