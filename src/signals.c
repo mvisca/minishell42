@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/28 10:04:37 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/29 08:03:12 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ static void	interactive_handler(int signum)
 		ft_putstr_fd("\n", 2);
 		rl_done = 1;
 		g_exit = 130;
+	}
+	else if (signum == SIGQUIT)
+	{
+		g_exit = 131;
 	}
 }
 
