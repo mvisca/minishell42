@@ -6,7 +6,7 @@
 /*   By: mvisca-g <mvisca-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:10:25 by mvisca            #+#    #+#             */
-/*   Updated: 2024/04/19 08:26:31 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/29 14:20:41 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,15 @@ static void	environment_noenv(t_ms *ms)
 	environment_add_node(ms, new_env);
 }
 
+// En caso de que SHLVL llege vacio
+static void	environment_nolevel(t_ms *ms)
+{
+	t_envl	*new_env;
+
+	new_env = environment_new_node(ms, "SHLVL", "1");
+	environment_add_node(ms, new_env);
+}
+
 // Tested Ok
 t_envl	*environment_init(t_ms *ms, char **envp)
 {
@@ -69,5 +78,7 @@ t_envl	*environment_init(t_ms *ms, char **envp)
 	}
 	if (!envp || !environment_get_node(ms, "PATH"))
 		environment_noenv(ms);
+	if (!envp || !environment_get_node(ms, "SHLVL"))
+		environment_nolevel(ms);
 	return (ms->envlst);
 }
