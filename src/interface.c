@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 10:54:39 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/06/29 16:14:47 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	empty_exit(t_ms *ms)
 	exit (0);
 }
 
+//quitado && ms->line[0] == 0 para lanzar utils_free_ms
 int	interface_get_line(t_ms *ms)
 {
 	char	*trim;
@@ -33,8 +34,10 @@ int	interface_get_line(t_ms *ms)
 		free(trim);
 		if (!ms->line && isatty(STDIN_FILENO))
 			empty_exit(ms);
-		else if (ms->line && ms->line[0] == 0)
+		else if (ms->line)
+		{
 			utils_free_ms(ms, FALSE);
+		}
 		return (1);
 	}
 	free(trim);
