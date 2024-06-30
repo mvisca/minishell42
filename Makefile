@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/06/24 13:31:53 by mvisca           ###   ########.fr        #
+#    Updated: 2024/06/30 11:52:28 by fcatala-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ SRC         = 		_minishell.c 				\
 					parser_command_tools.c		\
 					parser_update_envarr.c		\
 					signals.c					\
+					signals2.c					\
 					utils_free.c				\
 					utils_str.c					\
 					utils2_str.c				\

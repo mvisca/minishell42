@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/29 10:46:54 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/30 11:49:05 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,11 @@ int			parser_update_envarr(t_ms *ms, int i, int node_num);
 
 int			signal_init(int mode);
 int			signal_ignore(int sig_type);
+void		heredoc_handler(int signum);
+void		interactive_handler(int signum);
+void		normal_handler(int signum);
+int			ft_event_hook(void);
+int			ft_event_hook2(void);
 
 /*##################	UTILS		#####################*/
 
