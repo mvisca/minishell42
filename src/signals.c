@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/29 15:33:01 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/30 10:52:13 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 static int	ft_event_hook(void)
 {
-	if (g_exit == 130)
-	{
-		rl_done = 0;
-	}
+	rl_done = 0;
 	return (0);
 }
 
