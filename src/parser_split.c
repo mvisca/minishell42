@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:59:09 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 10:58:40 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/01 11:25:22 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	parser_free_all(char **spliter)
 	free(spliter);
 }
 
-static int	parser_count(const char *s, char c)
+static int	parser_count(t_ms *ms, const char *s, char c)
 {
 	size_t	i;
 	int		count;
@@ -38,7 +38,7 @@ static int	parser_count(const char *s, char c)
 		{
 			if (i == 0 || s[i -1] == c)
 				count++;
-			str_close_quote((char *)s, &i);
+			str_close_quote(ms, (char *)s, &i);
 			if (s[i])
 				i++;
 		}
@@ -50,7 +50,7 @@ static int	parser_count(const char *s, char c)
 	return (count);
 }
 
-static char	**parser_do_split(char **spliter, const char *s, char c, int k)
+static char	**parser_do_split(t_ms *ms, const char *s, char c, int k)
 {
 	size_t	i;
 	int		start;
@@ -61,36 +61,35 @@ static char	**parser_do_split(char **spliter, const char *s, char c, int k)
 		if (s[i] && s[i] != c && (i == 0 || s[i - 1] == c))
 			start = i;
 		if ((s[i] == S_QUOTE || s[i] == D_QUOTE) && s[i + 1])
-			str_close_quote((char *)s, &i);
+			str_close_quote(ms, (char *)s, &i);
 		if (s[i] && s[i] != c && (s[i + 1] == c || !s[i + 1]))
 		{
-			spliter[k] = ft_substr(s, start, i + 1 - start);
-			if (!spliter[k++])
+			ms->aux_tab[k] = ft_substr(s, start, i + 1 - start);
+			if (!ms->aux_tab[k++])
 			{
-				parser_free_all(spliter);
+				parser_free_all(ms->aux_tab);
 				return (NULL);
 			}
 		}
 		if (s[i])
 			i++;
 	}
-	spliter[k] = NULL;
-	return (spliter);
+	ms->aux_tab[k] = NULL;
+	return (ms->aux_tab);
 }
 
-char	**parser_split(char *str)
+char	**parser_split(t_ms *ms, char *str)
 {
-	char	**tab;
 	int		count;
 
 	if (!str)
 		return (NULL);
-	count = parser_count(str, 32);
-	tab = malloc (sizeof(char *) * (count + 1));
-	if (!tab)
+	count = parser_count(ms, str, 32);
+	ms->aux_tab = malloc (sizeof(char *) * (count + 1));
+	if (!ms->aux_tab)
 		return (NULL);
-	tab = parser_do_split(tab, str, 32, 0);
-	if (!tab)
+	ms->aux_tab = parser_do_split(ms, str, 32, 0);
+	if (!ms->aux_tab)
 		return (NULL);
-	return (tab);
+	return (ms->aux_tab);
 }

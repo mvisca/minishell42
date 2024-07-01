@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer_copy.c                                    :+:      :+:    :+:   */
+/*   _executer_copy.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
+/*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/05/28 19:40:53 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/01 10:48:41 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,7 @@ static void	ft_write_hd(t_ms *ms, int fd, char *eof)
 	if ((eof[0] == '\"' && eof[ft_strlen(eof) - 1] == '\"')
 		|| (eof[0] == '\'' && eof[ft_strlen(eof) - 1] == '\''))
 		quoted = 1;
-	eof = expander_filter_quotes(eof);
+	eof = expander_filter_quotes(ms, eof);
 	signal_init(HEREDOC);
 	tmp = readline("> ");
 	while (1)

@@ -6,21 +6,21 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:55:55 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/06/24 10:35:41 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/01 10:41:51 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	expander_bad_subs(void)
+static int	expander_bad_subs(t_ms *ms)
 {
-	ft_printf("Error Bad substitution\n");
+	errors_syntax_display(ms, "error: bad substitution");
 	return (1);
 }
 
-static int	expander_open_par(void)
+static int	expander_open_par(t_ms *ms)
 {
-	ft_printf("Error de paréntesis no cerrado\n");
+	errors_syntax_display(ms, "error: pernthesys missmatch not handled by minishell");
 	return (1);
 }
 
@@ -29,19 +29,19 @@ int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 	size_t	start;
 
 	if (!ft_strchr(&str[*i], '}'))
-		return (expander_open_par());
+		return (expander_open_par(ms));
 	*i += 2;
 	start = *i;
 	while (str[*i] && (str[*i] != '}'))
 	{
 		if (!(ft_isalnum(str[*i]) || str[*i] == '_'))
-			return (expander_bad_subs());
+			return (expander_bad_subs(ms));
 		(*i)++;
 	}
 	ms->strs.aux = ft_substr(str, start, (&str[*i] - &str[start]));
 	*i += 1;
 	if (!ms->strs.aux || ft_strlen(ms->strs.aux) == 0)
-		return (expander_bad_subs());
+		return (expander_bad_subs(ms));
 	ms->strs.buf = environment_get_value(ms, ms->strs.aux);
 	free(ms->strs.aux);
 	ms->strs.aux = NULL;

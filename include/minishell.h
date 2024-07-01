@@ -113,7 +113,7 @@ void		ft_redirout(t_coml *job, int last);
 /*##################	EXPANDER	#####################*/
 
 int			expander(t_ms *ms);
-char		*expander_filter_quotes(char *str);
+char		*expander_filter_quotes(t_ms *ms, char *str);
 int			expander_get_expansion(t_ms *ms, char *str, size_t i);
 int			expander_var_exit(t_ms *ms, char *str, size_t *i);
 int			expander_var_alpha(t_ms *ms, char *str, size_t *i);
@@ -145,7 +145,7 @@ t_tokl		*lexer_add_token(t_ms *ms, t_tokl *token);
 int			parser(t_ms *ms);
 t_coml		*parser_new_command(t_coml **commnad);
 int			parser_add_command(t_ms *ms, t_coml *command);
-char		**parser_split(char *str);
+char		**parser_split(t_ms *ms, char *str);
 void		parser_ps_init(t_psplit *ps);
 
 int			parser_add_redirect(t_coml *cmnd, t_redl *redir);
@@ -166,8 +166,8 @@ void		utils_free_token_list(t_tokl **token);
 void		utils_free_cmnd_list(t_coml **cmnd);
 
 // String
-size_t		str_line_len(char *line);
-void		str_close_quote(char *line, size_t *i);
+size_t		str_line_len(t_ms *ms, char *line);
+int		    str_close_quote(t_ms *ms, char *line, size_t *i);
 void		strs_reset(t_ms *ms);
 int    		strs_free(t_ms *ms);
 

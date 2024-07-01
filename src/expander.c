@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/27 21:42:17 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/01 10:48:59 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,10 @@ int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 
 	while (str && str[i])
 	{
-		ft_printf("pre\n");
-		ft_printf(" num %d \n", i);
-//		ft_printf("found %s \n", str[i]);
-		ft_printf("post\n");
 		if (str[i] == S_QUOTE)
 		{
-			ft_printf("fff\n");
 			start = i;
-			str_close_quote(&str[i], &i);
+			str_close_quote(ms, &str[i], &i);
 			ms->strs.buf = ft_substr(str, start, i - start + 1);
 			if (str[i])
 				i++;
@@ -90,10 +85,9 @@ int	expander(t_ms *ms)
 		i = 0;
 		while (node->command && node->command[i])
 		{
-			ft_printf("%d i\n", i);
 			expander_get_expansion(ms, node->command[i], 0);
 			free(node->command[i]);
-			node->command[i] = expander_filter_quotes(ms->strs.new);
+			node->command[i] = (ms->strs.new);
 			ms->strs.new = NULL;
 			strs_free(ms);
 			if (i == 0)

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:48:44 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 10:44:26 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/01 11:18:46 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	lexer_make_token(t_ms *ms, char *line, int type, int *i)
 	new->next = NULL;
 	if (type == WORD)
 	{
-		len = str_line_len(line);
+		len = str_line_len(ms, line);
 		new->str = ft_substr(line, 0, len);
 		(*i) += len;
 	}
