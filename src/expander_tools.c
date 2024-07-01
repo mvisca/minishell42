@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:55:55 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/07/01 10:49:46 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/01 12:15:45 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ char	*expander_filter_quotes(t_ms *ms, char *str)
 			str_close_quote(ms, str, (size_t *)&end);
 			if (str[end] == quote)
 			{
-				ft_memmove(&str[end], &str[end + 1], ft_strlen(&str[end]));
-				ft_memmove(&str[i], &str[i + 1], ft_strlen(&str[i]));
+				ft_memmove(&str[end], &str[end + 1], ft_strlen(&str[end]) + 1);
+				ft_memmove(&str[i], &str[i + 1], ft_strlen(&str[i]) + 1);
 				i = end - 2;
 			}
 		}

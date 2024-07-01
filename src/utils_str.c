@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/01 11:17:36 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/01 12:20:54 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	str_close_quote(t_ms *ms, char *line, size_t *i)
 	size_t	j;
 
 	j = *i;
-	if (!ft_strchr(&line[*i], line[*i]))
+	if (line && *i < ft_strlen(line) && !ft_strchr(&line[*i], line[*i]))
 		return (errors_syntax_display(ms, "error: parenthesys missmatch"));
 	if (line && line[*i])
 	{
 		c = line[*i];
 		(*i)++;
-		while (line && line[*i] && line[*i] != c)
+		while (line && *i < ft_strlen(line) && line[*i] && line[*i] != c)
 		{
 			(*i)++;
 		}

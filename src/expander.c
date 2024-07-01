@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/01 10:48:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/01 12:05:20 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 		if (str[i] == S_QUOTE)
 		{
 			start = i;
+			ft_printf("str[i] = %s, i = %d\n", &str[i], i);
 			str_close_quote(ms, &str[i], &i);
 			ms->strs.buf = ft_substr(str, start, i - start + 1);
-			if (str[i])
-				i++;
+			// if (str[i] && str[i + 1])
+			i++;
 		}
 		else if (ft_strnstr(&str[i], "$?", 2) || ft_strnstr(&str[i], "${?}", 4))
 			expander_var_exit(ms, str, &i);
@@ -86,6 +87,7 @@ int	expander(t_ms *ms)
 		while (node->command && node->command[i])
 		{
 			expander_get_expansion(ms, node->command[i], 0);
+			expander_filter_quotes(ms, ms->strs.new);
 			free(node->command[i]);
 			node->command[i] = (ms->strs.new);
 			ms->strs.new = NULL;
