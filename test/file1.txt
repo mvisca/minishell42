@@ -1,18 +1,41 @@
-Quien es el mejor?
-El mejor es fcatala-
-el contenido de test es:
-total 1408
-drwxr-xr-x 8 fcatala- 2022_barcelona     156 Jun 15 15:03 .
-drwxr-xr-x 4 fcatala- 2022_barcelona      33 Jun  7 13:43 ..
--rw-r--r-- 1 fcatala- 2022_barcelona      65 Jun 15 15:04 .0xyz_here_tmp.tmp
-drwxr-xr-x 8 fcatala- 2022_barcelona     220 Jun 15 12:15 .git
--rw-r--r-- 1 fcatala- 2022_barcelona      52 Jun  7 13:43 .gitignore
-drwxr-xr-x 2 fcatala- 2022_barcelona     101 Jun 15 14:32 include
-drwxr-xr-x 4 fcatala- 2022_barcelona      35 Jun  7 13:43 lib
--rw-r--r-- 1 fcatala- 2022_barcelona    3732 Jun  9 06:47 Makefile
--rwxr-xr-x 1 fcatala- 2022_barcelona 1421192 Jun 15 14:57 minishell
-drwxr-xr-x 2 fcatala- 2022_barcelona    4096 Jun 15 14:57 .obj
-drwxr-xr-x 2 fcatala- 2022_barcelona    4096 Jun 15 14:49 src
-drwxr-xr-x 3 fcatala- 2022_barcelona     133 Jun 15 14:55 test
-file1.txt exists
-escribo desde cat
+drwxr-xr-x 3 fcatala- 2022_barcelona  4096 Jul  4 10:54 .
+drwxr-xr-x 8 fcatala- 2022_barcelona   130 Jul  5 06:19 ..
+-rw-r--r-- 1 fcatala- 2022_barcelona  2315 Jun 25 19:36 _2signals.c
+-rw-r--r-- 1 fcatala- 2022_barcelona 15164 Jun 30 09:43 debug2.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona  7942 Jul  4 10:54 debug3.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona  5031 Jun 29 08:20 debug_export.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona    53 Jun 29 10:50 empty2.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona    53 Jun 29 10:49 empty.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona    27 Jun 20 16:15 eof1.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona    16 Jun 20 15:37 eof2.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona     5 Jun 29 11:57 errors.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona  8430 Jun 25 19:36 _executer_copy.c
+-rw-r--r-- 1 fcatala- 2022_barcelona  9956 Jun 26 14:26 _executer_copy_last.c
+-rw-r--r-- 1 fcatala- 2022_barcelona     0 Jun 23 07:28 exit_out.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona     0 Jul  5 06:33 file1.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona     0 Jul  5 06:22 file2.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona    24 Jul  3 15:37 file3.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona     0 Jul  3 15:40 file4.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona     0 Jun 23 08:33 kakota_vil.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona     9 Jun 21 14:23 kosa1.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona    15 Jun 21 14:24 kosa2.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona  3940 Jun 29 09:33 myenv.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona  2605 Jul  3 17:39 new01.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona    48 Jun 30 07:14 new.txt
+d--------- 2 fcatala- 2022_barcelona     6 Jun 15 14:55 noaccess
+-rw-r--r-- 1 fcatala- 2022_barcelona  2539 Jul  3 17:36 nova.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona  8402 Jun 25 19:36 _ok_executer_copy.c
+-rw-r--r-- 1 fcatala- 2022_barcelona  2474 Jul  3 17:31 passada.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona  1273 Jun 29 17:41 pipes.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona     0 Jun 25 19:57 prova2.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona    12 Jun 30 11:53 prova3.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona  2173 Jun 30 09:49 prova.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona  2595 Jul  4 09:29 quoted.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona 21302 Jun 26 17:45 redirs.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona    75 Jun 30 09:49 ro.txt
+-rwxr-xr-x 1 fcatala- 2022_barcelona    27 Jun 30 09:49 script1.sh
+-rw-r--r-- 1 fcatala- 2022_barcelona  1448 Jun 22 11:38 shit
+-rw-r--r-- 1 fcatala- 2022_barcelona  2608 Jun 30 10:54 signals.c
+-rw-r--r-- 1 fcatala- 2022_barcelona   659 Jun 30 10:38 syntax.txt
+-rwxr-xr-x 1 fcatala- 2022_barcelona    38 Jun 30 09:49 wo.txt
+-rw-r--r-- 1 fcatala- 2022_barcelona  1031 Jun 30 09:49 z1.txt

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/04 12:37:26 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/05 07:56:19 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	expander_clean_strs(t_ms *ms)
 	ms->strs.buf = NULL;
 }
 
+//str_close_quote(&str[i], &i);//linea 33 original
 int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 {
 	size_t	start;
@@ -29,15 +30,7 @@ int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 		if (str[i] == S_QUOTE)
 		{
 			start = i;
-			printf("Entra en %s desde %d que tiene len %d\n", str, (int)i, (int)ft_strlen(str));//
-			printf("va a examinar %s\n", &str[i]);//
-			if (i > ft_strlen(&str[i]))//
-			{
-				printf("Ahora va a petar en 3 segundos\n");//
-				sleep(3);//
-			}
-			str_close_quote(&str[i], &i);
-			printf("Sale de %s i= %d len %d hasta %d\n", str, (int)i, (int)ft_strlen(str), (int)(i - start + 1));//
+			str_close_quote(str, &i);
 			ms->strs.buf = ft_substr(str, start, i - start + 1);
 			i++;
 		}

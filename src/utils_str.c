@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/04 12:22:55 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/05 07:56:11 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@ void	str_close_quote(char *line, size_t *i)
 {
 	char	c;
 
-	write(1, line, ft_strlen(line));//
-	write(1, "\n", 1);//
-	printf("line es %s\n", line);//
 	c = line[*i];
 	(*i)++;
 	while (line[*i] && line[*i] != c)
