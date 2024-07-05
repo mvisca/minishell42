@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:55:55 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/07/05 19:40:08 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 20:09:18 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 static int	expander_bad_subs(t_ms *ms)
 {
-	errors_syntax_display(ms, "error: bad substitution");
+	ft_putstr_fd("error: bad substitution\n", 2);
+	ms->exit_code = 2;
 	return (1);
 }
 
-static int	expander_open_par(t_ms *ms)
+static int	expander_open_par(t_ms *ms, size_t *i)
 {
-	errors_syntax_display(ms, "error: pernthesys missmatch not handled by minishell");
+	ft_putstr_fd("error: pernthesys missmatch not handled by minishell\n", 2);
+	ms->exit_code = 2;
+	(*i)++;
 	return (1);
 }
 
@@ -29,7 +32,7 @@ int	expander_var_curly(t_ms *ms, char *str, size_t *i)
 	size_t	start;
 
 	if (!ft_strchr(&str[*i], '}'))
-		return (expander_open_par(ms));
+		return (expander_open_par(ms, i));
 	*i += 2;
 	start = *i;
 	while (str[*i] && (str[*i] != '}'))

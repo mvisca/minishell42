@@ -49,7 +49,7 @@ void			export_ff(int *j, char *line);
 void			export_concat(t_ms *ms, int j, char *line);
 void			export_assign(t_ms *ms, int j, char *line);
 int				export_solo(t_ms *ms, char *line);
-void			export_get_key_value(int j, char *line, char **key, char **value);
+void			export_get_key_value(int j, char *line, char **key, char **v);
 int				export_no_options(t_coml *comnd);
 int				export_print_env(t_ms *ms);
 int				builtin_pwd(t_ms *ms);
@@ -191,7 +191,7 @@ void			utils_free_cmnd_list(t_coml **cmnd);
 size_t			str_line_len(char *line);
 void			str_close_quote(char *line, size_t *i);
 void			strs_reset(t_ms *ms);
-int			    strs_free(t_ms *ms);
+int				strs_free(t_ms *ms);
 
 /*##################	UTILS2_STR		#####################*/
 

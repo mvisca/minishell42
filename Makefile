@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/07/05 11:59:38 by fcatala-         ###   ########.fr        #
+#    Updated: 2024/07/05 19:43:42 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ SRC         = 		_minishell.c 				\
 					builtin_fds.c				\
 					builtin_pwd.c				\
 					builtin_unset.c				\
-					debug.c						\
 					environment_getters.c		\
 					environment_init.c			\
 					environment_sort.c			\
@@ -68,6 +67,7 @@ SRC         = 		_minishell.c 				\
 					utils_str.c					\
 					utils2_str.c				\
 					utils3_str.c
+#					debug.c
 
 SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 

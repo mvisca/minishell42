@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:30:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 13:11:40 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 19:46:06 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	export_no_options(t_coml *cmnd)
 	return (0);
 }
 
-void	export_get_key_value(int j, char *line, char **key, char **value)
+void	export_get_key_value(int j, char *line, char **key, char **v)
 {
 	*key = ft_substr(line, 0, j);
 	if (line && line[j])
@@ -31,10 +31,10 @@ void	export_get_key_value(int j, char *line, char **key, char **value)
 			j += 2;
 		else if (line[j] == '=')
 			j += 1;
-		*value = ft_substr(line, j, ft_strlen(&line[j]));
+		*v = ft_substr(line, j, ft_strlen(&line[j]));
 	}
 	else
-		*value = ft_strdup("\n\0");
+		*v = ft_strdup("\n\0");
 }
 
 void	export_ff(int *j, char *line)

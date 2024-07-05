@@ -6,19 +6,11 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 17:29:23 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 19:46:58 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-// static int	curly_error_message(void)
-// {
-// 	ft_printf("Unhandled use of '{' and/or '}'.\n");
-// 	ft_printf("Bash runs HEREDOC or passes '}' as a command option.\n");
-// 	ft_printf("This edge cases are not handled by minishell.\n");
-// 	return (SYNTAX_CURLY_START);
-// }
 
 int	errors_pipe(t_ms *ms, t_tokl *token)
 {
@@ -82,7 +74,6 @@ int	errors_start(t_ms *ms)
 	t_tokl	*tok;
 	t_tokl	*prev;
 
-//	debug_token(ms);
 	tok = ms->token_list;
 	if (tok->type == PIPE)
 		return (errors_syntax_display(ms, "|"));
