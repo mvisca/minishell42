@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 01:33:01 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 13:34:50 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 20:24:41 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	export_not_new_line(t_ms *ms, t_coml *cmnd, char *line, int i)
 		export_error(line);
 	else if (line[0])
 	{
-		if (i == 1 && export_context(ms, cmnd, 1, 0)) // check context error
+		if (i == 1 && export_context(ms, cmnd, 1, 0))
 			return (1);
 		export_switch(ms, line, 0);
 	}
