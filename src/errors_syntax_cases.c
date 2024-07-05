@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/01 10:47:29 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:29:23 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	errors_word(t_ms *ms, t_tokl *tok)
 			if (tok->str[i] == D_QUOTE || tok->str[i] == S_QUOTE)
 			{
 				j = i;
-				str_close_quote(ms, tok->str, &i);
+				str_close_quote(tok->str, &i);
 				if (tok->str[j] != tok->str[i])
 					return (errors_syntax_display(ms, "Open Quotes"));
 			}

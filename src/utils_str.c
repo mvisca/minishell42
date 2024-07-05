@@ -6,16 +6,15 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 17:27:06 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 18:02:56 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	str_close_quote(t_ms *ms, char *line, size_t *i)
+void	str_close_quote(char *line, size_t *i)
 {
 	char	c;
-	size_t	j;
 
 	c = line[*i];
 	(*i)++;
@@ -25,7 +24,7 @@ int	str_close_quote(t_ms *ms, char *line, size_t *i)
 	}
 }
 
-size_t	str_line_len(t_ms *ms, char *line)
+size_t	str_line_len(char *line)
 {
 	size_t	i;
 	int		flag;
@@ -37,7 +36,7 @@ size_t	str_line_len(t_ms *ms, char *line)
 		flag = 0;
 		if (line[i] == S_QUOTE || line[i] == D_QUOTE)
 		{
-			str_close_quote(ms, line, &i);
+			str_close_quote(line, &i);
 			if (line[i])
 				i++;
 			flag = 1;

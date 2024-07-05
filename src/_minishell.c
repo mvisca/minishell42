@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 17:26:06 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 18:07:22 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	main(int ac, char **av, char **envp)
 		signal_ignore(SIGINT);
 		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
 			continue ;
-		debug_all(&ms, 0, 0, 1);
 		expander(&ms);
 		ft_execute(&ms);
 		utils_free_ms(&ms, FALSE);

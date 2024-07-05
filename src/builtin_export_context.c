@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/24 13:17:35 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 18:01:06 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	export_context_expand(t_ms *ms, t_coml *cmnd, int i, int j)
 		strs_free(ms);
 		return (1);
 	}
-	return (strs_free(ms));
+	strs_free(ms);
+	return (0);
 }
 
 int	export_context(t_ms *ms, t_coml *cmnd, int i, int j)

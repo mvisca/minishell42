@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/01 11:03:12 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:31:33 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	p_rd(t_ms *ms, t_coml **cmnd, t_tokl **token, t_redl **redir)
 		return (1);
 	if ((*token)->type == WORD)
 	{
-		ms->aux_tab = parser_split(ms, (*token)->str);
+		ms->aux_tab = parser_split((*token)->str);
 		if (!ms->aux_tab)
 			return (1);
 		(*redir)->path = (ms->aux_tab)[0];
@@ -73,7 +73,7 @@ static int	p_pop_comm(t_ms **ms, t_coml **cmnd, t_tokl **token, t_redl **redir)
 
 	if ((*token)->type == WORD)
 	{
-		tab = parser_split(*ms, (*token)->str);
+		tab = parser_split((*token)->str);
 		if (!tab)
 			return (1);
 		parser_tab_to_array(tab, *cmnd);
