@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 17:29:44 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 18:44:12 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 			start = i;
 			str_close_quote(str, &i);
 			ms->strs.buf = ft_substr(str, start, i - start + 1);
-			// if (str[i] && str[i + 1])
 			i++;
 		}
 		else if (ft_strnstr(&str[i], "$?", 2) || ft_strnstr(&str[i], "${?}", 4))
@@ -79,7 +78,6 @@ int	expander(t_ms *ms)
 	t_coml		*node;
 
 	strs_free(ms);
-	debug_all(ms, 0, 0, 1);
 	node = ms->cmnd_list;
 	while (node)
 	{
