@@ -6,13 +6,12 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 10:54:39 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 09:53:20 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//No deberia salir como un error si se ha introducido ctr d para salir
 int	empty_exit(t_ms *ms)
 {
 	write(2, "exit\n", 5);
@@ -30,10 +29,11 @@ int	interface_get_line(t_ms *ms)
 	trim = ft_strtrim(ms->line, SPACES);
 	if (!trim || trim[0] == '\0')
 	{
-		free(trim);
+		if (trim)
+			free(trim);
 		if (!ms->line && isatty(STDIN_FILENO))
 			empty_exit(ms);
-		else if (ms->line && ms->line[0] == 0)
+		else if (ms->line)
 			utils_free_ms(ms, FALSE);
 		return (1);
 	}

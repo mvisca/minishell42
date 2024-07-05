@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/21 08:48:13 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/06/29 10:53:17 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,15 @@ static int	ft_cd_to_old(t_ms *ms)
 	return (i);
 }
 
-int	builtin_cd(t_ms *ms, char **cmnd)
+int	builtin_cd(t_ms *ms, char **cmnd, int i)
 {
 	char	path[MAX_PATH];
 	char	oldpwd[MAX_PATH];
-	int		i;
 
-	i = -1;
 	if (ft_tablen(cmnd) > 2)
 		return (ft_error_return("cd", NULL, MANY, 1));
+	if (cmnd[1] && !cmnd[1][0])
+		return (0);
 	getcwd(oldpwd, sizeof(oldpwd));
 	if (!cmnd[1] || cmnd[1][0] == '\0' || ft_strcmp(cmnd[1], "~") == 0)
 	{
@@ -116,12 +116,13 @@ int	builtin_cd(t_ms *ms, char **cmnd)
 		i *= chdir(environment_get_value(ms, "HOME"));
 	}
 	else if (ft_strcmp(cmnd[1], "-") == 0)
-	{
 		i *= ft_cd_to_old(ms);
-	}
 	else
 		i *= ft_mini_cd(cmnd[1], ms);
 	getcwd(path, sizeof(path));
-	ft_update_oldpwd(ms, path, oldpwd, i);
+	if (cmnd[1] && !ft_strcmp(cmnd[1], "//"))
+		ft_update_oldpwd(ms, "//", oldpwd, i);
+	else
+		ft_update_oldpwd(ms, path, oldpwd, i);
 	return (i);
 }

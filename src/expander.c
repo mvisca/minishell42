@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/01 12:05:20 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:28:08 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	expander_clean_strs(t_ms *ms)
 	ms->strs.buf = NULL;
 }
 
+//str_close_quote(&str[i], &i);//linea 33 original
 int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 {
 	size_t	start;
@@ -29,8 +30,7 @@ int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 		if (str[i] == S_QUOTE)
 		{
 			start = i;
-			ft_printf("str[i] = %s, i = %d\n", &str[i], i);
-			str_close_quote(ms, &str[i], &i);
+			str_close_quote(str, &i);
 			ms->strs.buf = ft_substr(str, start, i - start + 1);
 			// if (str[i] && str[i + 1])
 			i++;
