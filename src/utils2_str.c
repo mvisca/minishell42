@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 08:26:07 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/29 10:22:18 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/05 10:43:00 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,18 @@ char	*ft_strjoin3(char *str1, char *str2, char *str3)
 	return (out);
 }
 
+int	ft_is_quoted(char *eof)
+{
+	int	quoted;
+
+	quoted = 0;
+	if ((eof[0] == '\"' && eof[ft_strlen(eof) - 1] == '\"')
+		|| (eof[0] == '\'' && eof[ft_strlen(eof) - 1] == '\''))
+		quoted = 1;
+	return (quoted);
+}
 //not used
+/*
 char	*ft_strlwr(char *str)
 {
 	int	i;
@@ -82,3 +93,4 @@ char	*ft_strlwr(char *str)
 	}
 	return (str);
 }
+*/

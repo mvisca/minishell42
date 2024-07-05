@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/06/30 11:52:28 by fcatala-         ###   ########.fr        #
+#    Updated: 2024/07/05 11:59:38 by fcatala-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC_PATH    = src/
 SRC         = 		_minishell.c 				\
 					builtin_cd.c				\
 					builtin_echo.c				\
+					builtin_exit.c				\
 					builtin_export.c			\
 					builtin_export_actions.c	\
 					builtin_export_tools.c		\
@@ -50,6 +51,7 @@ SRC         = 		_minishell.c 				\
 					extend_libft.c				\
 					expander_tools.c			\
 					expander_var_types.c		\
+					heredoc.c					\
 					initialize.c				\
 					interface.c					\
 					lexer.c						\
@@ -60,6 +62,8 @@ SRC         = 		_minishell.c 				\
 					parser_update_envarr.c		\
 					signals.c					\
 					signals2.c					\
+					utils_executer.c			\
+					utils2_executer.c			\
 					utils_free.c				\
 					utils_str.c					\
 					utils2_str.c				\
