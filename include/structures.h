@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:45:05 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/01 10:58:56 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 20:10:31 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_ms
 	int						cmnd_count;
 	pid_t					pid[MAX_ARGS];
 	char					**aux_tab;
+	int						syntax_errors;
 }	t_ms;
 
 #endif
