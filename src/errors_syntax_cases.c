@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 19:46:58 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/08 17:18:06 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	errors_pipe(t_ms *ms, t_tokl *token)
 	{
 		errors_syntax_display(ms, str);
 		free(str);
-		return (1);
+		return (ms->exit_code);
 	}
 	free(str);
 	return (0);
@@ -42,7 +42,7 @@ int	errors_redir(t_ms *ms, t_tokl *token)
 		errors_syntax_display(ms, ">>");
 	else
 		return (0);
-	return (1);
+	return (ms->exit_code);
 }
 
 int	errors_word(t_ms *ms, t_tokl *tok)
@@ -83,6 +83,6 @@ int	errors_start(t_ms *ms)
 		tok = tok->next;
 	}
 	if (prev->type == PIPE)
-		errors_syntax_display(ms, "|");
+		return (errors_syntax_display(ms, "|"));
 	return (0);
 }

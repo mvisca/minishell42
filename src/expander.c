@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 20:04:02 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/08 16:12:24 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	expander_split(char ***cm, int i, int j)
 
 	tab = ft_split((*cm)[0], ' ');
 	if (ft_tablen(tab) > 1)
-	{	
+	{
 		len = ft_tablen(*cm) + ft_tablen(tab);
 		new = ft_calloc(sizeof(char *), len);
 		while (tab[++i])

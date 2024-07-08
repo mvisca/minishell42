@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:55:55 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/07/05 20:11:21 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/08 17:27:22 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	expander_bad_subs(t_ms *ms)
 
 static int	expander_open_par(t_ms *ms, size_t *i)
 {
-	ft_putstr_fd("error: pernthesys missmatch not handled by minishell\n", 2);
+	ft_putstr_fd("error: parentheses mismatch not handled by minishell\n", 2);
 	ms->exit_code = 2;
 	(*i)++;
 	ms->syntax_errors = 1;

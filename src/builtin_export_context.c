@@ -6,14 +6,14 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/05 18:01:06 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/08 16:13:34 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int	export_context_error(t_ms *ms, char *key)
-{					
+{
 	ft_putstr_fd("export: not valid in this context: ", 2);
 	ft_putstr_fd(key, 2);
 	ft_putstr_fd("+\n", 2);

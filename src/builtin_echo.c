@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 22:36:21 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 19:02:22 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/08 16:14:15 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static int	line_break(char *str)
 			i++;
 			if (!str[i])
 				return (TRUE);
-		}	
-	}	
+		}
+	}
 	return (FALSE);
 }
 
