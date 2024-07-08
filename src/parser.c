@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:46:07 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 11:01:25 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:31:33 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_coml	*parser_tab_to_array(char **tab, t_coml *cmnd)
 	return (cmnd);
 }
 
-static int	p_rd(t_coml **cmnd, t_tokl **token, t_redl **redir, char ***tab)
+static int	p_rd(t_ms *ms, t_coml **cmnd, t_tokl **token, t_redl **redir)
 {
 	*redir = (t_redl *)ft_calloc(1, sizeof(t_redl));
 	if (!*redir)
@@ -55,13 +55,13 @@ static int	p_rd(t_coml **cmnd, t_tokl **token, t_redl **redir, char ***tab)
 		return (1);
 	if ((*token)->type == WORD)
 	{
-		*tab = parser_split((*token)->str);
-		if (!*tab)
+		ms->aux_tab = parser_split((*token)->str);
+		if (!ms->aux_tab)
 			return (1);
-		(*redir)->path = (*tab)[0];
-		if ((*tab)[1])
-			parser_tab_to_array(&(*tab)[1], *cmnd);
-		free(*tab);
+		(*redir)->path = (ms->aux_tab)[0];
+		if ((ms->aux_tab)[1])
+			parser_tab_to_array(&(ms->aux_tab)[1], *cmnd);
+		free(ms->aux_tab);
 	}
 	parser_add_redirect(*cmnd, *redir);
 	return (0);
@@ -81,7 +81,7 @@ static int	p_pop_comm(t_ms **ms, t_coml **cmnd, t_tokl **token, t_redl **redir)
 	}
 	else if ((*token)->type >= 5 && (*token)->type <= 8)
 	{
-		if (p_rd(cmnd, token, redir, &tab))
+		if (p_rd(*ms, cmnd, token, redir))
 			return (1);
 	}
 	if ((*token)->next)

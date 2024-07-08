@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/27 21:42:17 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 20:04:02 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,19 @@ static void	expander_clean_strs(t_ms *ms)
 	ms->strs.buf = NULL;
 }
 
+//str_close_quote(&str[i], &i);//linea 33 original
 int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 {
 	size_t	start;
 
 	while (str && str[i])
 	{
-		ft_printf("pre\n");
-		ft_printf(" num %d \n", i);
-//		ft_printf("found %s \n", str[i]);
-		ft_printf("post\n");
 		if (str[i] == S_QUOTE)
 		{
-			ft_printf("fff\n");
 			start = i;
-			str_close_quote(&str[i], &i);
+			str_close_quote(str, &i);
 			ms->strs.buf = ft_substr(str, start, i - start + 1);
-			if (str[i])
-				i++;
+			i++;
 		}
 		else if (ft_strnstr(&str[i], "$?", 2) || ft_strnstr(&str[i], "${?}", 4))
 			expander_var_exit(ms, str, &i);
@@ -83,17 +78,16 @@ int	expander(t_ms *ms)
 	t_coml		*node;
 
 	strs_free(ms);
-	debug_all(ms, 0, 0, 1);
 	node = ms->cmnd_list;
 	while (node)
 	{
 		i = 0;
 		while (node->command && node->command[i])
 		{
-			ft_printf("%d i\n", i);
 			expander_get_expansion(ms, node->command[i], 0);
+			expander_filter_quotes(ms->strs.new);
 			free(node->command[i]);
-			node->command[i] = expander_filter_quotes(ms->strs.new);
+			node->command[i] = (ms->strs.new);
 			ms->strs.new = NULL;
 			strs_free(ms);
 			if (i == 0)

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:10 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/25 16:13:47 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 20:10:53 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,5 @@ void	initialize(t_ms *ms, int ac, char **av, char **envp)
 	ms->std_in = dup(STDIN_FILENO);
 	ms->std_out = dup(STDOUT_FILENO);
 	ms->exit_code = 0;
+	ms->syntax_errors = 0;
 }

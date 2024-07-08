@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:59:09 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/24 10:58:40 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:37:12 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	parser_count(const char *s, char c)
 	return (count);
 }
 
-static char	**parser_do_split(char **spliter, const char *s, char c, int k)
+static char	**parser_do_split(char **aux_tab, const char *s, char c, int k)
 {
 	size_t	i;
 	int		start;
@@ -64,33 +64,33 @@ static char	**parser_do_split(char **spliter, const char *s, char c, int k)
 			str_close_quote((char *)s, &i);
 		if (s[i] && s[i] != c && (s[i + 1] == c || !s[i + 1]))
 		{
-			spliter[k] = ft_substr(s, start, i + 1 - start);
-			if (!spliter[k++])
+			aux_tab[k] = ft_substr(s, start, i + 1 - start);
+			if (!aux_tab[k++])
 			{
-				parser_free_all(spliter);
+				parser_free_all(aux_tab);
 				return (NULL);
 			}
 		}
 		if (s[i])
 			i++;
 	}
-	spliter[k] = NULL;
-	return (spliter);
+	aux_tab[k] = NULL;
+	return (aux_tab);
 }
 
 char	**parser_split(char *str)
 {
-	char	**tab;
 	int		count;
+	char	**aux_tab;
 
 	if (!str)
 		return (NULL);
 	count = parser_count(str, 32);
-	tab = malloc (sizeof(char *) * (count + 1));
-	if (!tab)
+	aux_tab = malloc (sizeof(char *) * (count + 1));
+	if (!aux_tab)
 		return (NULL);
-	tab = parser_do_split(tab, str, 32, 0);
-	if (!tab)
+	aux_tab = parser_do_split(aux_tab, str, 32, 0);
+	if (!aux_tab)
 		return (NULL);
-	return (tab);
+	return (aux_tab);
 }
