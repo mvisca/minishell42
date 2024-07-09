@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/09 14:45:39 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:17:00 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define MAX_PATH	4095
 # define MAX_NAME	255
 # define MAX_ARGS	256
+# define MAX_HDS	16
 
 // Macros para manipular funciones de LEXER
 # define END    	    0
@@ -104,6 +105,7 @@
 # define NUMERIC		": numeric argument required\n"
 # define TOO_LONG		": File name too long\n"
 # define EMPTY			"''"
+# define TOO_HD			": maximum here-document count exceeded\n"
 
 // Errores de ejecucion
 # define EXIT_DENIED	126
