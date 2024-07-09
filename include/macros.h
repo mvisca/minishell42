@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 17:25:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/09 14:45:39 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@
 
 // Mensajes de error
 # define SYNTAX_MSSG    "Minishell: syntax error near unexpected token `"
+# define SYNTAX_ONLY	"syntax error near unexpected token "
 # define MINI			"Minishell: "
 # define DUP_FAIL		"dup2 failed "
 # define NO_PIPE		": unable to create a pipe\n"

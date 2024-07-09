@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/05 17:27:52 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/09 14:19:24 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,13 @@ int	ft_execute(t_ms *ms)
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	if (!ms->cmnd_count)
 		return (0);
-	if (ft_search_hd(ms, ms->cmnd_list) != 130)
+	ms->exit_code = ft_search_hd(ms, ms->cmnd_list);
+	if (!ms->exit_code)
 	{
 		signal_init(INTERACTIVE);
 		ft_job(ms);
 	}
 	ft_closer(ms, ms->cmnd_count);
 	ft_reset_dups(ms);
-	return (0);
+	return (ms->exit_code);
 }

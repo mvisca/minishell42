@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:59:26 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/05 11:03:40 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:14:47 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ static int	ft_check_hd(t_ms *ms, t_redl *files)
 		files->path = ft_strjoin3(".", c, H_FILE);
 		if (access(files->path, F_OK) != 0)
 			fd = open(files->path, O_CREAT | O_RDWR | O_APPEND, 0644);
+		else
+			free(files->path);
 	}
 	free(c);
 	signal_init(HEREDOC);
@@ -90,6 +92,22 @@ static int	ft_check_hd(t_ms *ms, t_redl *files)
 	close(fd);
 	ms->exit_code = 130 * i / SIGINT;
 	return (ms->exit_code);
+}
+
+static int	ft_error_nopath(t_coml *coms, t_redl *files)
+{
+//	t_coml	*aux_com;
+//	t_redl	*aux_files;
+
+//	aux_com = coms;
+//	aux_files = files;
+	if (files->next)
+		return (ft_error_return(SYNTAX_ONLY, files->next->path, "\n", 2));
+	if (!coms->next)
+		return (ft_error_return(SYNTAX_ONLY, "'newline'", "\n", 2));
+	if (coms->next)
+		return (ft_error_return(SYNTAX_ONLY, "'|'", "\n", 2));
+	return (8);
 }
 
 int	ft_search_hd(t_ms *ms, t_coml *job)
@@ -107,6 +125,8 @@ int	ft_search_hd(t_ms *ms, t_coml *job)
 			{
 				if (files->type == DL_REDIRECT)
 				{
+					if (!files->path)//mover a antes de entrar en hd
+						return (ft_error_nopath(coms, files));
 					files->eof = ft_strdup(files->path);
 					if (ft_check_hd(ms, files) == 130)
 						return (130);
