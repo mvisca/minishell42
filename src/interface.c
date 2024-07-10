@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 05:07:46 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/08 15:51:00 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:06:23 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	empty_exit(t_ms *ms)
 	free(ms->line);
 	ms->line = NULL;
 	utils_free_ms(ms, TRUE);
-	exit (0);
+	exit (ms->exit_code);
 }
 
 //quitado && ms->line[0] == 0 para lanzar utils_free_ms

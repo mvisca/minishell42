@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:59:26 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/09 18:40:09 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:59:28 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static int	ft_error_nopath(t_coml *coms, t_redl *files)
 	if (files->next)
 		return (ft_error_return(SYNTAX_ONLY, files->next->path, "\n", 2));
 	if (!coms->next)
-		return (ft_error_return(SYNTAX_ONLY, "'newline'", "\n", 2));
+		return (ft_error_return(SYNTAX_ONLY, "'tha newline'", "\n", 2));
 	if (coms->next)
 		return (ft_error_return(SYNTAX_ONLY, "'|'", "\n", 2));
 	return (8);
@@ -121,10 +121,7 @@ int	ft_search_hd(t_ms *ms, t_coml *job)
 			while (files)
 			{
 				if (!files->path)
-				{	
-					printf("Next is %d\n", files->type);
 					return (ft_error_nopath(coms, files));
-				}
 				if (files->type == DL_REDIRECT)
 				{
 					files->eof = ft_strdup(files->path);
