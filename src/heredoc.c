@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:59:26 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/10 16:59:28 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/10 19:16:02 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,28 @@ static int	ft_check_hd(t_ms *ms, t_redl *files)
 	return (ms->exit_code);
 }
 
+static char	*ft_get_str_redir(int type)
+{
+	(void)type;
+	return ("hola");
+}
+
 //mover a parseo
 static int	ft_error_nopath(t_coml *coms, t_redl *files)
 {
-	if (files->next)
-		return (ft_error_return(SYNTAX_ONLY, files->next->path, "\n", 2));
-	if (!coms->next)
-		return (ft_error_return(SYNTAX_ONLY, "'tha newline'", "\n", 2));
-	if (coms->next)
+	(void)files;
+//	if (files->next)
+//		return (ft_error_return(SYNTAX_ONLY, files->next->path, "\n", 2));
+	if (!coms->redirect->path && !coms->next)
+	{
+		if (coms->redirect->next)
+			return (ft_error_return(SYNTAX_ONLY, ft_get_str_redir(coms->redirect->type), "\n", 2));
+		else if (!coms->redirect->path && coms->next)
+			return (ft_error_return(SYNTAX_ONLY, "'newline'", "\n", 2));
+	}
+	if (coms->redirect->next)
+		return (ft_error_return(SYNTAX_ONLY, ft_get_str_redir(coms->redirect->type), "\n", 2));
+	else if (!coms->redirect->path && coms->next)
 		return (ft_error_return(SYNTAX_ONLY, "'|'", "\n", 2));
 	return (8);
 }
