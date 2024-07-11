@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/09 18:17:00 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:15:22 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 // Solo utiliza MAX_PATH y MAX_NAME
 # define MAX_PATH	4095
 # define MAX_NAME	255
-# define MAX_ARGS	256
+# define MAX_ARGS	4095
 # define MAX_HDS	16
 
 // Macros para manipular funciones de LEXER

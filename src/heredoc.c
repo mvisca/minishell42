@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:59:26 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/10 19:16:02 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:58:24 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,30 +94,31 @@ static int	ft_check_hd(t_ms *ms, t_redl *files)
 	return (ms->exit_code);
 }
 
-static char	*ft_get_str_redir(int type)
+static int ft_check_maxhd(t_coml *coms)
 {
-	(void)type;
-	return ("hola");
-}
+	int		i;
+	t_redl	*files;
 
-//mover a parseo
-static int	ft_error_nopath(t_coml *coms, t_redl *files)
-{
-	(void)files;
-//	if (files->next)
-//		return (ft_error_return(SYNTAX_ONLY, files->next->path, "\n", 2));
-	if (!coms->redirect->path && !coms->next)
+	i = 0;
+	while (coms && i < MAX_HDS)
 	{
-		if (coms->redirect->next)
-			return (ft_error_return(SYNTAX_ONLY, ft_get_str_redir(coms->redirect->type), "\n", 2));
-		else if (!coms->redirect->path && coms->next)
-			return (ft_error_return(SYNTAX_ONLY, "'newline'", "\n", 2));
+		if (coms->redirect)
+		{
+			files = coms->redirect;
+			while (files)
+			{
+				if (!files->path)
+					return (ft_error_return(SYNTAX_ONLY, "path", "\n", 2));
+				if (files->type == DL_REDIRECT)
+					i++;
+				files = files->next;
+			}
+		}
+		coms = coms->next;
 	}
-	if (coms->redirect->next)
-		return (ft_error_return(SYNTAX_ONLY, ft_get_str_redir(coms->redirect->type), "\n", 2));
-	else if (!coms->redirect->path && coms->next)
-		return (ft_error_return(SYNTAX_ONLY, "'|'", "\n", 2));
-	return (8);
+	if (i >= MAX_HDS)
+		return (ft_error_return(TOO_HD, NULL, NULL, 2));
+	return (0);
 }
 
 //numero maximo HD = 16 contar antes de entrar y hasta 1er syntax. exit_code = 2
@@ -127,6 +128,9 @@ int	ft_search_hd(t_ms *ms, t_coml *job)
 	t_redl		*files;
 
 	coms = job;
+	if (ft_check_maxhd(coms))
+		return (2);
+	coms = job;
 	while (coms)
 	{
 		if (coms->redirect)
@@ -134,8 +138,6 @@ int	ft_search_hd(t_ms *ms, t_coml *job)
 			files = coms->redirect;
 			while (files)
 			{
-				if (!files->path)
-					return (ft_error_nopath(coms, files));
 				if (files->type == DL_REDIRECT)
 				{
 					files->eof = ft_strdup(files->path);

@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/09 14:19:24 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:29:59 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,16 @@ static int	ft_job(t_ms *ms)
 }
 
 //Poner controles de numero de hd
-//Controls de pipes?
 int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);
 	if (!ms->cmnd_count)
 		return (0);
+	if (ms->cmnd_count > MAX_ARGS)
+	{
+		ms->exit_code = ft_error_return(SYNTAX_ONLY, "'|'", "\n", 2);
+		return (ms->exit_code);
+	}
 	ms->exit_code = ft_search_hd(ms, ms->cmnd_list);
 	if (!ms->exit_code)
 	{
