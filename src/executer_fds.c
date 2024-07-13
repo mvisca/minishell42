@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 11:03:28 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/13 13:43:54 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/13 15:50:48 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	ft_redirin(t_redl	*files, int last)
 {
 	while (files)
 	{
+		files->path = expander_filter_quotes(files->path);
 		if (files->type == L_REDIRECT || files->type == DL_REDIRECT)
 		{
 			files->fdes = ft_openfile(files->path, files->type);
@@ -86,6 +87,7 @@ void	ft_redirout(t_coml *job, int last)
 	files = job->redirect;
 	while (files)
 	{
+		files->path = expander_filter_quotes(files->path);
 		if (files->type == R_REDIRECT || files->type == DR_REDIRECT)
 		{
 			files->fdes = ft_openfile(files->path, files->type);

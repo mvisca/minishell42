@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 11:59:00 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:51:07 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ size_t			str_line_len(char *line);
 void			str_close_quote(char *line, size_t *i);
 void			strs_reset(t_ms *ms);
 int				strs_free(t_ms *ms);
+char			*ft_strjoinp(char *s1, char *s2);
 
 /*##################	UTILS2_STR		#####################*/
 
