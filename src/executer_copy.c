@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/11 18:29:59 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/13 09:41:54 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ static int	ft_job(t_ms *ms)
 	return (0);
 }
 
-//Poner controles de numero de hd
 int	ft_execute(t_ms *ms)
 {
 	ms->cmnd_count = ft_countcmd(ms->cmnd_list);

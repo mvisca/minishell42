@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:59:26 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/11 18:58:24 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/13 09:54:33 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static int	ft_check_hd(t_ms *ms, t_redl *files)
 	return (ms->exit_code);
 }
 
-static int ft_check_maxhd(t_coml *coms)
+static int	ft_check_maxhd(t_coml *coms)
 {
 	int		i;
 	t_redl	*files;
@@ -121,7 +121,7 @@ static int ft_check_maxhd(t_coml *coms)
 	return (0);
 }
 
-//numero maximo HD = 16 contar antes de entrar y hasta 1er syntax. exit_code = 2
+//Eliminada tras return de ft_check_maxhd coms = job
 int	ft_search_hd(t_ms *ms, t_coml *job)
 {
 	t_coml		*coms;
@@ -130,7 +130,6 @@ int	ft_search_hd(t_ms *ms, t_coml *job)
 	coms = job;
 	if (ft_check_maxhd(coms))
 		return (2);
-	coms = job;
 	while (coms)
 	{
 		if (coms->redirect)
