@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:59:26 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/13 09:54:33 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/13 10:48:50 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int	ft_write_hd(t_ms *ms, int fd, char *eof)
 
 	quoted = ft_is_quoted(eof);
 	eof = expander_filter_quotes(eof);
+	signal_ignore(SIGQUIT);
 	signal_init(HEREDOC);
 	tmp = readline("> ");
 	while (!g_exit)
@@ -87,7 +88,7 @@ static int	ft_check_hd(t_ms *ms, t_redl *files)
 			free(files->path);
 	}
 	free(c);
-	signal_init(HEREDOC);
+	signal_ignore(SIGQUIT);
 	i = ft_write_hd(ms, fd, files->eof);
 	close(fd);
 	ms->exit_code = 130 * i / SIGINT;
