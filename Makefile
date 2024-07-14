@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/07/14 12:17:45 by mvisca           ###   ########.fr        #
+#    Updated: 2024/07/14 12:23:37 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,7 +102,7 @@ $(NAME):: $(OBJ) ./$(LIBFT) ./$(RLINE) ./$(RLINE_H)
 	@echo "$(BLUE)Minishell $(GREEN)compiled! 👍$(NC)"
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c Makefile $(HEADER) $(HEADERS)
-	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INC) -c $< -
 	@echo "$(GREEN)Creating... $(NC)$(notdir $<) $(RED)-> $(NC)$(notdir $@)"
 
 -include $(DEP)
