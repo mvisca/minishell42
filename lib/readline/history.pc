@@ -1,4 +1,4 @@
-prefix=/usr/local
+prefix=/home/mvisca/code/42/mini/lib/readline//build
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
