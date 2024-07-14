@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/07/14 12:23:37 by mvisca           ###   ########.fr        #
+#    Updated: 2024/07/14 12:25:36 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,7 +112,7 @@ $(OBJ_PATH):
 
 $(RLINE):
 	@echo "$(BLUE)Configuring readline...s$(NC)"
-	@cd lib/readline && ./configure --prefix=$(PWD)/$(RLINE_PATH)/build
+	@cd lib/readline && ./configure
 	@cd ../..
 	@$(MAKE) -C $(RLINE_PATH) --no-print-directory
 	@echo "$(BLUE)Readline $(GREEN)compiled! 👍$(NC)"
