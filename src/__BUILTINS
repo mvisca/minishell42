@@ -1,7 +1,0 @@
-DONE echo (option -n)
-cd (no options)
-DONE pwd (no options)
-export (no options)
-unset (no options)
-env (no options)
-exit (no options)

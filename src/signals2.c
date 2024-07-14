@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/30 11:49:24 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/13 10:43:35 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,12 @@ void	interactive_handler(int signum)
 //Handles the signal in here_doc mind the value!
 void	heredoc_handler(int signum)
 {
+	signal_ignore(SIGQUIT);
 	if (signum == SIGINT)
 	{
 		rl_done = 1;
 		g_exit = SIGINT;
 	}
-	else
-		g_exit = 0;
+//	else
+//		g_exit = 0;
 }

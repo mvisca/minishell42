@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 08:26:07 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/05 10:43:00 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:14:29 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ int	ft_strcmp(const char *s1, const char *s2)
 	int	i;
 
 	i = 0;
+	if (!s1 && s2)
+		return (1);
+	if (!s2 && s1)
+		return (1);
+	if (!s1 && !s2)
+		return (0);
 	while (s1 && s2 && s1[i] != '\0' && s2[i] != '\0')
 	{
 		if (s1[i] != s2[i])

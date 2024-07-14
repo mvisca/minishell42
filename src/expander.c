@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 20:04:02 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/13 17:23:08 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,18 @@ static void	expander_clean_strs(t_ms *ms)
 int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 {
 	size_t	start;
-
-	while (str && str[i])
+	int		exp;
+	
+	exp = 1;
+	while (str && i < ft_strlen(str) && str[i])
 	{
-		if (str[i] == S_QUOTE)
+		if (str[i] == D_QUOTE)
+			exp *= -1;
+		if (exp > 0 && str[i] == S_QUOTE)
 		{
 			start = i;
-			str_close_quote(str, &i);
+			if (ft_strchr(&str[i], S_QUOTE))
+				str_close_quote(str, &i);
 			ms->strs.buf = ft_substr(str, start, i - start + 1);
 			i++;
 		}
@@ -57,7 +62,7 @@ static void	expander_split(char ***cm, int i, int j)
 
 	tab = ft_split((*cm)[0], ' ');
 	if (ft_tablen(tab) > 1)
-	{	
+	{
 		len = ft_tablen(*cm) + ft_tablen(tab);
 		new = ft_calloc(sizeof(char *), len);
 		while (tab[++i])

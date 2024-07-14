@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:20 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 18:02:56 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/13 17:03:40 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,3 +65,50 @@ int	strs_free(t_ms *ms)
 	strs_reset(ms);
 	return (0);
 }
+
+char	*ft_strjoinp(char *s1, char *s2)
+{
+	char	*s3;
+	int		i;
+	int		j;
+
+	if (!s2)
+		return (ft_strdup((char *)s1));
+	if (!s1)
+		s1 = ft_strdup("");
+	if (!s1)
+		return (NULL);
+	s3 = (char *)ft_calloc(sizeof(char), ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!s3)
+		return (NULL);
+	i = -1;
+	j = -1;
+	while (s1[++i])
+		s3[i] = s1[i];
+	while (s2[++j])
+		s3[i + j] = s2[j];
+	return (s3);
+}
+
+/*
+char	*ft_strjoinp(char *s1, char *s2)
+{
+	int 	i;
+	int		j;
+	char	*result;
+
+	result = malloc(ft_strlenp(s1) + ft_strlenp(s2) + 1);
+	i = 0;
+	j = 0;
+	if (s1)
+	{
+		while (s1[i])
+			result[j++] = s1[i++];
+	}
+	i = 0;
+	while (s2[i])
+		result[j++] = s2[i++];
+	result[j] = '\0';
+	return (result);
+}
+*/

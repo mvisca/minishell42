@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:21:53 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/05 11:30:26 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/13 17:41:42 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_getcmd(char *cmnd, t_ms *ms, int last)
 		ft_error_exit(EMPTY, NO_FOUND, last * EXIT_NOTFOUND);
 	out = environment_get_value(ms, "PATH");
 	if (!out)
-		return (ft_strjoin("/", cmnd));
+		ft_error_exit(cmnd, NO_FILE, last * EXIT_NOTFOUND);
 	paths = ft_split(out, ':');
 	i = -1;
 	aux = -1;

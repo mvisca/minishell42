@@ -6,12 +6,13 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 11:03:28 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/10 19:36:33 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/13 15:50:48 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+//prueba de cambios de permisos	
 int	ft_openfile(char *file, int redir)
 {
 	int	fd;
@@ -20,9 +21,9 @@ int	ft_openfile(char *file, int redir)
 	if (redir == L_REDIRECT || redir == DL_REDIRECT)
 		fd = open(file, O_RDONLY, 0644);
 	else if (redir == R_REDIRECT)
-		fd = open(file, O_RDWR | O_TRUNC | O_CREAT, 0644);
+		fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0666);
 	else if (redir == DR_REDIRECT)
-		fd = open(file, O_RDWR | O_APPEND | O_CREAT, 0644);
+		fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0666);
 	return (fd);
 }
 
@@ -58,6 +59,7 @@ void	ft_redirin(t_redl	*files, int last)
 {
 	while (files)
 	{
+		files->path = expander_filter_quotes(files->path);
 		if (files->type == L_REDIRECT || files->type == DL_REDIRECT)
 		{
 			files->fdes = ft_openfile(files->path, files->type);
@@ -85,6 +87,7 @@ void	ft_redirout(t_coml *job, int last)
 	files = job->redirect;
 	while (files)
 	{
+		files->path = expander_filter_quotes(files->path);
 		if (files->type == R_REDIRECT || files->type == DR_REDIRECT)
 		{
 			files->fdes = ft_openfile(files->path, files->type);

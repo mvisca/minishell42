@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/05 17:25:59 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/11 18:15:22 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@
 // Solo utiliza MAX_PATH y MAX_NAME
 # define MAX_PATH	4095
 # define MAX_NAME	255
-# define MAX_ARGS	256
+# define MAX_ARGS	4095
+# define MAX_HDS	16
 
 // Macros para manipular funciones de LEXER
 # define END    	    0
@@ -83,6 +84,7 @@
 
 // Mensajes de error
 # define SYNTAX_MSSG    "Minishell: syntax error near unexpected token `"
+# define SYNTAX_ONLY	"syntax error near unexpected token "
 # define MINI			"Minishell: "
 # define DUP_FAIL		"dup2 failed "
 # define NO_PIPE		": unable to create a pipe\n"
@@ -103,6 +105,7 @@
 # define NUMERIC		": numeric argument required\n"
 # define TOO_LONG		": File name too long\n"
 # define EMPTY			"''"
+# define TOO_HD			": maximum here-document count exceeded\n"
 
 // Errores de ejecucion
 # define EXIT_DENIED	126
