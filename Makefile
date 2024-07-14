@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/07/14 11:48:13 by mvisca           ###   ########.fr        #
+#    Updated: 2024/07/14 12:04:04 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,7 +111,7 @@ $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
 
 $(RLINE):
-	@cd lib/readline && ./configure &>/dev/null && cd ../..
+	@lib/readline/configure &>/dev/null
 	@$(MAKE) -C $(RLINE_PATH) --no-print-directory
 	@echo "$(BLUE)Readline $(GREEN)compiled! 👍$(NC)"
 
