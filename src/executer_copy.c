@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/13 09:41:54 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:41:31 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	ft_runchild(t_coml *job, t_ms *ms, int i, pid_t pid[MAX_ARGS])
 			ft_redirout(job, 0);
 		}
 		ft_dup_close(tubo, 1, job->out);
-		if (job->command)
+		if (job->command && job->command[0][0] != 10)
 			ft_runcmnd(job, ms, 0);
 		else
 			exit(0);
@@ -73,7 +73,7 @@ static void	ft_runend(t_coml *job, t_ms *ms, int i)
 			ft_redirin(job->redirect, 1);
 			ft_redirout(job, 1);
 		}
-		if (job->command)
+		if (job->command && job->command[0][0] != 10)
 			ft_runcmnd(job, ms, 1);
 		else
 			exit(0);

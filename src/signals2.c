@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:29:23 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/13 10:43:35 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:46:35 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,4 @@ void	heredoc_handler(int signum)
 		rl_done = 1;
 		g_exit = SIGINT;
 	}
-//	else
-//		g_exit = 0;
 }

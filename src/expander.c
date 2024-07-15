@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/13 17:23:08 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:47:52 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 {
 	size_t	start;
 	int		exp;
-	
+
 	exp = 1;
 	while (str && i < ft_strlen(str) && str[i])
 	{

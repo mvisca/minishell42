@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/13 09:27:03 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:48:57 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int ac, char **av, char **envp)
 		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
 			continue ;
 		expander(&ms);
-		if (!ms.syntax_errors)//revisar los exit code
+		if (!ms.syntax_errors)
 			ft_execute(&ms);
 		utils_free_ms(&ms, FALSE);
 	}
