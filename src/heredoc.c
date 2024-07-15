@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:59:26 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/13 10:48:50 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/15 18:04:17 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ static int	ft_check_hd(t_ms *ms, t_redl *files)
 	return (ms->exit_code);
 }
 
+/*
 static int	ft_check_maxhd(t_coml *coms)
 {
 	int		i;
@@ -121,7 +122,7 @@ static int	ft_check_maxhd(t_coml *coms)
 		return (ft_error_return(TOO_HD, NULL, NULL, 2));
 	return (0);
 }
-
+*/
 //Eliminada tras return de ft_check_maxhd coms = job
 int	ft_search_hd(t_ms *ms, t_coml *job)
 {

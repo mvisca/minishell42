@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/07/14 12:59:47 by mvisca           ###   ########.fr        #
+#    Updated: 2024/07/15 18:08:44 by fcatala-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,7 @@ SRC         = 		_minishell.c 				\
 					utils_executer.c			\
 					utils2_executer.c			\
 					utils_free.c				\
+					utils_heredoc.c				\
 					utils_str.c					\
 					utils2_str.c				\
 					utils3_str.c
