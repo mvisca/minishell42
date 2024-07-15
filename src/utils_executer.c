@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:21:53 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/15 14:34:23 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/15 17:45:56 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_getcmd(char *cmnd, t_ms *ms, int last)
 	char	*out;
 	char	**paths;
 
-	if (!cmnd[0])
+	if (!cmnd[0] || (int)(cmnd[0]) < 0)
 		ft_error_exit(EMPTY, NO_FOUND, last * EXIT_NOTFOUND);
 	out = environment_get_value(ms, "PATH");
 	if (!out)
