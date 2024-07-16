@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/15 14:47:52 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:44:05 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@ static void	expander_clean_strs(t_ms *ms)
 	free(ms->strs.buf);
 	ms->strs.aux = NULL;
 	ms->strs.buf = NULL;
+}
+
+static void	expander_get_expansion_append(t_ms *ms, size_t *i, char *str)
+{
+	size_t	start;
+
+	start = *i;
+	if (ft_strchr(&str[*i], S_QUOTE))
+		str_close_quote(str, i);
+	ms->strs.buf = ft_substr(str, start, *i - start + 1);
+	(*i)++;
 }
 
 //str_close_quote(&str[i], &i);//linea 33 original
@@ -32,13 +43,7 @@ int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 		if (str[i] == D_QUOTE)
 			exp *= -1;
 		if (exp > 0 && str[i] == S_QUOTE)
-		{
-			start = i;
-			if (ft_strchr(&str[i], S_QUOTE))
-				str_close_quote(str, &i);
-			ms->strs.buf = ft_substr(str, start, i - start + 1);
-			i++;
-		}
+			expander_get_expansion_append(ms, &i, str);
 		else if (ft_strnstr(&str[i], "$?", 2) || ft_strnstr(&str[i], "${?}", 4))
 			expander_var_exit(ms, str, &i);
 		else if (str[i] == '$' && str[i + 1] == '{')
