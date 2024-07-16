@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/16 17:54:44 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:18:48 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,14 @@ int	expander(t_ms *ms)
 		i = 0;
 		while (node->command && node->command[i])
 		{
+			if (i == 0)
+				expander_split(&node->command, -1, 0);
 			expander_get_expansion(ms, node->command[i], 0);
 			expander_filter_quotes(ms->strs.new);
 			free(node->command[i]);
 			node->command[i] = (ms->strs.new);
 			ms->strs.new = NULL;
 			strs_free(ms);
-			if (i == 0)
-				expander_split(&node->command, -1, 0);
 			i++;
 		}
 		node = node->next;
