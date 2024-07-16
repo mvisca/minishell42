@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/16 18:18:48 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/16 18:33:04 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	expander(t_ms *ms)
 		i = 0;
 		while (node->command && node->command[i])
 		{
-			if (i == 0)
+			if (i == 0 && !ft_strchr(node->command[i], D_QUOTE))
 				expander_split(&node->command, -1, 0);
 			expander_get_expansion(ms, node->command[i], 0);
 			expander_filter_quotes(ms->strs.new);
