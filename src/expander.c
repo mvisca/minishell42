@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/16 15:44:05 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/16 17:54:44 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static void	expander_get_expansion_append(t_ms *ms, size_t *i, char *str)
 }
 
 //str_close_quote(&str[i], &i);//linea 33 original
+//			expander_var_exit(ms, str, &i);//=>str cambiado por &str[i]
 int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 {
-	size_t	start;
 	int		exp;
 
 	exp = 1;
@@ -45,7 +45,7 @@ int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 		if (exp > 0 && str[i] == S_QUOTE)
 			expander_get_expansion_append(ms, &i, str);
 		else if (ft_strnstr(&str[i], "$?", 2) || ft_strnstr(&str[i], "${?}", 4))
-			expander_var_exit(ms, str, &i);
+			expander_var_exit(ms, &str[i], &i);
 		else if (str[i] == '$' && str[i + 1] == '{')
 			expander_var_curly(ms, str, &i);
 		else if (str[i] == '$' && ft_isalpha(str[i + 1]))
