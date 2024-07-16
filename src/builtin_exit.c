@@ -6,12 +6,13 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:11:26 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/05 10:29:15 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:43:18 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+//mirar caso exit --
 static int	ft_isnum(char *str)
 {
 	int	i;
