@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:35:37 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/15 17:28:34 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/17 18:52:31 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,10 @@ static int	ft_job(t_ms *ms)
 	i = 0;
 	if (ms->cmnd_count == 1 && ft_is_builtin(job) >= 4)
 	{
-		ms->exit_code = ft_builtin_redir(job);
-		if (!ms->exit_code)
+		if (!ft_builtin_redir(job))
 			ms->exit_code = ft_execute_built(job, ms, ft_is_builtin(job));
+		else
+			ms->exit_code = ft_builtin_redir(job);
 		return (ms->exit_code);
 	}
 	while (++i < ms->cmnd_count)
@@ -108,7 +109,7 @@ static int	ft_job(t_ms *ms)
 	ft_runend(job, ms, i);
 	ft_reset_dups(ms);
 	ft_wait(ms->cmnd_count, pid);
-	return (0);
+	return (ms->exit_code);
 }
 
 int	ft_execute(t_ms *ms)
@@ -121,8 +122,7 @@ int	ft_execute(t_ms *ms)
 		ms->exit_code = ft_error_return(SYNTAX_ONLY, "'|'", "\n", 2);
 		return (ms->exit_code);
 	}
-	ms->exit_code = ft_search_hd(ms, ms->cmnd_list);
-	if (!ms->exit_code)
+	if (!ft_search_hd(ms, ms->cmnd_list))
 	{
 		signal_init(INTERACTIVE);
 		ft_job(ms);

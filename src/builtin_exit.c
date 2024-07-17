@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:11:26 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/16 19:43:18 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:17:21 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ unsigned char	builtin_exit(t_ms *ms, char **cmnd)
 	int	ok;
 
 	ok = 1;
-	if (ft_tablen(cmnd) == 1 && ms->cmnd_count == 1)
+	if ((ft_tablen(cmnd) == 1 || (ft_tablen(cmnd) == 2
+				&& !ft_strcmp("--", cmnd[1]))) && ms->cmnd_count == 1)
 		return (full_exit(ms, ms->exit_code, 1));
 	if (ft_isnum(cmnd[1]))
 	{
