@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/16 19:07:05 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/17 11:06:27 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	expander_get_expansion(t_ms *ms, char *str, size_t i)
 	return (0);
 }
 
-static void	expander_split(char ***cm, int i, int j)
+void	expander_split(char ***cm, int i, int j)
 {
 	int		len;
 	char	**tab;
@@ -85,7 +85,6 @@ static void	expander_split(char ***cm, int i, int j)
 int	expander(t_ms *ms)
 {
 	int			i;
-	char		*aux;
 	t_coml		*node;
 
 	strs_free(ms);
@@ -95,17 +94,16 @@ int	expander(t_ms *ms)
 		i = 0;
 		while (node->command && node->command[i])
 		{
-			aux = ft_strdup(node->command[i]);
 			expander_get_expansion(ms, node->command[i], 0);
-			expander_filter_quotes(ms->strs.new);
 			free(node->command[i]);
 			node->command[i] = (ms->strs.new);
+			if (i == 0 && !ft_strchr(ms->strs.new, D_QUOTE) && \
+			!ft_strchr(ms->strs.new, S_QUOTE))
+				expander_split(&node->command, -1, 0);
+			expander_filter_quotes(node->command[i]);
 			ms->strs.new = NULL;
 			strs_free(ms);
-			if (i == 0)
-				expander_split(&node->command, -1, 0);
 			i++;
-			free(aux);
 		}
 		node = node->next;
 	}

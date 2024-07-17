@@ -131,6 +131,7 @@ int				expander_get_expansion(t_ms *ms, char *str, size_t i);
 int				expander_var_exit(t_ms *ms, char *str, size_t *i);
 int				expander_var_alpha(t_ms *ms, char *str, size_t *i);
 int				expander_var_curly(t_ms *ms, char *str, size_t *i);
+void            expander_split(char ***cm, int i, int j);
 
 /*##################	EXTEND LIBFT	#####################*/
 
