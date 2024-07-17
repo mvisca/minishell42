@@ -6,7 +6,7 @@
 #    By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 08:55:28 by mvisca-g          #+#    #+#              #
-#    Updated: 2024/07/16 19:30:31 by mvisca           ###   ########.fr        #
+#    Updated: 2024/07/17 19:58:34 by mvisca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,8 +67,8 @@ SRC         = 		_minishell.c 				\
 					utils_heredoc.c				\
 					utils_str.c					\
 					utils2_str.c				\
-					utils3_str.c				\
-					debug.c
+					utils3_str.c
+#					debug.c
 
 SRCS		= $(addprefix $(SRC_PATH), $(SRC))
 
