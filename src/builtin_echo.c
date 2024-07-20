@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 22:36:21 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/18 18:41:49 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:01:06 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ static int	echo_print(char **com, int i)
 	str = ft_strtrim(com[i], SPACES);
 	while (str[j])
 	{
-//		if (str[j] < 0 && str[j + 1] != 0)
-//			count = printf("\n");//<== xq se hace esto?
-//		if (str[j] > 0)
-			count = printf("%c", str[j]);
+		count = printf("%c", str[j]);
 		j++;
 	}
 	free(str);

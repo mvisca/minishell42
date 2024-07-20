@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:52:06 by mvisca            #+#    #+#             */
-/*   Updated: 2024/06/27 21:26:41 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/20 19:27:44 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,31 @@ int	errors_syntax_display(t_ms *ms, char *str)
 	return (1);
 }
 
-// estudiar cómo realizar esto con errno
 int	errors_syntax(t_ms *ms)
 {
 	t_tokl	*token;
+	t_tokl	*prev;
 
-	token = ms->token_list;
 	if (errors_start(ms))
 		return (1);
+	token = ms->token_list;
+	prev = NULL;
 	while (token && token->type != END)
 	{
-		if (token->type == PIPE && errors_pipe(ms, token))
+		if (token->type == WORD && errors_word(ms, token))
 			return (1);
-		else if (token->type == WORD && errors_word(ms, token))
+		if (token->type != END && errors_redir(ms, token))
 			return (1);
-		else if (token->type != END && errors_redir(ms, token))
+		if (token->type == PIPE && token->next->type == END)
+		{
+			if (prev && prev->type == PIPE && errors_pipe(ms, prev))
+				return (1);
+			errors_syntax_display(ms, "|");
 			return (1);
+		}
+		prev = token;
 		token = token->next;
+
 	}
 	return (0);
 }

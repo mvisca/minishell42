@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/08 17:18:06 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:14:52 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	errors_pipe(t_ms *ms, t_tokl *token)
 {
 	char	*str;
 
-	if ((ft_strchr(ms->line, '|') + 1)[0] == '|')
+	if (token->type == PIPE && token->type == PIPE)
 		str = ft_strdup("||");
 	else
 		str = ft_strdup("|");
@@ -72,17 +72,11 @@ int	errors_word(t_ms *ms, t_tokl *tok)
 int	errors_start(t_ms *ms)
 {
 	t_tokl	*tok;
-	t_tokl	*prev;
 
 	tok = ms->token_list;
+	if (tok->type == PIPE && tok->next && tok->next->type== PIPE)
+		return (errors_syntax_display(ms, "||"));
 	if (tok->type == PIPE)
-		return (errors_syntax_display(ms, "|"));
-	while (tok->type)
-	{
-		prev = tok;
-		tok = tok->next;
-	}
-	if (prev->type == PIPE)
 		return (errors_syntax_display(ms, "|"));
 	return (0);
 }
