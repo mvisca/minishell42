@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:59:26 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/15 18:04:17 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:37:29 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int	ft_search_hd(t_ms *ms, t_coml *job)
 
 	coms = job;
 	if (ft_check_maxhd(coms))
-		return (2);
+		return (ms->exit_code = 2, ms->exit_code);
 	while (coms)
 	{
 		if (coms->redirect)

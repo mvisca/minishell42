@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/21 14:15:49 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/07/21 22:50:35 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	errors_pipe(t_ms *ms, t_tokl *token)
 
 int	errors_redir(t_ms *ms, t_tokl *token)
 {
+	return (0);//
 	if ((token->type == L_REDIRECT || token->type == R_REDIRECT || \
 	token->type == DL_REDIRECT || token->type == DR_REDIRECT))
 	{
