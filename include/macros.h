@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:43 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/11 18:15:22 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/21 13:39:24 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,10 @@
 # define EXIT_QUITFORK	131
 
 // Builtin Export
-# define EXP_CHARS   "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"
+# define EXP_CHARS		"qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"
+# define EXP_NUMS		"1234567890"
 
 // No env
-# define AUTOENV "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
+# define AUTOENV		"PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."
 
 #endif

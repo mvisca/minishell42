@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/15 18:07:52 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/21 13:17:59 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int				expander_get_expansion(t_ms *ms, char *str, size_t i);
 int				expander_var_exit(t_ms *ms, char *str, size_t *i);
 int				expander_var_alpha(t_ms *ms, char *str, size_t *i);
 int				expander_var_curly(t_ms *ms, char *str, size_t *i);
-void            expander_split(char ***cm, int i, int j);
+void			expander_split(char ***cm, int i, int j);
 
 /*##################	EXTEND LIBFT	#####################*/
 

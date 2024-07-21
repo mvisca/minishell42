@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:30:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/21 12:52:22 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/21 13:41:36 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	export_get_key_value(int j, char *line, char **key, char **v)
 
 void	export_ff(int *j, char *line)
 {
-	while (line && line[*j] && ft_strchr(EXP_CHARS, line[*j]))
+	while (line && line[*j] && (ft_strchr(EXP_CHARS, line[*j]) || \
+	ft_strchr(EXP_NUMS, line[*j])))
 		(*j)++;
 }
 
