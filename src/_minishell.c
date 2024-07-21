@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/21 19:59:05 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:19:19 by mvisca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int ac, char **av, char **envp)
 	rl_initialize();
 	while (1)
 	{
-		utils_free_ms(&ms, FALSE);
+		// utils_free_ms(&ms, FALSE);
 		ms.syntax_errors = 0;
 		if (signal_init(NORMAL) != 0)
 			break ;
