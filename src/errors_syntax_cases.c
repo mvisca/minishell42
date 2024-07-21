@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/21 07:32:09 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/21 13:15:14 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,22 @@ int	errors_pipe(t_ms *ms, t_tokl *token)
 
 int	errors_redir(t_ms *ms, t_tokl *token)
 {
-	if (token->type == L_REDIRECT && token->next->type == L_REDIRECT)
-		errors_syntax_display(ms, "<");
-	else if (token->type == R_REDIRECT && token->next->type == R_REDIRECT)
-		errors_syntax_display(ms, ">");
-	else if (token->type == DL_REDIRECT && token->next->type == DL_REDIRECT)
-		errors_syntax_display(ms, "<<");
-	else if (token->type == DR_REDIRECT && token->next->type == DR_REDIRECT)
-		errors_syntax_display(ms, ">>");
+	if ((token->type == L_REDIRECT || token->type == R_REDIRECT || \
+	token->type == DL_REDIRECT || token->type == DR_REDIRECT) && \
+	token->next->type != WORD && token->next->type != PIPE && \
+	token->next->type != END)
+	{
+		if (token->next->type == L_REDIRECT)
+			errors_syntax_display(ms, "<");
+		else if (token->next->type == R_REDIRECT)
+			errors_syntax_display(ms, ">");
+		else if (token->next->type == DL_REDIRECT)
+			errors_syntax_display(ms, "<<");
+		else if (token->next->type == DR_REDIRECT)
+			errors_syntax_display(ms, ">>");
+		else
+			errors_syntax_display(ms, "REDIR");
+	}
 	else
 		return (0);
 	return (ms->exit_code);
