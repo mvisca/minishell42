@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:52:06 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/21 07:32:40 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/22 00:16:58 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,12 @@ int	errors_syntax(t_ms *ms)
 	{
 		if (token->type == WORD && errors_word(ms, token))
 			return (1);
-		if (token->type != END && errors_redir(ms, token))
-			return (1);
 		if (token->type == PIPE && token->next->type == END)
-		{
-			if (prev && prev->type == PIPE && errors_pipe(ms, prev))
-				return (1);
 			errors_syntax_display(ms, "|");
+		if (token->type == PIPE && prev && prev->type == PIPE)
+			return (errors_syntax_display(ms, "||"));
+		if (errors_redir(ms, token))
 			return (1);
-		}
 		prev = token;
 		token = token->next;
 	}

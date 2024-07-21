@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/21 22:50:35 by fcatala-         ###   ########.fr       */
+/*   Created: 2024/02/16 04:50:37 by mvisca-g          #+#    #+#             */
+/*   Updated: 2024/07/22 00:11:56 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	errors_pipe(t_ms *ms, t_tokl *token)
 {
 	char	*str;
 
-	if (token->type == PIPE && token->type == PIPE)
+	if (token->type == PIPE && token->next->type == PIPE)
 		str = ft_strdup("||");
 	else
 		str = ft_strdup("|");
@@ -46,7 +46,7 @@ int	errors_redir(t_ms *ms, t_tokl *token)
 			errors_syntax_display(ms, ">>");
 		else if (token->next->type == PIPE)
 			errors_syntax_display(ms, "|");
-		else if (token->next->type != WORD)
+		else if (token->next->type == END)
 			errors_syntax_display(ms, "newline");
 	}
 	else
