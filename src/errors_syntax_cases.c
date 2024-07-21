@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/20 19:14:52 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/21 07:32:09 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	errors_start(t_ms *ms)
 	t_tokl	*tok;
 
 	tok = ms->token_list;
-	if (tok->type == PIPE && tok->next && tok->next->type== PIPE)
+	if (tok->type == PIPE && tok->next && tok->next->type == PIPE)
 		return (errors_syntax_display(ms, "||"));
 	if (tok->type == PIPE)
 		return (errors_syntax_display(ms, "|"));

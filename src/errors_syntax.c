@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:52:06 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/20 19:27:44 by mvisca           ###   ########.fr       */
+/*   Updated: 2024/07/21 07:32:40 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	errors_syntax(t_ms *ms)
 		}
 		prev = token;
 		token = token->next;
-
 	}
 	return (0);
 }
