@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:39:00 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/21 18:13:21 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:59:05 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		utils_free_ms(&ms, FALSE);
-		if (ms.token_list.str)
-			printf("Type is %d\n", ms.token_list.type);
-		printf("Ready 1\n");
 		ms.syntax_errors = 0;
 		if (signal_init(NORMAL) != 0)
 			break ;
@@ -33,14 +30,11 @@ int	main(int ac, char **av, char **envp)
 		if (interface_get_line(&ms) != 0)
 			continue ;
 		signal_ignore(SIGINT);
-		if (lexer(&ms, ms.line) != 0 || parser(&ms) != 0)
-			continue ;
-		expander(&ms);
-		printf("Ready 2\n");
+		if (lexer(&ms, ms.line) == 0 && parser(&ms) == 0)
+			expander(&ms);
 		if (!ms.syntax_errors)
 			ft_execute(&ms);
 		utils_free_ms(&ms, FALSE);
-		printf("Ready 3\n");
 	}
 	utils_free_ms(&ms, TRUE);
 	return (ms.exit_code);
