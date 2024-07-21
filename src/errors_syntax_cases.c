@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/21 13:15:14 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:15:49 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ int	errors_pipe(t_ms *ms, t_tokl *token)
 int	errors_redir(t_ms *ms, t_tokl *token)
 {
 	if ((token->type == L_REDIRECT || token->type == R_REDIRECT || \
-	token->type == DL_REDIRECT || token->type == DR_REDIRECT) && \
-	token->next->type != WORD && token->next->type != PIPE && \
-	token->next->type != END)
+	token->type == DL_REDIRECT || token->type == DR_REDIRECT))
 	{
 		if (token->next->type == L_REDIRECT)
 			errors_syntax_display(ms, "<");
@@ -45,8 +43,10 @@ int	errors_redir(t_ms *ms, t_tokl *token)
 			errors_syntax_display(ms, "<<");
 		else if (token->next->type == DR_REDIRECT)
 			errors_syntax_display(ms, ">>");
-		else
-			errors_syntax_display(ms, "REDIR");
+		else if (token->next->type == PIPE)
+			errors_syntax_display(ms, "|");
+		else if (token->next->type != WORD)
+			errors_syntax_display(ms, "newline");
 	}
 	else
 		return (0);
