@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:43:58 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/21 10:16:54 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/21 12:56:02 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ int	builtin_env(t_ms *ms)
 	aux = ms->envlst;
 	while (aux)
 	{
-		printf("%s=", aux->key);
-		if (aux->value && aux->value[0] > 0)
-			printf("%s\n", aux->value);
-		else if (aux->value && aux->value[0] <= 0)
-			printf("\n");
+		if (aux->value && aux->value[0] > 10)
+			printf("%s=%s\n", aux->key, aux->value);
+		else if (aux->value && (int)(aux->value[0]) < 0)
+			printf("%s=\n", aux->key);
 		aux = aux->next;
 	}
 	return (0);

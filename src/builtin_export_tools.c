@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:30:37 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/21 10:28:53 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/21 12:52:22 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	export_get_key_value(int j, char *line, char **key, char **v)
 		*v = ft_substr(line, j, ft_strlen(&line[j]));
 	}
 	else
-		return ;
+		*v = ft_strdup("\n\0");
 }
 
 void	export_ff(int *j, char *line)
