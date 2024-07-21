@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:50:37 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/07/22 00:11:56 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/07/22 00:52:35 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	errors_pipe(t_ms *ms, t_tokl *token)
 
 int	errors_redir(t_ms *ms, t_tokl *token)
 {
-	return (0);//
-	if ((token->type == L_REDIRECT || token->type == R_REDIRECT || \
-	token->type == DL_REDIRECT || token->type == DR_REDIRECT))
+	if (token->type < 5 || token-> type > 8)
+		return (0);
+	else
 	{
 		if (token->next->type == L_REDIRECT)
 			errors_syntax_display(ms, "<");
@@ -48,9 +48,9 @@ int	errors_redir(t_ms *ms, t_tokl *token)
 			errors_syntax_display(ms, "|");
 		else if (token->next->type == END)
 			errors_syntax_display(ms, "newline");
+		else
+			return (0);
 	}
-	else
-		return (0);
 	return (ms->exit_code);
 }
 
