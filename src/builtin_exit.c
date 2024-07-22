@@ -6,13 +6,21 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:11:26 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/17 19:17:21 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/22 02:56:16 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//mirar caso exit --
+static int	ft_check_end(char *str, int i)
+{
+	if (str[i] == '+' || str[i] == '-')
+		++i;
+	if (!str[i])
+		return (0);
+	return (1);
+}
+
 static int	ft_isnum(char *str)
 {
 	int	i;
@@ -22,8 +30,9 @@ static int	ft_isnum(char *str)
 		return (0);
 	while (ft_isspace(str[i]))
 		++i;
-	if (str[i] == '+' || str[i] == '-')
-		++i;
+	if (!ft_check_end(str, i))
+		return (0);
+	++i;
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]) && !ft_isspace(str[i]))
