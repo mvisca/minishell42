@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:55:55 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/07/09 12:05:14 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/22 07:02:54 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,33 @@ char	*expander_filter_quotes(char *str)
 		i++;
 	}
 	return (str);
+}
+
+void	expander_tilde(t_ms *ms, t_coml *node, int i)
+{
+	t_envl	*aux;
+	char	*tmp1;
+	char	*tmp2;
+
+	if (node->command[i][0] == '~')
+	{
+		aux = environment_get_node(ms, "HOME");
+		if (!aux)
+			tmp1 = ft_strdup("/");
+		else
+			tmp1 = ft_strdup(aux->value);
+		if (node->command[i][1] == '/')
+		{
+			tmp2 = ft_strdup(&node->command[i][1]);
+			free(node->command[i]);
+			node->command[i] = ft_strjoin(tmp1, tmp2);
+			free(tmp2);
+			free(tmp1);
+		}
+		else
+		{
+			free(node->command[i]);
+			node->command[i] = tmp1;
+		}
+	}
 }
