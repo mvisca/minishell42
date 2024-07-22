@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:43:58 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/21 12:56:02 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/22 07:46:28 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	builtin_env(t_ms *ms)
 int	ft_execute_built(t_coml *aux, t_ms *ms, int type)
 {
 	if (type == 1)
-		return (builtin_pwd(ms));
+		return (builtin_pwd());
 	else if (type == 2)
 		return (builtin_echo(aux->command));
 	else if (type == 3)

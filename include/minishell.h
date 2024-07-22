@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/09 00:44:33 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/22 07:32:09 by mvisca-g         ###   ########.fr       */
+/*   Created: 2024/03/09 00:44:33 by mvisca-g          #+#    #+#             */
+/*   Updated: 2024/07/22 09:04:57 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int				export_solo(t_ms *ms, char *line);
 void			export_get_key_value(int j, char *line, char **key, char **v);
 int				export_no_options(t_coml *comnd);
 int				export_print_env(t_ms *ms);
-int				builtin_pwd(t_ms *ms);
+int				builtin_pwd(void);
 int				builtin_unset(t_ms *ms, t_coml *cmnd);
 int				ft_builtin_redir(t_coml *job);
 

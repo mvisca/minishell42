@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:52:47 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/06/29 10:53:17 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/22 08:48:24 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,17 @@ static int	ft_mini_cd(char *path, t_ms *ms)
 
 static void	ft_update_oldpwd(t_ms *ms, char *path, char *oldpwd, int i)
 {
-	environment_update_node(ms, "PWD", ft_strdup(path));
+	char	*temp;
+
+	temp = NULL;
+	if (!environment_get_value(ms, "OLDPWD"))
+	{
+		temp = ft_strdup(path);
+		environment_update_node(ms, "PWD", temp);
+		temp = ft_memdel(temp);
+	}
+	else
+		environment_update_node(ms, "PWD", ft_strdup(path));
 	if (environment_get_value(ms, "OLDPWD") && i == 0)
 		environment_update_node(ms, "OLDPWD", ft_strdup(oldpwd));
 	else if (!environment_get_value(ms, "OLDPWD") && i == 0)
