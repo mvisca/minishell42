@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:55:55 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/07/22 07:02:54 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/07/22 07:33:07 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,31 +40,30 @@ char	*expander_filter_quotes(char *str)
 	return (str);
 }
 
-void	expander_tilde(t_ms *ms, t_coml *node, int i)
+void	expander_tilde(t_ms *ms, t_coml *n, int i, char *tmp1)
 {
 	t_envl	*aux;
-	char	*tmp1;
 	char	*tmp2;
 
-	if (node->command[i][0] == '~')
+	if (n->command[i][0] == '~' && (n->command[i][1] == '/' || !n->command[i][1]))
 	{
 		aux = environment_get_node(ms, "HOME");
 		if (!aux)
 			tmp1 = ft_strdup("/");
 		else
 			tmp1 = ft_strdup(aux->value);
-		if (node->command[i][1] == '/')
+		if (n->command[i][1] == '/')
 		{
-			tmp2 = ft_strdup(&node->command[i][1]);
-			free(node->command[i]);
-			node->command[i] = ft_strjoin(tmp1, tmp2);
+			tmp2 = ft_strdup(&n->command[i][1]);
+			free(n->command[i]);
+			n->command[i] = ft_strjoin(tmp1, tmp2);
 			free(tmp2);
 			free(tmp1);
 		}
 		else
 		{
-			free(node->command[i]);
-			node->command[i] = tmp1;
+			free(n->command[i]);
+			n->command[i] = tmp1;
 		}
 	}
 }

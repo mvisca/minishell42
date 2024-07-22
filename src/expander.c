@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 09:39:29 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/22 06:23:06 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/07/22 07:31:53 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	expander(t_ms *ms)
 			!ft_strchr(ms->strs.new, S_QUOTE))
 				expander_split(&node->command, -1, 0);
 			expander_filter_quotes(node->command[i]);
-			expander_tilde(ms, node, i);
+			expander_tilde(ms, node, i, NULL);
 			ms->strs.new = NULL;
 			strs_free(ms);
 			i++;
