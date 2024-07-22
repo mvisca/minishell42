@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:55:55 by mvisca-g          #+#    #+#             */
-/*   Updated: 2024/07/22 07:33:07 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/07/22 07:51:48 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	expander_tilde(t_ms *ms, t_coml *n, int i, char *tmp1)
 	t_envl	*aux;
 	char	*tmp2;
 
-	if (n->command[i][0] == '~' && (n->command[i][1] == '/' || !n->command[i][1]))
+	if (n->command[i][0] == '~' && (n->command[i][1] == '/' || \
+	!n->command[i][1]))
 	{
 		aux = environment_get_node(ms, "HOME");
 		if (!aux)
