@@ -6,7 +6,7 @@
 /*   By: fcatala- <fcatala-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:43:58 by fcatala-          #+#    #+#             */
-/*   Updated: 2024/07/22 07:46:28 by fcatala-         ###   ########.fr       */
+/*   Updated: 2024/07/22 09:33:32 by fcatala-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	ft_waitend(pid_t pid, t_ms *ms)
 		{
 			ft_putstr_fd("Quit (core dumped)\n", 2);
 			ms->exit_code = 131;
-			exit(131);
 		}
 	}
 }
