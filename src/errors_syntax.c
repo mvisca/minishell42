@@ -6,7 +6,7 @@
 /*   By: mvisca <mvisca@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 04:52:06 by mvisca            #+#    #+#             */
-/*   Updated: 2024/07/22 00:16:58 by mvisca-g         ###   ########.fr       */
+/*   Updated: 2024/07/22 05:37:14 by mvisca-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,28 @@ int	errors_syntax_display(t_ms *ms, char *str)
 	return (1);
 }
 
+static int	errors_syntax_new_line(t_ms *ms)
+{
+	int	i;
+
+	i = 0;
+	while (ms->line && ms->line[i])
+	{
+		if (ms->line[i] == '\n')
+			return (errors_syntax_display(ms, "new line in command"));
+		i++;
+	}
+	return (0);
+}
+
 int	errors_syntax(t_ms *ms)
 {
 	t_tokl	*token;
 	t_tokl	*prev;
 
 	if (errors_start(ms))
+		return (1);
+	if (errors_syntax_new_line(ms))
 		return (1);
 	token = ms->token_list;
 	prev = NULL;
